@@ -34,6 +34,7 @@ import se.uu.ub.cora.spider.record.SpiderUploader;
 public class SpiderInstanceFactorySpy implements SpiderInstanceFactory {
 	public List<SpiderRecordCreatorSpy> spiderRecordCreators = new ArrayList<>();
 	public List<SpiderRecordReaderSpy> spiderRecordReaders = new ArrayList<>();
+	public List<SpiderRecordUpdaterSpy> spiderRecordUpdators = new ArrayList<>();
 
 	@Override
 	public SpiderRecordReader factorSpiderRecordReader() {
@@ -57,8 +58,9 @@ public class SpiderInstanceFactorySpy implements SpiderInstanceFactory {
 
 	@Override
 	public SpiderRecordUpdater factorSpiderRecordUpdater() {
-		// TODO Auto-generated method stub
-		return null;
+		SpiderRecordUpdaterSpy spiderRecordUpdaterSpy = new SpiderRecordUpdaterSpy();
+		spiderRecordUpdators.add(spiderRecordUpdaterSpy);
+		return spiderRecordUpdaterSpy;
 	}
 
 	@Override

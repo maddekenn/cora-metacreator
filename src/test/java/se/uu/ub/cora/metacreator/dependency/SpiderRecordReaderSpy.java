@@ -29,8 +29,26 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 
 	@Override
 	public SpiderDataRecord readRecord(String userId, String type, String id) {
-		if ("text".equals(type) && "noTextsTextVarText".equals(id)) {
-			throw new RecordNotFoundException("record not found in stub");
+		if ("text".equals(type)) {
+			switch (id) {
+			case "noTextsTextVarText":
+			case "noTextsTextVarDefText":
+			case "textIdButNoTextsInStorageTextVarText":
+			case "textIdButNoTextsInStorageTextVarDefText":
+				throw new RecordNotFoundException("record not found in stub");
+
+			default:
+				break;
+			}
+			// if ("noTextsTextVarText".equals(id)) {
+			// throw new RecordNotFoundException("record not found in stub");
+			// }
+			// if ("noTextsTextVarDefText".equals(id)) {
+			// throw new RecordNotFoundException("record not found in stub");
+			// }
+			// if ("textIdButNoTextsInStorageTextVar".equals(id)) {
+			// throw new RecordNotFoundException("record not found in stub");
+			// }
 		}
 		return null;
 	}

@@ -17,28 +17,27 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.uu.ub.cora.metacreator.text;
+package se.uu.ub.cora.metacreator.dependency;
 
-import se.uu.ub.cora.spider.data.SpiderDataList;
+import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.data.SpiderDataRecord;
-import se.uu.ub.cora.spider.record.SpiderRecordReader;
+import se.uu.ub.cora.spider.record.SpiderRecordUpdater;
 
-public class SpiderRecordReaderReturner implements SpiderRecordReader {
+public class SpiderRecordUpdaterSpy implements SpiderRecordUpdater {
 
-	public SpiderRecordReaderReturner(SpiderDataRecord record) {
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public SpiderDataRecord readRecord(String userId, String type, String id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public String userId;
+	public String type;
+	public String id;
+	public SpiderDataGroup record;
 
 	@Override
-	public SpiderDataList readIncomingLinks(String userId, String type, String id) {
-		// TODO Auto-generated method stub
-		return null;
+	public SpiderDataRecord updateRecord(String userId, String type, String id,
+			SpiderDataGroup record) {
+		this.userId = userId;
+		this.type = type;
+		this.id = id;
+		this.record = record;
+		return SpiderDataRecord.withSpiderDataGroup(record);
 	}
 
 }

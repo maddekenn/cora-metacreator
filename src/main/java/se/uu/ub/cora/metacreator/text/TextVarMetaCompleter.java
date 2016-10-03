@@ -19,6 +19,7 @@
 
 package se.uu.ub.cora.metacreator.text;
 
+import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
@@ -29,25 +30,35 @@ import se.uu.ub.cora.spider.record.storage.RecordNotFoundException;
 public class TextVarMetaCompleter implements ExtendedFunctionality {
 
 	private String userId;
+	private String dataDividerString;
 
 	@Override
-	public void useExtendedFunctionality(String userId, SpiderDataGroup spiderDataGroup) {
-		this.userId = userId;
+	public void useExtendedFunctionality(String userId2, SpiderDataGroup spiderDataGroup) {
+		this.userId = userId2;
 		String id = spiderDataGroup.extractGroup("recordInfo").extractAtomicValue("id");
 
-		String dataDividerString = spiderDataGroup.extractGroup("recordInfo")
-				.extractGroup("dataDivider").extractAtomicValue("linkedRecordId");
+		dataDividerString = spiderDataGroup.extractGroup("recordInfo").extractGroup("dataDivider")
+				.extractAtomicValue("linkedRecordId");
 
 		String textId = id + "Text";
+		spiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("textId", textId));
 		if (textDoesNotExist(textId)) {
-			TextCreator textCreator = TextCreator.withTextIdAndDataDivider(textId,
-					dataDividerString);
-			SpiderDataGroup textGroup = textCreator.createTextInStorage();
-
-			SpiderRecordCreator spiderRecordCreator = SpiderInstanceProvider
-					.getSpiderRecordCreator();
-			spiderRecordCreator.createAndStoreRecord(userId, "text", textGroup);
+			createTextWithTextId(textId);
 		}
+
+		String defTextId = id + "DefText";
+		spiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("defTextId", defTextId));
+		if (textDoesNotExist(defTextId)) {
+			createTextWithTextId(defTextId);
+		}
+	}
+
+	private void createTextWithTextId(String textId) {
+		TextCreator textCreator = TextCreator.withTextIdAndDataDivider(textId, dataDividerString);
+		SpiderDataGroup textGroup = textCreator.createTextInStorage();
+
+		SpiderRecordCreator spiderRecordCreator = SpiderInstanceProvider.getSpiderRecordCreator();
+		spiderRecordCreator.createAndStoreRecord(userId, "text", textGroup);
 	}
 
 	private boolean textDoesNotExist(String textId) {
