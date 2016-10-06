@@ -28,7 +28,8 @@
         <version>0.5-SNAPSHOT</version>
 	</parent>
 
-    <version>0.01-SNAPSHOT</version>
+    <artifactId>metacreator</artifactId>
+   	<version>0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Meta creator</name>
@@ -82,5 +83,4 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<artifactId>metacreator</artifactId>
 </project>

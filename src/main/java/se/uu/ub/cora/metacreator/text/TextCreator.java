@@ -44,7 +44,7 @@ public class TextCreator {
 		SpiderDataGroup textPartSv = createTextPartWithTextIdTypeLangText("default", "sv",
 				"Text för:");
 		textGroup.addChild(textPartSv);
-		SpiderDataGroup textPartEn = createTextPartWithTextIdTypeLangText("alternative", "env",
+		SpiderDataGroup textPartEn = createTextPartWithTextIdTypeLangText("alternative", "en",
 				"Text for:");
 		textGroup.addChild(textPartEn);
 		return textGroup;

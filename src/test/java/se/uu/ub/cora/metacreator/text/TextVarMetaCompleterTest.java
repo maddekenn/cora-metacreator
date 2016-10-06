@@ -43,21 +43,24 @@ public class TextVarMetaCompleterTest {
 
 	@Test
 	public void testWithNoTexts() {
-		TextVarMetaCompleter textVarMetaCompleter = new TextVarMetaCompleter();
+		TextVarMetaCompleter textVarMetaCompleter = TextVarMetaCompleter
+				.forImplementingTextType("textSystemOne");
 
 		String id = "noTextsTextVar";
-		SpiderDataGroup textVarGroup = createTextVarGroupWithIdAndTextIdAndDefTextId(id, false,
-				false);
+		SpiderDataGroup textVarGroup = createTextVarGroupWithIdAndTextIdAndDefTextId(id, "", "");
 
 		textVarMetaCompleter.useExtendedFunctionality(userId, textVarGroup);
 
 		assertCorrectTextCreatedWithUserIdAndTypeAndId(0, "noTextsTextVarText");
 		assertCorrectTextCreatedWithUserIdAndTypeAndId(1, "noTextsTextVarDefText");
-		assertTextVarHasCorrectTextIds(id, textVarGroup);
+		String textId = textVarGroup.extractAtomicValue("textId");
+		assertEquals(textId, "noTextsTextVarText");
+		String defTextId = textVarGroup.extractAtomicValue("defTextId");
+		assertEquals(defTextId, "noTextsTextVarDefText");
 	}
 
-	private SpiderDataGroup createTextVarGroupWithIdAndTextIdAndDefTextId(String id,
-			boolean setTextId, boolean setDefTextId) {
+	private SpiderDataGroup createTextVarGroupWithIdAndTextIdAndDefTextId(String id, String textId,
+			String defTextId) {
 		SpiderDataGroup textVarGroup = SpiderDataGroup.withNameInData("textVar");
 
 		SpiderDataGroup recordInfoGroup = SpiderDataGroup.withNameInData("recordInfo");
@@ -70,12 +73,11 @@ public class TextVarMetaCompleterTest {
 		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", "cora"));
 
 		textVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("nameInData", "my"));
-		if (setTextId) {
-			textVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("textId", id + "Text"));
+		if (!"".equals(textId)) {
+			textVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("textId", textId));
 		}
-		if (setDefTextId) {
-			textVarGroup
-					.addChild(SpiderDataAtomic.withNameInDataAndValue("defTextId", id + "DefText"));
+		if (!"".equals(defTextId)) {
+			textVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("defTextId", defTextId));
 		}
 		textVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("regEx", ".*"));
 
@@ -88,32 +90,50 @@ public class TextVarMetaCompleterTest {
 		SpiderRecordCreatorSpy spiderRecordCreator1 = instanceFactory.spiderRecordCreators
 				.get(createdTextNo);
 		assertEquals(spiderRecordCreator1.userId, userId);
-		assertEquals(spiderRecordCreator1.type, "text");
+		assertEquals(spiderRecordCreator1.type, "textSystemOne");
 		SpiderDataGroup createdTextRecord = spiderRecordCreator1.record;
 		SpiderDataGroup recordInfo = createdTextRecord.extractGroup("recordInfo");
 		String id = recordInfo.extractAtomicValue("id");
 		assertEquals(id, createdIdForText);
 	}
 
-	private void assertTextVarHasCorrectTextIds(String id, SpiderDataGroup textVar) {
-		String textId = textVar.extractAtomicValue("textId");
-		assertEquals(textId, id + "Text");
-		String defTextId = textVar.extractAtomicValue("defTextId");
-		assertEquals(defTextId, id + "DefText");
-	}
-
 	@Test
-	public void testWithTextIdButNoTextsInStorage() {
-		TextVarMetaCompleter textVarMetaCompleter = new TextVarMetaCompleter();
+	public void testWithTextIdNoTextsInStorage() {
+		TextVarMetaCompleter textVarMetaCompleter = TextVarMetaCompleter
+				.forImplementingTextType("textSystemOne");
 
 		SpiderDataGroup textVarGroup = createTextVarGroupWithIdAndTextIdAndDefTextId(
-				"textIdButNoTextsInStorageTextVar", false, false);
+				"textIdNoTextsInStorageTextVar", "textIdNoTextsInStorageTextVarText",
+				"textIdNoTextsInStorageTextVarDefText");
 
 		textVarMetaCompleter.useExtendedFunctionality(userId, textVarGroup);
 
-		assertCorrectTextCreatedWithUserIdAndTypeAndId(0, "textIdButNoTextsInStorageTextVarText");
-		assertCorrectTextCreatedWithUserIdAndTypeAndId(1,
-				"textIdButNoTextsInStorageTextVarDefText");
+		assertCorrectTextCreatedWithUserIdAndTypeAndId(0, "textIdNoTextsInStorageTextVarText");
+		assertCorrectTextCreatedWithUserIdAndTypeAndId(1, "textIdNoTextsInStorageTextVarDefText");
+		String textId = textVarGroup.extractAtomicValue("textId");
+		assertEquals(textId, "textIdNoTextsInStorageTextVarText");
+		String defTextId = textVarGroup.extractAtomicValue("defTextId");
+		assertEquals(defTextId, "textIdNoTextsInStorageTextVarDefText");
+	}
+
+	@Test
+	public void testWithNonStandardTextIdNoTextsInStorage() {
+		TextVarMetaCompleter textVarMetaCompleter = TextVarMetaCompleter
+				.forImplementingTextType("textSystemOne");
+
+		SpiderDataGroup textVarGroup = createTextVarGroupWithIdAndTextIdAndDefTextId(
+				"nonStandardtTxtIdNoTextsInStorageTextVar", "nonStandardText",
+				"nonStandardDefText");
+
+		textVarMetaCompleter.useExtendedFunctionality(userId, textVarGroup);
+
+		assertCorrectTextCreatedWithUserIdAndTypeAndId(0, "nonStandardText");
+		assertCorrectTextCreatedWithUserIdAndTypeAndId(1, "nonStandardDefText");
+
+		String textId = textVarGroup.extractAtomicValue("textId");
+		assertEquals(textId, "nonStandardText");
+		String defTextId = textVarGroup.extractAtomicValue("defTextId");
+		assertEquals(defTextId, "nonStandardDefText");
 	}
 
 }

@@ -31,6 +31,18 @@ public class TextVarMetaCompleter implements ExtendedFunctionality {
 
 	private String userId;
 	private String dataDividerString;
+	private String implementingTextType;
+
+	private TextVarMetaCompleter(String implementingTextType) {
+		this.implementingTextType = implementingTextType;
+		// TODO Auto-generated constructor stub
+		// implementingTextType = "textSystemOne";
+
+	}
+
+	public static TextVarMetaCompleter forImplementingTextType(String implementingTextType) {
+		return new TextVarMetaCompleter(implementingTextType);
+	}
 
 	@Override
 	public void useExtendedFunctionality(String userId2, SpiderDataGroup spiderDataGroup) {
@@ -41,36 +53,46 @@ public class TextVarMetaCompleter implements ExtendedFunctionality {
 				.extractAtomicValue("linkedRecordId");
 
 		String textId = id + "Text";
-		spiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("textId", textId));
-		if (textDoesNotExist(textId)) {
-			createTextWithTextId(textId);
+		String nameInData = "textId";
+		if (spiderDataGroup.containsChildWithNameInData(nameInData)) {
+			textId = spiderDataGroup.extractAtomicValue(nameInData);
+		} else {
+			spiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue(nameInData, textId));
 		}
+		ensureTextExistsInStorage(textId);
 
 		String defTextId = id + "DefText";
-		spiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("defTextId", defTextId));
-		if (textDoesNotExist(defTextId)) {
-			createTextWithTextId(defTextId);
+		nameInData = "defTextId";
+		if (spiderDataGroup.containsChildWithNameInData(nameInData)) {
+			defTextId = spiderDataGroup.extractAtomicValue(nameInData);
+		} else {
+			spiderDataGroup
+					.addChild(SpiderDataAtomic.withNameInDataAndValue(nameInData, defTextId));
+		}
+		ensureTextExistsInStorage(defTextId);
+	}
+
+	private void ensureTextExistsInStorage(String textId) {
+		if (textDoesNotExistInStorage(textId)) {
+			createTextWithTextIdInStorage(textId);
 		}
 	}
 
-	private void createTextWithTextId(String textId) {
-		TextCreator textCreator = TextCreator.withTextIdAndDataDivider(textId, dataDividerString);
-		SpiderDataGroup textGroup = textCreator.createTextInStorage();
-
-		SpiderRecordCreator spiderRecordCreator = SpiderInstanceProvider.getSpiderRecordCreator();
-		spiderRecordCreator.createAndStoreRecord(userId, "text", textGroup);
-	}
-
-	private boolean textDoesNotExist(String textId) {
+	private boolean textDoesNotExistInStorage(String textId) {
 		try {
 			SpiderRecordReader spiderRecordReader = SpiderInstanceProvider.getSpiderRecordReader();
-			spiderRecordReader.readRecord(userId, "text", textId);
+			spiderRecordReader.readRecord(userId, implementingTextType, textId);
 		} catch (RecordNotFoundException e) {
 			return true;
 		}
 		return false;
 	}
 
-	// RecordNotFoundException
+	private void createTextWithTextIdInStorage(String textId) {
+		TextCreator textCreator = TextCreator.withTextIdAndDataDivider(textId, dataDividerString);
+		SpiderDataGroup textGroup = textCreator.createTextInStorage();
 
+		SpiderRecordCreator spiderRecordCreator = SpiderInstanceProvider.getSpiderRecordCreator();
+		spiderRecordCreator.createAndStoreRecord(userId, implementingTextType, textGroup);
+	}
 }

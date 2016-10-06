@@ -34,6 +34,18 @@ public class TextCreatorTest {
 		TextCreator textCreator = TextCreator.withTextIdAndDataDivider(textId, dataDividerString);
 		SpiderDataGroup createdText = textCreator.createTextInStorage();
 		assertEquals(createdText.getNameInData(), "text");
+
+		SpiderDataGroup recordInfo = createdText.extractGroup("recordInfo");
+		assertEquals(recordInfo.extractAtomicValue("id"), "someTextVar");
+
+		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
+		assertEquals(dataDivider.extractAtomicValue("linkedRecordType"), "system");
+		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "cora");
+
+		// createdText.ge
+
+		// assertEquals
 		// TODO: check entire createdGroup
+
 	}
 }
