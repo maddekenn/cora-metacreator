@@ -32,12 +32,11 @@ public class TextVarMetaCompleter implements ExtendedFunctionality {
 	private String userId;
 	private String dataDividerString;
 	private String implementingTextType;
+	private SpiderDataGroup spiderDataGroup;
+	private String id;
 
 	private TextVarMetaCompleter(String implementingTextType) {
 		this.implementingTextType = implementingTextType;
-		// TODO Auto-generated constructor stub
-		// implementingTextType = "textSystemOne";
-
 	}
 
 	public static TextVarMetaCompleter forImplementingTextType(String implementingTextType) {
@@ -45,37 +44,52 @@ public class TextVarMetaCompleter implements ExtendedFunctionality {
 	}
 
 	@Override
-	public void useExtendedFunctionality(String userId2, SpiderDataGroup spiderDataGroup) {
-		this.userId = userId2;
-		String id = spiderDataGroup.extractGroup("recordInfo").extractAtomicValue("id");
+	public void useExtendedFunctionality(String userId, SpiderDataGroup spiderDataGroup) {
+		this.userId = userId;
+		this.spiderDataGroup = spiderDataGroup;
+		extractIdAndDataDividerFromSpiderDataGroup(spiderDataGroup);
 
-		dataDividerString = spiderDataGroup.extractGroup("recordInfo").extractGroup("dataDivider")
-				.extractAtomicValue("linkedRecordId");
+		setOrUseTextIdWithNameInDataToEnsureTextExistsInStorage(id + "Text", "textId");
+		setOrUseTextIdWithNameInDataToEnsureTextExistsInStorage(id + "DefText", "defTextId");
+	}
 
-		String textId = id + "Text";
-		String nameInData = "textId";
+	private void extractIdAndDataDividerFromSpiderDataGroup(SpiderDataGroup spiderDataGroup) {
+		SpiderDataGroup recordInfoGroup = spiderDataGroup.extractGroup("recordInfo");
+		id = extractIdFromSpiderDataGroup(recordInfoGroup);
+		dataDividerString = extractDataDividerFromSpiderDataGroup(recordInfoGroup);
+	}
+
+	private String extractIdFromSpiderDataGroup(SpiderDataGroup recordInfoGroup) {
+		return recordInfoGroup.extractAtomicValue("id");
+	}
+
+	private String extractDataDividerFromSpiderDataGroup(SpiderDataGroup recordInfoGroup) {
+		return recordInfoGroup.extractGroup("dataDivider").extractAtomicValue("linkedRecordId");
+	}
+
+	private void setOrUseTextIdWithNameInDataToEnsureTextExistsInStorage(String textId,
+			String nameInData) {
 		if (spiderDataGroup.containsChildWithNameInData(nameInData)) {
-			textId = spiderDataGroup.extractAtomicValue(nameInData);
+			ensureTextExistInStorageBasedOnExistingValueInNameInData(nameInData);
 		} else {
-			spiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue(nameInData, textId));
+			ensureTextExistsInStorageBasedOnNewTextId(textId, nameInData);
 		}
+	}
+
+	private void ensureTextExistsInStorageBasedOnNewTextId(String textId, String nameInData) {
+		spiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue(nameInData, textId));
 		ensureTextExistsInStorage(textId);
-
-		String defTextId = id + "DefText";
-		nameInData = "defTextId";
-		if (spiderDataGroup.containsChildWithNameInData(nameInData)) {
-			defTextId = spiderDataGroup.extractAtomicValue(nameInData);
-		} else {
-			spiderDataGroup
-					.addChild(SpiderDataAtomic.withNameInDataAndValue(nameInData, defTextId));
-		}
-		ensureTextExistsInStorage(defTextId);
 	}
 
 	private void ensureTextExistsInStorage(String textId) {
 		if (textDoesNotExistInStorage(textId)) {
 			createTextWithTextIdInStorage(textId);
 		}
+	}
+
+	private void ensureTextExistInStorageBasedOnExistingValueInNameInData(String nameInData) {
+		String textId2 = spiderDataGroup.extractAtomicValue(nameInData);
+		ensureTextExistsInStorage(textId2);
 	}
 
 	private boolean textDoesNotExistInStorage(String textId) {

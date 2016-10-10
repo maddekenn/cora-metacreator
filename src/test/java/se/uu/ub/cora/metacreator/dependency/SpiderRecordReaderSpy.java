@@ -33,6 +33,7 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 			switch (id) {
 			case "textIdTextsInStorageTextVarText":
 			case "textIdTextsInStorageTextVarDefText":
+			case "textIdOnlyTextInStorageTextVarText":
 				return null;
 			default:
 				throw new RecordNotFoundException("record not found in stub");

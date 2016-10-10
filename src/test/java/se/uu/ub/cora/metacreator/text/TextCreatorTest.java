@@ -35,6 +35,8 @@ public class TextCreatorTest {
 		SpiderDataGroup createdText = textCreator.createTextInStorage();
 		assertEquals(createdText.getNameInData(), "text");
 
+		assertEquals(createdText.getChildren().size(), 3);
+
 		SpiderDataGroup recordInfo = createdText.extractGroup("recordInfo");
 		assertEquals(recordInfo.extractAtomicValue("id"), "someTextVar");
 
@@ -42,10 +44,19 @@ public class TextCreatorTest {
 		assertEquals(dataDivider.extractAtomicValue("linkedRecordType"), "system");
 		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "cora");
 
-		// createdText.ge
+		SpiderDataGroup textPart1 = (SpiderDataGroup) createdText.getChildren().get(1);
+		assertEquals(textPart1.getChildren().size(), 1);
+		assertEquals(textPart1.getAttributes().size(), 2);
+		assertEquals(textPart1.getAttributes().get("type"), "default");
+		assertEquals(textPart1.getAttributes().get("lang"), "sv");
+		assertEquals(textPart1.extractAtomicValue("text"), "Text för:someTextVar");
 
-		// assertEquals
-		// TODO: check entire createdGroup
+		SpiderDataGroup textPart2 = (SpiderDataGroup) createdText.getChildren().get(2);
+		assertEquals(textPart2.getChildren().size(), 1);
+		assertEquals(textPart2.getAttributes().size(), 2);
+		assertEquals(textPart2.getAttributes().get("type"), "alternative");
+		assertEquals(textPart2.getAttributes().get("lang"), "en");
+		assertEquals(textPart2.extractAtomicValue("text"), "Text for:someTextVar");
 
 	}
 }
