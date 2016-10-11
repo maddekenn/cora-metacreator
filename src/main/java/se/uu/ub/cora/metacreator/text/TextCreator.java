@@ -35,7 +35,7 @@ public class TextCreator {
 		return new TextCreator(textId, dataDividerString);
 	}
 
-	public SpiderDataGroup createTextInStorage() {
+	public SpiderDataGroup createText() {
 		SpiderDataGroup textGroup = SpiderDataGroup.withNameInData("text");
 
 		SpiderDataGroup recordInfo = createRecordInfoWithIdAndDataDividerRecordId();

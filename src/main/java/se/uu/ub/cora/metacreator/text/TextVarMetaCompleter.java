@@ -104,7 +104,7 @@ public class TextVarMetaCompleter implements ExtendedFunctionality {
 
 	private void createTextWithTextIdInStorage(String textId) {
 		TextCreator textCreator = TextCreator.withTextIdAndDataDivider(textId, dataDividerString);
-		SpiderDataGroup textGroup = textCreator.createTextInStorage();
+		SpiderDataGroup textGroup = textCreator.createText();
 
 		SpiderRecordCreator spiderRecordCreator = SpiderInstanceProvider.getSpiderRecordCreator();
 		spiderRecordCreator.createAndStoreRecord(userId, implementingTextType, textGroup);

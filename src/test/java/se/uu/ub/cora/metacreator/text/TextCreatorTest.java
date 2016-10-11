@@ -32,7 +32,7 @@ public class TextCreatorTest {
 		String textId = "someTextVar";
 		String dataDividerString = "cora";
 		TextCreator textCreator = TextCreator.withTextIdAndDataDivider(textId, dataDividerString);
-		SpiderDataGroup createdText = textCreator.createTextInStorage();
+		SpiderDataGroup createdText = textCreator.createText();
 		assertEquals(createdText.getNameInData(), "text");
 
 		assertEquals(createdText.getChildren().size(), 3);
