@@ -20,6 +20,7 @@
 package se.uu.ub.cora.metacreator.text;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 import org.testng.annotations.Test;
 
@@ -32,17 +33,13 @@ public class TextCreatorTest {
 		String textId = "someTextVar";
 		String dataDividerString = "cora";
 		TextCreator textCreator = TextCreator.withTextIdAndDataDivider(textId, dataDividerString);
+		assertNotNull(textCreator);
 		SpiderDataGroup createdText = textCreator.createText();
 		assertEquals(createdText.getNameInData(), "text");
 
 		assertEquals(createdText.getChildren().size(), 3);
 
-		SpiderDataGroup recordInfo = createdText.extractGroup("recordInfo");
-		assertEquals(recordInfo.extractAtomicValue("id"), "someTextVar");
-
-		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordType"), "system");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "cora");
+		assertCorrectRecordInfo(createdText);
 
 		SpiderDataGroup textPart1 = (SpiderDataGroup) createdText.getChildren().get(1);
 		assertEquals(textPart1.getChildren().size(), 1);
@@ -58,5 +55,14 @@ public class TextCreatorTest {
 		assertEquals(textPart2.getAttributes().get("lang"), "en");
 		assertEquals(textPart2.extractAtomicValue("text"), "Text for:someTextVar");
 
+	}
+
+	private void assertCorrectRecordInfo(SpiderDataGroup createdText) {
+		SpiderDataGroup recordInfo = createdText.extractGroup("recordInfo");
+		assertEquals(recordInfo.extractAtomicValue("id"), "someTextVar");
+
+		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
+		assertEquals(dataDivider.extractAtomicValue("linkedRecordType"), "system");
+		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "cora");
 	}
 }
