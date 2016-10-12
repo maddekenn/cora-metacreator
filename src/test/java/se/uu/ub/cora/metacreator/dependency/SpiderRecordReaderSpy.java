@@ -34,19 +34,21 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 			case "textIdTextsInStorageTextVarText":
 			case "textIdTextsInStorageTextVarDefText":
 			case "textIdOnlyTextInStorageTextVarText":
+			case "textIdNoPVarsInStorageTextVarPVar":
+			case "textIdNoPVarsInStorageTextVarOutputPVar":
 				return null;
 			default:
 				throw new RecordNotFoundException("record not found in stub");
 			}
-			// if ("noTextsTextVarText".equals(id)) {
-			// throw new RecordNotFoundException("record not found in stub");
-			// }
-			// if ("noTextsTextVarDefText".equals(id)) {
-			// throw new RecordNotFoundException("record not found in stub");
-			// }
-			// if ("textIdButNoTextsInStorageTextVar".equals(id)) {
-			// throw new RecordNotFoundException("record not found in stub");
-			// }
+		}
+		if ("presentationVar".equals(type)) {
+			switch (id) {
+			case "textIdInputPVarInStorageTextVarPVar":
+			case "textIdOutputPVarInStorageTextVarOutputPVar":
+				return null;
+			default:
+				throw new RecordNotFoundException("record not found in stub");
+			}
 		}
 		return null;
 	}

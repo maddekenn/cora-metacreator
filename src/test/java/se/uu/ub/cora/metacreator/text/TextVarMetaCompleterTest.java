@@ -26,7 +26,7 @@ import org.testng.annotations.Test;
 
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.dependency.SpiderRecordCreatorSpy;
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
+import se.uu.ub.cora.metacreator.testdata.DataCreator;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
@@ -47,7 +47,8 @@ public class TextVarMetaCompleterTest {
 				.forImplementingTextType("textSystemOne");
 
 		String id = "noTextsTextVar";
-		SpiderDataGroup textVarGroup = createTextVarGroupWithIdAndTextIdAndDefTextId(id, "", "");
+		SpiderDataGroup textVarGroup = DataCreator.createTextVarGroupWithIdAndTextIdAndDefTextId(id,
+				"", "");
 
 		textVarMetaCompleter.useExtendedFunctionality(userId, textVarGroup);
 
@@ -58,32 +59,6 @@ public class TextVarMetaCompleterTest {
 		assertEquals(textId, "noTextsTextVarText");
 		String defTextId = textVarGroup.extractAtomicValue("defTextId");
 		assertEquals(defTextId, "noTextsTextVarDefText");
-	}
-
-	private SpiderDataGroup createTextVarGroupWithIdAndTextIdAndDefTextId(String id, String textId,
-			String defTextId) {
-		SpiderDataGroup textVarGroup = SpiderDataGroup.withNameInData("textVar");
-
-		SpiderDataGroup recordInfoGroup = SpiderDataGroup.withNameInData("recordInfo");
-		textVarGroup.addChild(recordInfoGroup);
-		recordInfoGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("id", id));
-
-		SpiderDataGroup dataDivider = SpiderDataGroup.withNameInData("dataDivider");
-		recordInfoGroup.addChild(dataDivider);
-		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "system"));
-		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", "cora"));
-
-		textVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("nameInData", "my"));
-		if (!"".equals(textId)) {
-			textVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("textId", textId));
-		}
-		if (!"".equals(defTextId)) {
-			textVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("defTextId", defTextId));
-		}
-		textVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("regEx", ".*"));
-
-		textVarGroup.addAttributeByIdWithValue("type", "textVariable");
-		return textVarGroup;
 	}
 
 	private void assertCorrectTextCreatedWithUserIdAndTypeAndId(int createdTextNo,
@@ -103,7 +78,7 @@ public class TextVarMetaCompleterTest {
 		TextVarMetaCompleter textVarMetaCompleter = TextVarMetaCompleter
 				.forImplementingTextType("textSystemOne");
 
-		SpiderDataGroup textVarGroup = createTextVarGroupWithIdAndTextIdAndDefTextId(
+		SpiderDataGroup textVarGroup = DataCreator.createTextVarGroupWithIdAndTextIdAndDefTextId(
 				"textIdNoTextsInStorageTextVar", "textIdNoTextsInStorageTextVarText",
 				"textIdNoTextsInStorageTextVarDefText");
 
@@ -123,7 +98,7 @@ public class TextVarMetaCompleterTest {
 		TextVarMetaCompleter textVarMetaCompleter = TextVarMetaCompleter
 				.forImplementingTextType("textSystemOne");
 
-		SpiderDataGroup textVarGroup = createTextVarGroupWithIdAndTextIdAndDefTextId(
+		SpiderDataGroup textVarGroup = DataCreator.createTextVarGroupWithIdAndTextIdAndDefTextId(
 				"nonStandardtTxtIdNoTextsInStorageTextVar", "nonStandardText",
 				"nonStandardDefText");
 
@@ -144,7 +119,7 @@ public class TextVarMetaCompleterTest {
 		TextVarMetaCompleter textVarMetaCompleter = TextVarMetaCompleter
 				.forImplementingTextType("textSystemOne");
 
-		SpiderDataGroup textVarGroup = createTextVarGroupWithIdAndTextIdAndDefTextId(
+		SpiderDataGroup textVarGroup = DataCreator.createTextVarGroupWithIdAndTextIdAndDefTextId(
 				"textIdTextsInStorageTextVar", "textIdTextsInStorageTextVarText",
 				"textIdTextsInStorageTextVarDefText");
 
@@ -162,7 +137,7 @@ public class TextVarMetaCompleterTest {
 		TextVarMetaCompleter textVarMetaCompleter = TextVarMetaCompleter
 				.forImplementingTextType("textSystemOne");
 
-		SpiderDataGroup textVarGroup = createTextVarGroupWithIdAndTextIdAndDefTextId(
+		SpiderDataGroup textVarGroup = DataCreator.createTextVarGroupWithIdAndTextIdAndDefTextId(
 				"textIdOnlyTextInStorageTextVar", "textIdOnlyTextInStorageTextVarText",
 				"textIdOnlyTextInStorageTextVarDefText");
 
