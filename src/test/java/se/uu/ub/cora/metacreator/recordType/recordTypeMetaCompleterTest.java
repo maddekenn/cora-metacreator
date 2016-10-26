@@ -7,6 +7,8 @@ import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
+import static org.testng.Assert.assertEquals;
+
 public class recordTypeMetaCompleterTest {
     private SpiderInstanceFactorySpy instanceFactory;
     private String userId;
@@ -22,13 +24,22 @@ public class recordTypeMetaCompleterTest {
     public void testDefaultValues(){
         RecordTypeMetaCompleter metaCompleter = new RecordTypeMetaCompleter();
 
-        //spiderDataGroup som innehåller id, abstract, userSuppliedId och inte så mycket mer
-        SpiderDataGroup spiderDataGroup = SpiderDataGroup.withNameInData("recordType");
+        SpiderDataGroup recordType = SpiderDataGroup.withNameInData("recordType");
         //recordInfo
         SpiderDataGroup recordInfo = SpiderDataGroup.withNameInData("recordInfo");
         recordInfo.addChild(SpiderDataAtomic.withNameInDataAndValue("id", "myRecordType"));
+
         SpiderDataGroup dataDivider = SpiderDataGroup.withNameInData("dataDivider");
-        metaCompleter.useExtendedFunctionality(userId, spiderDataGroup);
+        dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "system"));
+        dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", "test"));
+        recordInfo.addChild(dataDivider);
+
+        recordType.addChild(SpiderDataAtomic.withNameInDataAndValue("abstract", "false"));
+        recordType.addChild(SpiderDataAtomic.withNameInDataAndValue("userSuppliedId", "true"));
+
+        metaCompleter.useExtendedFunctionality(userId, recordType);
+
+        assertEquals(instanceFactory.spiderRecordCreators.size(), 1);
 
     }
 
