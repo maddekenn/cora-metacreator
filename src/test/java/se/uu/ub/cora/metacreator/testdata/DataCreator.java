@@ -48,4 +48,42 @@ public class DataCreator {
 		textVarGroup.addAttributeByIdWithValue("type", "textVariable");
 		return textVarGroup;
 	}
+
+
+	public static SpiderDataGroup createSpiderDataGroupForRecordTypeWithId(String id) {
+		SpiderDataGroup recordType = SpiderDataGroup.withNameInData("recordType");
+		//recordInfo
+		SpiderDataGroup recordInfo = SpiderDataGroup.withNameInData("recordInfo");
+		recordInfo.addChild(SpiderDataAtomic.withNameInDataAndValue("id", id));
+		recordType.addChild(recordInfo);
+		SpiderDataGroup dataDivider = SpiderDataGroup.withNameInData("dataDivider");
+		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "system"));
+		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", "test"));
+		recordInfo.addChild(dataDivider);
+
+		recordType.addChild(SpiderDataAtomic.withNameInDataAndValue("abstract", "false"));
+		recordType.addChild(SpiderDataAtomic.withNameInDataAndValue("userSuppliedId", "true"));
+		return recordType;
+	}
+
+
+	public static void addAllValuesToSpiderDataGroup(SpiderDataGroup recordType, String id) {
+		addAtomicValueWithNameInDataAndValue(recordType, "metadataId", id+"Group");
+		addAtomicValueWithNameInDataAndValue(recordType,  "newMetadataId", id+"NewGroup");
+		addAtomicValueWithNameInDataAndValue(recordType, "searchMetadataId", id+"SearchGroup");
+		addAtomicValueWithNameInDataAndValue(recordType, "presentationViewId", id+"ViewPGroup");
+		addAtomicValueWithNameInDataAndValue(recordType, "presentationFormId", id+"FormPGroup");
+		addAtomicValueWithNameInDataAndValue(recordType, "newPresentationFormId", id+"FormNewPGroup");
+		addAtomicValueWithNameInDataAndValue(recordType, "menuPresentationViewId", id+"MenuPGroup");
+		addAtomicValueWithNameInDataAndValue(recordType, "listPresentationViewId", id+"ListPGroup");
+		addAtomicValueWithNameInDataAndValue(recordType, "selfPresentationViewId", id+"ViewSelfPGroup");
+		addAtomicValueWithNameInDataAndValue(recordType, "searchPresentationFormId", id+"FormSearchPGroup");
+		addAtomicValueWithNameInDataAndValue(recordType, "textId", id+"Text");
+		addAtomicValueWithNameInDataAndValue(recordType, "defTextId", id+"DefText");
+		addAtomicValueWithNameInDataAndValue(recordType, "permissionKey", "RECORDTYPE_"+id.toUpperCase());
+	}
+
+	private static void addAtomicValueWithNameInDataAndValue(SpiderDataGroup spiderDataGroup, String nameInData, String value) {
+		spiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue(nameInData, value));
+	}
 }

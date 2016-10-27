@@ -2,7 +2,10 @@ package se.uu.ub.cora.metacreator.recordtype;
 
 import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
+import se.uu.ub.cora.spider.record.SpiderRecordReader;
+import se.uu.ub.cora.spider.record.storage.RecordNotFoundException;
 
 public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 
@@ -16,29 +19,45 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
         this.spiderDataGroup = spiderDataGroup;
         
         addValuesToDataGroup();
-        
-    }
+	}
     
     private void addValuesToDataGroup(){
     	SpiderDataGroup recordInfoGroup = spiderDataGroup.extractGroup("recordInfo");
     	id = recordInfoGroup.extractAtomicValue("id");
-		addAtomicValueWithNameInDataAndValueEnding("metadataId", "Group");
-		addAtomicValueWithNameInDataAndValueEnding("newMetadataId", "NewGroup");
-		addAtomicValueWithNameInDataAndValueEnding("presentationViewId", "ViewPGroup");
-		addAtomicValueWithNameInDataAndValueEnding("presentationFormId", "FormPGroup");
-		addAtomicValueWithNameInDataAndValueEnding("newPresentationFormId", "FormNewPGroup");
-		addAtomicValueWithNameInDataAndValueEnding("menuPresentationViewId", "MenuPGroup");
-		addAtomicValueWithNameInDataAndValueEnding("listPresentationViewId", "ListPGroup");
-		addAtomicValueWithNameInDataAndValueEnding("searchMetadataId", "SearchGroup");
-		addAtomicValueWithNameInDataAndValueEnding("searchPresentationFormId", "FormSearchPGroup");
-		addAtomicValueWithNameInDataAndValueEnding("selfPresentationViewId", "ViewSelfPGroup");
-		addAtomicValueWithNameInDataAndValueEnding("textId", "Text");
-		addAtomicValueWithNameInDataAndValueEnding("defTextId", "DefText");
-		spiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("permissionKey", "RECORDTYPE_"+id.toUpperCase()));
+		addMetadataIds();
+		addPresentationIds();
+		addTexts();
+		addAtomicValueWithNameInDataAndValueIfNotExisting("permissionKey", "RECORDTYPE_"+id.toUpperCase());
     }
 
-	private void addAtomicValueWithNameInDataAndValueEnding(String nameInData, String valueEnding) {
-		spiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue(nameInData, id+valueEnding));
+	private void addMetadataIds() {
+		addAtomicValueWithNameInDataAndValueIfNotExisting("metadataId", id+"Group");
+		addAtomicValueWithNameInDataAndValueIfNotExisting("newMetadataId", id+"NewGroup");
+		addAtomicValueWithNameInDataAndValueIfNotExisting("searchMetadataId", id+"SearchGroup");
 	}
+
+	private void addAtomicValueWithNameInDataAndValueIfNotExisting(String nameInData, String value) {
+		if(!spiderDataGroup.containsChildWithNameInData(nameInData)) {
+			spiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue(nameInData, value));
+		}
+	}
+
+	private void addPresentationIds() {
+		addAtomicValueWithNameInDataAndValueIfNotExisting("presentationViewId", id+"ViewPGroup");
+
+
+		addAtomicValueWithNameInDataAndValueIfNotExisting("presentationFormId", id+"FormPGroup");
+		addAtomicValueWithNameInDataAndValueIfNotExisting("newPresentationFormId", id+"FormNewPGroup");
+		addAtomicValueWithNameInDataAndValueIfNotExisting("menuPresentationViewId", id+"MenuPGroup");
+		addAtomicValueWithNameInDataAndValueIfNotExisting("listPresentationViewId", id+"ListPGroup");
+		addAtomicValueWithNameInDataAndValueIfNotExisting("selfPresentationViewId", id+"ViewSelfPGroup");
+		addAtomicValueWithNameInDataAndValueIfNotExisting("searchPresentationFormId", id+"FormSearchPGroup");
+	}
+
+	private void addTexts() {
+		addAtomicValueWithNameInDataAndValueIfNotExisting("textId", id+"Text");
+		addAtomicValueWithNameInDataAndValueIfNotExisting("defTextId", id+"DefText");
+	}
+
 
 }

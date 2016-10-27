@@ -50,6 +50,18 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 				throw new RecordNotFoundException("record not found in stub");
 			}
 		}
+		if ("presentationGroup".equals(type)) {
+			switch (id) {
+				case "myRecordType2ViewPGroup":
+				case "myRecordType2FormPGroup":
+				case "myRecordType2FormNewPGroup":
+				case "myRecordType2MenuPGroup":
+				case "myRecordType2ListPGroup":
+					return null;
+				default:
+					throw new RecordNotFoundException("record not found in stub");
+			}
+		}
 		return null;
 	}
 
