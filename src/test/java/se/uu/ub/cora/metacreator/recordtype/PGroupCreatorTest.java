@@ -1,62 +1,28 @@
 package se.uu.ub.cora.metacreator.recordtype;
 
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
-import se.uu.ub.cora.metacreator.dependency.SpiderRecordCreatorSpy;
-import se.uu.ub.cora.metacreator.testdata.DataCreator;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
-import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
-
 import static org.testng.Assert.assertEquals;
 
+import org.testng.annotations.Test;
+
+import se.uu.ub.cora.spider.data.SpiderDataGroup;
+
 public class PGroupCreatorTest {
-    private SpiderInstanceFactorySpy instanceFactory;
-    private String userId;
+	
+	@Test
+	public void testCreatePGroup(){
+		
+		PGroupCreator pGroupCreator = PGroupCreator.withIdDataDividerAndPresentationOf("myRecordTypeViewId", "cora", "myRecordTypeGroup");
+		SpiderDataGroup pGroup = pGroupCreator.createPresentationGroup();
 
+        SpiderDataGroup recordInfo = pGroup.extractGroup("recordInfo");
+        assertEquals(recordInfo.extractAtomicValue("id"), "myRecordTypeViewId");
+        SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
+		assertEquals(dataDivider.extractAtomicValue("linkedRecordType"), "system");
+		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "cora");
+        
+        assertEquals(pGroup.getAttributes().get("type"), "pGroup");
+        SpiderDataGroup presentationOf = pGroup.extractGroup("presentationOf");
+        assertEquals(presentationOf.extractAtomicValue("linkedRecordId"), "myRecordTypeGroup");
+	}
 
-    @BeforeMethod
-    public void setUp() {
-        instanceFactory = new SpiderInstanceFactorySpy();
-        SpiderInstanceProvider.setSpiderInstanceFactory(instanceFactory);
-        userId = "testUser";
-    }
-
-    @Test
-    public void testPGroupCreatorNoPresentationsExists(){
-        PGroupCreator pGroupCreator = new PGroupCreator();
-
-        SpiderDataGroup recordType = DataCreator.createSpiderDataGroupForRecordTypeWithId("myRecordType");
-        DataCreator.addAllValuesToSpiderDataGroup(recordType, "myRecordType");
-
-        pGroupCreator.useExtendedFunctionality(userId, recordType);
-        assertEquals(instanceFactory.spiderRecordCreators.size(), 5);
-
-        assertCorrectlyCreatedPresentationGroup(0, "myRecordTypeViewPGroup");
-        assertCorrectlyCreatedPresentationGroup(1, "myRecordTypeFormPGroup");
-        assertCorrectlyCreatedPresentationGroup(2, "myRecordTypeFormNewPGroup");
-        assertCorrectlyCreatedPresentationGroup(3, "myRecordTypeMenuPGroup");
-        assertCorrectlyCreatedPresentationGroup(4, "myRecordTypeListPGroup");
-    }
-
-    private void assertCorrectlyCreatedPresentationGroup(int createdPGroupNo, String id) {
-        SpiderRecordCreatorSpy spiderRecordCreator = instanceFactory.spiderRecordCreators
-                .get(createdPGroupNo);
-        assertEquals(spiderRecordCreator.userId, userId);
-        assertEquals(spiderRecordCreator.type, "presentationGroup");
-        SpiderDataGroup recordInfo = spiderRecordCreator.record.extractGroup("recordInfo");
-        assertEquals(recordInfo.extractAtomicValue("id"), id);
-    }
-
-
-    @Test
-    public void testPGroupCreatorAllPresentationsExists(){
-        PGroupCreator pGroupCreator = new PGroupCreator();
-
-        SpiderDataGroup recordType = DataCreator.createSpiderDataGroupForRecordTypeWithId("myRecordType2");
-        DataCreator.addAllValuesToSpiderDataGroup(recordType, "myRecordType2");
-
-        pGroupCreator.useExtendedFunctionality(userId, recordType);
-        assertEquals(instanceFactory.spiderRecordCreators.size(), 0);
-    }
 }
