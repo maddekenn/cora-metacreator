@@ -30,13 +30,13 @@ public class RecordTypeCreatorTest {
         DataCreator.addAllValuesToSpiderDataGroup(recordType, "myRecordType");
 
         pGroupCreator.useExtendedFunctionality(userId, recordType);
-        assertEquals(instanceFactory.spiderRecordCreators.size(), 1);
+        assertEquals(instanceFactory.spiderRecordCreators.size(), 5);
 
         assertCorrectlyCreatedPresentationGroup(0, "myRecordTypeViewPGroup");
-//        assertCorrectlyCreatedPresentationGroup(1, "myRecordTypeFormPGroup");
-//        assertCorrectlyCreatedPresentationGroup(2, "myRecordTypeFormNewPGroup");
-//        assertCorrectlyCreatedPresentationGroup(3, "myRecordTypeMenuPGroup");
-//        assertCorrectlyCreatedPresentationGroup(4, "myRecordTypeListPGroup");
+        assertCorrectlyCreatedPresentationGroup(1, "myRecordTypeFormPGroup");
+        assertCorrectlyCreatedPresentationGroup(2, "myRecordTypeFormNewPGroup");
+        assertCorrectlyCreatedPresentationGroup(3, "myRecordTypeMenuPGroup");
+        assertCorrectlyCreatedPresentationGroup(4, "myRecordTypeListPGroup");
     }
 
     private void assertCorrectlyCreatedPresentationGroup(int createdPGroupNo, String id) {

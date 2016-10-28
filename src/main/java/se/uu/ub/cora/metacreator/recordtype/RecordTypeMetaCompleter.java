@@ -45,7 +45,6 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 	private void addPresentationIds() {
 		addAtomicValueWithNameInDataAndValueIfNotExisting("presentationViewId", id+"ViewPGroup");
 
-
 		addAtomicValueWithNameInDataAndValueIfNotExisting("presentationFormId", id+"FormPGroup");
 		addAtomicValueWithNameInDataAndValueIfNotExisting("newPresentationFormId", id+"FormNewPGroup");
 		addAtomicValueWithNameInDataAndValueIfNotExisting("menuPresentationViewId", id+"MenuPGroup");
