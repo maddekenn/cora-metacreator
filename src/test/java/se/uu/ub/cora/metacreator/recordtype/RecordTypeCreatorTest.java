@@ -23,20 +23,25 @@ public class RecordTypeCreatorTest {
     }
 
     @Test
-    public void testPGroupCreatorNoPresentationsExists(){
-        RecordTypeCreator pGroupCreator = new RecordTypeCreator();
+    public void testRecordTypeCreatorNoPresentationsExists(){
+        RecordTypeCreator recordTypeCreator = new RecordTypeCreator();
 
         SpiderDataGroup recordType = DataCreator.createSpiderDataGroupForRecordTypeWithId("myRecordType");
         DataCreator.addAllValuesToSpiderDataGroup(recordType, "myRecordType");
 
-        pGroupCreator.useExtendedFunctionality(userId, recordType);
-        assertEquals(instanceFactory.spiderRecordCreators.size(), 5);
+        recordTypeCreator.useExtendedFunctionality(userId, recordType);
+        assertEquals(instanceFactory.spiderRecordCreators.size(), 7);
 
-        assertCorrectlyCreatedPresentationGroup(0, "myRecordTypeViewPGroup");
-        assertCorrectlyCreatedPresentationGroup(1, "myRecordTypeFormPGroup");
-        assertCorrectlyCreatedPresentationGroup(2, "myRecordTypeFormNewPGroup");
-        assertCorrectlyCreatedPresentationGroup(3, "myRecordTypeMenuPGroup");
-        assertCorrectlyCreatedPresentationGroup(4, "myRecordTypeListPGroup");
+        SpiderRecordCreatorSpy spiderRecordCreator = instanceFactory.spiderRecordCreators
+                .get(0);
+        assertEquals(spiderRecordCreator.type, "metadataGroup");
+        assertEquals(spiderRecordCreator.userId, userId);
+        
+        assertCorrectlyCreatedPresentationGroup(2, "myRecordTypeViewPGroup");
+        assertCorrectlyCreatedPresentationGroup(3, "myRecordTypeFormPGroup");
+        assertCorrectlyCreatedPresentationGroup(4, "myRecordTypeFormNewPGroup");
+        assertCorrectlyCreatedPresentationGroup(5, "myRecordTypeMenuPGroup");
+        assertCorrectlyCreatedPresentationGroup(6, "myRecordTypeListPGroup");
     }
 
     private void assertCorrectlyCreatedPresentationGroup(int createdPGroupNo, String id) {
@@ -59,4 +64,5 @@ public class RecordTypeCreatorTest {
         pGroupCreator.useExtendedFunctionality(userId, recordType);
         assertEquals(instanceFactory.spiderRecordCreators.size(), 0);
     }
+    
 }

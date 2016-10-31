@@ -19,13 +19,20 @@ public class RecordTypeCreator implements ExtendedFunctionality {
     public void useExtendedFunctionality(String userId, SpiderDataGroup spiderDataGroup) {
         this.userId = userId;
         this.spiderDataGroup = spiderDataGroup;
-
+        	
+        extractDataDivider();
+        String metadataId = spiderDataGroup.extractAtomicValue("metadataId");
+        MetadataGroupCreator groupCreator = MetadataGroupCreator.withIdAndNameInData(metadataId, "metadata");
+        SpiderDataGroup metadataGroup = groupCreator.createMetadataGroup("recordInfoGroup");
+        storePGroup("metadataGroup", metadataGroup);
+        String newMetadataId = spiderDataGroup.extractAtomicValue("newMetadataId");
+        MetadataGroupCreator newGroupCreator = MetadataGroupCreator.withIdAndNameInData(newMetadataId, "metadata");
+        SpiderDataGroup newMetadataGroup = newGroupCreator.createMetadataGroup("recordInfoNewGroup");
+        storePGroup("metadataGroup", newMetadataGroup);
         possiblyCreatePresentationGroups();
     }
 
     private void possiblyCreatePresentationGroups() {
-    	SpiderDataGroup dataDividerGroup = extractDataDividerFromMainSpiderDataGroup();
-    	dataDivider = dataDividerGroup.extractAtomicValue("linkedRecordId");
     	String presentationOf = spiderDataGroup.extractAtomicValue("metadataId");
 
         extractPresentationIdAndSendToCreate(presentationOf, "presentationViewId");
@@ -34,6 +41,11 @@ public class RecordTypeCreator implements ExtendedFunctionality {
         extractPresentationIdAndSendToCreate(presentationOf, "menuPresentationViewId");
         extractPresentationIdAndSendToCreate(presentationOf, "listPresentationViewId");
     }
+
+	private void extractDataDivider() {
+		SpiderDataGroup dataDividerGroup = extractDataDividerFromMainSpiderDataGroup();
+    	dataDivider = dataDividerGroup.extractAtomicValue("linkedRecordId");
+	}
 
     private void extractPresentationIdAndSendToCreate(String presentationOf, String presentationNameInData) {
         String presentationId = spiderDataGroup.extractAtomicValue(presentationNameInData);
