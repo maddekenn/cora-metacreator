@@ -62,6 +62,15 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 					throw new RecordNotFoundException("record not found in stub");
 			}
 		}
+		if ("metadataGroup".equals(type)) {
+			switch (id) {
+				case "myRecordType2Group":
+				case "myRecordType2NewGroup":
+					return null;
+				default:
+					throw new RecordNotFoundException("record not found in stub");
+			}
+		}
 		return null;
 	}
 

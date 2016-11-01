@@ -13,7 +13,7 @@ public class MetadataGroupCreatorTest {
 	@Test
 	public void testCreateMetadataGroup(){
 		MetadataGroupCreator creator = MetadataGroupCreator.withIdAndNameInData("myRecordTypeGroup", "cora");
-		SpiderDataGroup metadataGroup = creator.createMetadataGroup("recordInfoGroup");
+		SpiderDataGroup metadataGroup = creator.createGroup("recordInfoGroup");
 		
 		SpiderDataGroup recordInfo = metadataGroup.extractGroup("recordInfo");
         assertEquals(recordInfo.extractAtomicValue("id"), "myRecordTypeGroup");
