@@ -12,7 +12,7 @@ public class MetadataGroupCreatorTest {
 	
 	@Test
 	public void testCreateMetadataGroup(){
-		MetadataGroupCreator creator = MetadataGroupCreator.withIdAndNameInData("myRecordTypeGroup", "cora");
+		MetadataGroupCreator creator = MetadataGroupCreator.withIdAndNameInDataAndDataDivider("myRecordTypeGroup", "myRecordType", "cora");
 		SpiderDataGroup metadataGroup = creator.createGroup("recordInfoGroup");
 		
 		SpiderDataGroup recordInfo = metadataGroup.extractGroup("recordInfo");
@@ -22,7 +22,7 @@ public class MetadataGroupCreatorTest {
 		assertEquals(dataDivider.extractAtomicValue("linkedRecordType"), "system");
 		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "cora");
 		
-		assertEquals(metadataGroup.extractAtomicValue("nameInData"), "myRecordTypeGroup");
+		assertEquals(metadataGroup.extractAtomicValue("nameInData"), "myRecordType");
 		assertEquals(metadataGroup.extractAtomicValue("textId"), "myRecordTypeGroupText");
 		assertEquals(metadataGroup.extractAtomicValue("defTextId"), "myRecordTypeGroupDefText");
 		
@@ -34,11 +34,14 @@ public class MetadataGroupCreatorTest {
 	private void assertCorrectChildReferences(SpiderDataGroup metadataGroup) {
 		SpiderDataGroup childRefs = metadataGroup.extractGroup("childReferences");
 		assertEquals(childRefs.getChildren().size(), 1);
+		
 		SpiderDataGroup childRef = (SpiderDataGroup)childRefs.getFirstChildWithNameInData("childReference");
 		SpiderDataAtomic ref = (SpiderDataAtomic) childRef.getFirstChildWithNameInData("ref");
 		assertEquals(ref.getValue(), "recordInfoGroup");
+		
 		SpiderDataAtomic repeatMin = (SpiderDataAtomic) childRef.getFirstChildWithNameInData("repeatMin");
 		assertEquals(repeatMin.getValue(), "1");
+		
 		SpiderDataAtomic repeatMax = (SpiderDataAtomic) childRef.getFirstChildWithNameInData("repeatMax");
 		assertEquals(repeatMax.getValue(), "1");
 	}

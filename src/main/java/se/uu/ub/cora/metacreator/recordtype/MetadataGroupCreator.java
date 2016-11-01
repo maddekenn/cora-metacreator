@@ -5,12 +5,15 @@ import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
 public class MetadataGroupCreator extends GroupCreator{
 
-	private MetadataGroupCreator(String id, String dataDivider) {
+	private String nameInData;
+
+	public MetadataGroupCreator(String id, String nameInData, String dataDivider) {
 		super(id, dataDivider);
+		this.nameInData = nameInData;
 	}
 
-	public static MetadataGroupCreator withIdAndNameInData(String id, String dataDivider) {
-		return new MetadataGroupCreator(id, dataDivider);
+	public static MetadataGroupCreator withIdAndNameInDataAndDataDivider(String id, String nameInData, String dataDivider) {
+		return new MetadataGroupCreator(id, nameInData, dataDivider);
 	}
 
 	@Override
@@ -24,8 +27,7 @@ public class MetadataGroupCreator extends GroupCreator{
 	}
 
 	private void addNameInData() {
-		//TODO: maybe nameInData should be provided
-		topLevelSpiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("nameInData", id));
+		topLevelSpiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("nameInData", nameInData));
 	}
 
 	@Override

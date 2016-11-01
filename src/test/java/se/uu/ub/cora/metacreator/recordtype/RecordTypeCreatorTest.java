@@ -32,27 +32,40 @@ public class RecordTypeCreatorTest {
         recordTypeCreator.useExtendedFunctionality(userId, recordType);
         assertEquals(instanceFactory.spiderRecordCreators.size(), 7);
 
-        SpiderRecordCreatorSpy spiderRecordCreator = instanceFactory.spiderRecordCreators
-                .get(0);
-        assertEquals(spiderRecordCreator.type, "metadataGroup");
-        assertEquals(spiderRecordCreator.userId, userId);
+        assertCorrectlyCreatedMetadataGroup(0, "myRecordTypeGroup");
+        assertCorrectlyCreatedMetadataGroup(1, "myRecordTypeNewGroup");
         
-        assertCorrectlyCreatedPresentationGroup(2, "myRecordTypeViewPGroup");
-        assertCorrectlyCreatedPresentationGroup(3, "myRecordTypeFormPGroup");
-        assertCorrectlyCreatedPresentationGroup(4, "myRecordTypeFormNewPGroup");
-        assertCorrectlyCreatedPresentationGroup(5, "myRecordTypeMenuPGroup");
-        assertCorrectlyCreatedPresentationGroup(6, "myRecordTypeListPGroup");
+        assertCorrectlyCreatedPresentationGroup(2, "myRecordTypeViewPGroup", "myRecordTypeGroup");
+        assertCorrectlyCreatedPresentationGroup(3, "myRecordTypeFormPGroup", "myRecordTypeGroup");
+        assertCorrectlyCreatedPresentationGroup(4, "myRecordTypeMenuPGroup", "myRecordTypeGroup");
+        assertCorrectlyCreatedPresentationGroup(5, "myRecordTypeListPGroup", "myRecordTypeGroup");
+        assertCorrectlyCreatedPresentationGroup(6, "myRecordTypeFormNewPGroup", "myRecordTypeNewGroup");
     }
-
-    private void assertCorrectlyCreatedPresentationGroup(int createdPGroupNo, String id) {
+    
+    private void assertCorrectlyCreatedMetadataGroup(int createdPGroupNo, String id) {
         SpiderRecordCreatorSpy spiderRecordCreator = instanceFactory.spiderRecordCreators
                 .get(createdPGroupNo);
-        assertEquals(spiderRecordCreator.userId, userId);
+        assertEquals(spiderRecordCreator.type, "metadataGroup");
+        assertCorrectUserAndRecordInfo(id, spiderRecordCreator);
+    }
+    
+    private void assertCorrectlyCreatedPresentationGroup(int createdPGroupNo, String id, String presentationOf) {
+        SpiderRecordCreatorSpy spiderRecordCreator = instanceFactory.spiderRecordCreators
+                .get(createdPGroupNo);
         assertEquals(spiderRecordCreator.type, "presentationGroup");
-        SpiderDataGroup recordInfo = spiderRecordCreator.record.extractGroup("recordInfo");
-        assertEquals(recordInfo.extractAtomicValue("id"), id);
+        SpiderDataGroup presentationOfGroup = spiderRecordCreator.record.extractGroup("presentationOf");
+        assertEquals(presentationOfGroup.extractAtomicValue("linkedRecordId"), presentationOf);
+        assertCorrectUserAndRecordInfo(id, spiderRecordCreator);
     }
 
+	private void assertCorrectUserAndRecordInfo(String id, SpiderRecordCreatorSpy spiderRecordCreator) {
+		assertEquals(spiderRecordCreator.userId, userId);
+        SpiderDataGroup recordInfo = spiderRecordCreator.record.extractGroup("recordInfo");
+        assertEquals(recordInfo.extractAtomicValue("id"), id);
+        
+        SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
+        assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "test");
+	}
 
     @Test
     public void testPGroupCreatorAllPresentationsExists(){
@@ -65,4 +78,19 @@ public class RecordTypeCreatorTest {
         assertEquals(instanceFactory.spiderRecordCreators.size(), 0);
     }
     
+    @Test
+    public void testRecordTypeCreatorNoTextsExists(){
+        RecordTypeCreator recordTypeCreator = new RecordTypeCreator();
+
+        SpiderDataGroup recordType = DataCreator.createSpiderDataGroupForRecordTypeWithId("myRecordType");
+        DataCreator.addAllValuesToSpiderDataGroup(recordType, "myRecordType");
+
+        recordTypeCreator.useExtendedFunctionality(userId, recordType);
+        assertEquals(instanceFactory.spiderRecordCreators.size(), 8);
+        SpiderRecordCreatorSpy spiderRecordCreator = instanceFactory.spiderRecordCreators
+                .get(0);
+        assertEquals(spiderRecordCreator.type, "metadataTextVariable");
+        
+
+    }   
 }
