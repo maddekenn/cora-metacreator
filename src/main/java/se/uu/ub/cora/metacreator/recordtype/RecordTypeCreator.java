@@ -1,6 +1,7 @@
 package se.uu.ub.cora.metacreator.recordtype;
 
 import se.uu.ub.cora.metacreator.text.TextCreator;
+import se.uu.ub.cora.metacreator.text.TextVarMetaCompleter;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
@@ -11,26 +12,43 @@ import se.uu.ub.cora.spider.record.storage.RecordNotFoundException;
 public class RecordTypeCreator implements ExtendedFunctionality {
 
 
-    private String userId;
+	private static final String METADATA_ID = "metadataId";
+	private String userId;
     private SpiderDataGroup spiderDataGroup;
     private String dataDivider;
+	private String implementingTextType;
 
+
+	public RecordTypeCreator(String implementingTextType) {
+		this.implementingTextType = implementingTextType;
+	}
+	
+	public static RecordTypeCreator forImplementingTextType(String implementingTextType) {
+		return new RecordTypeCreator(implementingTextType);
+	}
     @Override
     public void useExtendedFunctionality(String userId, SpiderDataGroup spiderDataGroup) {
         this.userId = userId;
         this.spiderDataGroup = spiderDataGroup;
         	
         extractDataDivider();
-        String metadataId = spiderDataGroup.extractAtomicValue("metadataId");
-        TextCreator textCreator = TextCreator.withTextIdAndDataDivider(metadataId+"Text", dataDivider);
-        SpiderDataGroup text = textCreator.createText();
-        storeRecord("metadataTextVariable", text);
+        possiblyCreateText("textId");
+        possiblyCreateText("defTextId");
         possiblyCreateMetadataGroups();
         possiblyCreatePresentationGroups();
     }
 
+	private void possiblyCreateText(String textIdToExtract) {
+		String textId = spiderDataGroup.extractAtomicValue(textIdToExtract);
+		if(recordDoesNotExistInStorage(implementingTextType, textId)) {
+			TextCreator textCreator = TextCreator.withTextIdAndDataDivider(textId, dataDivider);
+	        SpiderDataGroup text = textCreator.createText();
+	        storeRecord(implementingTextType, text);
+		}
+	}
+
     private void possiblyCreateMetadataGroups() {
-        possiblyCreateMetadataGroup("metadataId");
+        possiblyCreateMetadataGroup(METADATA_ID);
         possiblyCreateMetadataGroup("newMetadataId");
     }
 
@@ -44,7 +62,7 @@ public class RecordTypeCreator implements ExtendedFunctionality {
     }
 
     private void possiblyCreatePresentationGroups() {
-    	String presentationOf = spiderDataGroup.extractAtomicValue("metadataId");
+    	String presentationOf = spiderDataGroup.extractAtomicValue(METADATA_ID);
     	String refRecordInfoId = "recordInfoPGroup";
 
         extractPresentationIdAndSendToCreate(presentationOf, "presentationViewId", refRecordInfoId);

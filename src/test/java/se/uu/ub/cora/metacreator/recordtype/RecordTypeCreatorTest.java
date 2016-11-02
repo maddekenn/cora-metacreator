@@ -24,22 +24,22 @@ public class RecordTypeCreatorTest {
 
     @Test
     public void testRecordTypeCreatorNoPresentationsExists(){
-        RecordTypeCreator recordTypeCreator = new RecordTypeCreator();
+        RecordTypeCreator recordTypeCreator = RecordTypeCreator.forImplementingTextType("textSystemOne");
 
         SpiderDataGroup recordType = DataCreator.createSpiderDataGroupForRecordTypeWithId("myRecordType");
         DataCreator.addAllValuesToSpiderDataGroup(recordType, "myRecordType");
 
         recordTypeCreator.useExtendedFunctionality(userId, recordType);
-        assertEquals(instanceFactory.spiderRecordCreators.size(), 7);
+        assertEquals(instanceFactory.spiderRecordCreators.size(), 9);
 
-        assertCorrectlyCreatedMetadataGroup(0, "myRecordTypeGroup");
-        assertCorrectlyCreatedMetadataGroup(1, "myRecordTypeNewGroup");
+        assertCorrectlyCreatedMetadataGroup(2, "myRecordTypeGroup");
+        assertCorrectlyCreatedMetadataGroup(3, "myRecordTypeNewGroup");
         
-        assertCorrectlyCreatedPresentationGroup(2, "myRecordTypeViewPGroup", "myRecordTypeGroup");
-        assertCorrectlyCreatedPresentationGroup(3, "myRecordTypeFormPGroup", "myRecordTypeGroup");
-        assertCorrectlyCreatedPresentationGroup(4, "myRecordTypeMenuPGroup", "myRecordTypeGroup");
-        assertCorrectlyCreatedPresentationGroup(5, "myRecordTypeListPGroup", "myRecordTypeGroup");
-        assertCorrectlyCreatedPresentationGroup(6, "myRecordTypeFormNewPGroup", "myRecordTypeNewGroup");
+        assertCorrectlyCreatedPresentationGroup(4, "myRecordTypeViewPGroup", "myRecordTypeGroup");
+        assertCorrectlyCreatedPresentationGroup(5, "myRecordTypeFormPGroup", "myRecordTypeGroup");
+        assertCorrectlyCreatedPresentationGroup(6, "myRecordTypeMenuPGroup", "myRecordTypeGroup");
+        assertCorrectlyCreatedPresentationGroup(7, "myRecordTypeListPGroup", "myRecordTypeGroup");
+        assertCorrectlyCreatedPresentationGroup(8, "myRecordTypeFormNewPGroup", "myRecordTypeNewGroup");
     }
     
     private void assertCorrectlyCreatedMetadataGroup(int createdPGroupNo, String id) {
@@ -69,7 +69,7 @@ public class RecordTypeCreatorTest {
 
     @Test
     public void testPGroupCreatorAllPresentationsExists(){
-        RecordTypeCreator pGroupCreator = new RecordTypeCreator();
+        RecordTypeCreator pGroupCreator = RecordTypeCreator.forImplementingTextType("textSystemOne");
 
         SpiderDataGroup recordType = DataCreator.createSpiderDataGroupForRecordTypeWithId("myRecordType2");
         DataCreator.addAllValuesToSpiderDataGroup(recordType, "myRecordType2");
@@ -77,19 +77,22 @@ public class RecordTypeCreatorTest {
         pGroupCreator.useExtendedFunctionality(userId, recordType);
         assertEquals(instanceFactory.spiderRecordCreators.size(), 0);
     }
-    
+
     @Test
     public void testRecordTypeCreatorNoTextsExists(){
-        RecordTypeCreator recordTypeCreator = new RecordTypeCreator();
+        RecordTypeCreator recordTypeCreator = RecordTypeCreator.forImplementingTextType("textSystemOne");
 
         SpiderDataGroup recordType = DataCreator.createSpiderDataGroupForRecordTypeWithId("myRecordType");
         DataCreator.addAllValuesToSpiderDataGroup(recordType, "myRecordType");
 
         recordTypeCreator.useExtendedFunctionality(userId, recordType);
-        assertEquals(instanceFactory.spiderRecordCreators.size(), 8);
+        assertEquals(instanceFactory.spiderRecordCreators.size(), 9);
         SpiderRecordCreatorSpy spiderRecordCreator = instanceFactory.spiderRecordCreators
                 .get(0);
-        assertEquals(spiderRecordCreator.type, "metadataTextVariable");
+        assertEquals(spiderRecordCreator.type, "textSystemOne");
+        SpiderRecordCreatorSpy spiderRecordCreator2 = instanceFactory.spiderRecordCreators
+                .get(1);
+        assertEquals(spiderRecordCreator2.type, "textSystemOne");
         
 
     }   
