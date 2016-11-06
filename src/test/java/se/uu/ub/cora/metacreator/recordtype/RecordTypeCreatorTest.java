@@ -10,6 +10,8 @@ import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
 import static org.testng.Assert.assertEquals;
 
+import static org.testng.Assert.assertFalse;
+
 public class RecordTypeCreatorTest {
     private SpiderInstanceFactorySpy instanceFactory;
     private String userId;
@@ -32,30 +34,54 @@ public class RecordTypeCreatorTest {
         recordTypeCreator.useExtendedFunctionality(userId, recordType);
         assertEquals(instanceFactory.spiderRecordCreators.size(), 9);
 
-        assertCorrectlyCreatedMetadataGroup(2, "myRecordTypeGroup");
-        assertCorrectlyCreatedMetadataGroup(3, "myRecordTypeNewGroup");
+        assertCorrectlyCreatedMetadataGroup(2, "myRecordTypeGroup", "recordInfoGroup");
+        assertCorrectlyCreatedMetadataGroup(3, "myRecordTypeNewGroup", "recordInfoNewGroup");
         
-        assertCorrectlyCreatedPresentationGroup(4, "myRecordTypeViewPGroup", "myRecordTypeGroup");
-        assertCorrectlyCreatedPresentationGroup(5, "myRecordTypeFormPGroup", "myRecordTypeGroup");
-        assertCorrectlyCreatedPresentationGroup(6, "myRecordTypeMenuPGroup", "myRecordTypeGroup");
-        assertCorrectlyCreatedPresentationGroup(7, "myRecordTypeListPGroup", "myRecordTypeGroup");
-        assertCorrectlyCreatedPresentationGroup(8, "myRecordTypeFormNewPGroup", "myRecordTypeNewGroup");
+        assertCorrectlyCreatedPresentationGroup(4, "myRecordTypeViewPGroup", "myRecordTypeGroup", "recordInfoPGroup");
+        assertCorrectlyCreatedPresentationGroup(5, "myRecordTypeFormPGroup", "myRecordTypeGroup", "recordInfoPGroup");
+        assertCorrectlyCreatedPresentationGroup(6, "myRecordTypeMenuPGroup", "myRecordTypeGroup", "recordInfoPGroup");
+        assertCorrectlyCreatedPresentationGroup(7, "myRecordTypeListPGroup", "myRecordTypeGroup", "recordInfoPGroup");
+        assertCorrectlyCreatedPresentationGroup(8, "myRecordTypeFormNewPGroup", "myRecordTypeNewGroup", "recordInfoNewPGroup");
     }
     
-    private void assertCorrectlyCreatedMetadataGroup(int createdPGroupNo, String id) {
+    private void assertCorrectlyCreatedMetadataGroup(int createdPGroupNo, String id, String childRefId) {
         SpiderRecordCreatorSpy spiderRecordCreator = instanceFactory.spiderRecordCreators
                 .get(createdPGroupNo);
         assertEquals(spiderRecordCreator.type, "metadataGroup");
         assertCorrectUserAndRecordInfo(id, spiderRecordCreator);
-    }
+        assertCorrectlyCreatedMetadataChildReference(childRefId, spiderRecordCreator);
+}
+
+	private void assertCorrectlyCreatedMetadataChildReference(String childRefId, SpiderRecordCreatorSpy spiderRecordCreator) {
+		SpiderDataGroup childRef = getChildRef(spiderRecordCreator);
+        assertEquals(childRef.extractAtomicValue("ref"), childRefId);
+        assertEquals(childRef.extractAtomicValue("repeatMin"), "1");
+        assertEquals(childRef.extractAtomicValue("repeatMax"), "1");
+        
+	}
+	
+	private void assertCorrectlyCreatedPresentationChildReference(String childRefId, SpiderRecordCreatorSpy spiderRecordCreator) {
+		SpiderDataGroup childRef = getChildRef(spiderRecordCreator);
+        assertEquals(childRef.extractAtomicValue("ref"), childRefId);
+        assertEquals(childRef.extractAtomicValue("default"), "ref");
+        assertFalse(childRef.containsChildWithNameInData("repeatMax"));
+        
+	}
+
+	private SpiderDataGroup getChildRef(SpiderRecordCreatorSpy spiderRecordCreator) {
+		SpiderDataGroup childReferences = spiderRecordCreator.record.extractGroup("childReferences");
+        SpiderDataGroup childRef = (SpiderDataGroup) childReferences.getFirstChildWithNameInData("childReference");
+		return childRef;
+	}
     
-    private void assertCorrectlyCreatedPresentationGroup(int createdPGroupNo, String id, String presentationOf) {
+    private void assertCorrectlyCreatedPresentationGroup(int createdPGroupNo, String id, String presentationOf, String childRefId) {
         SpiderRecordCreatorSpy spiderRecordCreator = instanceFactory.spiderRecordCreators
                 .get(createdPGroupNo);
         assertEquals(spiderRecordCreator.type, "presentationGroup");
         SpiderDataGroup presentationOfGroup = spiderRecordCreator.record.extractGroup("presentationOf");
         assertEquals(presentationOfGroup.extractAtomicValue("linkedRecordId"), presentationOf);
         assertCorrectUserAndRecordInfo(id, spiderRecordCreator);
+        assertCorrectlyCreatedPresentationChildReference(childRefId, spiderRecordCreator);
     }
 
 	private void assertCorrectUserAndRecordInfo(String id, SpiderRecordCreatorSpy spiderRecordCreator) {

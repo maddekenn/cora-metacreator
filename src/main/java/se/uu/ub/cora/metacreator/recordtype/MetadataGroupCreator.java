@@ -45,4 +45,10 @@ public class MetadataGroupCreator extends GroupCreator{
 		topLevelSpiderDataGroup.addAttributeByIdWithValue("type", "group");
 	}
 	
+	@Override 
+	void addValuesForChildReference(SpiderDataGroup childReference) {
+		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMin", "1"));
+		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMax", "1"));
+	}
+	
 }

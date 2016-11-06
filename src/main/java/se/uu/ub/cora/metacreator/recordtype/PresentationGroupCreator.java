@@ -48,4 +48,9 @@ public class PresentationGroupCreator extends GroupCreator {
 		topLevelSpiderDataGroup.addAttributeByIdWithValue("type", "pGroup");
 	}
 
+	@Override
+	void addValuesForChildReference(SpiderDataGroup childReference) {
+		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("default", "ref"));
+	}
+
 }

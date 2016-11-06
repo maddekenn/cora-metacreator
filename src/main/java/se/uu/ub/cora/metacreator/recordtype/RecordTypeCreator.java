@@ -48,15 +48,15 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 	}
 
     private void possiblyCreateMetadataGroups() {
-        possiblyCreateMetadataGroup(METADATA_ID);
-        possiblyCreateMetadataGroup("newMetadataId");
+        possiblyCreateMetadataGroup(METADATA_ID, "recordInfoGroup");
+        possiblyCreateMetadataGroup("newMetadataId", "recordInfoNewGroup");
     }
 
-    private void possiblyCreateMetadataGroup(String metadataIdToExtract) {
+    private void possiblyCreateMetadataGroup(String metadataIdToExtract, String childReference) {
         String metadataId = spiderDataGroup.extractAtomicValue(metadataIdToExtract);
         if(recordDoesNotExistInStorage("metadataGroup", metadataId)) {
             MetadataGroupCreator groupCreator = MetadataGroupCreator.withIdAndNameInDataAndDataDivider(metadataId, metadataId, dataDivider);
-            SpiderDataGroup metadataGroup = groupCreator.createGroup("recordInfoGroup");
+            SpiderDataGroup metadataGroup = groupCreator.createGroup(childReference);
             storeRecord("metadataGroup", metadataGroup);
         }
     }
