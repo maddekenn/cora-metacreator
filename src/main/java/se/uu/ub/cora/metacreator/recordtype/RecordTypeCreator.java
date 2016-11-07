@@ -1,7 +1,6 @@
 package se.uu.ub.cora.metacreator.recordtype;
 
 import se.uu.ub.cora.metacreator.text.TextCreator;
-import se.uu.ub.cora.metacreator.text.TextVarMetaCompleter;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
@@ -63,18 +62,33 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 
     private void possiblyCreatePresentationGroups() {
     	String presentationOf = spiderDataGroup.extractAtomicValue(METADATA_ID);
-    	String refRecordInfoId = "recordInfoPGroup";
 
-        extractPresentationIdAndSendToCreate(presentationOf, "presentationViewId", refRecordInfoId);
+        createFormPresentation(presentationOf);
+
+        createOutputPresentations(presentationOf);
+
+        createNewFormPresentation();
+    }
+
+    private void createFormPresentation(String presentationOf) {
+        String refRecordInfoId = "recordInfoPGroup";
         extractPresentationIdAndSendToCreate(presentationOf, "presentationFormId", refRecordInfoId);
+    }
+
+    private void createOutputPresentations(String presentationOf) {
+        String refRecordInfoId = "recordInfoOutputPGroup";
+        extractPresentationIdAndSendToCreate(presentationOf, "presentationViewId", refRecordInfoId);
         extractPresentationIdAndSendToCreate(presentationOf, "menuPresentationViewId", refRecordInfoId);
         extractPresentationIdAndSendToCreate(presentationOf, "listPresentationViewId", refRecordInfoId);
-        presentationOf = spiderDataGroup.extractAtomicValue("newMetadataId");
-        refRecordInfoId = "recordInfoNewPGroup";
+    }
+
+    private void createNewFormPresentation() {
+        String presentationOf = spiderDataGroup.extractAtomicValue("newMetadataId");
+        String refRecordInfoId = "recordInfoNewPGroup";
         extractPresentationIdAndSendToCreate(presentationOf, "newPresentationFormId", refRecordInfoId);
     }
 
-	private void extractDataDivider() {
+    private void extractDataDivider() {
 		SpiderDataGroup dataDividerGroup = extractDataDividerFromMainSpiderDataGroup();
     	dataDivider = dataDividerGroup.extractAtomicValue("linkedRecordId");
 	}

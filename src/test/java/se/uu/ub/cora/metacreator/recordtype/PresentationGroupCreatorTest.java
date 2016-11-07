@@ -37,10 +37,8 @@ public class PresentationGroupCreatorTest {
 		SpiderDataGroup childRef = (SpiderDataGroup)childRefs.getFirstChildWithNameInData("childReference");
 		SpiderDataAtomic ref = (SpiderDataAtomic) childRef.getFirstChildWithNameInData("ref");
 		assertEquals(ref.getValue(), "recordInfoPGroup");
-		SpiderDataAtomic repeatMin = (SpiderDataAtomic) childRef.getFirstChildWithNameInData("repeatMin");
-		assertEquals(repeatMin.getValue(), "1");
-		SpiderDataAtomic repeatMax = (SpiderDataAtomic) childRef.getFirstChildWithNameInData("repeatMax");
-		assertEquals(repeatMax.getValue(), "1");
+		SpiderDataAtomic defaultValue = (SpiderDataAtomic) childRef.getFirstChildWithNameInData("default");
+		assertEquals(defaultValue.getValue(), "ref");
 	}
 
 }

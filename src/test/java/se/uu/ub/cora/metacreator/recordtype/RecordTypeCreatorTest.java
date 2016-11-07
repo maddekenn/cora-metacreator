@@ -37,10 +37,10 @@ public class RecordTypeCreatorTest {
         assertCorrectlyCreatedMetadataGroup(2, "myRecordTypeGroup", "recordInfoGroup");
         assertCorrectlyCreatedMetadataGroup(3, "myRecordTypeNewGroup", "recordInfoNewGroup");
         
-        assertCorrectlyCreatedPresentationGroup(4, "myRecordTypeViewPGroup", "myRecordTypeGroup", "recordInfoPGroup");
-        assertCorrectlyCreatedPresentationGroup(5, "myRecordTypeFormPGroup", "myRecordTypeGroup", "recordInfoPGroup");
-        assertCorrectlyCreatedPresentationGroup(6, "myRecordTypeMenuPGroup", "myRecordTypeGroup", "recordInfoPGroup");
-        assertCorrectlyCreatedPresentationGroup(7, "myRecordTypeListPGroup", "myRecordTypeGroup", "recordInfoPGroup");
+        assertCorrectlyCreatedPresentationGroup(4, "myRecordTypeFormPGroup", "myRecordTypeGroup", "recordInfoPGroup");
+        assertCorrectlyCreatedPresentationGroup(5, "myRecordTypeViewPGroup", "myRecordTypeGroup", "recordInfoOutputPGroup");
+        assertCorrectlyCreatedPresentationGroup(6, "myRecordTypeMenuPGroup", "myRecordTypeGroup", "recordInfoOutputPGroup");
+        assertCorrectlyCreatedPresentationGroup(7, "myRecordTypeListPGroup", "myRecordTypeGroup", "recordInfoOutputPGroup");
         assertCorrectlyCreatedPresentationGroup(8, "myRecordTypeFormNewPGroup", "myRecordTypeNewGroup", "recordInfoNewPGroup");
     }
     
