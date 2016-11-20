@@ -80,7 +80,6 @@ public class DataCreator {
 		addAtomicValueWithNameInDataAndValue(recordType, "searchPresentationFormId", id+"FormSearchPGroup");
 		addAtomicValueWithNameInDataAndValue(recordType, "textId", id+"Text");
 		addAtomicValueWithNameInDataAndValue(recordType, "defTextId", id+"DefText");
-		addAtomicValueWithNameInDataAndValue(recordType, "permissionKey", "RECORDTYPE_"+id.toUpperCase());
 	}
 
 	private static void addAtomicValueWithNameInDataAndValue(SpiderDataGroup spiderDataGroup, String nameInData, String value) {

@@ -40,7 +40,6 @@ public class RecordTypeMetaCompleterTest {
         assertEquals(recordType.extractAtomicValue("listPresentationViewId"), "myRecordTypeListPGroup");
         assertEquals(recordType.extractAtomicValue("searchMetadataId"), "myRecordTypeSearchGroup");
         assertEquals(recordType.extractAtomicValue("searchPresentationFormId"), "myRecordTypeFormSearchPGroup");
-        assertEquals(recordType.extractAtomicValue("permissionKey"), "RECORDTYPE_MYRECORDTYPE");
         assertEquals(recordType.extractAtomicValue("selfPresentationViewId"), "myRecordTypeViewSelfPGroup");
         assertEquals(recordType.extractAtomicValue("textId"), "myRecordTypeText");
         assertEquals(recordType.extractAtomicValue("defTextId"), "myRecordTypeDefText");
@@ -53,7 +52,7 @@ public class RecordTypeMetaCompleterTest {
 
         metaCompleter.useExtendedFunctionality(userId, recordType);
 
-        assertEquals(recordType.getChildren().size(), 16);
+        assertEquals(recordType.getChildren().size(), 15);
 
         assertEquals(recordType.extractAtomicValue("metadataId"), "mySpecialGroup");
         assertEquals(recordType.extractAtomicValue("newMetadataId"), "mySpecialNewGroup");
@@ -64,7 +63,6 @@ public class RecordTypeMetaCompleterTest {
         assertEquals(recordType.extractAtomicValue("listPresentationViewId"), "mySpecialListPGroup");
         assertEquals(recordType.extractAtomicValue("searchMetadataId"), "mySpecialSearchGroup");
         assertEquals(recordType.extractAtomicValue("searchPresentationFormId"), "mySpecialFormSearchPGroup");
-        assertEquals(recordType.extractAtomicValue("permissionKey"), "RECORDTYPE_MYSPECIAL");
         assertEquals(recordType.extractAtomicValue("selfPresentationViewId"), "mySpecialViewSelfPGroup");
         assertEquals(recordType.extractAtomicValue("textId"), "mySpecialText");
         assertEquals(recordType.extractAtomicValue("defTextId"), "mySpecialDefText");

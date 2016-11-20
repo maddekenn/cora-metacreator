@@ -1,12 +1,8 @@
 package se.uu.ub.cora.metacreator.recordtype;
 
-import se.uu.ub.cora.metacreator.text.TextVarMetaCompleter;
 import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
-import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
-import se.uu.ub.cora.spider.record.SpiderRecordReader;
-import se.uu.ub.cora.spider.record.storage.RecordNotFoundException;
 
 public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 
@@ -28,7 +24,6 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 		addMetadataIds();
 		addPresentationIds();
 		addTexts();
-		addAtomicValueWithNameInDataAndValueIfNotExisting("permissionKey", "RECORDTYPE_"+id.toUpperCase());
     }
 
 	private void addMetadataIds() {
