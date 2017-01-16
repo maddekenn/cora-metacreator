@@ -54,15 +54,19 @@ public class RecordTypeCreatorTest {
 
 	private void assertCorrectlyCreatedMetadataChildReference(String childRefId, SpiderRecordCreatorSpy spiderRecordCreator) {
 		SpiderDataGroup childRef = getChildRef(spiderRecordCreator);
-        assertEquals(childRef.extractAtomicValue("ref"), childRefId);
+        SpiderDataGroup ref = (SpiderDataGroup) childRef.getFirstChildWithNameInData("ref");
+
+        assertEquals(ref.extractAtomicValue("linkedRecordId"), childRefId);
         assertEquals(childRef.extractAtomicValue("repeatMin"), "1");
         assertEquals(childRef.extractAtomicValue("repeatMax"), "1");
-        
+
 	}
-	
+
 	private void assertCorrectlyCreatedPresentationChildReference(String childRefId, SpiderRecordCreatorSpy spiderRecordCreator) {
 		SpiderDataGroup childRef = getChildRef(spiderRecordCreator);
-        assertEquals(childRef.extractAtomicValue("ref"), childRefId);
+        SpiderDataGroup ref = (SpiderDataGroup) childRef.getFirstChildWithNameInData("ref");
+
+        assertEquals(ref.extractAtomicValue("linkedRecordId"), childRefId);
         assertEquals(childRef.extractAtomicValue("default"), "ref");
         assertFalse(childRef.containsChildWithNameInData("repeatMax"));
         

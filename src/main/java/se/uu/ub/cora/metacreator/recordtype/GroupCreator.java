@@ -42,7 +42,13 @@ public abstract class GroupCreator {
 	protected void addChildReferences(String refRecordInfoId) {
 		SpiderDataGroup childReferences = SpiderDataGroup.withNameInData("childReferences");
 		SpiderDataGroup childReference = SpiderDataGroup.withNameInData("childReference");
-		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("ref", refRecordInfoId));
+
+		SpiderDataGroup refGroup = SpiderDataGroup.withNameInData("ref");
+		refGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", refRecordInfoId));
+		refGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "metadataGroup"));
+		refGroup.addAttributeByIdWithValue("type", "group");
+		childReference.addChild(refGroup);
+
 		addValuesForChildReference(childReference);
 		childReference.setRepeatId("0");
 		childReferences.addChild(childReference);

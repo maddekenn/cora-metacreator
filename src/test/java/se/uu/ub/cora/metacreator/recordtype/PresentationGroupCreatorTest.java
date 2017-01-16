@@ -34,11 +34,13 @@ public class PresentationGroupCreatorTest {
 	private void assertCorrectChildReferences(SpiderDataGroup metadataGroup) {
 		SpiderDataGroup childRefs = metadataGroup.extractGroup("childReferences");
 		assertEquals(childRefs.getChildren().size(), 1);
+
 		SpiderDataGroup childRef = (SpiderDataGroup)childRefs.getFirstChildWithNameInData("childReference");
-		SpiderDataAtomic ref = (SpiderDataAtomic) childRef.getFirstChildWithNameInData("ref");
-		assertEquals(ref.getValue(), "recordInfoPGroup");
-		SpiderDataAtomic defaultValue = (SpiderDataAtomic) childRef.getFirstChildWithNameInData("default");
-		assertEquals(defaultValue.getValue(), "ref");
+		SpiderDataGroup ref = (SpiderDataGroup) childRef.getFirstChildWithNameInData("ref");
+		assertEquals(ref.extractAtomicValue("linkedRecordId"), "recordInfoPGroup");
+
+		String defaultValue = childRef.extractAtomicValue("default");
+		assertEquals(defaultValue, "ref");
 	}
 
 }
