@@ -22,7 +22,7 @@ package se.uu.ub.cora.metacreator.text;
 import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
-public class TextCreator {
+public final class TextCreator {
 	private String textId;
 	private String dataDividerString;
 
