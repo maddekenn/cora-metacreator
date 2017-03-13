@@ -7,6 +7,8 @@ import org.testng.annotations.Test;
 
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
+import se.uu.ub.cora.spider.data.SpiderDataAtomic;
+import se.uu.ub.cora.spider.data.SpiderDataElement;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
@@ -33,25 +35,24 @@ public class RecordTypeMetaCompleterTest {
 	}
 
 	private void assertAllValuesWereAddedCorrectly(SpiderDataGroup recordType) {
-		assertEquals(recordType.extractAtomicValue("metadataId"), "myRecordTypeGroup");
-		assertEquals(recordType.extractAtomicValue("newMetadataId"), "myRecordTypeNewGroup");
-		assertEquals(recordType.extractAtomicValue("presentationViewId"), "myRecordTypeViewPGroup");
-		assertEquals(recordType.extractAtomicValue("presentationFormId"), "myRecordTypeFormPGroup");
-		assertEquals(recordType.extractAtomicValue("newPresentationFormId"),
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,"metadataId"), "myRecordTypeGroup");
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,"newMetadataId"), "myRecordTypeNewGroup");
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,"presentationViewId"), "myRecordTypeViewPGroup");
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,"presentationFormId"), "myRecordTypeFormPGroup");
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,"newPresentationFormId"),
 				"myRecordTypeFormNewPGroup");
-		assertEquals(recordType.extractAtomicValue("menuPresentationViewId"),
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,"menuPresentationViewId"),
 				"myRecordTypeMenuPGroup");
-		assertEquals(recordType.extractAtomicValue("listPresentationViewId"),
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,"listPresentationViewId"),
 				"myRecordTypeListPGroup");
 		assertEquals(recordType.extractAtomicValue("selfPresentationViewId"),
 				"myRecordTypeViewSelfPGroup");
-		assertEquals(recordType.extractAtomicValue("textId"), "myRecordTypeText");
-		assertEquals(recordType.extractAtomicValue("defTextId"), "myRecordTypeDefText");
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,"textId"), "myRecordTypeText");
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,"defTextId"), "myRecordTypeDefText");
 
-		SpiderDataGroup search = (SpiderDataGroup) recordType.getFirstChildWithNameInData("search");
-		assertEquals(search.extractAtomicValue("linkedRecordId"), "myRecordTypeSearch");
-		// assertEquals(recordType.extractAtomicValue("searchPresentationFormId"),
-		// "myRecordTypeFormSearchPGroup");
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,"search"), "myRecordTypeSearch");
+		 assertEquals(recordType.extractAtomicValue("searchPresentationFormId"),
+		 "myRecordTypeFormSearchPGroup");
 	}
 
 	@Test
@@ -62,25 +63,30 @@ public class RecordTypeMetaCompleterTest {
 
 		metaCompleter.useExtendedFunctionality(userId, recordType);
 
-		assertEquals(recordType.getChildren().size(), 15);
+		assertEquals(recordType.getChildren().size(), 14);
 
-		assertEquals(recordType.extractAtomicValue("metadataId"), "mySpecialGroup");
-		assertEquals(recordType.extractAtomicValue("newMetadataId"), "mySpecialNewGroup");
-		assertEquals(recordType.extractAtomicValue("presentationViewId"), "mySpecialViewPGroup");
-		assertEquals(recordType.extractAtomicValue("presentationFormId"), "mySpecialFormPGroup");
-		assertEquals(recordType.extractAtomicValue("newPresentationFormId"),
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,"metadataId"), "mySpecialGroup");
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "newMetadataId"), "mySpecialNewGroup");
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "presentationViewId"), "mySpecialViewPGroup");
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "presentationFormId"), "mySpecialFormPGroup");
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "newPresentationFormId"),
 				"mySpecialFormNewPGroup");
-		assertEquals(recordType.extractAtomicValue("menuPresentationViewId"),
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "menuPresentationViewId"),
 				"mySpecialMenuPGroup");
-		assertEquals(recordType.extractAtomicValue("listPresentationViewId"),
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "listPresentationViewId"),
 				"mySpecialListPGroup");
-		assertEquals(recordType.extractAtomicValue("searchMetadataId"), "mySpecialSearchGroup");
-		assertEquals(recordType.extractAtomicValue("searchPresentationFormId"),
-				"mySpecialFormSearchPGroup");
 		assertEquals(recordType.extractAtomicValue("selfPresentationViewId"),
 				"mySpecialViewSelfPGroup");
-		assertEquals(recordType.extractAtomicValue("textId"), "mySpecialText");
-		assertEquals(recordType.extractAtomicValue("defTextId"), "mySpecialDefText");
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "textId"), "mySpecialText");
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "defTextId"), "mySpecialDefText");
+		SpiderDataGroup search = recordType.extractGroup("search");
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "search"), "mySpecialSearch");
+	}
+
+	private String extractLinkedRecordIdFromLinkInDataGroupByNameInData(SpiderDataGroup dataGroup, String nameInData){
+		SpiderDataGroup link = (SpiderDataGroup) dataGroup.getFirstChildWithNameInData(nameInData);
+		SpiderDataAtomic linkedRecordId = (SpiderDataAtomic)link.getFirstChildWithNameInData("linkedRecordId");
+		return linkedRecordId.getValue();
 	}
 
 }

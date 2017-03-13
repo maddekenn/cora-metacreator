@@ -24,17 +24,26 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 		addMetadataIds();
 		addPresentationIds();
 		addTexts();
-		SpiderDataGroup search = SpiderDataGroup.withNameInData("search");
-		search.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "search"));
-		search.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", id + "Search"));
-		spiderDataGroup.addChild(search);
+//		SpiderDataGroup search = SpiderDataGroup.withNameInData("search");
+//		search.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "search"));
+//		search.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", id + "Search"));
+//		spiderDataGroup.addChild(search);
+		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("search", "search", id + "Search");
 	}
 
 	private void addMetadataIds() {
-		addAtomicValueWithNameInDataAndValueIfNotExisting("metadataId", id + "Group");
-		addAtomicValueWithNameInDataAndValueIfNotExisting("newMetadataId", id + "NewGroup");
-		// addAtomicValueWithNameInDataAndValueIfNotExisting("searchMetadataId",
-		// id + "SearchGroup");
+		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("metadataId", "metadataGroup", id + "Group");
+		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("newMetadataId", "metadataGroup", id + "NewGroup");
+
+	}
+
+	private void createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting(String nameInData, String linkedRecordType, String linkedRecordId) {
+		if (!spiderDataGroup.containsChildWithNameInData(nameInData)) {
+			SpiderDataGroup link = SpiderDataGroup.withNameInData(nameInData);
+			link.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", linkedRecordType));
+			link.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", linkedRecordId));
+			spiderDataGroup.addChild(link);
+		}
 	}
 
 	private void addAtomicValueWithNameInDataAndValueIfNotExisting(String nameInData,
@@ -45,24 +54,33 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 	}
 
 	private void addPresentationIds() {
-		addAtomicValueWithNameInDataAndValueIfNotExisting("presentationViewId", id + "ViewPGroup");
 
-		addAtomicValueWithNameInDataAndValueIfNotExisting("presentationFormId", id + "FormPGroup");
-		addAtomicValueWithNameInDataAndValueIfNotExisting("newPresentationFormId",
-				id + "FormNewPGroup");
-		addAtomicValueWithNameInDataAndValueIfNotExisting("menuPresentationViewId",
-				id + "MenuPGroup");
-		addAtomicValueWithNameInDataAndValueIfNotExisting("listPresentationViewId",
-				id + "ListPGroup");
+		String linkedRecordType = "presentationGroup";
+		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("presentationViewId", linkedRecordType, id + "ViewPGroup");
+//		addAtomicValueWithNameInDataAndValueIfNotExisting("presentationViewId", id + "ViewPGroup");
+
+		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("presentationFormId", linkedRecordType, id + "FormPGroup");
+//		addAtomicValueWithNameInDataAndValueIfNotExisting("presentationFormId", id + "FormPGroup");
+		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("newPresentationFormId", linkedRecordType, id + "FormNewPGroup");
+//		addAtomicValueWithNameInDataAndValueIfNotExisting("newPresentationFormId",
+//				id + "FormNewPGroup");
+		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("menuPresentationViewId", linkedRecordType, id + "MenuPGroup");
+//		addAtomicValueWithNameInDataAndValueIfNotExisting("menuPresentationViewId",
+//				id + "MenuPGroup");
+		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("listPresentationViewId", linkedRecordType, id + "ListPGroup");
+//		addAtomicValueWithNameInDataAndValueIfNotExisting("listPresentationViewId",
+//				id + "ListPGroup");
 		addAtomicValueWithNameInDataAndValueIfNotExisting("selfPresentationViewId",
 				id + "ViewSelfPGroup");
-		// addAtomicValueWithNameInDataAndValueIfNotExisting("searchPresentationFormId",
-		// id+"FormSearchPGroup");
+//		 addAtomicValueWithNameInDataAndValueIfNotExisting("searchPresentationFormId",
+//		 id+"FormSearchPGroup");
 	}
 
 	private void addTexts() {
-		addAtomicValueWithNameInDataAndValueIfNotExisting("textId", id + "Text");
-		addAtomicValueWithNameInDataAndValueIfNotExisting("defTextId", id + "DefText");
+		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("textId", "text", id + "Text");
+//		addAtomicValueWithNameInDataAndValueIfNotExisting("textId", id + "Text");
+		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("defTextId", "text", id + "DefText");
+//		addAtomicValueWithNameInDataAndValueIfNotExisting("defTextId", id + "DefText");
 	}
 
 }
