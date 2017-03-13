@@ -49,7 +49,7 @@ public class RecordTypeCreatorTest {
 		assertCorrectlyCreatedPresentationGroup(8, "myRecordTypeFormNewPGroup",
 				"myRecordTypeNewGroup", "recordInfoNewPGroup");
 
-		// assertCorrectlyCreatedSearch();
+		assertCorrectlyCreatedSearch();
 	}
 
 	private void assertCorrectlyCreatedMetadataGroup(int createdPGroupNo, String id,

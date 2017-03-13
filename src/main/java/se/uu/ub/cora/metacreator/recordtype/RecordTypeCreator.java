@@ -10,6 +10,7 @@ import se.uu.ub.cora.spider.record.storage.RecordNotFoundException;
 
 public class RecordTypeCreator implements ExtendedFunctionality {
 
+	private static final String RECORD_INFO = "recordInfo";
 	private static final String LINKED_RECORD_ID = "linkedRecordId";
 	private static final String METADATA_ID = "metadataId";
 	private String userId;
@@ -115,7 +116,7 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 	}
 
 	private SpiderDataGroup extractDataDividerFromMainSpiderDataGroup() {
-		SpiderDataGroup recordInfoGroup = spiderDataGroup.extractGroup("recordInfo");
+		SpiderDataGroup recordInfoGroup = spiderDataGroup.extractGroup(RECORD_INFO);
 		return recordInfoGroup.extractGroup("dataDivider");
 	}
 

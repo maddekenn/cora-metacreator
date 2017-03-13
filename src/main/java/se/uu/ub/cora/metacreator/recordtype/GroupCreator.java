@@ -13,6 +13,14 @@ public abstract class GroupCreator {
 		this.dataDivider = dataDivider;
 	}
 
+	public SpiderDataGroup createGroup() {
+		topLevelSpiderDataGroup = createTopLevelSpiderDataGroup();
+
+		createAndAddRecordInfoToSpiderDataGroup();
+		addAttributeType();
+		return topLevelSpiderDataGroup;
+	}
+
 	public SpiderDataGroup createGroup(String refRecordInfoId) {
 		topLevelSpiderDataGroup = createTopLevelSpiderDataGroup();
 
