@@ -17,7 +17,7 @@ public abstract class GroupCreator {
 		topLevelSpiderDataGroup = createTopLevelSpiderDataGroup();
 
 		createAndAddRecordInfoToSpiderDataGroup();
-		//TODO: maybe nameInData should be provided
+		// TODO: maybe nameInData should be provided
 
 		addChildReferences(refRecordInfoId);
 		addAttributeType();
@@ -25,6 +25,7 @@ public abstract class GroupCreator {
 	}
 
 	abstract SpiderDataGroup createTopLevelSpiderDataGroup();
+
 	abstract void addAttributeType();
 
 	protected void createAndAddRecordInfoToSpiderDataGroup() {
@@ -32,8 +33,10 @@ public abstract class GroupCreator {
 		recordInfo.addChild(SpiderDataAtomic.withNameInDataAndValue("id", id));
 
 		SpiderDataGroup dataDividerGroup = SpiderDataGroup.withNameInData("dataDivider");
-		dataDividerGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "system"));
-		dataDividerGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", dataDivider));
+		dataDividerGroup
+				.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "system"));
+		dataDividerGroup
+				.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", dataDivider));
 
 		recordInfo.addChild(dataDividerGroup);
 		topLevelSpiderDataGroup.addChild(recordInfo);
@@ -44,8 +47,9 @@ public abstract class GroupCreator {
 		SpiderDataGroup childReference = SpiderDataGroup.withNameInData("childReference");
 
 		SpiderDataGroup refGroup = SpiderDataGroup.withNameInData("ref");
-		refGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", refRecordInfoId));
-		refGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "metadataGroup"));
+		refGroup.addChild(
+				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", refRecordInfoId));
+		refGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "metadata"));
 		refGroup.addAttributeByIdWithValue("type", "group");
 		childReference.addChild(refGroup);
 
@@ -54,6 +58,6 @@ public abstract class GroupCreator {
 		childReferences.addChild(childReference);
 		topLevelSpiderDataGroup.addChild(childReferences);
 	}
-	
+
 	abstract void addValuesForChildReference(SpiderDataGroup childReference);
 }

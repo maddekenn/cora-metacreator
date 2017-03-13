@@ -49,10 +49,9 @@ public class DataCreator {
 		return textVarGroup;
 	}
 
-
 	public static SpiderDataGroup createSpiderDataGroupForRecordTypeWithId(String id) {
 		SpiderDataGroup recordType = SpiderDataGroup.withNameInData("recordType");
-		//recordInfo
+		// recordInfo
 		SpiderDataGroup recordInfo = SpiderDataGroup.withNameInData("recordInfo");
 		recordInfo.addChild(SpiderDataAtomic.withNameInDataAndValue("id", id));
 		recordType.addChild(recordInfo);
@@ -66,48 +65,47 @@ public class DataCreator {
 		return recordType;
 	}
 
-
 	public static void addAllValuesToSpiderDataGroup(SpiderDataGroup recordType, String id) {
-		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "metadataId", "metadataGroup", id+"Group");
-//		addAtomicValueWithNameInDataAndValue(recordType, "metadataId", id+"Group");
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "metadataId",
+				"metadataGroup", id + "Group");
 
-		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "newMetadataId", "metadataGroup", id+"NewGroup");
-//		addAtomicValueWithNameInDataAndValue(recordType,  "newMetadataId", id+"NewGroup");
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "newMetadataId",
+				"metadataGroup", id + "NewGroup");
 
-		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "presentationViewId", "presentationGroup", id+"ViewPGroup");
-//		addAtomicValueWithNameInDataAndValue(recordType, "presentationViewId", id+"ViewPGroup");
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType,
+				"presentationViewId", "presentationGroup", id + "ViewPGroup");
 
-		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "presentationFormId", "presentationGroup", id+"FormPGroup");
-//		addAtomicValueWithNameInDataAndValue(recordType, "presentationFormId", id+"FormPGroup");
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType,
+				"presentationFormId", "presentationGroup", id + "FormPGroup");
 
-		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "newPresentationFormId", "presentationGroup", id+"FormNewPGroup");
-//		addAtomicValueWithNameInDataAndValue(recordType, "newPresentationFormId", id+"FormNewPGroup");
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType,
+				"newPresentationFormId", "presentationGroup", id + "FormNewPGroup");
 
-		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "menuPresentationViewId", "presentationGroup", id+"MenuPGroup");
-//		addAtomicValueWithNameInDataAndValue(recordType, "menuPresentationViewId", id+"MenuPGroup");
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType,
+				"menuPresentationViewId", "presentationGroup", id + "MenuPGroup");
 
-		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "listPresentationViewId", "presentationGroup", id+"ListPGroup");
-//		addAtomicValueWithNameInDataAndValue(recordType, "listPresentationViewId", id+"ListPGroup");
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType,
+				"listPresentationViewId", "presentationGroup", id + "ListPGroup");
 
-		addAtomicValueWithNameInDataAndValue(recordType, "selfPresentationViewId", id+"ViewSelfPGroup");
+		addAtomicValueWithNameInDataAndValue(recordType, "selfPresentationViewId",
+				id + "ViewSelfPGroup");
 
-		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "textId", "text", id+"Text");
-//		addAtomicValueWithNameInDataAndValue(recordType, "textId", id+"Text");
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "textId",
+				"text", id + "Text");
 
-		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "defTextId", "text", id+"DefText");
-//		addAtomicValueWithNameInDataAndValue(recordType, "defTextId", id+"DefText");
-		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "search", "search", id+"Search");
-//		SpiderDataGroup search = SpiderDataGroup.withNameInData("search");
-//		search.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "search"));
-//		search.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", id + "Search"));
-//		recordType.addChild(search);
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "defTextId",
+				"text", id + "DefText");
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "search",
+				"search", id + "Search");
 	}
 
-	private static void addAtomicValueWithNameInDataAndValue(SpiderDataGroup spiderDataGroup, String nameInData, String value) {
+	private static void addAtomicValueWithNameInDataAndValue(SpiderDataGroup spiderDataGroup,
+			String nameInData, String value) {
 		spiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue(nameInData, value));
 	}
 
-	private static void addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(SpiderDataGroup spiderDataGroup, String nameInData, String type, String id){
+	private static void addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(
+			SpiderDataGroup spiderDataGroup, String nameInData, String type, String id) {
 		SpiderDataGroup link = SpiderDataGroup.withNameInData(nameInData);
 		link.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", type));
 		link.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", id));
