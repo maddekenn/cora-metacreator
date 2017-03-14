@@ -60,8 +60,7 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 
 	@Override
 	public List<ExtendedFunctionality> getFunctionalityForCreateBeforeReturn(String recordType) {
-		List<ExtendedFunctionality> list = super.getFunctionalityForCreateBeforeMetadataValidation(
-				recordType);
+		List<ExtendedFunctionality> list = super.getFunctionalityForCreateBeforeReturn(recordType);
 		if ("metadataTextVariable".equals(recordType)) {
 			list = ensureListIsRealList(list);
 			list.add(new PVarFromTextVarCreator());
