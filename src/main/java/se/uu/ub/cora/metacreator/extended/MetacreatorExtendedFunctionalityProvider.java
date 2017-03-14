@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import se.uu.ub.cora.metacreator.recordtype.RecordTypeCreator;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeMetaCompleter;
 import se.uu.ub.cora.metacreator.text.PVarFromTextVarCreator;
 import se.uu.ub.cora.metacreator.text.TextVarMetaCompleter;
@@ -47,6 +48,7 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 		if("recordType".equals(recordType)){
 			list = ensureListIsRealList(list);
 			list.add(new RecordTypeMetaCompleter());
+			list.add(RecordTypeCreator.forImplementingTextType("coraText"));
 		}
 		return list;
 	}

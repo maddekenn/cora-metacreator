@@ -31,6 +31,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import se.uu.ub.cora.metacreator.dependency.DependencyProviderSpy;
+import se.uu.ub.cora.metacreator.recordtype.RecordTypeCreator;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeMetaCompleter;
 import se.uu.ub.cora.metacreator.text.PVarFromTextVarCreator;
 import se.uu.ub.cora.metacreator.text.TextVarMetaCompleter;
@@ -97,8 +98,10 @@ public class MetacreatorExtendedFunctionalityProviderTest {
 	public void testGetFunctionalityForCreateBeforeMetadataValidationForRecordType() {
 		List<ExtendedFunctionality> functionalityForCreateBeforeMetadataValidation = functionalityProvider
 				.getFunctionalityForCreateBeforeMetadataValidation("recordType");
-		assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 1);
+		assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 2);
 		assertTrue(functionalityForCreateBeforeMetadataValidation
 				.get(0) instanceof RecordTypeMetaCompleter);
+		assertTrue(functionalityForCreateBeforeMetadataValidation
+				.get(1) instanceof RecordTypeCreator);
 	}
 }
