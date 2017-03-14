@@ -35,7 +35,7 @@
 	<name>Meta creator</name>
 
 	<properties>
-        <spider.version>0.11-SNAPSHOT</spider.version>
+        <spider.version>0.14-SNAPSHOT</spider.version>
 	</properties>
 
 	<scm>

@@ -27,7 +27,7 @@ import se.uu.ub.cora.spider.record.SpiderRecordCreator;
 import se.uu.ub.cora.spider.record.SpiderRecordReader;
 import se.uu.ub.cora.spider.record.storage.RecordNotFoundException;
 
-public class TextVarMetaCompleter implements ExtendedFunctionality {
+public final class TextVarMetaCompleter implements ExtendedFunctionality {
 
 	private String userId;
 	private String dataDividerString;

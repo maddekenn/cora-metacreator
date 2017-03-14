@@ -22,7 +22,7 @@ package se.uu.ub.cora.metacreator.text;
 import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
-public class PVarCreator {
+public final class PVarCreator {
 	private String textVarId;
 	private String dataDividerString;
 
