@@ -27,7 +27,7 @@ public abstract class GroupCreator {
 		createAndAddRecordInfoToSpiderDataGroup();
 		// TODO: maybe nameInData should be provided
 
-		addChildReferences(refRecordInfoId);
+		addChildReferencesWithChildId(refRecordInfoId);
 		addAttributeType();
 		return topLevelSpiderDataGroup;
 	}
@@ -50,7 +50,7 @@ public abstract class GroupCreator {
 		topLevelSpiderDataGroup.addChild(recordInfo);
 	}
 
-	protected void addChildReferences(String refRecordInfoId) {
+	protected void addChildReferencesWithChildId(String refRecordInfoId) {
 		SpiderDataGroup childReferences = SpiderDataGroup.withNameInData("childReferences");
 		SpiderDataGroup childReference = SpiderDataGroup.withNameInData("childReference");
 
@@ -58,7 +58,7 @@ public abstract class GroupCreator {
 		refGroup.addChild(
 				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", refRecordInfoId));
 		refGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "metadata"));
-		refGroup.addAttributeByIdWithValue("type", "group");
+		// refGroup.addAttributeByIdWithValue("type", "group");
 		childReference.addChild(refGroup);
 
 		addValuesForChildReference(childReference);

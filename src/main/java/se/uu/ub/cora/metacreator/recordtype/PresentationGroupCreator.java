@@ -17,6 +17,7 @@ public class PresentationGroupCreator extends GroupCreator {
 		return new PresentationGroupCreator(id, dataDivider, presentationOf);
 	}
 
+	@Override
 	public SpiderDataGroup createGroup(String refRecordInfoId) {
 		super.createGroup(refRecordInfoId);
 		createAndAddPresentationOf();
@@ -32,11 +33,13 @@ public class PresentationGroupCreator extends GroupCreator {
 	}
 
 	private void addLinkedRecordType(SpiderDataGroup presentationOfGroup) {
-		presentationOfGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "metadataGroup"));
+		presentationOfGroup.addChild(
+				SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "metadataGroup"));
 	}
 
 	private void addLinkedRecordId(SpiderDataGroup presentationOfGroup) {
-		presentationOfGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", presentationOf));
+		presentationOfGroup.addChild(
+				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", presentationOf));
 	}
 
 	@Override
@@ -44,6 +47,7 @@ public class PresentationGroupCreator extends GroupCreator {
 		return SpiderDataGroup.withNameInData("presentation");
 	}
 
+	@Override
 	protected void addAttributeType() {
 		topLevelSpiderDataGroup.addAttributeByIdWithValue("type", "pGroup");
 	}
@@ -51,6 +55,26 @@ public class PresentationGroupCreator extends GroupCreator {
 	@Override
 	void addValuesForChildReference(SpiderDataGroup childReference) {
 		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("default", "ref"));
+	}
+
+	@Override
+	protected void addChildReferencesWithChildId(String refRecordInfoId) {
+		SpiderDataGroup childReferences = SpiderDataGroup.withNameInData("childReferences");
+		SpiderDataGroup childReference = SpiderDataGroup.withNameInData("childReference");
+
+		SpiderDataGroup refGroup = SpiderDataGroup.withNameInData("refGroup");
+		SpiderDataGroup ref = SpiderDataGroup.withNameInData("ref");
+		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", refRecordInfoId));
+		ref.addChild(
+				SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "presentationGroup"));
+		ref.addAttributeByIdWithValue("type", "pGroup");
+		refGroup.addChild(ref);
+		childReference.addChild(refGroup);
+
+		addValuesForChildReference(childReference);
+		childReference.setRepeatId("0");
+		childReferences.addChild(childReference);
+		topLevelSpiderDataGroup.addChild(childReferences);
 	}
 
 }

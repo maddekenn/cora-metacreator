@@ -75,7 +75,9 @@ public class RecordTypeCreatorTest {
 	private void assertCorrectlyCreatedPresentationChildReference(String childRefId,
 			SpiderRecordCreatorSpy spiderRecordCreator) {
 		SpiderDataGroup childRef = getChildRef(spiderRecordCreator);
-		SpiderDataGroup ref = (SpiderDataGroup) childRef.getFirstChildWithNameInData("ref");
+		SpiderDataGroup refGroup = (SpiderDataGroup) childRef
+				.getFirstChildWithNameInData("refGroup");
+		SpiderDataGroup ref = (SpiderDataGroup) refGroup.getFirstChildWithNameInData("ref");
 
 		assertEquals(ref.extractAtomicValue("linkedRecordId"), childRefId);
 		assertEquals(childRef.extractAtomicValue("default"), "ref");
