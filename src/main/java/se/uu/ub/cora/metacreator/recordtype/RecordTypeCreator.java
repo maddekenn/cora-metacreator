@@ -36,7 +36,6 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 		possiblyCreateText("defTextId");
 		possiblyCreateMetadataGroups();
 		possiblyCreatePresentationGroups();
-		// possiblyCreateSearch();
 	}
 
 	private void possiblyCreateText(String textIdToExtract) {
@@ -55,13 +54,6 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 		possiblyCreateMetadataGroup("newMetadataId", "recordInfoNewGroup");
 	}
 
-	// private void possiblyCreateSearch() {
-	// SpiderDataGroup searchIdGroup = spiderDataGroup.extractGroup("search");
-	// String searchId = searchIdGroup.extractAtomicValue(LINKED_RECORD_ID);
-	// if (recordDoesNotExistInStorage("search", searchId)) {
-	// }
-	// }
-
 	private void possiblyCreateMetadataGroup(String metadataIdToExtract, String childReference) {
 		SpiderDataGroup metadataIdGroup = spiderDataGroup.extractGroup(metadataIdToExtract);
 		String metadataId = metadataIdGroup.extractAtomicValue(LINKED_RECORD_ID);
@@ -76,8 +68,6 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 	private void possiblyCreatePresentationGroups() {
 		SpiderDataGroup metadataIdGroup = spiderDataGroup.extractGroup(METADATA_ID);
 		String presentationOf = metadataIdGroup.extractAtomicValue(LINKED_RECORD_ID);
-		// String presentationOf =
-		// spiderDataGroup.extractAtomicValue(METADATA_ID);
 
 		createFormPresentation(presentationOf);
 
@@ -103,8 +93,6 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 	private void createNewFormPresentation() {
 		SpiderDataGroup metadataIdGroup = spiderDataGroup.extractGroup("newMetadataId");
 		String presentationOf = metadataIdGroup.extractAtomicValue(LINKED_RECORD_ID);
-		// String presentationOf =
-		// spiderDataGroup.extractAtomicValue("newMetadataId");
 		String refRecordInfoId = "recordInfoNewPGroup";
 		extractPresentationIdAndSendToCreate(presentationOf, "newPresentationFormId",
 				refRecordInfoId);

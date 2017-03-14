@@ -74,8 +74,6 @@ public class RecordTypeMetaCompleterTest {
 		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "defTextId"),
 				"myRecordTypeDefText");
 
-		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "search"),
-				"myRecordTypeSearch");
 	}
 
 	@Test
@@ -109,8 +107,6 @@ public class RecordTypeMetaCompleterTest {
 				"mySpecialText");
 		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "defTextId"),
 				"mySpecialDefText");
-		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "search"),
-				"mySpecialSearch");
 	}
 
 	private String extractLinkedRecordIdFromLinkInDataGroupByNameInData(SpiderDataGroup dataGroup,

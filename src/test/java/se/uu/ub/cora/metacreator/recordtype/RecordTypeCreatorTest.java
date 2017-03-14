@@ -49,7 +49,6 @@ public class RecordTypeCreatorTest {
 		assertCorrectlyCreatedPresentationGroup(8, "myRecordTypeFormNewPGroup",
 				"myRecordTypeNewGroup", "recordInfoNewPGroup");
 
-		assertCorrectlyCreatedSearch();
 	}
 
 	private void assertCorrectlyCreatedMetadataGroup(int createdPGroupNo, String id,
@@ -112,15 +111,6 @@ public class RecordTypeCreatorTest {
 
 		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
 		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "test");
-	}
-
-	private void assertCorrectlyCreatedSearch() {
-		SpiderRecordCreatorSpy spiderRecordCreator = instanceFactory.spiderRecordCreators.get(9);
-		assertEquals(spiderRecordCreator.type, "search");
-		// kolla att recordid är "myRecordTypeSearch"
-		// kolla att recordTypeToSearchIn är myRecordType
-		String searchId = spiderRecordCreator.record.extractAtomicValue("linkedRecordid");
-		assertEquals(searchId, "myRecordTypeSearch");
 	}
 
 	@Test

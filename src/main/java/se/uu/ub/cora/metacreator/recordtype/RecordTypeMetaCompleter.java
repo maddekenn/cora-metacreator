@@ -40,7 +40,6 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 		addMetadataIds();
 		addPresentationIds();
 		addTexts();
-		addSearch();
 	}
 
 	private void addMetadataIds() {
@@ -97,10 +96,5 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 				id + "Text");
 		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("defTextId", "text",
 				id + "DefText");
-	}
-
-	private void addSearch() {
-		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("search", "search",
-				id + "Search");
 	}
 }
