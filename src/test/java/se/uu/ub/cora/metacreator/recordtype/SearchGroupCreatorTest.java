@@ -28,26 +28,11 @@ public class SearchGroupCreatorTest {
 		assertEquals(recordTypeToSearchIn.extractAtomicValue("linkedRecordId"), "myRecordType");
 		assertEquals(recordTypeToSearchIn.extractAtomicValue("linkedRecordType"), "recordType");
 
-		// kolla metadatagrupp - vad ska den vara?? nåt default?
-		// Kolla presentationsgrupp - vad ska den vara??
-		// assertCorrectChildReferences(pGroup);
+		SpiderDataGroup metadataId = searchGroup.extractGroup("metadataId");
+		assertEquals(metadataId.extractAtomicValue("linkedRecordId"), "autocompleteSearchGroup");
+
+		SpiderDataGroup presentationId = searchGroup.extractGroup("presentationId");
+		assertEquals(presentationId.extractAtomicValue("linkedRecordId"),
+				"autocompleteSearchPGroup");
 	}
-
-	// private void assertCorrectChildReferences(SpiderDataGroup metadataGroup)
-	// {
-	// SpiderDataGroup childRefs =
-	// metadataGroup.extractGroup("childReferences");
-	// assertEquals(childRefs.getChildren().size(), 1);
-	//
-	// SpiderDataGroup childRef =
-	// (SpiderDataGroup)childRefs.getFirstChildWithNameInData("childReference");
-	// SpiderDataGroup ref = (SpiderDataGroup)
-	// childRef.getFirstChildWithNameInData("ref");
-	// assertEquals(ref.extractAtomicValue("linkedRecordId"),
-	// "recordInfoPGroup");
-	//
-	// String defaultValue = childRef.extractAtomicValue("default");
-	// assertEquals(defaultValue, "ref");
-	// }
-
 }

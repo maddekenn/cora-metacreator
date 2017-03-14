@@ -10,7 +10,6 @@ public class SearchGroupCreator extends GroupCreator {
 	public SearchGroupCreator(String id, String dataDivider, String recordType) {
 		super(id, dataDivider);
 		this.recordType = recordType;
-
 	}
 
 	public static SearchGroupCreator withIdIdAndDataDividerAndRecordType(String id,
@@ -21,17 +20,26 @@ public class SearchGroupCreator extends GroupCreator {
 	@Override
 	public SpiderDataGroup createGroup() {
 		super.createGroup();
-		createRecordTypeToSearchInPartOfSearch();
+		addChildren();
 		return topLevelSpiderDataGroup;
 	}
 
-	private void createRecordTypeToSearchInPartOfSearch() {
-		SpiderDataGroup recordTypeToSearchIn = SpiderDataGroup
-				.withNameInData("recordTypeToSearchIn");
+	private void addChildren() {
+		addLinkChildWithNameInDataLinkedTypeAndLinkedId("recordTypeToSearchIn", "recordType",
+				recordType);
+		addLinkChildWithNameInDataLinkedTypeAndLinkedId("metadataId", "metadataGroup",
+				"autocompleteSearchGroup");
+		addLinkChildWithNameInDataLinkedTypeAndLinkedId("presentationId", "presentationGroup",
+				"autocompleteSearchPGroup");
+	}
+
+	private void addLinkChildWithNameInDataLinkedTypeAndLinkedId(String nameInData,
+			String linkedRecordType, String linkedRecorId) {
+		SpiderDataGroup recordTypeToSearchIn = SpiderDataGroup.withNameInData(nameInData);
 		recordTypeToSearchIn.addChild(
-				SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "recordType"));
+				SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", linkedRecordType));
 		recordTypeToSearchIn
-				.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", recordType));
+				.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", linkedRecorId));
 		topLevelSpiderDataGroup.addChild(recordTypeToSearchIn);
 	}
 
@@ -48,8 +56,7 @@ public class SearchGroupCreator extends GroupCreator {
 
 	@Override
 	void addValuesForChildReference(SpiderDataGroup childReference) {
-		// TODO Auto-generated method stub
-
+		// no childReferences for searchGroup
 	}
 
 }
