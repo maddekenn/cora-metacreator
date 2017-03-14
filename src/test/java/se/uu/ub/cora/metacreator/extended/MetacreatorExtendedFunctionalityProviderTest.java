@@ -35,14 +35,14 @@ import se.uu.ub.cora.metacreator.text.PVarFromTextVarCreator;
 import se.uu.ub.cora.metacreator.text.TextVarMetaCompleter;
 import se.uu.ub.cora.spider.dependency.SpiderDependencyProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
+import se.uu.ub.cora.spider.extended.UserUpdaterForAppTokenAsExtendedFunctionality;
 
 public class MetacreatorExtendedFunctionalityProviderTest {
 	private MetacreatorExtendedFunctionalityProvider functionalityProvider;
 
 	@BeforeMethod
 	public void setUp() {
-		SpiderDependencyProvider dependencyProvider = new DependencyProviderSpy(
-				new HashMap<>());
+		SpiderDependencyProvider dependencyProvider = new DependencyProviderSpy(new HashMap<>());
 		functionalityProvider = new MetacreatorExtendedFunctionalityProvider(dependencyProvider);
 	}
 
@@ -68,6 +68,12 @@ public class MetacreatorExtendedFunctionalityProviderTest {
 				.getFunctionalityForCreateBeforeReturn("metadataTextVariable");
 		assertEquals(functionalityForCreateBeforeReturn.size(), 1);
 		assertTrue(functionalityForCreateBeforeReturn.get(0) instanceof PVarFromTextVarCreator);
+
+		List<ExtendedFunctionality> functionalityForCreateBeforeReturn2 = functionalityProvider
+				.getFunctionalityForCreateBeforeReturn("appToken");
+		assertEquals(functionalityForCreateBeforeReturn2.size(), 1);
+		assertTrue(functionalityForCreateBeforeReturn2
+				.get(0) instanceof UserUpdaterForAppTokenAsExtendedFunctionality);
 	}
 
 	@Test
