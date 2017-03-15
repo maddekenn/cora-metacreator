@@ -31,6 +31,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import se.uu.ub.cora.metacreator.dependency.DependencyProviderSpy;
+import se.uu.ub.cora.metacreator.recordtype.RecordTypeCreator;
+import se.uu.ub.cora.metacreator.recordtype.RecordTypeMetaCompleter;
+import se.uu.ub.cora.metacreator.recordtype.SearchFromRecordTypeCreator;
 import se.uu.ub.cora.metacreator.text.PVarFromTextVarCreator;
 import se.uu.ub.cora.metacreator.text.TextVarMetaCompleter;
 import se.uu.ub.cora.spider.dependency.SpiderDependencyProvider;
@@ -90,5 +93,26 @@ public class MetacreatorExtendedFunctionalityProviderTest {
 		List<ExtendedFunctionality> list = new ArrayList<>();
 		list.add(null);
 		assertEquals(functionalityProvider.ensureListIsRealList(list), list);
+	}
+
+	@Test
+	public void testGetFunctionalityForCreateBeforeMetadataValidationForRecordType() {
+		List<ExtendedFunctionality> functionalityForCreateBeforeMetadataValidation = functionalityProvider
+				.getFunctionalityForCreateBeforeMetadataValidation("recordType");
+		assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 2);
+		assertTrue(functionalityForCreateBeforeMetadataValidation
+				.get(0) instanceof RecordTypeMetaCompleter);
+		assertTrue(
+				functionalityForCreateBeforeMetadataValidation.get(1) instanceof RecordTypeCreator);
+	}
+
+	@Test
+	public void testGetFunctionalityForCreateBeforeReturnForRecordType() {
+		List<ExtendedFunctionality> functionalityForCreateBeforeReturn = functionalityProvider
+				.getFunctionalityForCreateBeforeReturn("recordType");
+		assertEquals(functionalityForCreateBeforeReturn.size(), 1);
+		assertTrue(
+				functionalityForCreateBeforeReturn.get(0) instanceof SearchFromRecordTypeCreator);
+
 	}
 }
