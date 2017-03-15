@@ -1,10 +1,10 @@
 package se.uu.ub.cora.metacreator.recordtype;
 
-import static org.testng.Assert.assertEquals;
-
 import org.testng.annotations.Test;
 
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
+
+import static org.testng.Assert.*;
 
 public class SearchGroupCreatorTest {
 
@@ -14,7 +14,7 @@ public class SearchGroupCreatorTest {
 		SearchGroupCreator searchGroupCreator = SearchGroupCreator
 				.withIdIdAndDataDividerAndRecordType("myRecordTypeSearch", "cora", "myRecordType");
 
-		SpiderDataGroup searchGroup = searchGroupCreator.createGroup();
+		SpiderDataGroup searchGroup = searchGroupCreator.createGroup("");
 		SpiderDataGroup recordInfo = searchGroup.extractGroup("recordInfo");
 		assertEquals(recordInfo.extractAtomicValue("id"), "myRecordTypeSearch");
 
@@ -22,11 +22,12 @@ public class SearchGroupCreatorTest {
 		assertEquals(dataDivider.extractAtomicValue("linkedRecordType"), "system");
 		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "cora");
 
-		assertEquals(searchGroup.getAttributes().get("type"), "search");
+		assertFalse(searchGroup.containsChildWithNameInData("childReferences"));
 
 		SpiderDataGroup recordTypeToSearchIn = searchGroup.extractGroup("recordTypeToSearchIn");
 		assertEquals(recordTypeToSearchIn.extractAtomicValue("linkedRecordId"), "myRecordType");
 		assertEquals(recordTypeToSearchIn.extractAtomicValue("linkedRecordType"), "recordType");
+		assertNotNull(recordTypeToSearchIn.getRepeatId());
 
 		SpiderDataGroup metadataId = searchGroup.extractGroup("metadataId");
 		assertEquals(metadataId.extractAtomicValue("linkedRecordId"), "autocompleteSearchGroup");
@@ -34,5 +35,7 @@ public class SearchGroupCreatorTest {
 		SpiderDataGroup presentationId = searchGroup.extractGroup("presentationId");
 		assertEquals(presentationId.extractAtomicValue("linkedRecordId"),
 				"autocompleteSearchPGroup");
+
+
 	}
 }

@@ -13,19 +13,10 @@ public abstract class GroupCreator {
 		this.dataDivider = dataDivider;
 	}
 
-	public SpiderDataGroup createGroup() {
-		topLevelSpiderDataGroup = createTopLevelSpiderDataGroup();
-
-		createAndAddRecordInfoToSpiderDataGroup();
-		addAttributeType();
-		return topLevelSpiderDataGroup;
-	}
-
 	public SpiderDataGroup createGroup(String refRecordInfoId) {
 		topLevelSpiderDataGroup = createTopLevelSpiderDataGroup();
 
 		createAndAddRecordInfoToSpiderDataGroup();
-		// TODO: maybe nameInData should be provided
 
 		addChildReferencesWithChildId(refRecordInfoId);
 		addAttributeType();
@@ -58,7 +49,6 @@ public abstract class GroupCreator {
 		refGroup.addChild(
 				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", refRecordInfoId));
 		refGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "metadata"));
-		// refGroup.addAttributeByIdWithValue("type", "group");
 		childReference.addChild(refGroup);
 
 		addValuesForChildReference(childReference);
@@ -67,5 +57,8 @@ public abstract class GroupCreator {
 		topLevelSpiderDataGroup.addChild(childReferences);
 	}
 
-	abstract void addValuesForChildReference(SpiderDataGroup childReference);
+	void addValuesForChildReference(SpiderDataGroup childReference){
+		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMin", "1"));
+		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMax", "1"));
+	}
 }

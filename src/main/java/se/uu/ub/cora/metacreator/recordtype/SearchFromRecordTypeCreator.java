@@ -22,7 +22,7 @@ public class SearchFromRecordTypeCreator implements ExtendedFunctionality {
 				.withIdIdAndDataDividerAndRecordType(id + "Search", dataDividerString, id);
 
 		if (searchDoesNotExistInStorage(id + "Search")) {
-			SpiderDataGroup searchGroup = creator.createGroup();
+			SpiderDataGroup searchGroup = creator.createGroup("");
 			SpiderRecordCreator spiderRecordCreator = SpiderInstanceProvider
 					.getSpiderRecordCreator();
 			spiderRecordCreator.createAndStoreRecord(authToken, "search", searchGroup);

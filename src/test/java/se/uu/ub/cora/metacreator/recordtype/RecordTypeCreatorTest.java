@@ -35,8 +35,8 @@ public class RecordTypeCreatorTest {
 		recordTypeCreator.useExtendedFunctionality(userId, recordType);
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 9);
 
-		assertCorrectlyCreatedMetadataGroup(2, "myRecordTypeGroup", "recordInfoGroup");
-		assertCorrectlyCreatedMetadataGroup(3, "myRecordTypeNewGroup", "recordInfoNewGroup");
+		assertCorrectlyCreatedMetadataGroup(2, "myRecordTypeGroup", "recordInfoGroup", "myRecordType");
+		assertCorrectlyCreatedMetadataGroup(3, "myRecordTypeNewGroup", "recordInfoNewGroup", "myRecordType");
 
 		assertCorrectlyCreatedPresentationGroup(4, "myRecordTypeFormPGroup", "myRecordTypeGroup",
 				"recordInfoPGroup");
@@ -52,10 +52,12 @@ public class RecordTypeCreatorTest {
 	}
 
 	private void assertCorrectlyCreatedMetadataGroup(int createdPGroupNo, String id,
-			String childRefId) {
+			String childRefId, String nameInData) {
 		SpiderRecordCreatorSpy spiderRecordCreator = instanceFactory.spiderRecordCreators
 				.get(createdPGroupNo);
 		assertEquals(spiderRecordCreator.type, "metadataGroup");
+
+		assertEquals(spiderRecordCreator.record.extractAtomicValue("nameInData"), nameInData);
 		assertCorrectUserAndRecordInfo(id, spiderRecordCreator);
 		assertCorrectlyCreatedMetadataChildReference(childRefId, spiderRecordCreator);
 	}

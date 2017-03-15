@@ -17,6 +17,7 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 	private SpiderDataGroup spiderDataGroup;
 	private String dataDivider;
 	private String implementingTextType;
+	private String recordTypeId;
 
 	public RecordTypeCreator(String implementingTextType) {
 		this.implementingTextType = implementingTextType;
@@ -30,6 +31,8 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 	public void useExtendedFunctionality(String userId, SpiderDataGroup spiderDataGroup) {
 		this.userId = userId;
 		this.spiderDataGroup = spiderDataGroup;
+		SpiderDataGroup recordInfo = spiderDataGroup.extractGroup("recordInfo");
+		recordTypeId = recordInfo.extractAtomicValue("id");
 
 		extractDataDivider();
 		possiblyCreateText("textId");
@@ -59,7 +62,7 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 		String metadataId = metadataIdGroup.extractAtomicValue(LINKED_RECORD_ID);
 		if (recordDoesNotExistInStorage("metadataGroup", metadataId)) {
 			MetadataGroupCreator groupCreator = MetadataGroupCreator
-					.withIdAndNameInDataAndDataDivider(metadataId, metadataId, dataDivider);
+					.withIdAndNameInDataAndDataDivider(metadataId, recordTypeId, dataDivider);
 			SpiderDataGroup metadataGroup = groupCreator.createGroup(childReference);
 			storeRecord("metadataGroup", metadataGroup);
 		}
