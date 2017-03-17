@@ -43,7 +43,8 @@ public class PresentationGroupCreatorTest {
 
 		SpiderDataGroup ref = (SpiderDataGroup) refGroup.getFirstChildWithNameInData("ref");
 		assertEquals(ref.extractAtomicValue("linkedRecordId"), "recordInfoPGroup");
-		assertEquals(ref.extractAtomicValue("linkedRecordType"), "presentationGroup");
+		assertEquals(ref.extractAtomicValue("linkedRecordType"), "presentation");
+		assertEquals(ref.getAttributes().get("type"), "presentation");
 
 		String defaultValue = childRef.extractAtomicValue("default");
 		assertEquals(defaultValue, "ref");
