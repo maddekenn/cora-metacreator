@@ -67,8 +67,8 @@ public class PresentationGroupCreator extends GroupCreator {
 		SpiderDataGroup ref = SpiderDataGroup.withNameInData("ref");
 		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", refRecordInfoId));
 		ref.addChild(
-				SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "presentation"));
-		ref.addAttributeByIdWithValue("type", "presentation");
+				SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", PRESENTATION));
+		ref.addAttributeByIdWithValue("type", PRESENTATION);
 		refGroup.addChild(ref);
 		childReference.addChild(refGroup);
 
