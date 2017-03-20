@@ -5,6 +5,7 @@ import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
 public class PresentationGroupCreator extends GroupCreator {
 
+	private static final String PRESENTATION = "presentation";
 	private String presentationOf;
 
 	public PresentationGroupCreator(String id, String dataDivider, String presentationOf) {
@@ -44,7 +45,7 @@ public class PresentationGroupCreator extends GroupCreator {
 
 	@Override
 	SpiderDataGroup createTopLevelSpiderDataGroup() {
-		return SpiderDataGroup.withNameInData("presentation");
+		return SpiderDataGroup.withNameInData(PRESENTATION);
 	}
 
 	@Override
