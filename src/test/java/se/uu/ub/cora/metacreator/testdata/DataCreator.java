@@ -48,4 +48,67 @@ public class DataCreator {
 		textVarGroup.addAttributeByIdWithValue("type", "textVariable");
 		return textVarGroup;
 	}
+
+	public static SpiderDataGroup createSpiderDataGroupForRecordTypeWithId(String id) {
+		SpiderDataGroup recordType = SpiderDataGroup.withNameInData("recordType");
+		// recordInfo
+		SpiderDataGroup recordInfo = SpiderDataGroup.withNameInData("recordInfo");
+		recordInfo.addChild(SpiderDataAtomic.withNameInDataAndValue("id", id));
+		recordType.addChild(recordInfo);
+		SpiderDataGroup dataDivider = SpiderDataGroup.withNameInData("dataDivider");
+		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "system"));
+		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", "test"));
+		recordInfo.addChild(dataDivider);
+
+		recordType.addChild(SpiderDataAtomic.withNameInDataAndValue("abstract", "false"));
+		recordType.addChild(SpiderDataAtomic.withNameInDataAndValue("userSuppliedId", "true"));
+		return recordType;
+	}
+
+	public static void addAllValuesToSpiderDataGroup(SpiderDataGroup recordType, String id) {
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "metadataId",
+				"metadataGroup", id + "Group");
+
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "newMetadataId",
+				"metadataGroup", id + "NewGroup");
+
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType,
+				"presentationViewId", "presentationGroup", id + "ViewPGroup");
+
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType,
+				"presentationFormId", "presentationGroup", id + "FormPGroup");
+
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType,
+				"newPresentationFormId", "presentationGroup", id + "FormNewPGroup");
+
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType,
+				"menuPresentationViewId", "presentationGroup", id + "MenuPGroup");
+
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType,
+				"listPresentationViewId", "presentationGroup", id + "ListPGroup");
+
+		addAtomicValueWithNameInDataAndValue(recordType, "selfPresentationViewId",
+				id + "ViewSelfPGroup");
+
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "textId",
+				"text", id + "Text");
+
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "defTextId",
+				"text", id + "DefText");
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "search",
+				"search", id + "Search");
+	}
+
+	private static void addAtomicValueWithNameInDataAndValue(SpiderDataGroup spiderDataGroup,
+			String nameInData, String value) {
+		spiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue(nameInData, value));
+	}
+
+	private static void addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(
+			SpiderDataGroup spiderDataGroup, String nameInData, String type, String id) {
+		SpiderDataGroup link = SpiderDataGroup.withNameInData(nameInData);
+		link.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", type));
+		link.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", id));
+		spiderDataGroup.addChild(link);
+	}
 }
