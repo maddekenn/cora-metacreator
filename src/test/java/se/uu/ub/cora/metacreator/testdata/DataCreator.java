@@ -25,16 +25,7 @@ import se.uu.ub.cora.spider.data.SpiderDataGroup;
 public class DataCreator {
 	public static SpiderDataGroup createTextVarGroupWithIdAndTextIdAndDefTextId(String id,
 			String textId, String defTextId) {
-		SpiderDataGroup textVarGroup = SpiderDataGroup.withNameInData("textVar");
-
-		SpiderDataGroup recordInfoGroup = SpiderDataGroup.withNameInData("recordInfo");
-		textVarGroup.addChild(recordInfoGroup);
-		recordInfoGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("id", id));
-
-		SpiderDataGroup dataDivider = SpiderDataGroup.withNameInData("dataDivider");
-		recordInfoGroup.addChild(dataDivider);
-		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "system"));
-		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", "cora"));
+		SpiderDataGroup textVarGroup = createGroupWithIdAndNameInDataAndDataDivider(id, "textVar", "cora");
 
 		textVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("nameInData", "my"));
 		if (!"".equals(textId)) {
@@ -50,18 +41,21 @@ public class DataCreator {
 	}
 
 	public static SpiderDataGroup createSpiderDataGroupForRecordTypeWithId(String id) {
-		SpiderDataGroup recordType = SpiderDataGroup.withNameInData("recordType");
-		// recordInfo
+		SpiderDataGroup recordType = createGroupWithIdAndNameInDataAndDataDivider(id, "recordType", "test");
+		recordType.addChild(SpiderDataAtomic.withNameInDataAndValue("abstract", "false"));
+		recordType.addChild(SpiderDataAtomic.withNameInDataAndValue("userSuppliedId", "true"));
+		return recordType;
+	}
+
+	private static SpiderDataGroup createGroupWithIdAndNameInDataAndDataDivider(String id, String nameInData, String dataDividerString) {
+		SpiderDataGroup recordType = SpiderDataGroup.withNameInData(nameInData);
 		SpiderDataGroup recordInfo = SpiderDataGroup.withNameInData("recordInfo");
 		recordInfo.addChild(SpiderDataAtomic.withNameInDataAndValue("id", id));
 		recordType.addChild(recordInfo);
 		SpiderDataGroup dataDivider = SpiderDataGroup.withNameInData("dataDivider");
 		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "system"));
-		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", "test"));
+		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", dataDividerString));
 		recordInfo.addChild(dataDivider);
-
-		recordType.addChild(SpiderDataAtomic.withNameInDataAndValue("abstract", "false"));
-		recordType.addChild(SpiderDataAtomic.withNameInDataAndValue("userSuppliedId", "true"));
 		return recordType;
 	}
 
@@ -110,5 +104,34 @@ public class DataCreator {
 		link.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", type));
 		link.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", id));
 		spiderDataGroup.addChild(link);
+	}
+
+	public static SpiderDataGroup createItemCollectionWithId(String id) {
+		SpiderDataGroup itemCollection = createGroupWithIdAndNameInDataAndDataDivider(id, "metadata", "test");
+		itemCollection.addChild(SpiderDataAtomic.withNameInDataAndValue("nameInData", "someItemCollection"));
+
+		SpiderDataGroup itemReferences = SpiderDataGroup.withNameInData("collectionItemReferences");
+
+		SpiderDataGroup ref1 = createItemRefWithLinkedIdAndRepeatId("firstItem", "0");
+		itemReferences.addChild(ref1);
+
+		SpiderDataGroup ref2 = createItemRefWithLinkedIdAndRepeatId("secondItem", "1");
+		itemReferences.addChild(ref2);
+
+		SpiderDataGroup ref3 = createItemRefWithLinkedIdAndRepeatId("thirdItem", "2");
+		itemReferences.addChild(ref3);
+
+		itemCollection.addChild(itemReferences);
+		itemCollection.addAttributeByIdWithValue("type", "itemCollection");
+
+		return itemCollection;
+	}
+
+	private static SpiderDataGroup createItemRefWithLinkedIdAndRepeatId(String itemId, String repeatId) {
+		SpiderDataGroup ref = SpiderDataGroup.withNameInData("ref");
+		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "metadataCollectionItem"));
+		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", itemId));
+		ref.setRepeatId(repeatId);
+		return ref;
 	}
 }
