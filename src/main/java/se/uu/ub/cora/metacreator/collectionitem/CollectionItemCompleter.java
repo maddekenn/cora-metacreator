@@ -1,4 +1,4 @@
-package se.uu.ub.cora.metacreator.collectionItem;
+package se.uu.ub.cora.metacreator.collectionitem;
 
 import se.uu.ub.cora.metacreator.DataCreatorHelper;
 import se.uu.ub.cora.metacreator.MetadataCompleter;
@@ -16,17 +16,14 @@ public class CollectionItemCompleter implements ExtendedFunctionality {
 	private SpiderDataGroup spiderDataGroup;
 	private String userId;
 	private String dataDividerString;
-	private MetadataCompleter metadataCompleter;
 
-	public CollectionItemCompleter(String implementingTextType,
-			MetadataCompleter metadataCompleter) {
+	public CollectionItemCompleter(String implementingTextType) {
 		this.implementingTextType = implementingTextType;
-		this.metadataCompleter = metadataCompleter;
 	}
 
-	public static CollectionItemCompleter forImplementingTextTypeWithMetadataCompleter(
-			String implementingTextType, MetadataCompleter metadataCompleter) {
-		return new CollectionItemCompleter(implementingTextType, metadataCompleter);
+	public static CollectionItemCompleter forImplementingTextType(
+			String implementingTextType) {
+		return new CollectionItemCompleter(implementingTextType);
 	}
 
 	@Override
@@ -36,35 +33,32 @@ public class CollectionItemCompleter implements ExtendedFunctionality {
 
 		dataDividerString = DataCreatorHelper
 				.extractDataDividerStringFromDataGroup(spiderDataGroup);
-
-		String id = extractIdFromSpiderDataGroup(spiderDataGroup);
-
+		MetadataCompleter metadataCompleter = new MetadataCompleter();
 		metadataCompleter.completeSpiderDataGroupWithTexts(spiderDataGroup);
 
+		createTextsIfMissing();
+	}
 
-		if(textIdDoesNotExist(spiderDataGroup, "textId")) {
-			createTextWithTextIdInStorage(spiderDataGroup.extractAtomicValue("textId"));
-		}
+	private void createTextsIfMissing() {
+		createTextIfTextIdIsMissing("textId");
+		createTextIfTextIdIsMissing("defTextId");
+	}
 
-		if(textIdDoesNotExist(spiderDataGroup, "defTextId")) {
-			createTextWithTextIdInStorage(spiderDataGroup.extractAtomicValue("defTextId"));
+	private void createTextIfTextIdIsMissing(String id) {
+		if(textIdDoesNotExist(spiderDataGroup, id)) {
+			createTextWithTextIdInStorage(spiderDataGroup.extractAtomicValue(id));
 		}
 	}
 
 	private boolean textIdDoesNotExist(SpiderDataGroup spiderDataGroup, String textId) {
-		SpiderRecordReader spiderRecordReader = SpiderInstanceProvider.getSpiderRecordReader();
 		try {
+			SpiderRecordReader spiderRecordReader = SpiderInstanceProvider.getSpiderRecordReader();
 			spiderRecordReader.readRecord(userId, implementingTextType,
 					spiderDataGroup.extractAtomicValue(textId));
 		} catch (RecordNotFoundException e) {
 			return true;
 		}
 		return false;
-	}
-
-	private String extractIdFromSpiderDataGroup(SpiderDataGroup spiderDataGroup) {
-		SpiderDataGroup recordInfoGroup = spiderDataGroup.extractGroup("recordInfo");
-		return recordInfoGroup.extractAtomicValue("id");
 	}
 
 	private void createTextWithTextIdInStorage(String textId) {

@@ -5,6 +5,11 @@ import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
 public class DataCreatorHelper {
 
+	private DataCreatorHelper(){
+		// not called
+		throw new UnsupportedOperationException();
+	}
+
 	public static String extractDataDividerStringFromDataGroup(SpiderDataGroup topLevelGroup) {
 		SpiderDataGroup dataDividerGroup = extractDataDividerGroupFromSpiderDataGroup(
 				topLevelGroup);
