@@ -38,6 +38,8 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 			case "textIdNoPVarsInStorageTextVarOutputPVar":
 			case "myRecordType2Text":
 			case "myRecordType2DefText":
+			case "someExistingTextId":
+			case "someExistingDefTextId":
 				return null;
 			default:
 				throw new RecordNotFoundException("record not found in stub");
