@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import se.uu.ub.cora.metacreator.collection.ItemCollectionCreator;
 import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCompleter;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeCreator;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeMetaCompleter;
@@ -55,9 +56,13 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 			list.add(new RecordTypeMetaCompleter());
 			list.add(RecordTypeCreator.forImplementingTextType(CORA_TEXT));
 		}
-		if("metadataCollectionItem".equals(recordType)){
+		if ("metadataCollectionItem".equals(recordType)) {
 			list = ensureListIsRealList(list);
 			list.add(CollectionItemCompleter.forImplementingTextType(CORA_TEXT));
+		}
+		if ("metadataItemCollection".equals(recordType)) {
+			list = ensureListIsRealList(list);
+			list.add(new ItemCollectionCreator());
 		}
 		return list;
 	}
