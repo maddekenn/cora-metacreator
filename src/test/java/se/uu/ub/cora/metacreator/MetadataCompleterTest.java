@@ -63,4 +63,45 @@ public class MetadataCompleterTest {
 		assertEquals(metadataGroup.extractAtomicValue("textId"), "someText");
 		assertEquals(metadataGroup.extractAtomicValue("defTextId"), "someDefText");
 	}
+
+	@Test
+	public void testCompleteLinkedTextsNoTextIdsExist() {
+		MetadataCompleter metaCompleter = new MetadataCompleter();
+		SpiderDataGroup metadataGroup = createItemWithNoTexts();
+		metaCompleter.completeSpiderDataGroupWithLinkedTexts(metadataGroup);
+
+		SpiderDataGroup textIdGroup = metadataGroup.extractGroup("textId");
+		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "someIdText");
+		SpiderDataGroup defTextIdGroup = metadataGroup.extractGroup("defTextId");
+		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"), "someIdDefText");
+	}
+
+	@Test
+	public void testCompleteLinkedTextsTextIdAndDefTextIdExist() {
+		MetadataCompleter metaCompleter = new MetadataCompleter();
+		SpiderDataGroup metadataGroup = createItemWithNoTexts();
+		addTexts(metadataGroup);
+
+		metaCompleter.completeSpiderDataGroupWithLinkedTexts(metadataGroup);
+
+		SpiderDataGroup textIdGroup = metadataGroup.extractGroup("textId");
+		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "someExistingText");
+		SpiderDataGroup defTextIdGroup = metadataGroup.extractGroup("defTextId");
+		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"), "someExistingDefText");
+	}
+
+	private void addTexts(SpiderDataGroup metadataGroup) {
+		SpiderDataGroup textIdGroup = SpiderDataGroup.withNameInData("textId");
+		textIdGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "text"));
+		textIdGroup.addChild(
+				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", "someExistingText"));
+		metadataGroup.addChild(textIdGroup);
+
+		SpiderDataGroup defTextIdGroup = SpiderDataGroup.withNameInData("defTextId");
+		defTextIdGroup
+				.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "text"));
+		defTextIdGroup.addChild(
+				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", "someExistingDefText"));
+		metadataGroup.addChild(defTextIdGroup);
+	}
 }
