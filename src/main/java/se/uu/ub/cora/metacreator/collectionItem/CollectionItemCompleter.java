@@ -41,24 +41,25 @@ public class CollectionItemCompleter implements ExtendedFunctionality {
 
 		metadataCompleter.completeSpiderDataGroupWithTexts(spiderDataGroup);
 
+
+		if(textIdDoesNotExist(spiderDataGroup, "textId")) {
+			createTextWithTextIdInStorage(spiderDataGroup.extractAtomicValue("textId"));
+		}
+
+		if(textIdDoesNotExist(spiderDataGroup, "defTextId")) {
+			createTextWithTextIdInStorage(spiderDataGroup.extractAtomicValue("defTextId"));
+		}
+	}
+
+	private boolean textIdDoesNotExist(SpiderDataGroup spiderDataGroup, String textId) {
 		SpiderRecordReader spiderRecordReader = SpiderInstanceProvider.getSpiderRecordReader();
 		try {
 			spiderRecordReader.readRecord(userId, implementingTextType,
-					spiderDataGroup.extractAtomicValue("textId"));
+					spiderDataGroup.extractAtomicValue(textId));
 		} catch (RecordNotFoundException e) {
-			createTextWithTextIdInStorage(spiderDataGroup.extractAtomicValue("textId"));
+			return true;
 		}
-		try {
-			spiderRecordReader.readRecord(userId, implementingTextType,
-					spiderDataGroup.extractAtomicValue("defTextId"));
-		} catch (RecordNotFoundException e) {
-			createTextWithTextIdInStorage(spiderDataGroup.extractAtomicValue("defTextId"));
-		}
-
-		// setOrUseTextIdWithNameInDataToEnsureTextExistsInStorage(id + "Text",
-		// "textId");
-		// setOrUseTextIdWithNameInDataToEnsureTextExistsInStorage(id +
-		// "DefText", "defTextId");
+		return false;
 	}
 
 	private String extractIdFromSpiderDataGroup(SpiderDataGroup spiderDataGroup) {
@@ -66,47 +67,6 @@ public class CollectionItemCompleter implements ExtendedFunctionality {
 		return recordInfoGroup.extractAtomicValue("id");
 	}
 
-	// private void
-	// setOrUseTextIdWithNameInDataToEnsureTextExistsInStorage(String textId,
-	// String nameInData) {
-	// if (spiderDataGroup.containsChildWithNameInData(nameInData)) {
-	// ensureTextExistInStorageBasedOnExistingValueInNameInData(nameInData);
-	// } else {
-	// ensureTextExistsInStorageBasedOnNewTextId(textId, nameInData);
-	// }
-	// }
-	//
-	// private void ensureTextExistsInStorageBasedOnNewTextId(String textId,
-	// String nameInData) {
-	// spiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue(nameInData,
-	// textId));
-	// ensureTextExistsInStorage(textId);
-	// }
-	//
-	// private void ensureTextExistsInStorage(String textId) {
-	// if (textDoesNotExistInStorage(textId)) {
-	// createTextWithTextIdInStorage(textId);
-	// }
-	// }
-	//
-	// private void
-	// ensureTextExistInStorageBasedOnExistingValueInNameInData(String
-	// nameInData) {
-	// String textId2 = spiderDataGroup.extractAtomicValue(nameInData);
-	// ensureTextExistsInStorage(textId2);
-	// }
-	//
-	// private boolean textDoesNotExistInStorage(String textId) {
-	// try {
-	// SpiderRecordReader spiderRecordReader =
-	// SpiderInstanceProvider.getSpiderRecordReader();
-	// spiderRecordReader.readRecord(userId, implementingTextType, textId);
-	// } catch (RecordNotFoundException e) {
-	// return true;
-	// }
-	// return false;
-	// }
-	//
 	private void createTextWithTextIdInStorage(String textId) {
 		TextCreator textCreator = TextCreator.withTextIdAndDataDivider(textId, dataDividerString);
 		SpiderDataGroup textGroup = textCreator.createText();

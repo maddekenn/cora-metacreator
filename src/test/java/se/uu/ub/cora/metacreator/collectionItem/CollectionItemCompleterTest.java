@@ -6,7 +6,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import se.uu.ub.cora.metacreator.MetadataCompleter;
-import se.uu.ub.cora.metacreator.MetadataCompleterImp;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.dependency.SpiderRecordCreatorSpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
@@ -26,7 +25,7 @@ public class CollectionItemCompleterTest {
 
 	@Test
 	public void testWithNoTexts() {
-		MetadataCompleter metadataCompleter = new MetadataCompleterImp();
+		MetadataCompleter metadataCompleter = new MetadataCompleter();
 		CollectionItemCompleter completer = CollectionItemCompleter
 				.forImplementingTextTypeWithMetadataCompleter("textSystemOne", metadataCompleter);
 
@@ -35,12 +34,9 @@ public class CollectionItemCompleterTest {
 
 		completer.useExtendedFunctionality(userId, item);
 
-		// assertEquals(metadataCompleter.calledWithMetadataGroups.get(0),
-		// item);
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 2);
-		// assertCorrectTextCreatedWithUserIdAndTypeAndId(0, "firstItemText");
-		// assertCorrectTextCreatedWithUserIdAndTypeAndId(1,
-		// "firstItemDefText");
+		 assertCorrectTextCreatedWithUserIdAndTypeAndId(0, "firstItemText");
+		 assertCorrectTextCreatedWithUserIdAndTypeAndId(1, "firstItemDefText");
 	}
 
 	private void assertCorrectTextCreatedWithUserIdAndTypeAndId(int createdTextNo,

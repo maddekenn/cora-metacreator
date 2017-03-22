@@ -11,7 +11,7 @@ public class MetadataCompleterTest {
 
 	@Test
 	public void testCompleteTextsNoTextIdsExist() {
-		MetadataCompleterImp metaCompleter = new MetadataCompleterImp();
+		MetadataCompleter metaCompleter = new MetadataCompleter();
 		SpiderDataGroup metadataGroup = createItemWithNoTexts();
 		metaCompleter.completeSpiderDataGroupWithTexts(metadataGroup);
 
@@ -29,7 +29,7 @@ public class MetadataCompleterTest {
 
 	@Test
 	public void testCompleteTextsTextIdExists() {
-		MetadataCompleterImp metaCompleter = new MetadataCompleterImp();
+		MetadataCompleter metaCompleter = new MetadataCompleter();
 		SpiderDataGroup metadataGroup = createItemWithNoTexts();
 		metadataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("textId", "someText"));
 
@@ -41,7 +41,7 @@ public class MetadataCompleterTest {
 
 	@Test
 	public void testCompleteTextsDefTextIdExists() {
-		MetadataCompleterImp metaCompleter = new MetadataCompleterImp();
+		MetadataCompleter metaCompleter = new MetadataCompleter();
 		SpiderDataGroup metadataGroup = createItemWithNoTexts();
 		metadataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("defTextId", "someDefText"));
 
@@ -53,7 +53,7 @@ public class MetadataCompleterTest {
 
 	@Test
 	public void testCompleteTextsTextIdAndDefTextIdExist() {
-		MetadataCompleterImp metaCompleter = new MetadataCompleterImp();
+		MetadataCompleter metaCompleter = new MetadataCompleter();
 		SpiderDataGroup metadataGroup = createItemWithNoTexts();
 		metadataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("textId", "someText"));
 		metadataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("defTextId", "someDefText"));
