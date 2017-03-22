@@ -3,31 +3,41 @@ package se.uu.ub.cora.metacreator;
 import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
-public class DataCreatorHelper {
+public final class DataCreatorHelper {
 
-    public static String extractDataDividerFromDataGroup(SpiderDataGroup topLevelGroup){
-        SpiderDataGroup dataDividerGroup = extractDataDividerFromMainSpiderDataGroup(topLevelGroup);
-        return dataDividerGroup.extractAtomicValue("linkedRecordId");
-    }
+	private DataCreatorHelper(){
+		// not called
+		throw new UnsupportedOperationException();
+	}
 
-    private static SpiderDataGroup extractDataDividerFromMainSpiderDataGroup(SpiderDataGroup topLevelGroup) {
-        SpiderDataGroup recordInfoGroup = topLevelGroup.extractGroup("recordInfo");
-        return recordInfoGroup.extractGroup("dataDivider");
-    }
+	public static String extractDataDividerStringFromDataGroup(SpiderDataGroup topLevelGroup) {
+		SpiderDataGroup dataDividerGroup = extractDataDividerGroupFromSpiderDataGroup(
+				topLevelGroup);
+		return dataDividerGroup.extractAtomicValue("linkedRecordId");
+	}
 
-    public static SpiderDataGroup createRecordInfoWithIdAndDataDivider(String id, String dataDividerLinkedRecordId) {
-        SpiderDataGroup recordInfo = SpiderDataGroup.withNameInData("recordInfo");
-        recordInfo.addChild(SpiderDataAtomic.withNameInDataAndValue("id", id));
+	private static SpiderDataGroup extractDataDividerGroupFromSpiderDataGroup(
+			SpiderDataGroup topLevelGroup) {
+		SpiderDataGroup recordInfoGroup = topLevelGroup.extractGroup("recordInfo");
+		return recordInfoGroup.extractGroup("dataDivider");
+	}
 
-        createAndAddDataDivider(dataDividerLinkedRecordId, recordInfo);
+	public static SpiderDataGroup createRecordInfoWithIdAndDataDivider(String id,
+			String dataDividerLinkedRecordId) {
+		SpiderDataGroup recordInfo = SpiderDataGroup.withNameInData("recordInfo");
+		recordInfo.addChild(SpiderDataAtomic.withNameInDataAndValue("id", id));
 
-        return recordInfo;
-    }
+		createAndAddDataDivider(dataDividerLinkedRecordId, recordInfo);
 
-    private static void createAndAddDataDivider(String dataDividerLinkedRecordId, SpiderDataGroup recordInfo) {
-        SpiderDataGroup dataDivider = SpiderDataGroup.withNameInData("dataDivider");
-        dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "system"));
-        dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", dataDividerLinkedRecordId));
-        recordInfo.addChild(dataDivider);
-    }
+		return recordInfo;
+	}
+
+	private static void createAndAddDataDivider(String dataDividerLinkedRecordId,
+			SpiderDataGroup recordInfo) {
+		SpiderDataGroup dataDivider = SpiderDataGroup.withNameInData("dataDivider");
+		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "system"));
+		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId",
+				dataDividerLinkedRecordId));
+		recordInfo.addChild(dataDivider);
+	}
 }

@@ -1,12 +1,33 @@
 package se.uu.ub.cora.metacreator;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.testng.annotations.Test;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+
 public class DataCreatorHelperTest {
 
+    @Test
+    public void testPrivateConstructor() throws Exception {
+        Constructor<DataCreatorHelper> constructor = DataCreatorHelper.class
+                .getDeclaredConstructor();
+        assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+    }
+
+    @Test(expectedExceptions = InvocationTargetException.class)
+    public void testPrivateConstructorInvoke() throws Exception {
+        Constructor<DataCreatorHelper> constructor = DataCreatorHelper.class
+                .getDeclaredConstructor();
+        assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+        constructor.setAccessible(true);
+        constructor.newInstance();
+    }
 
     @Test
     public void testCreateRecordInfo(){
@@ -20,7 +41,7 @@ public class DataCreatorHelperTest {
     @Test
     public void testExtractDataDivider(){
         SpiderDataGroup mainDataGroup = DataCreator.createTextVarGroupWithIdAndTextIdAndDefTextId("someId", "someTextId", "someDefTextId");
-        String dataDivider = DataCreatorHelper.extractDataDividerFromDataGroup(mainDataGroup);
+        String dataDivider = DataCreatorHelper.extractDataDividerStringFromDataGroup(mainDataGroup);
         assertEquals(dataDivider, "cora");
 
     }
