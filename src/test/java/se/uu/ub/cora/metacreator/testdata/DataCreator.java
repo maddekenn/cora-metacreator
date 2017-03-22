@@ -25,7 +25,8 @@ import se.uu.ub.cora.spider.data.SpiderDataGroup;
 public class DataCreator {
 	public static SpiderDataGroup createTextVarGroupWithIdAndTextIdAndDefTextId(String id,
 			String textId, String defTextId) {
-		SpiderDataGroup textVarGroup = createGroupWithIdAndNameInDataAndDataDivider(id, "textVar", "cora");
+		SpiderDataGroup textVarGroup = createGroupWithIdAndNameInDataAndDataDivider(id, "textVar",
+				"cora");
 
 		textVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("nameInData", "my"));
 		if (!"".equals(textId)) {
@@ -41,20 +42,23 @@ public class DataCreator {
 	}
 
 	public static SpiderDataGroup createSpiderDataGroupForRecordTypeWithId(String id) {
-		SpiderDataGroup recordType = createGroupWithIdAndNameInDataAndDataDivider(id, "recordType", "test");
+		SpiderDataGroup recordType = createGroupWithIdAndNameInDataAndDataDivider(id, "recordType",
+				"test");
 		recordType.addChild(SpiderDataAtomic.withNameInDataAndValue("abstract", "false"));
 		recordType.addChild(SpiderDataAtomic.withNameInDataAndValue("userSuppliedId", "true"));
 		return recordType;
 	}
 
-	private static SpiderDataGroup createGroupWithIdAndNameInDataAndDataDivider(String id, String nameInData, String dataDividerString) {
+	private static SpiderDataGroup createGroupWithIdAndNameInDataAndDataDivider(String id,
+			String nameInData, String dataDividerString) {
 		SpiderDataGroup recordType = SpiderDataGroup.withNameInData(nameInData);
 		SpiderDataGroup recordInfo = SpiderDataGroup.withNameInData("recordInfo");
 		recordInfo.addChild(SpiderDataAtomic.withNameInDataAndValue("id", id));
 		recordType.addChild(recordInfo);
 		SpiderDataGroup dataDivider = SpiderDataGroup.withNameInData("dataDivider");
 		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "system"));
-		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", dataDividerString));
+		dataDivider.addChild(
+				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", dataDividerString));
 		recordInfo.addChild(dataDivider);
 		return recordType;
 	}
@@ -132,10 +136,11 @@ public class DataCreator {
 		return item;
 	}
 
-
 	public static SpiderDataGroup createItemCollectionWithId(String id) {
-		SpiderDataGroup itemCollection = createGroupWithIdAndNameInDataAndDataDivider(id, "metadata", "test");
-		itemCollection.addChild(SpiderDataAtomic.withNameInDataAndValue("nameInData", "someItemCollection"));
+		SpiderDataGroup itemCollection = createGroupWithIdAndNameInDataAndDataDivider(id,
+				"metadata", "test");
+		itemCollection.addChild(
+				SpiderDataAtomic.withNameInDataAndValue("nameInData", "someItemCollection"));
 
 		SpiderDataGroup itemReferences = SpiderDataGroup.withNameInData("collectionItemReferences");
 
@@ -154,9 +159,11 @@ public class DataCreator {
 		return itemCollection;
 	}
 
-	private static SpiderDataGroup createItemRefWithLinkedIdAndRepeatId(String itemId, String repeatId) {
+	public static SpiderDataGroup createItemRefWithLinkedIdAndRepeatId(String itemId,
+			String repeatId) {
 		SpiderDataGroup ref = SpiderDataGroup.withNameInData("ref");
-		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "metadataCollectionItem"));
+		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType",
+				"metadataCollectionItem"));
 		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", itemId));
 		ref.setRepeatId(repeatId);
 		return ref;
