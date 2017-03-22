@@ -3,7 +3,7 @@ package se.uu.ub.cora.metacreator;
 import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
-public class DataCreatorHelper {
+public final class DataCreatorHelper {
 
 	private DataCreatorHelper(){
 		// not called
