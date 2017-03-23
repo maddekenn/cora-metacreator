@@ -24,8 +24,9 @@ public class ItemCollectionCreatorTest {
 	@Test
 	public void testCreateItems() {
 		SpiderDataGroup itemCollection = DataCreator.createItemCollectionWithId("someCollection");
+		addExistingTextsToCollection(itemCollection);
 
-		ItemCollectionCreator creator = new ItemCollectionCreator();
+		ItemCollectionCreator creator = ItemCollectionCreator.forImplementingTextType("textSystemOne");
 		creator.useExtendedFunctionality(userId, itemCollection);
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 3);
@@ -49,8 +50,11 @@ public class ItemCollectionCreatorTest {
 		SpiderDataGroup ref = DataCreator.createItemRefWithLinkedIdAndRepeatId("alreadyExistItem",
 				"4");
 		itemReferences.addChild(ref);
+		addExistingTextsToCollection(itemCollection);
 
-		ItemCollectionCreator creator = new ItemCollectionCreator();
+
+
+		ItemCollectionCreator creator = ItemCollectionCreator.forImplementingTextType("textSystemOne");
 		creator.useExtendedFunctionality(userId, itemCollection);
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 3);
@@ -63,5 +67,52 @@ public class ItemCollectionCreatorTest {
 		assertEquals(recordInfo.extractAtomicValue("id"), "secondItem");
 		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
 		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "test");
+	}
+
+	private void addExistingTextsToCollection(SpiderDataGroup itemCollection) {
+		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(
+				itemCollection, "textId", "textSystemOne", "someExistingText");
+		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(
+				itemCollection, "defTextId", "textSystemOne", "someExistingDefText");
+	}
+
+	@Test
+	public void testCreateTextNoTextExists(){
+		SpiderDataGroup itemCollection = createItemCollectionWithOneExistingItem();
+		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(
+				itemCollection, "textId", "textSystemOne", "someNonExistingText");
+		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(
+				itemCollection, "defTextId", "textSystemOne", "someNonExistingDefText");
+
+
+		ItemCollectionCreator creator = ItemCollectionCreator.forImplementingTextType("textSystemOne");
+		creator.useExtendedFunctionality(userId, itemCollection);
+
+		assertEquals(instanceFactory.spiderRecordCreators.size(), 2);
+	}
+
+	@Test
+	public void testCreateTextWhenTextExists(){
+		SpiderDataGroup itemCollection = createItemCollectionWithOneExistingItem();
+		addExistingTextsToCollection(itemCollection);
+
+
+		ItemCollectionCreator creator = ItemCollectionCreator.forImplementingTextType("textSystemOne");
+		creator.useExtendedFunctionality(userId, itemCollection);
+
+		assertEquals(instanceFactory.spiderRecordCreators.size(), 0);
+	}
+
+	private SpiderDataGroup createItemCollectionWithOneExistingItem() {
+		SpiderDataGroup itemCollection = DataCreator
+				.createItemCollectionWithId("someOtherCollection");
+		//Clear itemReferences, we are only just interested in creating texts
+		itemCollection.removeChild("collectionItemReferences");
+		SpiderDataGroup itemReferences = SpiderDataGroup.withNameInData("collectionItemReferences");
+		SpiderDataGroup ref = DataCreator.createItemRefWithLinkedIdAndRepeatId("alreadyExistItem",
+				"4");
+		itemReferences.addChild(ref);
+		itemCollection.addChild(itemReferences);
+		return itemCollection;
 	}
 }

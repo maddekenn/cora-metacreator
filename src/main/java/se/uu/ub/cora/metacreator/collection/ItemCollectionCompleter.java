@@ -15,12 +15,10 @@ public class ItemCollectionCompleter implements ExtendedFunctionality {
 	}
 
 	private void addValuesToDataGroup() {
-		SpiderDataGroup recordInfoGroup = spiderDataGroup.extractGroup("recordInfo");
-		String id = recordInfoGroup.extractAtomicValue("id");
-		addTexts(id);
+		addTexts();
 	}
 
-	private void addTexts(String id) {
+	private void addTexts() {
 		MetadataCompleter completer = new MetadataCompleter();
 		completer.completeSpiderDataGroupWithLinkedTexts(spiderDataGroup);
 	}

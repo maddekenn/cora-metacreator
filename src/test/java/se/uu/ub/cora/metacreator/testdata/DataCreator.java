@@ -102,7 +102,7 @@ public class DataCreator {
 		spiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue(nameInData, value));
 	}
 
-	private static void addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(
+	public static void addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(
 			SpiderDataGroup spiderDataGroup, String nameInData, String type, String id) {
 		SpiderDataGroup link = SpiderDataGroup.withNameInData(nameInData);
 		link.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", type));

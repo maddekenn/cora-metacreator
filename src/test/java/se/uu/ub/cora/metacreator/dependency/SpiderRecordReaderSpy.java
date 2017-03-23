@@ -40,6 +40,8 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 			case "myRecordType2DefText":
 			case "someExistingTextId":
 			case "someExistingDefTextId":
+			case "someExistingText":
+			case "someExistingDefText":
 				return null;
 			default:
 				throw new RecordNotFoundException("record not found in stub");

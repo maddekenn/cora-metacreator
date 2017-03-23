@@ -62,7 +62,7 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 		}
 		if ("metadataItemCollection".equals(recordType)) {
 			list = ensureListIsRealList(list);
-			list.add(new ItemCollectionCreator());
+			list.add(ItemCollectionCreator.forImplementingTextType(CORA_TEXT));
 		}
 		return list;
 	}

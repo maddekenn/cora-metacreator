@@ -1,6 +1,7 @@
 package se.uu.ub.cora.metacreator.collection;
 
 import se.uu.ub.cora.metacreator.DataCreatorHelper;
+import se.uu.ub.cora.metacreator.RecordCreatorHelper;
 import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataElement;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
@@ -12,8 +13,17 @@ import se.uu.ub.cora.spider.record.storage.RecordNotFoundException;
 
 public class ItemCollectionCreator implements ExtendedFunctionality {
 
+	private final String implementingTextType;
 	private String authToken;
 	private SpiderDataGroup spiderDataGroup;
+
+	public ItemCollectionCreator(String implementingTextType) {
+		this.implementingTextType = implementingTextType;
+	}
+
+	public static ItemCollectionCreator forImplementingTextType(String implementingTextType) {
+		return new ItemCollectionCreator(implementingTextType);
+	}
 
 	@Override
 	public void useExtendedFunctionality(String authToken, SpiderDataGroup spiderDataGroup) {
@@ -26,7 +36,10 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 			createItemIfMissing(authToken, item);
 		}
 
+		createTextsIfMissing();
+
 	}
+
 
 	private void createItemIfMissing(String authToken, SpiderDataGroup item) {
 		String id = extractId(item);
@@ -76,4 +89,37 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 		spiderRecordCreatorOutput.createAndStoreRecord(authToken, recordTypeToCreate,
 				spiderDataGroupToCreate);
 	}
+
+	private void createTextsIfMissing() {
+
+		createTextWithTextIdToExtractIfMissing("textId");
+		createTextWithTextIdToExtractIfMissing("defTextId");
+	}
+
+	private void createTextWithTextIdToExtractIfMissing(String textIdToExtract){
+		SpiderDataGroup textIdGroup = this.spiderDataGroup.extractGroup(textIdToExtract);
+		String textId = textIdGroup.extractAtomicValue("linkedRecordId");
+		if(textIsMissing(textId)){
+			createTextWithTextId(textId);
+		}
+
+	}
+
+	private boolean textIsMissing(String textId){
+		try {
+			SpiderRecordReader spiderRecordReader = SpiderInstanceProvider.getSpiderRecordReader();
+			spiderRecordReader.readRecord(authToken, implementingTextType, textId);
+		}catch(RecordNotFoundException e){
+			return true;
+		}
+		return false;
+	}
+
+	private void createTextWithTextId(String textId) {
+		String dataDivider = DataCreatorHelper
+				.extractDataDividerStringFromDataGroup(spiderDataGroup);
+		RecordCreatorHelper recordCreatorHelper = new RecordCreatorHelper(authToken);
+		recordCreatorHelper.createTextInStorageWithTextIdDataDividerAndTextType(textId, dataDivider, implementingTextType);
+	}
+
 }
