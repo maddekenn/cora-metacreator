@@ -72,6 +72,7 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 
 		item.addChild(recordInfo);
 		addAtomicValues(id, item);
+		item.addAttributeByIdWithValue("type", "collectionItem");
 		createRecord("metadataCollectionItem", item);
 	}
 

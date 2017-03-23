@@ -30,6 +30,7 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.metacreator.collection.ItemCollectionCompleter;
 import se.uu.ub.cora.metacreator.collection.ItemCollectionCreator;
 import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCompleter;
 import se.uu.ub.cora.metacreator.dependency.DependencyProviderSpy;
@@ -128,11 +129,15 @@ public class MetacreatorExtendedFunctionalityProviderTest {
 	}
 
 	@Test
-	public void testGetFunctionalityForCreateBeforeMetadataValidationFortemCollectionI() {
+	public void testGetFunctionalityForCreateBeforeMetadataValidationForItemCollectionI() {
 		List<ExtendedFunctionality> functionalityForCreateBeforeMetadataValidation = functionalityProvider
 				.getFunctionalityForCreateBeforeMetadataValidation("metadataItemCollection");
-		assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 1);
+
+		assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 2);
 		assertTrue(functionalityForCreateBeforeMetadataValidation
-				.get(0) instanceof ItemCollectionCreator);
+				.get(0) instanceof ItemCollectionCompleter);
+
+		assertTrue(functionalityForCreateBeforeMetadataValidation
+				.get(1) instanceof ItemCollectionCreator);
 	}
 }

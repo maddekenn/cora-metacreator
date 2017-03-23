@@ -34,6 +34,8 @@ public class ItemCollectionCreatorTest {
 		assertEquals(record.extractAtomicValue("nameInData"), "first");
 		assertEquals(record.extractAtomicValue("textId"), "firstItemText");
 		assertEquals(record.extractAtomicValue("defTextId"), "firstItemDefText");
+		assertEquals(record.getAttributes().get("type"), "collectionItem");
+
 
 		SpiderDataGroup recordInfo = record.extractGroup("recordInfo");
 		assertEquals(recordInfo.extractAtomicValue("id"), "firstItem");
