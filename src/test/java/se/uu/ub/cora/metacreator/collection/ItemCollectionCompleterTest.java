@@ -23,7 +23,8 @@ public class ItemCollectionCompleterTest {
 
 	@Test
 	public void testCollectionWithNoTexts() {
-		ItemCollectionCompleter completer = new ItemCollectionCompleter();
+		ItemCollectionCompleter completer = ItemCollectionCompleter
+				.forImplementingTextType("textSystemOne");
 
 		SpiderDataGroup itemCollection = DataCreator
 				.createItemCollectionWithId("testItemCollection");
@@ -31,8 +32,11 @@ public class ItemCollectionCompleterTest {
 		completer.useExtendedFunctionality(authToken, itemCollection);
 		SpiderDataGroup textIdGroup = itemCollection.extractGroup("textId");
 		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "testItemCollectionText");
+		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "textSystemOne");
+
 		SpiderDataGroup defTextIdGroup = itemCollection.extractGroup("defTextId");
 		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"),
 				"testItemCollectionDefText");
+		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "textSystemOne");
 	}
 }

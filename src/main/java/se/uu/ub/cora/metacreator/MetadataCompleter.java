@@ -33,26 +33,30 @@ public class MetadataCompleter {
 		return recordInfo.extractAtomicValue("id");
 	}
 
-	public void completeSpiderDataGroupWithLinkedTexts(SpiderDataGroup metadataGroup) {
+	public void completeSpiderDataGroupWithLinkedTexts(SpiderDataGroup metadataGroup,
+			String textRecordType) {
 		id = extractIdFromMetadataGroup(metadataGroup);
-		possiblyCompleteLinkedTextIdUsingForTextIdTypeUsingTextId(metadataGroup, TEXT_ID,
-				id + "Text");
-		possiblyCompleteLinkedTextIdUsingForTextIdTypeUsingTextId(metadataGroup, DEF_TEXT_ID,
-				id + "DefText");
+		possiblyAddLinkedTextWithNameInDataTextIdAndTextRecordType(metadataGroup, TEXT_ID,
+				id + "Text", textRecordType);
+		possiblyAddLinkedTextWithNameInDataTextIdAndTextRecordType(metadataGroup, DEF_TEXT_ID,
+				id + "DefText", textRecordType);
 	}
 
-	private void possiblyCompleteLinkedTextIdUsingForTextIdTypeUsingTextId(
-			SpiderDataGroup metadataGroup, String textIdType, String textId) {
-		if (!metadataGroup.containsChildWithNameInData(textIdType)) {
-			SpiderDataGroup textIdGroup = createLinkedText(textIdType, textId);
+	private void possiblyAddLinkedTextWithNameInDataTextIdAndTextRecordType(
+			SpiderDataGroup metadataGroup, String textNameInData, String textId,
+			String textRecordType) {
+		if (!metadataGroup.containsChildWithNameInData(textNameInData)) {
+			SpiderDataGroup textIdGroup = createLinkedTextWithNameInDataLinkkedIdAndLinkedType(
+					textNameInData, textId, textRecordType);
 			metadataGroup.addChild(textIdGroup);
 		}
 	}
 
-	private SpiderDataGroup createLinkedText(String textIdType, String textId) {
-		SpiderDataGroup textIdGroup = SpiderDataGroup.withNameInData(textIdType);
-		textIdGroup
-				.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "text"));
+	private SpiderDataGroup createLinkedTextWithNameInDataLinkkedIdAndLinkedType(String nameInData,
+			String textId, String textRecordType) {
+		SpiderDataGroup textIdGroup = SpiderDataGroup.withNameInData(nameInData);
+		textIdGroup.addChild(
+				SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", textRecordType));
 		textIdGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", textId));
 		return textIdGroup;
 	}
