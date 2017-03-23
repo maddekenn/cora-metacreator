@@ -26,6 +26,7 @@ import java.util.List;
 import se.uu.ub.cora.metacreator.collection.ItemCollectionCompleter;
 import se.uu.ub.cora.metacreator.collection.ItemCollectionCreator;
 import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCompleter;
+import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCreator;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeCreator;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeMetaCompleter;
 import se.uu.ub.cora.metacreator.recordtype.SearchFromRecordTypeCreator;
@@ -59,7 +60,8 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 		}
 		if ("metadataCollectionItem".equals(recordType)) {
 			list = ensureListIsRealList(list);
-			list.add(CollectionItemCompleter.forImplementingTextType(CORA_TEXT));
+			list.add(new CollectionItemCompleter());
+			list.add(CollectionItemCreator.forImplementingTextType(CORA_TEXT));
 		}
 		if ("metadataItemCollection".equals(recordType)) {
 			list = ensureListIsRealList(list);

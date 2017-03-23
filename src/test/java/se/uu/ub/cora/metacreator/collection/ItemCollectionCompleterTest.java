@@ -39,4 +39,26 @@ public class ItemCollectionCompleterTest {
 				"testItemCollectionDefText");
 		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "textSystemOne");
 	}
+
+	@Test
+	public void testCollectionWithTexts() {
+		ItemCollectionCompleter completer = ItemCollectionCompleter
+				.forImplementingTextType("textSystemOne");
+
+		SpiderDataGroup itemCollection = DataCreator
+				.createItemCollectionWithId("testItemCollection");
+		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(itemCollection,
+				"textId", "textSystemOne", "anExistingText");
+		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(itemCollection,
+				"defTextId", "textSystemOne", "anExistingDefText");
+
+		completer.useExtendedFunctionality(authToken, itemCollection);
+		SpiderDataGroup textIdGroup = itemCollection.extractGroup("textId");
+		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "anExistingText");
+		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "textSystemOne");
+
+		SpiderDataGroup defTextIdGroup = itemCollection.extractGroup("defTextId");
+		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"), "anExistingDefText");
+		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "textSystemOne");
+	}
 }

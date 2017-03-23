@@ -37,9 +37,7 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 		}
 
 		createTextsIfMissing();
-
 	}
-
 
 	private void createItemIfMissing(String authToken, SpiderDataGroup item) {
 		String id = extractId(item);
@@ -92,25 +90,23 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 	}
 
 	private void createTextsIfMissing() {
-
 		createTextWithTextIdToExtractIfMissing("textId");
 		createTextWithTextIdToExtractIfMissing("defTextId");
 	}
 
-	private void createTextWithTextIdToExtractIfMissing(String textIdToExtract){
+	private void createTextWithTextIdToExtractIfMissing(String textIdToExtract) {
 		SpiderDataGroup textIdGroup = this.spiderDataGroup.extractGroup(textIdToExtract);
 		String textId = textIdGroup.extractAtomicValue("linkedRecordId");
-		if(textIsMissing(textId)){
+		if (textIsMissing(textId)) {
 			createTextWithTextId(textId);
 		}
-
 	}
 
-	private boolean textIsMissing(String textId){
+	private boolean textIsMissing(String textId) {
 		try {
 			SpiderRecordReader spiderRecordReader = SpiderInstanceProvider.getSpiderRecordReader();
 			spiderRecordReader.readRecord(authToken, implementingTextType, textId);
-		}catch(RecordNotFoundException e){
+		} catch (RecordNotFoundException e) {
 			return true;
 		}
 		return false;
@@ -120,7 +116,8 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 		String dataDivider = DataCreatorHelper
 				.extractDataDividerStringFromDataGroup(spiderDataGroup);
 		RecordCreatorHelper recordCreatorHelper = new RecordCreatorHelper(authToken);
-		recordCreatorHelper.createTextInStorageWithTextIdDataDividerAndTextType(textId, dataDivider, implementingTextType);
+		recordCreatorHelper.createTextInStorageWithTextIdDataDividerAndTextType(textId, dataDivider,
+				implementingTextType);
 	}
 
 }
