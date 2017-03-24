@@ -94,6 +94,15 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 				throw new RecordNotFoundException("record not found in stub");
 			}
 		}
+		if ("metadataCollectionVariable".equals(type)) {
+
+			switch (id) {
+				case "alreadyExistCollectionVar":
+					return null;
+				default:
+					throw new RecordNotFoundException("record not found in stub");
+			}
+		}
 		return null;
 	}
 

@@ -12,13 +12,13 @@ import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
 public class ItemCollectionCreatorTest {
 	private SpiderInstanceFactorySpy instanceFactory;
-	private String userId;
+	private String authToken;
 
 	@BeforeMethod
 	public void setUp() {
 		instanceFactory = new SpiderInstanceFactorySpy();
 		SpiderInstanceProvider.setSpiderInstanceFactory(instanceFactory);
-		userId = "testUser";
+		authToken = "testUser";
 	}
 
 	@Test
@@ -27,7 +27,7 @@ public class ItemCollectionCreatorTest {
 		addExistingTextsToCollection(itemCollection);
 
 		ItemCollectionCreator creator = ItemCollectionCreator.forImplementingTextType("textSystemOne");
-		creator.useExtendedFunctionality(userId, itemCollection);
+		creator.useExtendedFunctionality(authToken, itemCollection);
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 3);
 		SpiderDataGroup record = instanceFactory.spiderRecordCreators.get(0).record;
@@ -57,7 +57,7 @@ public class ItemCollectionCreatorTest {
 
 
 		ItemCollectionCreator creator = ItemCollectionCreator.forImplementingTextType("textSystemOne");
-		creator.useExtendedFunctionality(userId, itemCollection);
+		creator.useExtendedFunctionality(authToken, itemCollection);
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 3);
 		SpiderDataGroup record = instanceFactory.spiderRecordCreators.get(1).record;
@@ -88,7 +88,7 @@ public class ItemCollectionCreatorTest {
 
 
 		ItemCollectionCreator creator = ItemCollectionCreator.forImplementingTextType("textSystemOne");
-		creator.useExtendedFunctionality(userId, itemCollection);
+		creator.useExtendedFunctionality(authToken, itemCollection);
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 2);
 	}
@@ -100,7 +100,7 @@ public class ItemCollectionCreatorTest {
 
 
 		ItemCollectionCreator creator = ItemCollectionCreator.forImplementingTextType("textSystemOne");
-		creator.useExtendedFunctionality(userId, itemCollection);
+		creator.useExtendedFunctionality(authToken, itemCollection);
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 0);
 	}
