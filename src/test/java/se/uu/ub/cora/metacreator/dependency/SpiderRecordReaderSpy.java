@@ -36,6 +36,12 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 			case "textIdOnlyTextInStorageTextVarText":
 			case "textIdNoPVarsInStorageTextVarPVar":
 			case "textIdNoPVarsInStorageTextVarOutputPVar":
+			case "myRecordType2Text":
+			case "myRecordType2DefText":
+			case "someExistingTextId":
+			case "someExistingDefTextId":
+			case "someExistingText":
+			case "someExistingDefText":
 				return null;
 			default:
 				throw new RecordNotFoundException("record not found in stub");
@@ -45,6 +51,44 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 			switch (id) {
 			case "textIdInputPVarInStorageTextVarPVar":
 			case "textIdOutputPVarInStorageTextVarOutputPVar":
+				return null;
+			default:
+				throw new RecordNotFoundException("record not found in stub");
+			}
+		}
+		if ("presentationGroup".equals(type)) {
+			switch (id) {
+			case "myRecordType2ViewPGroup":
+			case "myRecordType2FormPGroup":
+			case "myRecordType2FormNewPGroup":
+			case "myRecordType2MenuPGroup":
+			case "myRecordType2ListPGroup":
+				return null;
+			default:
+				throw new RecordNotFoundException("record not found in stub");
+			}
+		}
+		if ("metadataGroup".equals(type)) {
+			switch (id) {
+			case "myRecordType2Group":
+			case "myRecordType2NewGroup":
+				return null;
+			default:
+				throw new RecordNotFoundException("record not found in stub");
+			}
+		}
+		if ("search".equals(type)) {
+			switch (id) {
+			case "myRecordTypeSearch":
+				throw new RecordNotFoundException("record not found in stub");
+			default:
+				return null;
+			}
+		}
+		if ("metadataCollectionItem".equals(type)) {
+
+			switch (id) {
+			case "alreadyExistItem":
 				return null;
 			default:
 				throw new RecordNotFoundException("record not found in stub");

@@ -23,6 +23,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import se.uu.ub.cora.metacreator.collection.ItemCollectionCompleter;
+import se.uu.ub.cora.metacreator.collection.ItemCollectionCreator;
+import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCompleter;
+import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCreator;
+import se.uu.ub.cora.metacreator.recordtype.RecordTypeCreator;
+import se.uu.ub.cora.metacreator.recordtype.RecordTypeMetaCompleter;
+import se.uu.ub.cora.metacreator.recordtype.SearchFromRecordTypeCreator;
 import se.uu.ub.cora.metacreator.text.PVarFromTextVarCreator;
 import se.uu.ub.cora.metacreator.text.TextVarMetaCompleter;
 import se.uu.ub.cora.spider.dependency.SpiderDependencyProvider;
@@ -30,6 +37,9 @@ import se.uu.ub.cora.spider.extended.BaseExtendedFunctionalityProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 
 public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFunctionalityProvider {
+
+	private static final String CORA_TEXT = "coraText";
+
 	public MetacreatorExtendedFunctionalityProvider(SpiderDependencyProvider dependencyProvider) {
 		super(dependencyProvider);
 	}
@@ -41,7 +51,22 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 				recordType);
 		if ("metadataTextVariable".equals(recordType)) {
 			list = ensureListIsRealList(list);
-			list.add(TextVarMetaCompleter.forImplementingTextType("coraText"));
+			list.add(TextVarMetaCompleter.forImplementingTextType(CORA_TEXT));
+		}
+		if ("recordType".equals(recordType)) {
+			list = ensureListIsRealList(list);
+			list.add(new RecordTypeMetaCompleter());
+			list.add(RecordTypeCreator.forImplementingTextType(CORA_TEXT));
+		}
+		if ("metadataCollectionItem".equals(recordType)) {
+			list = ensureListIsRealList(list);
+			list.add(new CollectionItemCompleter());
+			list.add(CollectionItemCreator.forImplementingTextType(CORA_TEXT));
+		}
+		if ("metadataItemCollection".equals(recordType)) {
+			list = ensureListIsRealList(list);
+			list.add(ItemCollectionCompleter.forImplementingTextType(CORA_TEXT));
+			list.add(ItemCollectionCreator.forImplementingTextType(CORA_TEXT));
 		}
 		return list;
 	}
@@ -55,11 +80,14 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 
 	@Override
 	public List<ExtendedFunctionality> getFunctionalityForCreateBeforeReturn(String recordType) {
-		List<ExtendedFunctionality> list = super.getFunctionalityForCreateBeforeMetadataValidation(
-				recordType);
+		List<ExtendedFunctionality> list = super.getFunctionalityForCreateBeforeReturn(recordType);
 		if ("metadataTextVariable".equals(recordType)) {
 			list = ensureListIsRealList(list);
 			list.add(new PVarFromTextVarCreator());
+		}
+		if ("recordType".equals(recordType)) {
+			list = ensureListIsRealList(list);
+			list.add(new SearchFromRecordTypeCreator());
 		}
 		return list;
 	}
