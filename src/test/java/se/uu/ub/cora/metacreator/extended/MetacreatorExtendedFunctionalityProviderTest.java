@@ -145,13 +145,13 @@ public class MetacreatorExtendedFunctionalityProviderTest {
 				.get(1) instanceof ItemCollectionCreator);
 	}
 
-//	@Test
-//	public void testGetFunctionalityForCreateBeforeReturnForItemCollection() {
-//		List<ExtendedFunctionality> functionalityForCreateBeforeReturn = functionalityProvider
-//				.getFunctionalityForCreateBeforeReturn("metadataItemCollection");
-//		assertEquals(functionalityForCreateBeforeReturn.size(), 1);
-//		assertTrue(
-//				functionalityForCreateBeforeReturn.get(0) instanceof CollectionVarFromItemCollectionCreator);
-//
-//	}
+	@Test
+	public void testGetFunctionalityForCreateBeforeReturnForItemCollection() {
+		List<ExtendedFunctionality> functionalityForCreateBeforeReturn = functionalityProvider
+				.getFunctionalityForCreateBeforeReturn("metadataItemCollection");
+		assertEquals(functionalityForCreateBeforeReturn.size(), 1);
+		assertTrue(
+				functionalityForCreateBeforeReturn.get(0) instanceof CollectionVarFromItemCollectionCreator);
+
+	}
 }

@@ -90,10 +90,10 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 			list = ensureListIsRealList(list);
 			list.add(new SearchFromRecordTypeCreator());
 		}
-//		if ("metadataItemCollection".equals(recordType)) {
-//			list = ensureListIsRealList(list);
-//			list.add(new CollectionVarFromItemCollectionCreator());
-//		}
+		if ("metadataItemCollection".equals(recordType)) {
+			list = ensureListIsRealList(list);
+			list.add(new CollectionVarFromItemCollectionCreator());
+		}
 		return list;
 	}
 }
