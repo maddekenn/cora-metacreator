@@ -43,6 +43,6 @@ public class DataCreatorHelperTest {
         SpiderDataGroup mainDataGroup = DataCreator.createTextVarGroupWithIdAndTextIdAndDefTextId("someId", "someTextId", "someDefTextId");
         String dataDivider = DataCreatorHelper.extractDataDividerStringFromDataGroup(mainDataGroup);
         assertEquals(dataDivider, "cora");
-
     }
+
 }

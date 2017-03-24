@@ -40,6 +40,8 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 			case "myRecordType2DefText":
 			case "someExistingTextId":
 			case "someExistingDefTextId":
+			case "someExistingText":
+			case "someExistingDefText":
 				return null;
 			default:
 				throw new RecordNotFoundException("record not found in stub");
@@ -81,6 +83,15 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 				throw new RecordNotFoundException("record not found in stub");
 			default:
 				return null;
+			}
+		}
+		if ("metadataCollectionItem".equals(type)) {
+
+			switch (id) {
+			case "alreadyExistItem":
+				return null;
+			default:
+				throw new RecordNotFoundException("record not found in stub");
 			}
 		}
 		return null;
