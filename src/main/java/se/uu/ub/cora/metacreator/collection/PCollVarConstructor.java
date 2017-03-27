@@ -14,6 +14,8 @@ public class PCollVarConstructor {
 
 		createAndAddPresentationOf(presentationOf, pCollVar);
 		pCollVar.addChild(SpiderDataAtomic.withNameInDataAndValue("mode", mode));
+		pCollVar.addChild(
+				SpiderDataAtomic.withNameInDataAndValue("emptyTextId", "initialEmptyValueText"));
 
 		return pCollVar;
 	}

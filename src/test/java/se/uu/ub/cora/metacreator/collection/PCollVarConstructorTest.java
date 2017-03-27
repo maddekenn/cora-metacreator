@@ -22,6 +22,7 @@ public class PCollVarConstructorTest {
 		assertCorrectPresentationOf(pCollVar);
 
 		assertEquals(pCollVar.extractAtomicValue("mode"), "input");
+		assertEquals(pCollVar.extractAtomicValue("emptyTextId"), "initialEmptyValueText");
 
 	}
 

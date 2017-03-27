@@ -169,7 +169,7 @@ public class DataCreator {
 		return ref;
 	}
 
-	public static SpiderDataGroup createCollectionVariableWithIdDataDataDividerAndNameInData(
+	public static SpiderDataGroup createCollectionVariableWithIdDataDividerAndNameInData(
 			String id, String dataDividerString, String nameInData) {
 		SpiderDataGroup collectionVar = createGroupWithIdAndNameInDataAndDataDivider(id, "metadata",
 				dataDividerString);
