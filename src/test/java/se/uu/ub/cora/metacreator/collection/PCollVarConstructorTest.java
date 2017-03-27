@@ -17,10 +17,25 @@ public class PCollVarConstructorTest {
 
 		assertEquals(pCollVar.getNameInData(), "presentation");
 
+		assertCorrectRecordInfo(pCollVar);
+
+		assertCorrectPresentationOf(pCollVar);
+
+		assertEquals(pCollVar.extractAtomicValue("mode"), "input");
+
+	}
+
+	private void assertCorrectRecordInfo(SpiderDataGroup pCollVar) {
 		SpiderDataGroup recordInfo = pCollVar.extractGroup("recordInfo");
 		assertEquals(recordInfo.extractAtomicValue("id"), "somePCollVar");
 		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
 		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "testSystem");
+	}
 
+	private void assertCorrectPresentationOf(SpiderDataGroup pCollVar) {
+		SpiderDataGroup presentationOf = pCollVar.extractGroup("presentationOf");
+		assertEquals(presentationOf.extractAtomicValue("linkedRecordType"),
+				"metadataCollectionVariable");
+		assertEquals(presentationOf.extractAtomicValue("linkedRecordId"), "someCollectionVar");
 	}
 }
