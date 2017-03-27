@@ -33,6 +33,7 @@ import org.testng.annotations.Test;
 import se.uu.ub.cora.metacreator.collection.CollectionVarFromItemCollectionCreator;
 import se.uu.ub.cora.metacreator.collection.ItemCollectionCompleter;
 import se.uu.ub.cora.metacreator.collection.ItemCollectionCreator;
+import se.uu.ub.cora.metacreator.collection.PCollVarFromCollectionVarCreator;
 import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCompleter;
 import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCreator;
 import se.uu.ub.cora.metacreator.dependency.DependencyProviderSpy;
@@ -150,8 +151,18 @@ public class MetacreatorExtendedFunctionalityProviderTest {
 		List<ExtendedFunctionality> functionalityForCreateBeforeReturn = functionalityProvider
 				.getFunctionalityForCreateBeforeReturn("metadataItemCollection");
 		assertEquals(functionalityForCreateBeforeReturn.size(), 1);
-		assertTrue(
-				functionalityForCreateBeforeReturn.get(0) instanceof CollectionVarFromItemCollectionCreator);
+		assertTrue(functionalityForCreateBeforeReturn
+				.get(0) instanceof CollectionVarFromItemCollectionCreator);
+
+	}
+
+	@Test
+	public void testGetFunctionalityForCreateBeforeReturnForCollectionVariable() {
+		List<ExtendedFunctionality> functionalityForCreateBeforeReturn = functionalityProvider
+				.getFunctionalityForCreateBeforeReturn("metadataCollectionVariable");
+		assertEquals(functionalityForCreateBeforeReturn.size(), 1);
+		assertTrue(functionalityForCreateBeforeReturn
+				.get(0) instanceof PCollVarFromCollectionVarCreator);
 
 	}
 }
