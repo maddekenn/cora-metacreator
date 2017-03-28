@@ -15,12 +15,10 @@ public class PCollVarConstructorTest {
 				.constructPCollVarWithIdDataDividerPresentationOfAndMode("somePCollVar",
 						"testSystem", "someCollectionVar", "input");
 
-		assertEquals(pCollVar.getNameInData(), "presentation");
-
 		assertCorrectRecordInfo(pCollVar);
-
 		assertCorrectPresentationOf(pCollVar);
 
+		assertEquals(pCollVar.getNameInData(), "presentation");
 		assertEquals(pCollVar.extractAtomicValue("mode"), "input");
 		assertEquals(pCollVar.extractAtomicValue("emptyTextId"), "initialEmptyValueText");
 		assertEquals(pCollVar.getAttributes().get("type"), "pCollVar");
