@@ -38,12 +38,15 @@ public class PCollVarFromCollectionVarCreatorTest {
 
 	private void assertCorrectlyCreatedInputPCollVar() {
 		SpiderRecordCreatorSpy spiderRecordCreatorSpy = instanceFactory.spiderRecordCreators.get(0);
+		assertEquals(spiderRecordCreatorSpy.type, "presentationCollectionVar");
 		SpiderDataGroup record = spiderRecordCreatorSpy.record;
+
 		assertEquals(record.getNameInData(), "presentation");
 		assertEquals(record.extractAtomicValue("mode"), "input");
 
 		assertCorrectPresentationOf(record);
 		assertCorrectRecordInfo(record, "somePCollVar");
+		assertEquals(record.getAttributes().get("type"), "pCollVar");
 	}
 
 	private void assertCorrectPresentationOf(SpiderDataGroup record) {
@@ -62,12 +65,14 @@ public class PCollVarFromCollectionVarCreatorTest {
 
 	private void assertCorrectlyCreatedOuputPCollVar() {
 		SpiderRecordCreatorSpy spiderRecordCreatorSpy = instanceFactory.spiderRecordCreators.get(1);
+		assertEquals(spiderRecordCreatorSpy.type, "presentationCollectionVar");
 		SpiderDataGroup record = spiderRecordCreatorSpy.record;
 		assertEquals(record.getNameInData(), "presentation");
 		assertEquals(record.extractAtomicValue("mode"), "output");
 
 		assertCorrectPresentationOf(record);
 		assertCorrectRecordInfo(record, "someOutputPCollVar");
+		assertEquals(record.getAttributes().get("type"), "pCollVar");
 	}
 
 	@Test
