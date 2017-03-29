@@ -103,7 +103,7 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 				throw new RecordNotFoundException("record not found in stub");
 			}
 		}
-		if ("presentationCollectionVariable".equals(type)) {
+		if ("presentationCollectionVar".equals(type)) {
 
 			switch (id) {
 			case "someExistingPCollVar":

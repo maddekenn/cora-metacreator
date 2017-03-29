@@ -17,10 +17,10 @@ public class PCollVarFromCollectionVarCreator implements ExtendedFunctionality {
 
 	@Override
 	public void useExtendedFunctionality(String authToken,
-			SpiderDataGroup collectionvarToCreateFrom) {
+			SpiderDataGroup collectionVarToCreateFrom) {
 		this.authToken = authToken;
 
-		setParametersForCreation(collectionvarToCreateFrom);
+		setParametersForCreation(collectionVarToCreateFrom);
 
 		possiblyCreateInputPCollVar();
 		possiblyCreateOutputPCollVar();
@@ -37,7 +37,7 @@ public class PCollVarFromCollectionVarCreator implements ExtendedFunctionality {
 	private void possiblyCreateInputPCollVar() {
 		String pCollVarId = constructIdForPCollVar(nameInData);
 
-		if (pCollVarIsMissing(constructIdForPCollVar(nameInData))) {
+		if (pCollVarIsMissing(pCollVarId)) {
 			createPCollVarWithIdAndMode(pCollVarId, "input");
 		}
 	}
@@ -45,7 +45,7 @@ public class PCollVarFromCollectionVarCreator implements ExtendedFunctionality {
 	private boolean pCollVarIsMissing(String pCollVarId) {
 		try {
 			SpiderRecordReader reader = SpiderInstanceProvider.getSpiderRecordReader();
-			reader.readRecord(authToken, "presentationCollectionVariable", pCollVarId);
+			reader.readRecord(authToken, "presentationCollectionVar", pCollVarId);
 		} catch (Exception e) {
 			return true;
 		}

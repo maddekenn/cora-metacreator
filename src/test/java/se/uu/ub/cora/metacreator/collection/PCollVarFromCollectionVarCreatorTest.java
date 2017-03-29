@@ -33,7 +33,7 @@ public class PCollVarFromCollectionVarCreatorTest {
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 2);
 		assertCorrectlyCreatedInputPCollVar();
-		assertCorrectlyCreatedOuputPCollVar();
+		assertCorrectlyCreatedOutputPCollVar();
 	}
 
 	private void assertCorrectlyCreatedInputPCollVar() {
@@ -63,7 +63,7 @@ public class PCollVarFromCollectionVarCreatorTest {
 		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "testSystem");
 	}
 
-	private void assertCorrectlyCreatedOuputPCollVar() {
+	private void assertCorrectlyCreatedOutputPCollVar() {
 		SpiderRecordCreatorSpy spiderRecordCreatorSpy = instanceFactory.spiderRecordCreators.get(1);
 		assertEquals(spiderRecordCreatorSpy.type, "presentationCollectionVar");
 		SpiderDataGroup record = spiderRecordCreatorSpy.record;
