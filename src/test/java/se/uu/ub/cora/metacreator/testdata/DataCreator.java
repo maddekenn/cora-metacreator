@@ -169,8 +169,8 @@ public class DataCreator {
 		return ref;
 	}
 
-	public static SpiderDataGroup createCollectionVariableWithIdDataDividerAndNameInData(
-			String id, String dataDividerString, String nameInData) {
+	public static SpiderDataGroup createCollectionVariableWithIdDataDividerAndNameInData(String id,
+			String dataDividerString, String nameInData) {
 		SpiderDataGroup collectionVar = createGroupWithIdAndNameInDataAndDataDivider(id, "metadata",
 				dataDividerString);
 		collectionVar.addChild(SpiderDataAtomic.withNameInDataAndValue("nameInData", nameInData));
@@ -181,5 +181,21 @@ public class DataCreator {
 		collectionVar.addAttributeByIdWithValue("type", "collectionVariable");
 
 		return collectionVar;
+	}
+
+	public static SpiderDataGroup createRecordLinkWithIdDataDividerNameInDataAndLinkedRecordType(
+			String id, String dataDividerString, String nameInData, String linkedRecordType) {
+
+		SpiderDataGroup recordLink = createGroupWithIdAndNameInDataAndDataDivider(id, "metadata",
+				dataDividerString);
+		recordLink.addChild(SpiderDataAtomic.withNameInDataAndValue("nameInData", nameInData));
+		recordLink.addChild(SpiderDataAtomic.withNameInDataAndValue("textId", id + "Text"));
+		recordLink.addChild(SpiderDataAtomic.withNameInDataAndValue("defTextId", id + "DefText"));
+		recordLink.addChild(
+				SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", linkedRecordType));
+
+		recordLink.addAttributeByIdWithValue("type", "recordLink");
+
+		return recordLink;
 	}
 }

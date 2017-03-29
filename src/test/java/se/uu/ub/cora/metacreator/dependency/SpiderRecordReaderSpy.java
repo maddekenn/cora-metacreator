@@ -113,6 +113,16 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 				throw new RecordNotFoundException("record not found in stub");
 			}
 		}
+		if ("presentationRecordLink".equals(type)) {
+
+			switch (id) {
+			case "someExistingPLink":
+			case "someExistingOutputPLink":
+				return null;
+			default:
+				throw new RecordNotFoundException("record not found in stub");
+			}
+		}
 		return null;
 	}
 
