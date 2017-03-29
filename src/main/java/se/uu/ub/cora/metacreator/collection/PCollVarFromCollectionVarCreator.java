@@ -35,7 +35,7 @@ public class PCollVarFromCollectionVarCreator implements ExtendedFunctionality {
 	}
 
 	private void possiblyCreateInputPCollVar() {
-		String pCollVarId = constructIdForPCollVar(nameInData);
+		String pCollVarId = constructIdForPCollVar();
 
 		if (pCollVarIsMissing(pCollVarId)) {
 			createPCollVarWithIdAndMode(pCollVarId, "input");
@@ -59,7 +59,7 @@ public class PCollVarFromCollectionVarCreator implements ExtendedFunctionality {
 		createRecord("presentationCollectionVar", pCollVar);
 	}
 
-	private String constructIdForPCollVar(String nameInData) {
+	private String constructIdForPCollVar() {
 		return nameInData + "PCollVar";
 	}
 
@@ -71,13 +71,13 @@ public class PCollVarFromCollectionVarCreator implements ExtendedFunctionality {
 	}
 
 	private void possiblyCreateOutputPCollVar() {
-		String pCollVarId = constructIdForOutputPCollVar(nameInData);
+		String pCollVarId = constructIdForOutputPCollVar();
 		if (pCollVarIsMissing(pCollVarId)) {
 			createPCollVarWithIdAndMode(pCollVarId, "output");
 		}
 	}
 
-	private String constructIdForOutputPCollVar(String nameInData) {
+	private String constructIdForOutputPCollVar() {
 		return nameInData + "OutputPCollVar";
 	}
 }
