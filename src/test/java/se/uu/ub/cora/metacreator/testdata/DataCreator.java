@@ -140,7 +140,7 @@ public class DataCreator {
 		SpiderDataGroup itemCollection = createGroupWithIdAndNameInDataAndDataDivider(id,
 				"metadata", "test");
 		itemCollection.addChild(
-				SpiderDataAtomic.withNameInDataAndValue("nameInData", "someItemCollection"));
+				SpiderDataAtomic.withNameInDataAndValue("nameInData", "someNameInData"));
 
 		SpiderDataGroup itemReferences = SpiderDataGroup.withNameInData("collectionItemReferences");
 
