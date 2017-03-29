@@ -5,6 +5,8 @@ import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
 public final class DataCreatorHelper {
 
+	private static final String RECORD_INFO = "recordInfo";
+
 	private DataCreatorHelper() {
 		// not called
 		throw new UnsupportedOperationException();
@@ -18,13 +20,13 @@ public final class DataCreatorHelper {
 
 	private static SpiderDataGroup extractDataDividerGroupFromSpiderDataGroup(
 			SpiderDataGroup topLevelGroup) {
-		SpiderDataGroup recordInfoGroup = topLevelGroup.extractGroup("recordInfo");
+		SpiderDataGroup recordInfoGroup = topLevelGroup.extractGroup(RECORD_INFO);
 		return recordInfoGroup.extractGroup("dataDivider");
 	}
 
 	public static SpiderDataGroup createRecordInfoWithIdAndDataDivider(String id,
 			String dataDividerLinkedRecordId) {
-		SpiderDataGroup recordInfo = SpiderDataGroup.withNameInData("recordInfo");
+		SpiderDataGroup recordInfo = SpiderDataGroup.withNameInData(RECORD_INFO);
 		recordInfo.addChild(SpiderDataAtomic.withNameInDataAndValue("id", id));
 
 		createAndAddDataDivider(dataDividerLinkedRecordId, recordInfo);
@@ -42,7 +44,7 @@ public final class DataCreatorHelper {
 	}
 
 	public static String extractIdFromDataGroup(SpiderDataGroup mainDataGroup) {
-		SpiderDataGroup recordinfo = mainDataGroup.extractGroup("recordInfo");
+		SpiderDataGroup recordinfo = mainDataGroup.extractGroup(RECORD_INFO);
 		return recordinfo.extractAtomicValue("id");
 	}
 
