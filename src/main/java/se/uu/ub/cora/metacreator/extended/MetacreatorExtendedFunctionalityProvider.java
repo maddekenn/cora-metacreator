@@ -26,6 +26,7 @@ import java.util.List;
 import se.uu.ub.cora.metacreator.collection.CollectionVarFromItemCollectionCreator;
 import se.uu.ub.cora.metacreator.collection.ItemCollectionCompleter;
 import se.uu.ub.cora.metacreator.collection.ItemCollectionCreator;
+import se.uu.ub.cora.metacreator.collection.PCollVarFromCollectionVarCreator;
 import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCompleter;
 import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCreator;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeCreator;
@@ -93,6 +94,10 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 		if ("metadataItemCollection".equals(recordType)) {
 			list = ensureListIsRealList(list);
 			list.add(new CollectionVarFromItemCollectionCreator());
+		}
+		if ("metadataCollectionVariable".equals(recordType)) {
+			list = ensureListIsRealList(list);
+			list.add(new PCollVarFromCollectionVarCreator());
 		}
 		return list;
 	}
