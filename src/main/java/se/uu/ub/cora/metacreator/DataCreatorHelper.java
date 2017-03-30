@@ -44,8 +44,8 @@ public final class DataCreatorHelper {
 	}
 
 	public static String extractIdFromDataGroup(SpiderDataGroup mainDataGroup) {
-		SpiderDataGroup recordinfo = mainDataGroup.extractGroup(RECORD_INFO);
-		return recordinfo.extractAtomicValue("id");
+		SpiderDataGroup recordInfo = mainDataGroup.extractGroup(RECORD_INFO);
+		return recordInfo.extractAtomicValue("id");
 	}
 
 }
