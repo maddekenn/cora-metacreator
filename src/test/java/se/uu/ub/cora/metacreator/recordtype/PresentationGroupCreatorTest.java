@@ -46,8 +46,6 @@ public class PresentationGroupCreatorTest {
 		assertEquals(ref.extractAtomicValue("linkedRecordType"), "presentation");
 		assertEquals(ref.getAttributes().get("type"), "presentation");
 
-		String defaultValue = childRef.extractAtomicValue("default");
-		assertEquals(defaultValue, "ref");
 	}
 
 }

@@ -35,8 +35,10 @@ public class RecordTypeCreatorTest {
 		recordTypeCreator.useExtendedFunctionality(userId, recordType);
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 9);
 
-		assertCorrectlyCreatedMetadataGroup(2, "myRecordTypeGroup", "recordInfoGroup", "myRecordType");
-		assertCorrectlyCreatedMetadataGroup(3, "myRecordTypeNewGroup", "recordInfoNewGroup", "myRecordType");
+		assertCorrectlyCreatedMetadataGroup(2, "myRecordTypeGroup", "recordInfoGroup",
+				"myRecordType");
+		assertCorrectlyCreatedMetadataGroup(3, "myRecordTypeNewGroup", "recordInfoNewGroup",
+				"myRecordType");
 
 		assertCorrectlyCreatedPresentationGroup(4, "myRecordTypeFormPGroup", "myRecordTypeGroup",
 				"recordInfoPGroup");
@@ -71,7 +73,6 @@ public class RecordTypeCreatorTest {
 		assertEquals(ref.extractAtomicValue("linkedRecordType"), "metadata");
 		assertEquals(childRef.extractAtomicValue("repeatMin"), "1");
 		assertEquals(childRef.extractAtomicValue("repeatMax"), "1");
-
 	}
 
 	private void assertCorrectlyCreatedPresentationChildReference(String childRefId,
@@ -79,11 +80,12 @@ public class RecordTypeCreatorTest {
 		SpiderDataGroup childRef = getChildRef(spiderRecordCreator);
 		SpiderDataGroup refGroup = (SpiderDataGroup) childRef
 				.getFirstChildWithNameInData("refGroup");
-		SpiderDataGroup ref = (SpiderDataGroup) refGroup.getFirstChildWithNameInData("ref");
+		assertEquals(refGroup.getRepeatId(), "0");
 
+		SpiderDataGroup ref = (SpiderDataGroup) refGroup.getFirstChildWithNameInData("ref");
 		assertEquals(ref.extractAtomicValue("linkedRecordId"), childRefId);
 		assertEquals(ref.extractAtomicValue("linkedRecordType"), "presentation");
-		assertEquals(childRef.extractAtomicValue("default"), "ref");
+		assertFalse(childRef.containsChildWithNameInData("default"));
 		assertFalse(childRef.containsChildWithNameInData("repeatMax"));
 
 	}
