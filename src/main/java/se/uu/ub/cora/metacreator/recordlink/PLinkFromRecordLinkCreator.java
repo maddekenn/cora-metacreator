@@ -10,7 +10,6 @@ import se.uu.ub.cora.spider.record.SpiderRecordReader;
 public class PLinkFromRecordLinkCreator implements ExtendedFunctionality {
 
 	private String authToken;
-	private String nameInData;
 	private String presentationOf;
 	private String dataDivider;
 	private PLinkConstructor constructor;
@@ -28,7 +27,6 @@ public class PLinkFromRecordLinkCreator implements ExtendedFunctionality {
 	}
 
 	private void setParametersForCreation(SpiderDataGroup recordLinkToCreateFrom) {
-		nameInData = recordLinkToCreateFrom.extractAtomicValue("nameInData");
 		id = DataCreatorHelper.extractIdFromDataGroup(recordLinkToCreateFrom);
 		presentationOf = DataCreatorHelper.extractIdFromDataGroup(recordLinkToCreateFrom);
 		dataDivider = DataCreatorHelper
@@ -72,13 +70,13 @@ public class PLinkFromRecordLinkCreator implements ExtendedFunctionality {
 	}
 
 	private void possiblyCreateOutputPLink() {
-		String pCollVarId = constructIdForOutputPCollVar(nameInData);
+		String pCollVarId = constructIdForOutputPCollVar();
 		if (pLinkIsMissing(pCollVarId)) {
 			createPCollVarWithIdAndMode(pCollVarId, "output");
 		}
 	}
 
-	private String constructIdForOutputPCollVar(String nameInData) {
+	private String constructIdForOutputPCollVar() {
 		String firstPartOfId = id.substring(0, id.indexOf("Link"));
 		return firstPartOfId + "OutputPLink";
 	}
