@@ -198,4 +198,26 @@ public class DataCreator {
 
 		return recordLink;
 	}
+
+	public static SpiderDataGroup createMetadataGroupWithId(String id) {
+		SpiderDataGroup metadataGroup = createGroupWithIdAndNameInDataAndDataDivider(id,
+				"metadata", "test");
+		metadataGroup.addAttributeByIdWithValue("type", "group");
+		metadataGroup
+				.addChild(SpiderDataAtomic.withNameInDataAndValue("nameInData", "someGroupNameInData"));
+
+		SpiderDataGroup childReferences = SpiderDataGroup.withNameInData("childReferences");
+
+		SpiderDataGroup childReference = SpiderDataGroup.withNameInData("childReference");
+		childReference.setRepeatId("0");
+		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMin", "0"));
+		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMax", "1"));
+
+		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(childReference, "ref", "metadata", "someTextVar");
+
+		childReferences.addChild(childReference);
+		metadataGroup.addChild(childReferences);
+
+		return metadataGroup;
+	}
 }

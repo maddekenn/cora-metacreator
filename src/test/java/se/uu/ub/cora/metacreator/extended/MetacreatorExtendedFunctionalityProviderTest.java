@@ -37,6 +37,7 @@ import se.uu.ub.cora.metacreator.collection.PCollVarFromCollectionVarCreator;
 import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCompleter;
 import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCreator;
 import se.uu.ub.cora.metacreator.dependency.DependencyProviderSpy;
+import se.uu.ub.cora.metacreator.group.GroupCompleter;
 import se.uu.ub.cora.metacreator.recordlink.PLinkFromRecordLinkCreator;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeCreator;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeMetaCompleter;
@@ -175,5 +176,14 @@ public class MetacreatorExtendedFunctionalityProviderTest {
 		assertTrue(functionalityForCreateBeforeReturn
 				.get(0) instanceof PLinkFromRecordLinkCreator);
 
+	}
+
+	@Test
+	public void testGetFunctionalityForCreateBeforeMetadataValidationForMetadataGroup() {
+		List<ExtendedFunctionality> functionalityForCreateBeforeMetadataValidation = functionalityProvider
+				.getFunctionalityForCreateBeforeMetadataValidation("metadataGroup");
+		assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 1);
+		assertTrue(functionalityForCreateBeforeMetadataValidation
+				.get(0) instanceof GroupCompleter);
 	}
 }
