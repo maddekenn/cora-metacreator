@@ -1,10 +1,12 @@
 package se.uu.ub.cora.metacreator.recordtype;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+
 import org.testng.annotations.Test;
 
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
-
-import static org.testng.Assert.*;
 
 public class SearchGroupCreatorTest {
 
@@ -36,6 +38,16 @@ public class SearchGroupCreatorTest {
 		assertEquals(presentationId.extractAtomicValue("linkedRecordId"),
 				"autocompleteSearchPGroup");
 
+		assertEquals(searchGroup.extractAtomicValue("searchGroup"), "autocomplete");
+
+		SpiderDataGroup textIdGroup = searchGroup.extractGroup("textId");
+		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "myRecordTypeSearchText");
+		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "coraText");
+
+		SpiderDataGroup defTextIdGroup = searchGroup.extractGroup("defTextId");
+		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"),
+				"myRecordTypeSearchDefText");
+		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "coraText");
 
 	}
 }
