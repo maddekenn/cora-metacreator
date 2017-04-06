@@ -32,8 +32,7 @@ public class SearchGroupCreator extends GroupCreator {
 		addLinkChildWithNameInDataLinkedTypeAndLinkedId("presentationId", "presentationGroup",
 				"autocompleteSearchPGroup");
 
-		addLinkChildWithNameInDataLinkedTypeAndLinkedId("textId", "coraText", id + "Text");
-		addLinkChildWithNameInDataLinkedTypeAndLinkedId("defTextId", "coraText", id + "DefText");
+		addTexts();
 
 		topLevelSpiderDataGroup
 				.addChild(SpiderDataAtomic.withNameInDataAndValue("searchGroup", "autocomplete"));
@@ -48,20 +47,25 @@ public class SearchGroupCreator extends GroupCreator {
 
 	private void addLinkChildWithNameInDataLinkedTypeAndLinkedIdAndRepeatId(String nameInData,
 			String linkedRecordType, String linkedRecordId, String repeatId) {
-		SpiderDataGroup recordTypeToSearchIn = createLinkChildWithNameInDataAndLinkedTypeAndLinkedId(
+		SpiderDataGroup linkChild = createLinkChildWithNameInDataAndLinkedTypeAndLinkedId(
 				nameInData, linkedRecordType, linkedRecordId);
-		recordTypeToSearchIn.setRepeatId(repeatId);
-		topLevelSpiderDataGroup.addChild(recordTypeToSearchIn);
+		linkChild.setRepeatId(repeatId);
+		topLevelSpiderDataGroup.addChild(linkChild);
 	}
 
 	private SpiderDataGroup createLinkChildWithNameInDataAndLinkedTypeAndLinkedId(String nameInData,
 			String linkedRecordType, String linkedRecordId) {
-		SpiderDataGroup recordTypeToSearchIn = SpiderDataGroup.withNameInData(nameInData);
-		recordTypeToSearchIn.addChild(
+		SpiderDataGroup linkChild = SpiderDataGroup.withNameInData(nameInData);
+		linkChild.addChild(
 				SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", linkedRecordType));
-		recordTypeToSearchIn.addChild(
+		linkChild.addChild(
 				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", linkedRecordId));
-		return recordTypeToSearchIn;
+		return linkChild;
+	}
+
+	private void addTexts() {
+		addLinkChildWithNameInDataLinkedTypeAndLinkedId("textId", "coraText", id + "Text");
+		addLinkChildWithNameInDataLinkedTypeAndLinkedId("defTextId", "coraText", id + "DefText");
 	}
 
 	@Override

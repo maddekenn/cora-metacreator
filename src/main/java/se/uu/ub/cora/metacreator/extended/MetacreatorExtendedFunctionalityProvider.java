@@ -33,6 +33,7 @@ import se.uu.ub.cora.metacreator.recordlink.PLinkFromRecordLinkCreator;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeCreator;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeMetaCompleter;
 import se.uu.ub.cora.metacreator.recordtype.SearchFromRecordTypeCreator;
+import se.uu.ub.cora.metacreator.search.SearchCompleter;
 import se.uu.ub.cora.metacreator.text.PVarFromTextVarCreator;
 import se.uu.ub.cora.metacreator.text.TextVarMetaCompleter;
 import se.uu.ub.cora.spider.dependency.SpiderDependencyProvider;
@@ -70,6 +71,11 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 			list = ensureListIsRealList(list);
 			list.add(ItemCollectionCompleter.forImplementingTextType(CORA_TEXT));
 			list.add(ItemCollectionCreator.forImplementingTextType(CORA_TEXT));
+		}
+		if ("search".equals(recordType)) {
+			list = ensureListIsRealList(list);
+			list.add(SearchCompleter.forImplementingTextType(CORA_TEXT));
+//			list.add(ItemCollectionCreator.forImplementingTextType(CORA_TEXT));
 		}
 		return list;
 	}

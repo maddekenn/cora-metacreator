@@ -198,4 +198,16 @@ public class DataCreator {
 
 		return recordLink;
 	}
+
+	public static SpiderDataGroup createSearchWithId(String id) {
+		SpiderDataGroup search = createGroupWithIdAndNameInDataAndDataDivider(id,
+				"search", "test");
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(search, "metadataId", "metadataGroup", "autoCompleteSearchGroup");
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(search, "presentationId", "presentationGroup", "autocompleteSearchPGroup");
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(search, "recordTypeToSearchIn", "recordType", "metadataItemCollection");
+		SpiderDataGroup recordTypeToSearchIn = search.extractGroup("recordTypeToSearchIn");
+		recordTypeToSearchIn.setRepeatId("0");
+
+		return search;
+	}
 }
