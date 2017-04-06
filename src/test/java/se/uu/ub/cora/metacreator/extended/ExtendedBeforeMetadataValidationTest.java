@@ -10,6 +10,7 @@ import se.uu.ub.cora.metacreator.dependency.DependencyProviderSpy;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeCreator;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeMetaCompleter;
 import se.uu.ub.cora.metacreator.search.SearchCompleter;
+import se.uu.ub.cora.metacreator.search.SearchCreator;
 import se.uu.ub.cora.metacreator.text.TextVarMetaCompleter;
 import se.uu.ub.cora.spider.dependency.SpiderDependencyProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
@@ -49,9 +50,11 @@ public class ExtendedBeforeMetadataValidationTest {
     public void testGetFunctionalityForCreateBeforeMetadataValidationForSearch() {
         List<ExtendedFunctionality> functionalityForCreateBeforeMetadataValidation = functionalityProvider
                 .getFunctionalityForCreateBeforeMetadataValidation("search");
-        assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 1);
+        assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 2);
         assertTrue(functionalityForCreateBeforeMetadataValidation
                 .get(0) instanceof SearchCompleter);
+        assertTrue(functionalityForCreateBeforeMetadataValidation
+                .get(1) instanceof SearchCreator);
     }
 
     @Test
