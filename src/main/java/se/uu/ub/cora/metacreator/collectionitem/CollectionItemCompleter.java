@@ -7,7 +7,7 @@ import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 public class CollectionItemCompleter implements ExtendedFunctionality {
 
 	@Override
-	public void useExtendedFunctionality(String userId, SpiderDataGroup spiderDataGroup) {
+	public void useExtendedFunctionality(String authToken, SpiderDataGroup spiderDataGroup) {
 
 		MetadataCompleter metadataCompleter = new MetadataCompleter();
 		metadataCompleter.completeSpiderDataGroupWithTexts(spiderDataGroup);

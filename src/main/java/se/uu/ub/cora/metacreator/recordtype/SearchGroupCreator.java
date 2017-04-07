@@ -25,34 +25,47 @@ public class SearchGroupCreator extends GroupCreator {
 	}
 
 	private void addChildren() {
-		addLinkChildWithNameInDataLinkedTypeAndLinkedIdAndRepeatId("recordTypeToSearchIn", "recordType",
-				recordType, "0");
+		addLinkChildWithNameInDataLinkedTypeAndLinkedIdAndRepeatId("recordTypeToSearchIn",
+				"recordType", recordType, "0");
 		addLinkChildWithNameInDataLinkedTypeAndLinkedId("metadataId", "metadataGroup",
 				"autocompleteSearchGroup");
 		addLinkChildWithNameInDataLinkedTypeAndLinkedId("presentationId", "presentationGroup",
 				"autocompleteSearchPGroup");
+
+		addTexts();
+
+		topLevelSpiderDataGroup
+				.addChild(SpiderDataAtomic.withNameInDataAndValue("searchGroup", "autocomplete"));
 	}
 
 	private void addLinkChildWithNameInDataLinkedTypeAndLinkedId(String nameInData,
 			String linkedRecordType, String linkedRecordId) {
-		SpiderDataGroup recordTypeToSearchIn = createLinkChildWithNameInDataAndLinkedTypeAndLinkedId(nameInData, linkedRecordType, linkedRecordId);
+		SpiderDataGroup recordTypeToSearchIn = createLinkChildWithNameInDataAndLinkedTypeAndLinkedId(
+				nameInData, linkedRecordType, linkedRecordId);
 		topLevelSpiderDataGroup.addChild(recordTypeToSearchIn);
 	}
 
-	private void addLinkChildWithNameInDataLinkedTypeAndLinkedIdAndRepeatId(String nameInData, String linkedRecordType,
-																			String linkedRecordId, String repeatId) {
-		SpiderDataGroup recordTypeToSearchIn = createLinkChildWithNameInDataAndLinkedTypeAndLinkedId(nameInData, linkedRecordType, linkedRecordId);
-		recordTypeToSearchIn.setRepeatId(repeatId);
-		topLevelSpiderDataGroup.addChild(recordTypeToSearchIn);
+	private void addLinkChildWithNameInDataLinkedTypeAndLinkedIdAndRepeatId(String nameInData,
+			String linkedRecordType, String linkedRecordId, String repeatId) {
+		SpiderDataGroup linkChild = createLinkChildWithNameInDataAndLinkedTypeAndLinkedId(
+				nameInData, linkedRecordType, linkedRecordId);
+		linkChild.setRepeatId(repeatId);
+		topLevelSpiderDataGroup.addChild(linkChild);
 	}
 
-	private SpiderDataGroup createLinkChildWithNameInDataAndLinkedTypeAndLinkedId(String nameInData, String linkedRecordType, String linkedRecordId) {
-		SpiderDataGroup recordTypeToSearchIn = SpiderDataGroup.withNameInData(nameInData);
-		recordTypeToSearchIn.addChild(
+	private SpiderDataGroup createLinkChildWithNameInDataAndLinkedTypeAndLinkedId(String nameInData,
+			String linkedRecordType, String linkedRecordId) {
+		SpiderDataGroup linkChild = SpiderDataGroup.withNameInData(nameInData);
+		linkChild.addChild(
 				SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", linkedRecordType));
-		recordTypeToSearchIn
-				.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", linkedRecordId));
-		return recordTypeToSearchIn;
+		linkChild.addChild(
+				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", linkedRecordId));
+		return linkChild;
+	}
+
+	private void addTexts() {
+		addLinkChildWithNameInDataLinkedTypeAndLinkedId("textId", "coraText", id + "Text");
+		addLinkChildWithNameInDataLinkedTypeAndLinkedId("defTextId", "coraText", id + "DefText");
 	}
 
 	@Override
@@ -62,11 +75,11 @@ public class SearchGroupCreator extends GroupCreator {
 
 	@Override
 	void addAttributeType() {
-		//not implemented for search
+		// not implemented for search
 	}
 
 	@Override
-	protected void addChildReferencesWithChildId(String refRecordInfoId){
-		//not implemented for search
+	protected void addChildReferencesWithChildId(String refRecordInfoId) {
+		// not implemented for search
 	}
 }

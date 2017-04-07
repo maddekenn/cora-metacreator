@@ -25,6 +25,7 @@ public class SearchFromRecordTypeCreator implements ExtendedFunctionality {
 			SpiderDataGroup searchGroup = creator.createGroup("");
 			SpiderRecordCreator spiderRecordCreator = SpiderInstanceProvider
 					.getSpiderRecordCreator();
+			// TODO: create texts
 			spiderRecordCreator.createAndStoreRecord(authToken, "search", searchGroup);
 		}
 
