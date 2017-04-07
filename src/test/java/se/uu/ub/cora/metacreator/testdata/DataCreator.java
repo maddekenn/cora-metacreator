@@ -110,8 +110,8 @@ public class DataCreator {
 		spiderDataGroup.addChild(link);
 	}
 
-	public static SpiderDataGroup createCollectionItemGroupWithIdAndTextIdAndDefTextId(String id,
-			String textId, String defTextId) {
+	public static SpiderDataGroup createCollectionItemGroupWithIdTextIdDefTextIdAndImplementingTextType(String id,
+																										String textId, String defTextId, String implementingTextType) {
 		SpiderDataGroup item = SpiderDataGroup.withNameInData("metadata");
 
 		SpiderDataGroup recordInfo = SpiderDataGroup.withNameInData("recordInfo");
@@ -128,10 +128,12 @@ public class DataCreator {
 		item.addChild(SpiderDataAtomic.withNameInDataAndValue("nameInData", nameInData));
 
 		if (!"".equals(textId)) {
-			item.addChild(SpiderDataAtomic.withNameInDataAndValue("textId", textId));
+			DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(item,"textId", implementingTextType, textId);
+//			item.addChild(SpiderDataAtomic.withNameInDataAndValue("textId", textId));
 		}
 		if (!"".equals(defTextId)) {
-			item.addChild(SpiderDataAtomic.withNameInDataAndValue("defTextId", defTextId));
+			DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(item,"defTextId", implementingTextType, defTextId);
+//			item.addChild(SpiderDataAtomic.withNameInDataAndValue("defTextId", defTextId));
 		}
 		return item;
 	}

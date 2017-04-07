@@ -26,8 +26,8 @@ public class CollectionItemCreatorTest {
 	public void testNonExistingTexts() {
 		CollectionItemCreator creator = CollectionItemCreator
 				.forImplementingTextType("textSystemOne");
-		SpiderDataGroup item = DataCreator.createCollectionItemGroupWithIdAndTextIdAndDefTextId(
-				"firstItem", "nonExistingText", "nonExistingDefText");
+		SpiderDataGroup item = DataCreator.createCollectionItemGroupWithIdTextIdDefTextIdAndImplementingTextType(
+				"firstItem", "nonExistingText", "nonExistingDefText", "textSystemOne");
 
 		creator.useExtendedFunctionality(authToken, item);
 
@@ -53,8 +53,8 @@ public class CollectionItemCreatorTest {
 		CollectionItemCreator creator = CollectionItemCreator
 				.forImplementingTextType("textSystemOne");
 
-		SpiderDataGroup item = DataCreator.createCollectionItemGroupWithIdAndTextIdAndDefTextId(
-				"firstItem", "someExistingTextId", "someExistingDefTextId");
+		SpiderDataGroup item = DataCreator.createCollectionItemGroupWithIdTextIdDefTextIdAndImplementingTextType(
+				"firstItem", "someExistingTextId", "someExistingDefTextId", "textSystemOne");
 		creator.useExtendedFunctionality(authToken, item);
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 0);
