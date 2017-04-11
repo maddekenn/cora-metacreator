@@ -21,7 +21,7 @@ import java.util.List;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class ExtendedBeforeMetadataValidationTest {
+public class MetacreatorExtendedBeforeMetadataValidationTest {
     private MetacreatorExtendedFunctionalityProvider functionalityProvider;
 
     @BeforeMethod
