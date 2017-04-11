@@ -68,12 +68,12 @@ public class PresentationGroupCreator extends GroupCreator {
 
 	@Override
 	void addValuesForChildReference(SpiderDataGroup childReference) {
-		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("default", "ref"));
 		childReference.setRepeatId("0");
 	}
 
 	private SpiderDataGroup createRefGroup(String refRecordInfoId) {
 		SpiderDataGroup refGroup = SpiderDataGroup.withNameInData("refGroup");
+		refGroup.setRepeatId("0");
 		SpiderDataGroup ref = createRefPartOfRefGroup(refRecordInfoId);
 		refGroup.addChild(ref);
 		return refGroup;
@@ -82,8 +82,7 @@ public class PresentationGroupCreator extends GroupCreator {
 	private SpiderDataGroup createRefPartOfRefGroup(String refRecordInfoId) {
 		SpiderDataGroup ref = SpiderDataGroup.withNameInData("ref");
 		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", refRecordInfoId));
-		ref.addChild(
-				SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", PRESENTATION));
+		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", PRESENTATION));
 		ref.addAttributeByIdWithValue("type", PRESENTATION);
 		return ref;
 	}

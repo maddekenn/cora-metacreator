@@ -6,10 +6,21 @@ import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 
 public class CollectionItemCompleter implements ExtendedFunctionality {
 
+	private String implementingTextType;
+
+	public CollectionItemCompleter(String implementingTextType) {
+		this.implementingTextType = implementingTextType;
+	}
+
+	public static CollectionItemCompleter forImplementingTextType(String implementingTextType) {
+		return new CollectionItemCompleter(implementingTextType);
+	}
+
 	@Override
-	public void useExtendedFunctionality(String userId, SpiderDataGroup spiderDataGroup) {
+	public void useExtendedFunctionality(String authToken, SpiderDataGroup spiderDataGroup) {
 
 		MetadataCompleter metadataCompleter = new MetadataCompleter();
-		metadataCompleter.completeSpiderDataGroupWithTexts(spiderDataGroup);
+		metadataCompleter.completeSpiderDataGroupWithLinkedTexts(spiderDataGroup, implementingTextType);
 	}
+
 }

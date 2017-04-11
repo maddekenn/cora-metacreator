@@ -35,17 +35,21 @@ public class CollectionItemCreator implements ExtendedFunctionality {
 		createTextIfTextIdIsMissing("defTextId");
 	}
 
-	private void createTextIfTextIdIsMissing(String id) {
-		if (textIdDoesNotExist(spiderDataGroup, id)) {
-			createTextWithTextIdInStorage(spiderDataGroup.extractAtomicValue(id));
+	private void createTextIfTextIdIsMissing(String typeOfTextToCreate) {
+
+		SpiderDataGroup textIdGroup = spiderDataGroup.extractGroup(typeOfTextToCreate);
+		String textId = textIdGroup.extractAtomicValue("linkedRecordId");
+
+		if (textIdDoesNotExist(textId)) {
+			createTextWithTextIdInStorage(textId);
 		}
 	}
 
-	private boolean textIdDoesNotExist(SpiderDataGroup spiderDataGroup, String textId) {
+	private boolean textIdDoesNotExist(String textId) {
 		try {
 			SpiderRecordReader spiderRecordReader = SpiderInstanceProvider.getSpiderRecordReader();
 			spiderRecordReader.readRecord(authToken, implementingTextType,
-					spiderDataGroup.extractAtomicValue(textId));
+					textId);
 		} catch (RecordNotFoundException e) {
 			return true;
 		}

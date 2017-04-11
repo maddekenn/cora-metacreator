@@ -49,7 +49,7 @@ public class DataCreatorHelperTest {
 	}
 
 	@Test
-	public void testExtractid() {
+	public void testExtractId() {
 		SpiderDataGroup mainDataGroup = DataCreator.createTextVarGroupWithIdAndTextIdAndDefTextId(
 				"someId", "someTextId", "someDefTextId");
 		String id = DataCreatorHelper.extractIdFromDataGroup(mainDataGroup);

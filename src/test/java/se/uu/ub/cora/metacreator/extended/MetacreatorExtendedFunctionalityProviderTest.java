@@ -58,22 +58,6 @@ public class MetacreatorExtendedFunctionalityProviderTest {
 	}
 
 	@Test
-	public void testGetFunctionalityForCreateBeforeMetadataValidation() {
-		List<ExtendedFunctionality> functionalityForCreateBeforeMetadataValidation = functionalityProvider
-				.getFunctionalityForCreateBeforeMetadataValidation("metadataTextVariable");
-		assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 1);
-		assertTrue(functionalityForCreateBeforeMetadataValidation
-				.get(0) instanceof TextVarMetaCompleter);
-	}
-
-	@Test
-	public void testGetFunctionalityForCreateBeforeMetadataValidationNot() {
-		List<ExtendedFunctionality> functionalityForCreateBeforeMetadataValidation = functionalityProvider
-				.getFunctionalityForCreateBeforeMetadataValidation("metadataTextVariableNOT");
-		assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 0);
-	}
-
-	@Test
 	public void testGetFunctionalityForCreateBeforeReturn() {
 		List<ExtendedFunctionality> functionalityForCreateBeforeReturn = functionalityProvider
 				.getFunctionalityForCreateBeforeReturn("metadataTextVariable");
@@ -103,16 +87,6 @@ public class MetacreatorExtendedFunctionalityProviderTest {
 		assertEquals(functionalityProvider.ensureListIsRealList(list), list);
 	}
 
-	@Test
-	public void testGetFunctionalityForCreateBeforeMetadataValidationForRecordType() {
-		List<ExtendedFunctionality> functionalityForCreateBeforeMetadataValidation = functionalityProvider
-				.getFunctionalityForCreateBeforeMetadataValidation("recordType");
-		assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 2);
-		assertTrue(functionalityForCreateBeforeMetadataValidation
-				.get(0) instanceof RecordTypeMetaCompleter);
-		assertTrue(
-				functionalityForCreateBeforeMetadataValidation.get(1) instanceof RecordTypeCreator);
-	}
 
 	@Test
 	public void testGetFunctionalityForCreateBeforeReturnForRecordType() {
@@ -122,30 +96,6 @@ public class MetacreatorExtendedFunctionalityProviderTest {
 		assertTrue(
 				functionalityForCreateBeforeReturn.get(0) instanceof SearchFromRecordTypeCreator);
 
-	}
-
-	@Test
-	public void testGetFunctionalityForCreateBeforeMetadataValidationForCollectionItem() {
-		List<ExtendedFunctionality> functionalityForCreateBeforeMetadataValidation = functionalityProvider
-				.getFunctionalityForCreateBeforeMetadataValidation("metadataCollectionItem");
-		assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 2);
-		assertTrue(functionalityForCreateBeforeMetadataValidation
-				.get(0) instanceof CollectionItemCompleter);
-		assertTrue(functionalityForCreateBeforeMetadataValidation
-				.get(1) instanceof CollectionItemCreator);
-	}
-
-	@Test
-	public void testGetFunctionalityForCreateBeforeMetadataValidationForItemCollectionI() {
-		List<ExtendedFunctionality> functionalityForCreateBeforeMetadataValidation = functionalityProvider
-				.getFunctionalityForCreateBeforeMetadataValidation("metadataItemCollection");
-
-		assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 2);
-		assertTrue(functionalityForCreateBeforeMetadataValidation
-				.get(0) instanceof ItemCollectionCompleter);
-
-		assertTrue(functionalityForCreateBeforeMetadataValidation
-				.get(1) instanceof ItemCollectionCreator);
 	}
 
 	@Test
