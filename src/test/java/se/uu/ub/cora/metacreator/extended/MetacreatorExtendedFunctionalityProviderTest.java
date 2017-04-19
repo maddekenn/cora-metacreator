@@ -31,18 +31,11 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import se.uu.ub.cora.metacreator.collection.CollectionVarFromItemCollectionCreator;
-import se.uu.ub.cora.metacreator.collection.ItemCollectionCompleter;
-import se.uu.ub.cora.metacreator.collection.ItemCollectionCreator;
 import se.uu.ub.cora.metacreator.collection.PCollVarFromCollectionVarCreator;
-import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCompleter;
-import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCreator;
 import se.uu.ub.cora.metacreator.dependency.DependencyProviderSpy;
 import se.uu.ub.cora.metacreator.recordlink.PLinkFromRecordLinkCreator;
-import se.uu.ub.cora.metacreator.recordtype.RecordTypeCreator;
-import se.uu.ub.cora.metacreator.recordtype.RecordTypeMetaCompleter;
 import se.uu.ub.cora.metacreator.recordtype.SearchFromRecordTypeCreator;
 import se.uu.ub.cora.metacreator.text.PVarFromTextVarCreator;
-import se.uu.ub.cora.metacreator.text.TextVarMetaCompleter;
 import se.uu.ub.cora.spider.dependency.SpiderDependencyProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 import se.uu.ub.cora.spider.extended.UserUpdaterForAppTokenAsExtendedFunctionality;

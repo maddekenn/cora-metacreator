@@ -64,8 +64,8 @@ public class SearchGroupCreator extends GroupCreator {
 	}
 
 	private void addTexts() {
-		addLinkChildWithNameInDataLinkedTypeAndLinkedId("textId", "coraText", id + "Text");
-		addLinkChildWithNameInDataLinkedTypeAndLinkedId("defTextId", "coraText", id + "DefText");
+		addLinkChildWithNameInDataLinkedTypeAndLinkedId("textId", "text", id + "Text");
+		addLinkChildWithNameInDataLinkedTypeAndLinkedId("defTextId", "text", id + "DefText");
 	}
 
 	@Override

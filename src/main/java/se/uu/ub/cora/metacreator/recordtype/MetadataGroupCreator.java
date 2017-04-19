@@ -39,9 +39,11 @@ public class MetadataGroupCreator extends GroupCreator{
 	private void addTextIds() {
 		SpiderDataGroup textIdGroup = SpiderDataGroup.withNameInData("textId");
 		textIdGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", id+"Text"));
+		textIdGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "text"));
 		topLevelSpiderDataGroup.addChild(textIdGroup);
 		SpiderDataGroup defTextIdGroup = SpiderDataGroup.withNameInData("defTextId");
 		defTextIdGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", id+"DefText"));
+		defTextIdGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "text"));
 		topLevelSpiderDataGroup.addChild(defTextIdGroup);
 	}
 
