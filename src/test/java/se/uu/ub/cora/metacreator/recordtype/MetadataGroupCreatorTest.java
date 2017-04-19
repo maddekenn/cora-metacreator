@@ -23,8 +23,10 @@ public class MetadataGroupCreatorTest {
 		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "cora");
 		
 		assertEquals(metadataGroup.extractAtomicValue("nameInData"), "myRecordType");
-		assertEquals(metadataGroup.extractAtomicValue("textId"), "myRecordTypeGroupText");
-		assertEquals(metadataGroup.extractAtomicValue("defTextId"), "myRecordTypeGroupDefText");
+		SpiderDataGroup textIdGroup = metadataGroup.extractGroup("textId");
+		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "myRecordTypeGroupText");
+		SpiderDataGroup defTextIdGroup = metadataGroup.extractGroup("defTextId");
+		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"), "myRecordTypeGroupDefText");
 		
 		assertCorrectChildReferences(metadataGroup);
 		

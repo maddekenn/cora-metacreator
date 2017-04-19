@@ -12,8 +12,8 @@ public class ItemCollectionCompleter implements ExtendedFunctionality {
 		this.implementingTextType = implementingTextType;
 	}
 
-	public static ItemCollectionCompleter forImplementingTextType(String implementingTextType) {
-		return new ItemCollectionCompleter(implementingTextType);
+	public static ItemCollectionCompleter forTextLinkedRecordType(String linkedRecordType) {
+		return new ItemCollectionCompleter(linkedRecordType);
 	}
 
 	@Override

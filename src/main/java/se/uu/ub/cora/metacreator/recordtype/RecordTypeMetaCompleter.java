@@ -92,9 +92,9 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 	}
 
 	private void addTexts() {
-		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("textId", "coraText",
+		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("textId", "text",
 				id + "Text");
-		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("defTextId", "coraText",
+		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("defTextId", "text",
 				id + "DefText");
 	}
 }

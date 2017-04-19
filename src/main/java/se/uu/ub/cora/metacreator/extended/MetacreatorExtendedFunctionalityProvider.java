@@ -65,17 +65,17 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 		}
 		if ("metadataCollectionItem".equals(recordType)) {
 			list = ensureListIsRealList(list);
-			list.add(new CollectionItemCompleter(CORA_TEXT));
+			list.add(CollectionItemCompleter.forTextLinkedRecordType("text"));
 			list.add(CollectionItemCreator.forImplementingTextType(CORA_TEXT));
 		}
 		if ("metadataItemCollection".equals(recordType)) {
 			list = ensureListIsRealList(list);
-			list.add(ItemCollectionCompleter.forImplementingTextType(CORA_TEXT));
+			list.add(ItemCollectionCompleter.forTextLinkedRecordType("text"));
 			list.add(ItemCollectionCreator.forImplementingTextType(CORA_TEXT));
 		}
 		if ("search".equals(recordType)) {
 			list = ensureListIsRealList(list);
-			list.add(SearchCompleter.forImplementingTextType(CORA_TEXT));
+			list.add(SearchCompleter.forTextLinkedRecordType("text"));
 			list.add(SearchCreator.forImplementingTextType(CORA_TEXT));
 		}
 		return list;

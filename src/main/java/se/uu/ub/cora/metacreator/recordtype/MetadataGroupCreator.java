@@ -1,5 +1,6 @@
 package se.uu.ub.cora.metacreator.recordtype;
 
+import se.uu.ub.cora.metacreator.DataCreatorHelper;
 import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
@@ -36,8 +37,12 @@ public class MetadataGroupCreator extends GroupCreator{
 	}
 
 	private void addTextIds() {
-		topLevelSpiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("textId", id+"Text"));
-		topLevelSpiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("defTextId", id+"DefText"));
+		SpiderDataGroup textIdGroup = SpiderDataGroup.withNameInData("textId");
+		textIdGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", id+"Text"));
+		topLevelSpiderDataGroup.addChild(textIdGroup);
+		SpiderDataGroup defTextIdGroup = SpiderDataGroup.withNameInData("defTextId");
+		defTextIdGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", id+"DefText"));
+		topLevelSpiderDataGroup.addChild(defTextIdGroup);
 	}
 
 	@Override
