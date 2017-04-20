@@ -18,16 +18,8 @@ public class SearchFromRecordTypeCreator implements ExtendedFunctionality {
 		this.authToken = authToken;
 
 		extractIdAndRecordTypeAndDataDividerFromSpiderDataGroup(spiderDataGroup);
-		SearchGroupCreator creator = SearchGroupCreator
-				.withIdIdAndDataDividerAndRecordType(id + "Search", dataDividerString, id);
 
-		if (searchDoesNotExistInStorage(id + "Search")) {
-			SpiderDataGroup searchGroup = creator.createGroup("");
-			SpiderRecordCreator spiderRecordCreator = SpiderInstanceProvider
-					.getSpiderRecordCreator();
-			spiderRecordCreator.createAndStoreRecord(authToken, "search", searchGroup);
-		}
-
+		possiblyCreateSearch(authToken);
 	}
 
 	private void extractIdAndRecordTypeAndDataDividerFromSpiderDataGroup(
@@ -45,6 +37,14 @@ public class SearchFromRecordTypeCreator implements ExtendedFunctionality {
 		return recordInfoGroup.extractGroup("dataDivider").extractAtomicValue("linkedRecordId");
 	}
 
+	private void possiblyCreateSearch(String authToken) {
+		if (searchDoesNotExistInStorage(id + "Search")) {
+			SearchGroupCreator creator = SearchGroupCreator
+					.withIdIdAndDataDividerAndRecordType(id + "Search", dataDividerString, id);
+			createSearch(authToken, creator);
+		}
+	}
+
 	private boolean searchDoesNotExistInStorage(String searchId) {
 		try {
 			SpiderRecordReader spiderRecordReader = SpiderInstanceProvider.getSpiderRecordReader();
@@ -53,5 +53,12 @@ public class SearchFromRecordTypeCreator implements ExtendedFunctionality {
 			return true;
 		}
 		return false;
+	}
+
+	private void createSearch(String authToken, SearchGroupCreator creator) {
+		SpiderDataGroup searchGroup = creator.createGroup("");
+		SpiderRecordCreator spiderRecordCreator = SpiderInstanceProvider
+                .getSpiderRecordCreator();
+		spiderRecordCreator.createAndStoreRecord(authToken, "search", searchGroup);
 	}
 }

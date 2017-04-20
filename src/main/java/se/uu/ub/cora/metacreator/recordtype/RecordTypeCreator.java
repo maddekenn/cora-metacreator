@@ -34,6 +34,10 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 		SpiderDataGroup recordInfo = spiderDataGroup.extractGroup("recordInfo");
 		recordTypeId = recordInfo.extractAtomicValue("id");
 
+		possiblyCreateNecessaryTextsMetadataAndPresentations();
+	}
+
+	private void possiblyCreateNecessaryTextsMetadataAndPresentations() {
 		extractDataDivider();
 		possiblyCreateText("textId");
 		possiblyCreateText("defTextId");
@@ -42,14 +46,35 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 	}
 
 	private void possiblyCreateText(String textIdToExtract) {
-		SpiderDataGroup textGroup = spiderDataGroup.extractGroup(textIdToExtract);
-
-		String textId = textGroup.extractAtomicValue(LINKED_RECORD_ID);
+		String textId = getTextId(textIdToExtract);
 		if (recordDoesNotExistInStorage(implementingTextType, textId)) {
-			TextCreator textCreator = TextCreator.withTextIdAndDataDivider(textId, dataDivider);
-			SpiderDataGroup text = textCreator.createText();
-			storeRecord(implementingTextType, text);
+			createText(textId);
 		}
+	}
+
+	private String getTextId(String idToExtract) {
+		return getLinkedRecordIdFromGroupByNameInData(idToExtract);
+	}
+
+	private String getLinkedRecordIdFromGroupByNameInData(String textIdToExtract) {
+		SpiderDataGroup textGroup = spiderDataGroup.extractGroup(textIdToExtract);
+		return textGroup.extractAtomicValue(LINKED_RECORD_ID);
+	}
+
+	private boolean recordDoesNotExistInStorage(String recordType, String presentationGroupId) {
+		try {
+			SpiderRecordReader spiderRecordReader = SpiderInstanceProvider.getSpiderRecordReader();
+			spiderRecordReader.readRecord(userId, recordType, presentationGroupId);
+		} catch (RecordNotFoundException e) {
+			return true;
+		}
+		return false;
+	}
+
+	private void createText(String textId) {
+		TextCreator textCreator = TextCreator.withTextIdAndDataDivider(textId, dataDivider);
+		SpiderDataGroup text = textCreator.createText();
+		storeRecord(implementingTextType, text);
 	}
 
 	private void possiblyCreateMetadataGroups() {
@@ -58,25 +83,35 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 	}
 
 	private void possiblyCreateMetadataGroup(String metadataIdToExtract, String childReference) {
-		SpiderDataGroup metadataIdGroup = spiderDataGroup.extractGroup(metadataIdToExtract);
-		String metadataId = metadataIdGroup.extractAtomicValue(LINKED_RECORD_ID);
+		String metadataId = getMetadataId(metadataIdToExtract);
 		if (recordDoesNotExistInStorage("metadataGroup", metadataId)) {
-			MetadataGroupCreator groupCreator = MetadataGroupCreator
-					.withIdAndNameInDataAndDataDivider(metadataId, recordTypeId, dataDivider);
-			SpiderDataGroup metadataGroup = groupCreator.createGroup(childReference);
-			storeRecord("metadataGroup", metadataGroup);
+			createMetadataGroup(childReference, metadataId);
 		}
 	}
 
+	private String getMetadataId(String metadataIdToExtract) {
+		return getLinkedRecordIdFromGroupByNameInData(metadataIdToExtract);
+	}
+
+	private void createMetadataGroup(String childReference, String metadataId) {
+		MetadataGroupCreator groupCreator = MetadataGroupCreator
+                .withIdAndNameInDataAndDataDivider(metadataId, recordTypeId, dataDivider);
+		SpiderDataGroup metadataGroup = groupCreator.createGroup(childReference);
+		storeRecord("metadataGroup", metadataGroup);
+	}
+
 	private void possiblyCreatePresentationGroups() {
-		SpiderDataGroup metadataIdGroup = spiderDataGroup.extractGroup(METADATA_ID);
-		String presentationOf = metadataIdGroup.extractAtomicValue(LINKED_RECORD_ID);
+		String presentationOf = getPresentationOf(METADATA_ID);
 
 		createFormPresentation(presentationOf);
 
 		createOutputPresentations(presentationOf);
 
 		createNewFormPresentation();
+	}
+
+	private String getPresentationOf(String metadataId) {
+		return getLinkedRecordIdFromGroupByNameInData(metadataId);
 	}
 
 	private void createFormPresentation(String presentationOf) {
@@ -132,16 +167,6 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 				.withIdDataDividerAndPresentationOf(presentationId, dataDivider, presentationOf);
 		SpiderDataGroup pGroup = presentationGroup.createGroup(refRecordInfoId);
 		storeRecord("presentationGroup", pGroup);
-	}
-
-	private boolean recordDoesNotExistInStorage(String recordType, String presentationGroupId) {
-		try {
-			SpiderRecordReader spiderRecordReader = SpiderInstanceProvider.getSpiderRecordReader();
-			spiderRecordReader.readRecord(userId, recordType, presentationGroupId);
-		} catch (RecordNotFoundException e) {
-			return true;
-		}
-		return false;
 	}
 
 	private void storeRecord(String recordTypeToCreate, SpiderDataGroup spiderDataGroupToStore) {
