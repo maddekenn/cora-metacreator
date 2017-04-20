@@ -54,9 +54,9 @@ public class SearchCreator implements ExtendedFunctionality {
     private void createTextWithTextId(String textId) {
         String dataDivider = DataCreatorHelper
                 .extractDataDividerStringFromDataGroup(spiderDataGroup);
-        RecordCreatorHelper recordCreatorHelper = new RecordCreatorHelper(authToken);
-        recordCreatorHelper.createTextInStorageWithTextIdDataDividerAndTextType(textId, dataDivider,
-                implementingTextType);
+//        RecordCreatorHelper recordCreatorHelper = new RecordCreatorHelper(authToken);
+//        recordCreatorHelper.createTextInStorageWithTextIdDataDividerAndTextType(textId, dataDivider,
+//                implementingTextType);
     }
 
 }
