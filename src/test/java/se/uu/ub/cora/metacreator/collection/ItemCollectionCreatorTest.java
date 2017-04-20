@@ -32,8 +32,12 @@ public class ItemCollectionCreatorTest {
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 3);
 		SpiderDataGroup record = instanceFactory.spiderRecordCreators.get(0).record;
 		assertEquals(record.extractAtomicValue("nameInData"), "first");
-		assertEquals(record.extractAtomicValue("textId"), "firstItemText");
-		assertEquals(record.extractAtomicValue("defTextId"), "firstItemDefText");
+
+		SpiderDataGroup textIdGroup = record.extractGroup("textId");
+		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "firstItemText");
+		SpiderDataGroup defTextIdGroup = record.extractGroup("defTextId");
+		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"), "firstItemDefText");
+
 		assertEquals(record.getAttributes().get("type"), "collectionItem");
 
 
@@ -62,8 +66,11 @@ public class ItemCollectionCreatorTest {
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 3);
 		SpiderDataGroup record = instanceFactory.spiderRecordCreators.get(1).record;
 		assertEquals(record.extractAtomicValue("nameInData"), "second");
-		assertEquals(record.extractAtomicValue("textId"), "secondItemText");
-		assertEquals(record.extractAtomicValue("defTextId"), "secondItemDefText");
+
+		SpiderDataGroup textIdGroup = record.extractGroup("textId");
+		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "secondItemText");
+		SpiderDataGroup defTextIdGroup = record.extractGroup("defTextId");
+		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"), "secondItemDefText");
 
 		SpiderDataGroup recordInfo = record.extractGroup("recordInfo");
 		assertEquals(recordInfo.extractAtomicValue("id"), "secondItem");

@@ -13,8 +13,8 @@ public class SearchCompleter implements ExtendedFunctionality {
         this.implementingTextType = implementingTextType;
     }
 
-    public static SearchCompleter forImplementingTextType(String implementingTextType) {
-        return new SearchCompleter(implementingTextType);
+    public static SearchCompleter forTextLinkedRecordType(String linkedRecordType) {
+        return new SearchCompleter(linkedRecordType);
     }
 
     @Override

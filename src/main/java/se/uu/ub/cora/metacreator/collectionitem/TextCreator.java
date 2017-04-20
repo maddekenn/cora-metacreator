@@ -8,13 +8,13 @@ import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 import se.uu.ub.cora.spider.record.SpiderRecordReader;
 import se.uu.ub.cora.spider.record.storage.RecordNotFoundException;
 
-public class CollectionItemCreator implements ExtendedFunctionality {
+public class TextCreator implements ExtendedFunctionality {
 
 	private String authToken;
 	private SpiderDataGroup spiderDataGroup;
 	private String implementingTextType;
 
-	public CollectionItemCreator(String implementingTextType) {
+	public TextCreator(String implementingTextType) {
 		this.implementingTextType = implementingTextType;
 	}
 
@@ -26,8 +26,8 @@ public class CollectionItemCreator implements ExtendedFunctionality {
 
 	}
 
-	public static CollectionItemCreator forImplementingTextType(String implementingTextType) {
-		return new CollectionItemCreator(implementingTextType);
+	public static TextCreator forImplementingTextType(String implementingTextType) {
+		return new TextCreator(implementingTextType);
 	}
 
 	private void createTextsIfMissing() {

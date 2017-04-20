@@ -24,7 +24,7 @@ public class ItemCollectionCompleterTest {
 	@Test
 	public void testCollectionWithNoTexts() {
 		ItemCollectionCompleter completer = ItemCollectionCompleter
-				.forImplementingTextType("textSystemOne");
+				.forTextLinkedRecordType("textSystemOne");
 
 		SpiderDataGroup itemCollection = DataCreator
 				.createItemCollectionWithId("testItemCollection");
@@ -43,7 +43,7 @@ public class ItemCollectionCompleterTest {
 	@Test
 	public void testCollectionWithTexts() {
 		ItemCollectionCompleter completer = ItemCollectionCompleter
-				.forImplementingTextType("textSystemOne");
+				.forTextLinkedRecordType("textSystemOne");
 
 		SpiderDataGroup itemCollection = DataCreator
 				.createItemCollectionWithId("testItemCollection");

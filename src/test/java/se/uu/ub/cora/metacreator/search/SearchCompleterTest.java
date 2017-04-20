@@ -2,8 +2,6 @@ package se.uu.ub.cora.metacreator.search;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import se.uu.ub.cora.metacreator.collection.ItemCollectionCompleter;
-import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCompleter;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
@@ -26,7 +24,7 @@ public class SearchCompleterTest {
 
     @Test
     public void testSearchWithNoTexts() {
-        SearchCompleter completer = SearchCompleter.forImplementingTextType("textSystemOne");
+        SearchCompleter completer = SearchCompleter.forTextLinkedRecordType("textSystemOne");
 
         assertNotNull(completer);
         SpiderDataGroup search = DataCreator
@@ -45,7 +43,7 @@ public class SearchCompleterTest {
 
     @Test
     public void testSearchWithTexts() {
-        SearchCompleter completer = SearchCompleter.forImplementingTextType("textSystemOne");
+        SearchCompleter completer = SearchCompleter.forTextLinkedRecordType("textSystemOne");
 
         SpiderDataGroup search = DataCreator
                 .createSearchWithId("someSearch");

@@ -11,7 +11,7 @@ import se.uu.ub.cora.metacreator.testdata.DataCreator;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
-public class CollectionItemCreatorTest {
+public class TextCreatorTest {
 	private SpiderInstanceFactorySpy instanceFactory;
 	private String authToken;
 
@@ -24,7 +24,7 @@ public class CollectionItemCreatorTest {
 
 	@Test
 	public void testNonExistingTexts() {
-		CollectionItemCreator creator = CollectionItemCreator
+		TextCreator creator = TextCreator
 				.forImplementingTextType("textSystemOne");
 		SpiderDataGroup item = DataCreator.createCollectionItemGroupWithIdTextIdDefTextIdAndImplementingTextType(
 				"firstItem", "nonExistingText", "nonExistingDefText", "textSystemOne");
@@ -50,7 +50,7 @@ public class CollectionItemCreatorTest {
 
 	@Test
 	public void testWithExistingTextsInStorage() {
-		CollectionItemCreator creator = CollectionItemCreator
+		TextCreator creator = TextCreator
 				.forImplementingTextType("textSystemOne");
 
 		SpiderDataGroup item = DataCreator.createCollectionItemGroupWithIdTextIdDefTextIdAndImplementingTextType(
