@@ -31,13 +31,16 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 		this.authToken = authToken;
 		this.spiderDataGroup = spiderDataGroup;
 
+		possiblyCreateItems(authToken, spiderDataGroup);
+		possiblyCreateTexts(authToken, spiderDataGroup);
+	}
+
+	private void possiblyCreateItems(String authToken, SpiderDataGroup spiderDataGroup) {
 		SpiderDataGroup itemReferences = spiderDataGroup.extractGroup("collectionItemReferences");
 		for (SpiderDataElement child : itemReferences.getChildren()) {
 			SpiderDataGroup item = (SpiderDataGroup) child;
 			createItemIfMissing(authToken, item);
 		}
-
-		createTextsIfMissing();
 	}
 
 	private void createItemIfMissing(String authToken, SpiderDataGroup item) {
@@ -90,35 +93,10 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 				spiderDataGroupToCreate);
 	}
 
-	private void createTextsIfMissing() {
-		createTextWithTextIdToExtractIfMissing("textId");
-		createTextWithTextIdToExtractIfMissing("defTextId");
+	private void possiblyCreateTexts(String authToken, SpiderDataGroup spiderDataGroup) {
+		RecordCreatorHelper recordCreatorHelper = RecordCreatorHelper
+				.withAuthTokenSpiderDataGroupAndImplementingTextType(authToken, spiderDataGroup,
+						implementingTextType);
+		recordCreatorHelper.createTextsIfMissing();
 	}
-
-	private void createTextWithTextIdToExtractIfMissing(String textIdToExtract) {
-		SpiderDataGroup textIdGroup = this.spiderDataGroup.extractGroup(textIdToExtract);
-		String textId = textIdGroup.extractAtomicValue("linkedRecordId");
-		if (textIsMissing(textId)) {
-			createTextWithTextId(textId);
-		}
-	}
-
-	private boolean textIsMissing(String textId) {
-		try {
-			SpiderRecordReader spiderRecordReader = SpiderInstanceProvider.getSpiderRecordReader();
-			spiderRecordReader.readRecord(authToken, implementingTextType, textId);
-		} catch (RecordNotFoundException e) {
-			return true;
-		}
-		return false;
-	}
-
-	private void createTextWithTextId(String textId) {
-		String dataDivider = DataCreatorHelper
-				.extractDataDividerStringFromDataGroup(spiderDataGroup);
-//		RecordCreatorHelper recordCreatorHelper = new RecordCreatorHelper(authToken);
-//		recordCreatorHelper.createTextInStorageWithTextIdDataDividerAndTextType(textId, dataDivider,
-//				implementingTextType);
-	}
-
 }
