@@ -1,6 +1,5 @@
 package se.uu.ub.cora.metacreator.recordtype;
 
-import se.uu.ub.cora.metacreator.DataCreatorHelper;
 import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
