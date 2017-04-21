@@ -59,9 +59,14 @@ public class RecordTypeCreatorTest {
 				.get(createdPGroupNo);
 		assertEquals(spiderRecordCreator.type, "metadataGroup");
 
-		assertEquals(spiderRecordCreator.record.extractAtomicValue("nameInData"), nameInData);
+		SpiderDataGroup record = spiderRecordCreator.record;
+		assertEquals(record.extractAtomicValue("nameInData"), nameInData);
 		assertCorrectUserAndRecordInfo(id, spiderRecordCreator);
 		assertCorrectlyCreatedMetadataChildReference(childRefId, spiderRecordCreator);
+		SpiderDataGroup textIdGroup = record.extractGroup("textId");
+		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "text");
+		SpiderDataGroup defTextIdGroup = record.extractGroup("defTextId");
+		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "text");
 	}
 
 	private void assertCorrectlyCreatedMetadataChildReference(String childRefId,

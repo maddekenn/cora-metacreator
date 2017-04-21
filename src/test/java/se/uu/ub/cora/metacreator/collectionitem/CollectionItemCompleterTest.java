@@ -24,7 +24,7 @@ public class CollectionItemCompleterTest {
 	@Test
 	public void testWithNoTexts() {
 		 CollectionItemCompleter completer = CollectionItemCompleter
-		 .forImplementingTextType("textSystemOne");
+		 .forTextLinkedRecordType("textSystemOne");
 
 		SpiderDataGroup item = DataCreator
 				.createCollectionItemGroupWithIdTextIdDefTextIdAndImplementingTextType("firstItem", "", "", "textSystemOne");
@@ -44,7 +44,7 @@ public class CollectionItemCompleterTest {
 	@Test
 	public void testWithTextsInData() {
 		 CollectionItemCompleter completer = CollectionItemCompleter
-		 .forImplementingTextType("textSystemOne");
+		 .forTextLinkedRecordType("textSystemOne");
 
 
 		SpiderDataGroup item = DataCreator.createCollectionItemGroupWithIdTextIdDefTextIdAndImplementingTextType(

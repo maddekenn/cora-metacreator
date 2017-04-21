@@ -1,6 +1,7 @@
 package se.uu.ub.cora.metacreator.collection;
 
 import se.uu.ub.cora.metacreator.DataCreatorHelper;
+import se.uu.ub.cora.metacreator.MetadataCompleter;
 import se.uu.ub.cora.metacreator.RecordCreatorHelper;
 import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataElement;
@@ -69,6 +70,9 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 				dataDivider);
 
 		item.addChild(recordInfo);
+		MetadataCompleter completer = new MetadataCompleter();
+		completer.completeSpiderDataGroupWithLinkedTexts(item, "text");
+
 		addAtomicValues(id, item);
 		item.addAttributeByIdWithValue("type", "collectionItem");
 		createRecord("metadataCollectionItem", item);
@@ -77,9 +81,6 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 	private void addAtomicValues(String linkedRecordId, SpiderDataGroup item) {
 		String nameInData = linkedRecordId.substring(0, linkedRecordId.indexOf("Item"));
 		item.addChild(SpiderDataAtomic.withNameInDataAndValue("nameInData", nameInData));
-		item.addChild(SpiderDataAtomic.withNameInDataAndValue("textId", linkedRecordId + "Text"));
-		item.addChild(
-				SpiderDataAtomic.withNameInDataAndValue("defTextId", linkedRecordId + "DefText"));
 	}
 
 	private void createRecord(String recordTypeToCreate, SpiderDataGroup spiderDataGroupToCreate) {

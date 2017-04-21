@@ -28,6 +28,7 @@ import se.uu.ub.cora.metacreator.collection.ItemCollectionCompleter;
 import se.uu.ub.cora.metacreator.collection.ItemCollectionCreator;
 import se.uu.ub.cora.metacreator.collection.PCollVarFromCollectionVarCreator;
 import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCompleter;
+import se.uu.ub.cora.metacreator.collectionitem.TextCreator;
 import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCreator;
 import se.uu.ub.cora.metacreator.group.GroupCompleter;
 import se.uu.ub.cora.metacreator.recordlink.PLinkFromRecordLinkCreator;
@@ -66,22 +67,23 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 		}
 		if ("metadataCollectionItem".equals(recordType)) {
 			list = ensureListIsRealList(list);
-			list.add(new CollectionItemCompleter(CORA_TEXT));
-			list.add(CollectionItemCreator.forImplementingTextType(CORA_TEXT));
+			list.add(CollectionItemCompleter.forTextLinkedRecordType("text"));
+			list.add(TextCreator.forImplementingTextType(CORA_TEXT));
 		}
 		if ("metadataItemCollection".equals(recordType)) {
 			list = ensureListIsRealList(list);
-			list.add(ItemCollectionCompleter.forImplementingTextType(CORA_TEXT));
+			list.add(ItemCollectionCompleter.forTextLinkedRecordType("text"));
 			list.add(ItemCollectionCreator.forImplementingTextType(CORA_TEXT));
 		}
 		if ("search".equals(recordType)) {
 			list = ensureListIsRealList(list);
-			list.add(SearchCompleter.forImplementingTextType(CORA_TEXT));
+			list.add(SearchCompleter.forTextLinkedRecordType("text"));
 			list.add(SearchCreator.forImplementingTextType(CORA_TEXT));
 		}
 		if ("metadataGroup".equals(recordType)) {
 			list = ensureListIsRealList(list);
 			list.add(new GroupCompleter());
+			list.add(TextCreator.forImplementingTextType(CORA_TEXT));
 		}
 		return list;
 	}
