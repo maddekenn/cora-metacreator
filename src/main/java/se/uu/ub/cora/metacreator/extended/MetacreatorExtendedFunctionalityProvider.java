@@ -29,7 +29,6 @@ import se.uu.ub.cora.metacreator.collection.ItemCollectionCreator;
 import se.uu.ub.cora.metacreator.collection.PCollVarFromCollectionVarCreator;
 import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCompleter;
 import se.uu.ub.cora.metacreator.collectionitem.TextCreator;
-import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCreator;
 import se.uu.ub.cora.metacreator.group.GroupCompleter;
 import se.uu.ub.cora.metacreator.recordlink.PLinkFromRecordLinkCreator;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeCreator;

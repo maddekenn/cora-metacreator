@@ -121,12 +121,4 @@ public class MetacreatorExtendedFunctionalityProviderTest {
 
 	}
 
-	@Test
-	public void testGetFunctionalityForCreateBeforeMetadataValidationForMetadataGroup() {
-		List<ExtendedFunctionality> functionalityForCreateBeforeMetadataValidation = functionalityProvider
-				.getFunctionalityForCreateBeforeMetadataValidation("metadataGroup");
-		assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 1);
-		assertTrue(functionalityForCreateBeforeMetadataValidation
-				.get(0) instanceof GroupCompleter);
-	}
 }
