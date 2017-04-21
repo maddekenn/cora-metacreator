@@ -7,6 +7,16 @@ import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 public class GroupCompleter implements ExtendedFunctionality {
 
     private SpiderDataGroup spiderDataGroup;
+    private String linkedRecordType;
+
+    public GroupCompleter(String linkedRecordType) {
+        this.linkedRecordType = linkedRecordType;
+    }
+
+
+    public static GroupCompleter forTextLinkedRecordType(String linkedRecordType) {
+        return new GroupCompleter(linkedRecordType);
+    }
 
     @Override
     public void useExtendedFunctionality(String authToken, SpiderDataGroup spiderDataGroup) {
@@ -20,6 +30,6 @@ public class GroupCompleter implements ExtendedFunctionality {
 
     private void addTexts() {
         MetadataCompleter completer = new MetadataCompleter();
-        completer.completeSpiderDataGroupWithTexts(spiderDataGroup);
+        completer.completeSpiderDataGroupWithLinkedTexts(spiderDataGroup, linkedRecordType);
     }
 }

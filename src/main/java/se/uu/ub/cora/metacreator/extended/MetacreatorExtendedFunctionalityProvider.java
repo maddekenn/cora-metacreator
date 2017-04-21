@@ -81,7 +81,7 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 		}
 		if ("metadataGroup".equals(recordType)) {
 			list = ensureListIsRealList(list);
-			list.add(new GroupCompleter());
+			list.add(GroupCompleter.forTextLinkedRecordType("text"));
 			list.add(TextCreator.forImplementingTextType(CORA_TEXT));
 		}
 		return list;

@@ -23,14 +23,43 @@ public class GroupCompleterTest {
 
     @Test
     public void testGroupWithNoTexts() {
-        GroupCompleter completer = new GroupCompleter();
+        GroupCompleter completer = GroupCompleter.forTextLinkedRecordType("someLinkedRecordType");
 
         SpiderDataGroup metadataGroup = DataCreator
                 .createMetadataGroupWithId("someMetadataGroup");
 
         completer.useExtendedFunctionality(authToken, metadataGroup);
 
-        assertEquals(metadataGroup.extractAtomicValue("textId"), "someMetadataGroupText");
-        assertEquals(metadataGroup.extractAtomicValue("defTextId"), "someMetadataGroupDefText");
+        SpiderDataGroup textIdGroup = metadataGroup.extractGroup("textId");
+        assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "someMetadataGroupText");
+        assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "someLinkedRecordType");
+
+        SpiderDataGroup defTextIdGroup = metadataGroup.extractGroup("defTextId");
+        assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"), "someMetadataGroupDefText");
+        assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "someLinkedRecordType");
     }
+
+    @Test
+    public void testGroupWithTexts() {
+        GroupCompleter completer = GroupCompleter.forTextLinkedRecordType("someLinkedRecordType");
+
+        SpiderDataGroup metadataGroup = DataCreator
+                .createMetadataGroupWithId("someMetadataGroup");
+
+        DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(metadataGroup,
+                "textId", "textSystemOne", "anExistingText");
+        DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(metadataGroup,
+                "defTextId", "textSystemOne", "anExistingDefText");
+
+        completer.useExtendedFunctionality(authToken, metadataGroup);
+
+        SpiderDataGroup textIdGroup = metadataGroup.extractGroup("textId");
+        assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "anExistingText");
+        assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "textSystemOne");
+
+        SpiderDataGroup defTextIdGroup = metadataGroup.extractGroup("defTextId");
+        assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"), "anExistingDefText");
+        assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "textSystemOne");
+    }
+
 }
