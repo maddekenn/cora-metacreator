@@ -191,10 +191,13 @@ public class DataCreator {
 		SpiderDataGroup recordLink = createGroupWithIdAndNameInDataAndDataDivider(id, "metadata",
 				dataDividerString);
 		recordLink.addChild(SpiderDataAtomic.withNameInDataAndValue("nameInData", nameInData));
-		recordLink.addChild(SpiderDataAtomic.withNameInDataAndValue("textId", id + "Text"));
-		recordLink.addChild(SpiderDataAtomic.withNameInDataAndValue("defTextId", id + "DefText"));
 		recordLink.addChild(
 				SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", linkedRecordType));
+
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordLink, "textId",
+				"text", id + "Text");
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordLink, "defTextId",
+				"text", id + "DefText");
 
 		recordLink.addAttributeByIdWithValue("type", "recordLink");
 
