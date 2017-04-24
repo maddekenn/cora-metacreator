@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 import se.uu.ub.cora.metacreator.collection.CollectionVarFromItemCollectionCreator;
+import se.uu.ub.cora.metacreator.collection.CollectionVariableCompleter;
 import se.uu.ub.cora.metacreator.collection.ItemCollectionCompleter;
 import se.uu.ub.cora.metacreator.collection.ItemCollectionCreator;
 import se.uu.ub.cora.metacreator.collection.PCollVarFromCollectionVarCreator;
@@ -88,6 +89,11 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 		if ("metadataRecordLink".equals(recordType)) {
 			list = ensureListIsRealList(list);
 			list.add(RecordLinkCompleter.forTextLinkedRecordType("text"));
+			list.add(TextCreator.forImplementingTextType(CORA_TEXT));
+		}
+		if ("metadataCollectionVariable".equals(recordType)) {
+			list = ensureListIsRealList(list);
+			list.add(CollectionVariableCompleter.forTextLinkedRecordType("text"));
 			list.add(TextCreator.forImplementingTextType(CORA_TEXT));
 		}
 

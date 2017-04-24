@@ -11,14 +11,12 @@ public class CollectionVariableConstructorTest {
 	@Test
 	public void testConstructCollectionVar() {
 
-		CollectionVariableConstructor constructor = CollectionVariableConstructor.forImplementingTextType("someTextType");
+		CollectionVariableConstructor constructor = new CollectionVariableConstructor();
 		SpiderDataGroup collectionVar = constructor
 				.constructCollectionVarWithIdNameInDataDataDividerAndRefCollection(
 						"someCollectionVar", "someNameInData", "testSystem", "someCollection");
 
 		assertEquals(collectionVar.extractAtomicValue("nameInData"), "someNameInData");
-
-		assertCorrectTexts(collectionVar);
 
 		assertCorrectRefCollection(collectionVar);
 
@@ -41,13 +39,4 @@ public class CollectionVariableConstructorTest {
 		assertEquals(refCollection.extractAtomicValue("linkedRecordId"), "someCollection");
 	}
 
-	private void assertCorrectTexts(SpiderDataGroup record) {
-		SpiderDataGroup textGroup = record.extractGroup("textId");
-		assertEquals(textGroup.extractAtomicValue("linkedRecordId"), "someCollectionVarText");
-		assertEquals(textGroup.extractAtomicValue("linkedRecordType"), "someTextType");
-
-		SpiderDataGroup defTextGroup = record.extractGroup("defTextId");
-		assertEquals(defTextGroup.extractAtomicValue("linkedRecordId"), "someCollectionVarDefText");
-		assertEquals(defTextGroup.extractAtomicValue("linkedRecordType"), "someTextType");
-	}
 }
