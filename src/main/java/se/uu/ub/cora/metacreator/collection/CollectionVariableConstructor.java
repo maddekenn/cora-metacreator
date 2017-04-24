@@ -8,6 +8,16 @@ import se.uu.ub.cora.spider.data.SpiderDataGroup;
 public class CollectionVariableConstructor {
 
     protected SpiderDataGroup collectionVar;
+    private String implementingTextType;
+
+    public CollectionVariableConstructor(String implementingTextType) {
+        this.implementingTextType = implementingTextType;
+    }
+
+
+    public static CollectionVariableConstructor forImplementingTextType(String implementingTextType) {
+        return new CollectionVariableConstructor(implementingTextType);
+    }
 
     public SpiderDataGroup constructCollectionVarWithIdNameInDataDataDividerAndRefCollection(String id, String nameInData, String dataDivider, String refCollection) {
 
@@ -51,7 +61,7 @@ public class CollectionVariableConstructor {
 
     private void addTexts() {
         MetadataCompleter completer = new MetadataCompleter();
-        completer.completeSpiderDataGroupWithTexts(collectionVar);
+        completer.completeSpiderDataGroupWithLinkedTexts(collectionVar, implementingTextType);
     }
 
 }
