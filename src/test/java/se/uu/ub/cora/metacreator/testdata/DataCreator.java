@@ -237,4 +237,16 @@ public class DataCreator {
 
 		return metadataGroup;
 	}
+
+	public static SpiderDataGroup createMetadataRecordLinkWithId(String id) {
+		SpiderDataGroup metadataRecordLink = createGroupWithIdAndNameInDataAndDataDivider(id,
+				"metadata", "test");
+		metadataRecordLink.addAttributeByIdWithValue("type", "recordLink");
+		metadataRecordLink
+				.addChild(SpiderDataAtomic.withNameInDataAndValue("nameInData", "someRecordLinkNameInData"));
+		metadataRecordLink.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "someRecordType"));
+
+
+		return metadataRecordLink;
+	}
 }

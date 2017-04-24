@@ -8,6 +8,7 @@ import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCompleter;
 import se.uu.ub.cora.metacreator.collectionitem.TextCreator;
 import se.uu.ub.cora.metacreator.dependency.DependencyProviderSpy;
 import se.uu.ub.cora.metacreator.group.GroupCompleter;
+import se.uu.ub.cora.metacreator.recordlink.RecordLinkCompleter;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeCreator;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeMetaCompleter;
 import se.uu.ub.cora.metacreator.search.SearchCompleter;
@@ -101,6 +102,17 @@ public class MetacreatorExtendedBeforeMetadataValidationTest {
         assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 2);
         assertTrue(functionalityForCreateBeforeMetadataValidation
                 .get(0) instanceof GroupCompleter);
+        assertTrue(functionalityForCreateBeforeMetadataValidation
+                .get(1) instanceof TextCreator);
+    }
+
+    @Test
+    public void testGetFunctionalityForCreateBeforeMetadataValidationForMetadataRecordLink() {
+        List<ExtendedFunctionality> functionalityForCreateBeforeMetadataValidation = functionalityProvider
+                .getFunctionalityForCreateBeforeMetadataValidation("metadataRecordLink");
+        assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 2);
+        assertTrue(functionalityForCreateBeforeMetadataValidation
+                .get(0) instanceof RecordLinkCompleter);
         assertTrue(functionalityForCreateBeforeMetadataValidation
                 .get(1) instanceof TextCreator);
     }
