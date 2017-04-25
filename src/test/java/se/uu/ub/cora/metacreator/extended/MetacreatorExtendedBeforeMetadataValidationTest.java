@@ -13,7 +13,7 @@ import se.uu.ub.cora.metacreator.collection.CollectionVariableCompleter;
 import se.uu.ub.cora.metacreator.collection.ItemCollectionCompleter;
 import se.uu.ub.cora.metacreator.collection.ItemCollectionCreator;
 import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCompleter;
-import se.uu.ub.cora.metacreator.collectionitem.TextCreator;
+import se.uu.ub.cora.metacreator.TextCreator;
 import se.uu.ub.cora.metacreator.dependency.DependencyProviderSpy;
 import se.uu.ub.cora.metacreator.group.GroupCompleter;
 import se.uu.ub.cora.metacreator.recordlink.RecordLinkCompleter;
@@ -21,7 +21,7 @@ import se.uu.ub.cora.metacreator.recordtype.RecordTypeCreator;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeMetaCompleter;
 import se.uu.ub.cora.metacreator.search.SearchCompleter;
 import se.uu.ub.cora.metacreator.search.SearchCreator;
-import se.uu.ub.cora.metacreator.text.TextVarMetaCompleter;
+import se.uu.ub.cora.metacreator.textvar.TextVarCompleter;
 import se.uu.ub.cora.spider.dependency.SpiderDependencyProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 
@@ -35,12 +35,13 @@ public class MetacreatorExtendedBeforeMetadataValidationTest {
 	}
 
 	@Test
-	public void testGetFunctionalityForCreateBeforeMetadataValidation() {
+	public void testGetFunctionalityForCreateBeforeMetadataValidationForTextVariable() {
 		List<ExtendedFunctionality> functionalityForCreateBeforeMetadataValidation = functionalityProvider
 				.getFunctionalityForCreateBeforeMetadataValidation("metadataTextVariable");
-		assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 1);
+		assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 2);
 		assertTrue(functionalityForCreateBeforeMetadataValidation
-				.get(0) instanceof TextVarMetaCompleter);
+				.get(0) instanceof TextVarCompleter);
+		assertTrue(functionalityForCreateBeforeMetadataValidation.get(1) instanceof TextCreator);
 	}
 
 	@Test

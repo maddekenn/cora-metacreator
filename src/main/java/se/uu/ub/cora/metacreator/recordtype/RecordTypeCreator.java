@@ -1,6 +1,6 @@
 package se.uu.ub.cora.metacreator.recordtype;
 
-import se.uu.ub.cora.metacreator.text.TextCreator;
+import se.uu.ub.cora.metacreator.TextConstructor;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
@@ -72,8 +72,8 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 	}
 
 	private void createText(String textId) {
-		TextCreator textCreator = TextCreator.withTextIdAndDataDivider(textId, dataDivider);
-		SpiderDataGroup text = textCreator.createText();
+		TextConstructor textConstructor = TextConstructor.withTextIdAndDataDivider(textId, dataDivider);
+		SpiderDataGroup text = textConstructor.createText();
 		storeRecord(implementingTextType, text);
 	}
 

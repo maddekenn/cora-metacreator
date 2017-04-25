@@ -29,7 +29,7 @@ import se.uu.ub.cora.metacreator.collection.ItemCollectionCompleter;
 import se.uu.ub.cora.metacreator.collection.ItemCollectionCreator;
 import se.uu.ub.cora.metacreator.collection.PCollVarFromCollectionVarCreator;
 import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCompleter;
-import se.uu.ub.cora.metacreator.collectionitem.TextCreator;
+import se.uu.ub.cora.metacreator.TextCreator;
 import se.uu.ub.cora.metacreator.group.GroupCompleter;
 import se.uu.ub.cora.metacreator.recordlink.PLinkFromRecordLinkCreator;
 import se.uu.ub.cora.metacreator.recordlink.RecordLinkCompleter;
@@ -38,8 +38,8 @@ import se.uu.ub.cora.metacreator.recordtype.RecordTypeMetaCompleter;
 import se.uu.ub.cora.metacreator.recordtype.SearchFromRecordTypeCreator;
 import se.uu.ub.cora.metacreator.search.SearchCompleter;
 import se.uu.ub.cora.metacreator.search.SearchCreator;
-import se.uu.ub.cora.metacreator.text.PVarFromTextVarCreator;
-import se.uu.ub.cora.metacreator.text.TextVarMetaCompleter;
+import se.uu.ub.cora.metacreator.textvar.PVarFromTextVarCreator;
+import se.uu.ub.cora.metacreator.textvar.TextVarCompleter;
 import se.uu.ub.cora.spider.dependency.SpiderDependencyProvider;
 import se.uu.ub.cora.spider.extended.BaseExtendedFunctionalityProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
@@ -59,7 +59,8 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 				recordType);
 		if ("metadataTextVariable".equals(recordType)) {
 			list = ensureListIsRealList(list);
-			list.add(TextVarMetaCompleter.forImplementingTextType(CORA_TEXT));
+			list.add(TextVarCompleter.forTextLinkedRecordType("text"));
+			list.add(TextCreator.forImplementingTextType(CORA_TEXT));
 		}
 		if ("recordType".equals(recordType)) {
 			list = ensureListIsRealList(list);
