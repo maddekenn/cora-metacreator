@@ -46,10 +46,14 @@ public class MetadataCompleter {
 			SpiderDataGroup metadataGroup, String textNameInData, String textId,
 			String textRecordType) {
 		if (!metadataGroup.containsChildWithNameInData(textNameInData)) {
-			SpiderDataGroup textIdGroup = createLinkedTextWithNameInDataLinkedIdAndLinkedType(
-					textNameInData, textId, textRecordType);
-			metadataGroup.addChild(textIdGroup);
+			addLinkedTextWithNameInDataTextIdAndTextRecordType(metadataGroup, textNameInData, textId, textRecordType);
 		}
+	}
+
+	private void addLinkedTextWithNameInDataTextIdAndTextRecordType(SpiderDataGroup metadataGroup, String textNameInData, String textId, String textRecordType) {
+		SpiderDataGroup textIdGroup = createLinkedTextWithNameInDataLinkedIdAndLinkedType(
+                textNameInData, textId, textRecordType);
+		metadataGroup.addChild(textIdGroup);
 	}
 
 	private SpiderDataGroup createLinkedTextWithNameInDataLinkedIdAndLinkedType(String nameInData,
