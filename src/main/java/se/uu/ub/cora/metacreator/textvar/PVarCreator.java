@@ -19,6 +19,7 @@
 
 package se.uu.ub.cora.metacreator.textvar;
 
+import se.uu.ub.cora.metacreator.DataCreatorHelper;
 import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
@@ -68,15 +69,7 @@ public final class PVarCreator {
 	}
 
 	private SpiderDataGroup createRecordInfoWithIdAndDataDividerRecordId(String pVarId) {
-		SpiderDataGroup recordInfo = SpiderDataGroup.withNameInData("recordInfo");
-		recordInfo.addChild(SpiderDataAtomic.withNameInDataAndValue("id", pVarId));
-
-		SpiderDataGroup dataDivider = SpiderDataGroup.withNameInData("dataDivider");
-		recordInfo.addChild(dataDivider);
-		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "system"));
-		dataDivider.addChild(
-				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", dataDividerString));
-		return recordInfo;
+		return DataCreatorHelper.createRecordInfoWithIdAndDataDivider(pVarId,dataDividerString);
 	}
 
 	public SpiderDataGroup createOutputPVar() {

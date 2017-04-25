@@ -60,15 +60,7 @@ public final class TextConstructor {
 	}
 
 	private SpiderDataGroup createRecordInfoWithIdAndDataDividerRecordId() {
-		SpiderDataGroup recordInfo = SpiderDataGroup.withNameInData("recordInfo");
-		recordInfo.addChild(SpiderDataAtomic.withNameInDataAndValue("id", textId));
-
-		SpiderDataGroup dataDivider = SpiderDataGroup.withNameInData("dataDivider");
-		recordInfo.addChild(dataDivider);
-		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "system"));
-		dataDivider.addChild(
-				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", dataDividerString));
-		return recordInfo;
+		return DataCreatorHelper.createRecordInfoWithIdAndDataDivider(textId,dataDividerString);
 	}
 
 }
