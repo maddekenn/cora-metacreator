@@ -17,24 +17,25 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.uu.ub.cora.metacreator.text;
+package se.uu.ub.cora.metacreator;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.metacreator.TextConstructor;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
-public class TextCreatorTest {
+public class TextConstructorTest {
 
 	@Test
 	public void testCreateTextsFromMetadataId() {
 		String textId = "someTextVar";
 		String dataDividerString = "cora";
-		TextCreator textCreator = TextCreator.withTextIdAndDataDivider(textId, dataDividerString);
-		assertNotNull(textCreator);
-		SpiderDataGroup createdText = textCreator.createText();
+		TextConstructor textConstructor = TextConstructor.withTextIdAndDataDivider(textId, dataDividerString);
+		assertNotNull(textConstructor);
+		SpiderDataGroup createdText = textConstructor.createText();
 		assertEquals(createdText.getNameInData(), "text");
 
 		assertEquals(createdText.getChildren().size(), 3);

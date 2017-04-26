@@ -30,10 +30,10 @@ public class DataCreator {
 
 		textVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("nameInData", "my"));
 		if (!"".equals(textId)) {
-			textVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("textId", textId));
+			addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(textVarGroup, "textId", "someType", textId);
 		}
 		if (!"".equals(defTextId)) {
-			textVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("defTextId", defTextId));
+			addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(textVarGroup, "defTextId", "someType", defTextId);
 		}
 		textVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("regEx", ".*"));
 
@@ -180,12 +180,6 @@ public class DataCreator {
 				"text", id + "Text");
 		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(collectionVar, "defTextId",
 				"text", id + "DefText");
-
-		// collectionVar.addChild(SpiderDataAtomic.withNameInDataAndValue("textId",
-		// id + "Text"));
-		// collectionVar
-		// .addChild(SpiderDataAtomic.withNameInDataAndValue("defTextId", id +
-		// "DefText"));
 
 		collectionVar.addAttributeByIdWithValue("type", "collectionVariable");
 

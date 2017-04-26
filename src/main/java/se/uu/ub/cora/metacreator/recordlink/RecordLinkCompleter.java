@@ -5,15 +5,15 @@ import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 
 public class RecordLinkCompleter implements ExtendedFunctionality {
-    private String linkedRecordType;
+    private String textLinkedRecordType;
     private SpiderDataGroup spiderDataGroup;
 
-    public RecordLinkCompleter(String linkedRecordType) {
-        this.linkedRecordType = linkedRecordType;
+    public RecordLinkCompleter(String textLinkedRecordType) {
+        this.textLinkedRecordType = textLinkedRecordType;
     }
 
-    public static RecordLinkCompleter forTextLinkedRecordType(String linkedRecordType) {
-        return new RecordLinkCompleter(linkedRecordType);
+    public static RecordLinkCompleter forTextLinkedRecordType(String textLinkedRecordType) {
+        return new RecordLinkCompleter(textLinkedRecordType);
     }
 
     @Override
@@ -28,6 +28,6 @@ public class RecordLinkCompleter implements ExtendedFunctionality {
 
     private void addTexts() {
         MetadataCompleter completer = new MetadataCompleter();
-        completer.completeSpiderDataGroupWithLinkedTexts(spiderDataGroup, linkedRecordType);
+        completer.completeSpiderDataGroupWithLinkedTexts(spiderDataGroup, textLinkedRecordType);
     }
 }

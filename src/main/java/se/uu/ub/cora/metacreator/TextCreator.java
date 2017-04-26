@@ -1,6 +1,5 @@
-package se.uu.ub.cora.metacreator.collectionitem;
+package se.uu.ub.cora.metacreator;
 
-import se.uu.ub.cora.metacreator.RecordCreatorHelper;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 

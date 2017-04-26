@@ -17,22 +17,22 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.uu.ub.cora.metacreator.text;
+package se.uu.ub.cora.metacreator;
 
 import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
-public final class TextCreator {
+public final class TextConstructor {
 	private String textId;
 	private String dataDividerString;
 
-	private TextCreator(String textId, String dataDividerString) {
+	private TextConstructor(String textId, String dataDividerString) {
 		this.textId = textId;
 		this.dataDividerString = dataDividerString;
 	}
 
-	public static TextCreator withTextIdAndDataDivider(String textId, String dataDividerString) {
-		return new TextCreator(textId, dataDividerString);
+	public static TextConstructor withTextIdAndDataDivider(String textId, String dataDividerString) {
+		return new TextConstructor(textId, dataDividerString);
 	}
 
 	public SpiderDataGroup createText() {
@@ -60,15 +60,7 @@ public final class TextCreator {
 	}
 
 	private SpiderDataGroup createRecordInfoWithIdAndDataDividerRecordId() {
-		SpiderDataGroup recordInfo = SpiderDataGroup.withNameInData("recordInfo");
-		recordInfo.addChild(SpiderDataAtomic.withNameInDataAndValue("id", textId));
-
-		SpiderDataGroup dataDivider = SpiderDataGroup.withNameInData("dataDivider");
-		recordInfo.addChild(dataDivider);
-		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "system"));
-		dataDivider.addChild(
-				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", dataDividerString));
-		return recordInfo;
+		return DataCreatorHelper.createRecordInfoWithIdAndDataDivider(textId,dataDividerString);
 	}
 
 }
