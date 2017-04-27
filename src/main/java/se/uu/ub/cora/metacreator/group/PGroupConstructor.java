@@ -74,19 +74,63 @@ public class PGroupConstructor {
     private String constructPresRefIdFromMetadataChild(SpiderDataGroup metadataChildReference) {
         String metadataRefId = getMetadataRefId(metadataChildReference);
         if(metadataChildIsCollectionVar(metadataRefId)){
-           return constructPCollVarReference(metadataRefId);
+           return constructPCollVarRefId(metadataRefId);
+        }else if(metadataChildIsTextVariable(metadataRefId)){
+            return constructPVarRefId(metadataRefId);
+        }else if(metadataChildIsResourceLink(metadataRefId)){
+            return constructPResLinkRefId(metadataRefId);
+        }else if(metadataChildIsRecordLink(metadataRefId)){
+            return constructPLinkRefId(metadataRefId);
+        }else if(metadataChildIsGroup(metadataRefId)){
+            return constructPGroupRefId(metadataRefId);
         }
         return "";
-    }
-
-    private String constructPCollVarReference(String metadataRefId) {
-        String idPrefix = metadataRefId.substring(0, metadataRefId.indexOf("CollectionVar"));
-        return idPrefix.concat("PCollVar");
     }
 
     private boolean metadataChildIsCollectionVar(String metadataRefId) {
         return metadataRefId.endsWith("CollectionVar");
     }
 
+    private String constructPCollVarRefId(String metadataRefId) {
+        String idPrefix = metadataRefId.substring(0, metadataRefId.indexOf("CollectionVar"));
+        return idPrefix.concat("PCollVar");
+    }
+
+    private boolean metadataChildIsTextVariable(String metadataRefId) {
+        return metadataRefId.endsWith("TextVar");
+    }
+
+    private String constructPVarRefId(String metadataRefId) {
+        String idPrefix = metadataRefId.substring(0, metadataRefId.indexOf("TextVar"));
+        return idPrefix.concat("PVar");
+    }
+
+    private boolean metadataChildIsResourceLink(String metadataRefId) {
+        return metadataRefId.endsWith("ResLink");
+    }
+
+    private String constructPResLinkRefId(String metadataRefId) {
+        String idPrefix = metadataRefId.substring(0, metadataRefId.indexOf("ResLink"));
+        return idPrefix.concat("PResLink");
+    }
+
+    private boolean metadataChildIsRecordLink(String metadataRefId) {
+        return metadataRefId.endsWith("Link");
+    }
+
+    private String constructPLinkRefId(String metadataRefId) {
+        String idPrefix = metadataRefId.substring(0, metadataRefId.indexOf("Link"));
+        return idPrefix.concat("PLink");
+    }
+
+
+    private String constructPGroupRefId(String metadataRefId) {
+        String idPrefix = metadataRefId.substring(0, metadataRefId.indexOf("Group"));
+        return idPrefix.concat("PGroup");
+    }
+
+    private boolean metadataChildIsGroup(String metadataRefId) {
+        return metadataRefId.endsWith("Group");
+    }
 
 }

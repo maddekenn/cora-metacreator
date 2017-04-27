@@ -38,6 +38,7 @@ public final class PVarCreator {
 	}
 
 	public SpiderDataGroup createInputPVar() {
+		//TODO: ta bort textVar innan concat
 		String pVarId = textVarId + "PVar";
 		String mode = "input";
 		return createPVarWithIdAndMode(pVarId, mode);
