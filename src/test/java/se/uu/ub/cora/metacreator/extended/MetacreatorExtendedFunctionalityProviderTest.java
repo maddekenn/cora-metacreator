@@ -33,6 +33,7 @@ import org.testng.annotations.Test;
 import se.uu.ub.cora.metacreator.collection.CollectionVarFromItemCollectionCreator;
 import se.uu.ub.cora.metacreator.collection.PCollVarFromCollectionVarCreator;
 import se.uu.ub.cora.metacreator.dependency.DependencyProviderSpy;
+import se.uu.ub.cora.metacreator.group.PGroupFromMetadataGroupCreator;
 import se.uu.ub.cora.metacreator.recordlink.PLinkFromRecordLinkCreator;
 import se.uu.ub.cora.metacreator.recordtype.SearchFromRecordTypeCreator;
 import se.uu.ub.cora.metacreator.textvar.PVarFromTextVarCreator;
@@ -117,6 +118,16 @@ public class MetacreatorExtendedFunctionalityProviderTest {
 		assertEquals(functionalityForCreateBeforeReturn.size(), 1);
 		assertTrue(functionalityForCreateBeforeReturn
 				.get(0) instanceof PLinkFromRecordLinkCreator);
+
+	}
+
+	@Test
+	public void testGetFunctionalityForCreateBeforeReturnForMetadataGroup() {
+		List<ExtendedFunctionality> functionalityForCreateBeforeReturn = functionalityProvider
+				.getFunctionalityForCreateBeforeReturn("metadataGroup");
+		assertEquals(functionalityForCreateBeforeReturn.size(), 1);
+		assertTrue(functionalityForCreateBeforeReturn
+				.get(0) instanceof PGroupFromMetadataGroupCreator);
 
 	}
 

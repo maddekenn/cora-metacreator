@@ -63,6 +63,8 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 			case "myRecordType2FormNewPGroup":
 			case "myRecordType2MenuPGroup":
 			case "myRecordType2ListPGroup":
+			case "someExistingPGroup":
+			case "someExistingOutputPGroup":
 				return null;
 			default:
 				throw new RecordNotFoundException("record not found in stub");
@@ -97,30 +99,50 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 		if ("metadataCollectionVariable".equals(type)) {
 
 			switch (id) {
-			case "alreadyExistCollectionVar":
-				return null;
-			default:
-				throw new RecordNotFoundException("record not found in stub");
+				case "alreadyExistCollectionVar":
+					return null;
+				default:
+					throw new RecordNotFoundException("record not found in stub");
 			}
 		}
 		if ("presentationCollectionVar".equals(type)) {
 
 			switch (id) {
-			case "someExistingPCollVar":
-			case "someExistingOutputPCollVar":
-				return null;
-			default:
-				throw new RecordNotFoundException("record not found in stub");
+				case "someExistingPCollVar":
+				case "someExistingOutputPCollVar":
+					return null;
+				default:
+					throw new RecordNotFoundException("record not found in stub");
 			}
 		}
 		if ("presentationRecordLink".equals(type)) {
 
 			switch (id) {
-			case "someExistingPLink":
-			case "someExistingOutputPLink":
-				return null;
-			default:
-				throw new RecordNotFoundException("record not found in stub");
+				case "someExistingPLink":
+				case "someExistingOutputPLink":
+					return null;
+				default:
+					throw new RecordNotFoundException("record not found in stub");
+			}
+		}
+		if ("presentation".equals(type)) {
+
+			switch (id) {
+				case "identifierResourcePResLink":
+				case "identifierResourceOutputPResLink":
+				case "identifierPLink":
+				case "identifierOutputPLink":
+				case "identifierTypePCollVar":
+				case "identifierTypeOutputPCollVar":
+				case "identifierChildPGroup":
+				case "identifierChildOutputPGroup":
+				case "identifierValuePVar":
+				case "identifierValueOutputPVar":
+				case "somePVar":
+				case "someOutputPVar":
+					return null;
+				default:
+					throw new RecordNotFoundException("record not found in stub");
 			}
 		}
 		return null;

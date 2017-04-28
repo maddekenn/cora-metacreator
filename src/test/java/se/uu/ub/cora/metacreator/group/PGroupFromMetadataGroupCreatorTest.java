@@ -5,6 +5,7 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.metacreator.collection.PCollVarFromCollectionVarCreator;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.dependency.SpiderRecordCreatorSpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
@@ -30,20 +31,31 @@ public class PGroupFromMetadataGroupCreatorTest {
 		creator.useExtendedFunctionality(authToken, metadataGroup);
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 2);
-		SpiderRecordCreatorSpy spiderRecordCreatorSpy = instanceFactory.spiderRecordCreators.get(0);
+
+		assertCorrectPGroupWithIndexPGroupIdAndChildId(0, "someTestPGroup", "somePVar");
+		assertCorrectPGroupWithIndexPGroupIdAndChildId(1, "someTestOutputPGroup", "someOutputPVar");
+
+	}
+
+	private void assertCorrectPGroupWithIndexPGroupIdAndChildId(int index, String pGroupId, String childId) {
+		SpiderRecordCreatorSpy spiderRecordCreatorSpy = instanceFactory.spiderRecordCreators.get(index);
 		assertEquals(spiderRecordCreatorSpy.type, "presentationGroup");
+
 		SpiderDataGroup record = spiderRecordCreatorSpy.record;
 
 		assertEquals(record.getNameInData(), "presentation");
-		// assertEquals(record.extractAtomicValue("mode"), "input");
 
+		assertCorrectRecordInfo(record, pGroupId);
 		assertCorrectPresentationOf(record);
-		// assertCorrectRecordInfo(record, "somePCollVar");
 
-		// assertCorrectlyCreatedInputPCollVar();
-		// assertCorrectlyCreatedOutputPCollVar();
+		assertCorrectChildRef(childId, record);
+	}
 
-		// TODO: check mpre stuff and also outputPGroup
+	private void assertCorrectRecordInfo(SpiderDataGroup record, String expectedId) {
+		SpiderDataGroup recordInfo = record.extractGroup("recordInfo");
+		assertEquals(recordInfo.extractAtomicValue("id"), expectedId);
+		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
+		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "test");
 	}
 
 	private void assertCorrectPresentationOf(SpiderDataGroup record) {
@@ -51,4 +63,24 @@ public class PGroupFromMetadataGroupCreatorTest {
 		assertEquals(presentationOf.extractAtomicValue("linkedRecordId"), "someTestGroup");
 		assertEquals(presentationOf.extractAtomicValue("linkedRecordType"), "metadataGroup");
 	}
+
+	private void assertCorrectChildRef(String childId, SpiderDataGroup record) {
+		SpiderDataGroup childReferences = record.extractGroup("childReferences");
+		SpiderDataGroup childReference = childReferences.extractGroup("childReference");
+		SpiderDataGroup refGroup = childReference.extractGroup("refGroup");
+		SpiderDataGroup ref = refGroup.extractGroup("ref");
+		assertEquals(ref.extractAtomicValue("linkedRecordType"), "presentation");
+		assertEquals(ref.extractAtomicValue("linkedRecordId"), childId);
+	}
+
+	@Test
+	public void testPGroupsAlreadyExist() {
+		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithId("someExistingGroup");
+
+		PGroupFromMetadataGroupCreator creator = new PGroupFromMetadataGroupCreator();
+		creator.useExtendedFunctionality(authToken, metadataGroup);
+
+		assertEquals(instanceFactory.spiderRecordCreators.size(), 0);
+	}
+
 }

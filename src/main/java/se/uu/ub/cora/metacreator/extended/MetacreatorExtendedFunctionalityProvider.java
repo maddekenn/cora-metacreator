@@ -31,6 +31,7 @@ import se.uu.ub.cora.metacreator.collection.PCollVarFromCollectionVarCreator;
 import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCompleter;
 import se.uu.ub.cora.metacreator.TextCreator;
 import se.uu.ub.cora.metacreator.group.GroupCompleter;
+import se.uu.ub.cora.metacreator.group.PGroupFromMetadataGroupCreator;
 import se.uu.ub.cora.metacreator.recordlink.PLinkFromRecordLinkCreator;
 import se.uu.ub.cora.metacreator.recordlink.RecordLinkCompleter;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeCreator;
@@ -131,6 +132,10 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 		if ("metadataRecordLink".equals(recordType)) {
 			list = ensureListIsRealList(list);
 			list.add(new PLinkFromRecordLinkCreator());
+		}
+		if ("metadataGroup".equals(recordType)) {
+			list = ensureListIsRealList(list);
+			list.add(new PGroupFromMetadataGroupCreator());
 		}
 		return list;
 	}
