@@ -54,7 +54,7 @@ public class PVarConstructorTest {
 
 		assertCorrectAttribute(createdPVar);
 
-		assertCorrectRecordInfo(createdPVar, "someTextVarPVar");
+		assertCorrectRecordInfo(createdPVar, "somePVar");
 
 		assertEquals(createdPVar.getChildren().size(), 4);
 		assertCorrectPresentationOf(id, createdPVar);
@@ -95,7 +95,7 @@ public class PVarConstructorTest {
 
 		assertCorrectAttribute(createdPVar);
 
-		assertCorrectRecordInfo(createdPVar, "someTextVarOutputPVar");
+		assertCorrectRecordInfo(createdPVar, "someOutputPVar");
 
 		assertEquals(createdPVar.getChildren().size(), 4);
 		assertCorrectPresentationOf(id, createdPVar);

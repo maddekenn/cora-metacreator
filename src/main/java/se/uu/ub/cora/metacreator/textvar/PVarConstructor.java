@@ -38,10 +38,15 @@ public final class PVarConstructor {
 	}
 
 	public SpiderDataGroup createInputPVar() {
-		//TODO: ta bort textVar innan concat
-		String pVarId = textVarId + "PVar";
+		String pVar = "PVar";
+		String pVarId = constructPVarIdWithEnding(pVar);
 		String mode = "input";
 		return createPVarWithIdAndMode(pVarId, mode);
+	}
+
+	private String constructPVarIdWithEnding(String pVar) {
+		String prefix = textVarId.substring(0, textVarId.indexOf("TextVar"));
+		return prefix + pVar;
 	}
 
 	private SpiderDataGroup createPVarWithIdAndMode(String pVarId, String mode) {
@@ -74,7 +79,7 @@ public final class PVarConstructor {
 	}
 
 	public SpiderDataGroup createOutputPVar() {
-		String pVarId = textVarId + "OutputPVar";
+		String pVarId = constructPVarIdWithEnding("OutputPVar");
 		String mode = "output";
 		return createPVarWithIdAndMode(pVarId, mode);
 	}
