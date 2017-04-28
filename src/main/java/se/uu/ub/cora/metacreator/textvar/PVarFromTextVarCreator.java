@@ -38,16 +38,16 @@ public class PVarFromTextVarCreator implements ExtendedFunctionality {
 		this.userId = userId;
 
 		extractIdAndDataDividerFromSpiderDataGroup(spiderDataGroup);
-		PVarCreator pVarCreator = PVarCreator.withTextVarIdAndDataDivider(id, dataDividerString);
+		PVarConstructor pVarConstructor = PVarConstructor.withTextVarIdAndDataDivider(id, dataDividerString);
 
 		if (pVarDoesNotExistInStorage(id + "PVar")) {
-			SpiderDataGroup createdInputPVar = pVarCreator.createInputPVar();
+			SpiderDataGroup createdInputPVar = pVarConstructor.createInputPVar();
 			SpiderRecordCreator spiderRecordCreator = SpiderInstanceProvider
 					.getSpiderRecordCreator();
 			spiderRecordCreator.createAndStoreRecord(userId, PRESENTATION_VAR, createdInputPVar);
 		}
 		if (pVarDoesNotExistInStorage(id + "OutputPVar")) {
-			SpiderDataGroup createdOutputPVar = pVarCreator.createOutputPVar();
+			SpiderDataGroup createdOutputPVar = pVarConstructor.createOutputPVar();
 			SpiderRecordCreator spiderRecordCreatorOutput = SpiderInstanceProvider
 					.getSpiderRecordCreator();
 			spiderRecordCreatorOutput.createAndStoreRecord(userId, PRESENTATION_VAR,
