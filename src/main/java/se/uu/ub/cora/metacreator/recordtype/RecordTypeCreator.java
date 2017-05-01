@@ -1,6 +1,7 @@
 package se.uu.ub.cora.metacreator.recordtype;
 
 import se.uu.ub.cora.metacreator.TextConstructor;
+import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
@@ -72,7 +73,8 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 	}
 
 	private void createText(String textId) {
-		TextConstructor textConstructor = TextConstructor.withTextIdAndDataDivider(textId, dataDivider);
+		TextConstructor textConstructor = TextConstructor.withTextIdAndDataDivider(textId,
+				dataDivider);
 		SpiderDataGroup text = textConstructor.createText();
 		storeRecord(implementingTextType, text);
 	}
@@ -95,8 +97,10 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 
 	private void createMetadataGroup(String childReference, String metadataId) {
 		MetadataGroupCreator groupCreator = MetadataGroupCreator
-                .withIdAndNameInDataAndDataDivider(metadataId, recordTypeId, dataDivider);
+				.withIdAndNameInDataAndDataDivider(metadataId, recordTypeId, dataDivider);
 		SpiderDataGroup metadataGroup = groupCreator.createGroup(childReference);
+		metadataGroup
+				.addChild(SpiderDataAtomic.withNameInDataAndValue("excludePGroupCreation", "true"));
 		storeRecord("metadataGroup", metadataGroup);
 	}
 

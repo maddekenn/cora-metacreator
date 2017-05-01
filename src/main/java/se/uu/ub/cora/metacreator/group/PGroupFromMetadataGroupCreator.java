@@ -21,23 +21,25 @@ public class PGroupFromMetadataGroupCreator implements ExtendedFunctionality {
 	@Override
 	public void useExtendedFunctionality(String authToken, SpiderDataGroup spiderDataGroup) {
 		this.authToken = authToken;
-		setParametersForCreation(spiderDataGroup);
+		if (!spiderDataGroup.containsChildWithNameInData("excludePGroupCreation")
+				|| "false".equals(spiderDataGroup.extractAtomicValue("excludePGroupCreation"))) {
 
-		String id = getIdForInputPGroup();
-		possiblyConstructAndCreatePGroupWithIdAndMode(id, "input");
+			setParametersForCreation(spiderDataGroup);
 
-		String outputId = getIdForOutputPGroup();
-		possiblyConstructAndCreatePGroupWithIdAndMode(outputId, "output");
+			String id = getIdForInputPGroup();
+			possiblyConstructAndCreatePGroupWithIdAndMode(id, "input");
+
+			String outputId = getIdForOutputPGroup();
+			possiblyConstructAndCreatePGroupWithIdAndMode(outputId, "output");
+		}
 
 	}
 
 	private void setParametersForCreation(SpiderDataGroup spiderDataGroup) {
 		constructor = new PGroupConstructor(authToken);
 		metadataId = DataCreatorHelper.extractIdFromDataGroup(spiderDataGroup);
-		dataDivider = DataCreatorHelper
-				.extractDataDividerStringFromDataGroup(spiderDataGroup);
-		metadataChildReferences = spiderDataGroup
-				.extractGroup("childReferences").getChildren();
+		dataDivider = DataCreatorHelper.extractDataDividerStringFromDataGroup(spiderDataGroup);
+		metadataChildReferences = spiderDataGroup.extractGroup("childReferences").getChildren();
 	}
 
 	private String getIdForInputPGroup() {
@@ -45,7 +47,7 @@ public class PGroupFromMetadataGroupCreator implements ExtendedFunctionality {
 	}
 
 	private void possiblyConstructAndCreatePGroupWithIdAndMode(String id, String mode) {
-		if(pGroupIsMissing(id)) {
+		if (pGroupIsMissing(id)) {
 			constructAndCreatePGroupWithIdAndMode(id, mode);
 		}
 	}
@@ -62,8 +64,8 @@ public class PGroupFromMetadataGroupCreator implements ExtendedFunctionality {
 
 	private void constructAndCreatePGroupWithIdAndMode(String id, String mode) {
 		SpiderDataGroup inputPGroup = constructor
-                .constructPGroupWithIdDataDividerPresentationOfChildrenAndMode(id,dataDivider, metadataId, metadataChildReferences,
-						mode);
+				.constructPGroupWithIdDataDividerPresentationOfChildrenAndMode(id, dataDivider,
+						metadataId, metadataChildReferences, mode);
 		createRecord("presentationGroup", inputPGroup);
 	}
 

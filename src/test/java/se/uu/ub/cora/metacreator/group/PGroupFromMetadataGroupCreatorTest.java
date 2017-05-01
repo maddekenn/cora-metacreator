@@ -5,10 +5,10 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import se.uu.ub.cora.metacreator.collection.PCollVarFromCollectionVarCreator;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.dependency.SpiderRecordCreatorSpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
+import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
@@ -37,8 +37,10 @@ public class PGroupFromMetadataGroupCreatorTest {
 
 	}
 
-	private void assertCorrectPGroupWithIndexPGroupIdAndChildId(int index, String pGroupId, String childId) {
-		SpiderRecordCreatorSpy spiderRecordCreatorSpy = instanceFactory.spiderRecordCreators.get(index);
+	private void assertCorrectPGroupWithIndexPGroupIdAndChildId(int index, String pGroupId,
+			String childId) {
+		SpiderRecordCreatorSpy spiderRecordCreatorSpy = instanceFactory.spiderRecordCreators
+				.get(index);
 		assertEquals(spiderRecordCreatorSpy.type, "presentationGroup");
 
 		SpiderDataGroup record = spiderRecordCreatorSpy.record;
@@ -83,4 +85,39 @@ public class PGroupFromMetadataGroupCreatorTest {
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 0);
 	}
 
+	@Test
+	public void testPGroupsShouldNotBeCreated() {
+		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithId("someTestGroup");
+		metadataGroup
+				.addChild(SpiderDataAtomic.withNameInDataAndValue("excludePGroupCreation", "true"));
+
+		PGroupFromMetadataGroupCreator creator = new PGroupFromMetadataGroupCreator();
+		creator.useExtendedFunctionality(authToken, metadataGroup);
+
+		assertEquals(instanceFactory.spiderRecordCreators.size(), 0);
+	}
+
+	@Test
+	public void testPGroupsExcludeCreationIsTrueSoPGroupsShouldNotBeCreated() {
+		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithId("someTestGroup");
+		metadataGroup
+				.addChild(SpiderDataAtomic.withNameInDataAndValue("excludePGroupCreation", "true"));
+
+		PGroupFromMetadataGroupCreator creator = new PGroupFromMetadataGroupCreator();
+		creator.useExtendedFunctionality(authToken, metadataGroup);
+
+		assertEquals(instanceFactory.spiderRecordCreators.size(), 0);
+	}
+
+	@Test
+	public void testPGroupsExcludeCreationIsFalseSoPGroupsShouldBeCreated() {
+		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithId("someTestGroup");
+		metadataGroup.addChild(
+				SpiderDataAtomic.withNameInDataAndValue("excludePGroupCreation", "false"));
+
+		PGroupFromMetadataGroupCreator creator = new PGroupFromMetadataGroupCreator();
+		creator.useExtendedFunctionality(authToken, metadataGroup);
+
+		assertEquals(instanceFactory.spiderRecordCreators.size(), 2);
+	}
 }

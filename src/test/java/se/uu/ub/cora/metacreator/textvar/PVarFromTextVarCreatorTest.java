@@ -52,9 +52,8 @@ public class PVarFromTextVarCreatorTest {
 		creator.useExtendedFunctionality(userId, textVarGroup);
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 2);
-		assertCorrectPVarCreatedWithUserIdAndTypeAndId(0, "textIdNoPVarsInStorageTextVarPVar");
-		assertCorrectPVarCreatedWithUserIdAndTypeAndId(1,
-				"textIdNoPVarsInStorageTextVarOutputPVar");
+		assertCorrectPVarCreatedWithUserIdAndTypeAndId(0, "textIdNoPVarsInStoragePVar");
+		assertCorrectPVarCreatedWithUserIdAndTypeAndId(1, "textIdNoPVarsInStorageOutputPVar");
 	}
 
 	private void assertCorrectPVarCreatedWithUserIdAndTypeAndId(int createdPVarNo,
@@ -80,8 +79,7 @@ public class PVarFromTextVarCreatorTest {
 		creator.useExtendedFunctionality(userId, textVarGroup);
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 1);
-		assertCorrectPVarCreatedWithUserIdAndTypeAndId(0,
-				"textIdInputPVarInStorageTextVarOutputPVar");
+		assertCorrectPVarCreatedWithUserIdAndTypeAndId(0, "textIdInputPVarInStorageOutputPVar");
 	}
 
 	@Test
@@ -95,6 +93,6 @@ public class PVarFromTextVarCreatorTest {
 		creator.useExtendedFunctionality(userId, textVarGroup);
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 1);
-		assertCorrectPVarCreatedWithUserIdAndTypeAndId(0, "textIdOutputPVarInStorageTextVarPVar");
+		assertCorrectPVarCreatedWithUserIdAndTypeAndId(0, "textIdOutputPVarInStoragePVar");
 	}
 }
