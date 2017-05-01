@@ -21,18 +21,20 @@ public class PGroupFromMetadataGroupCreator implements ExtendedFunctionality {
 	@Override
 	public void useExtendedFunctionality(String authToken, SpiderDataGroup spiderDataGroup) {
 		this.authToken = authToken;
-		if (!spiderDataGroup.containsChildWithNameInData("excludePGroupCreation")
-				|| "false".equals(spiderDataGroup.extractAtomicValue("excludePGroupCreation"))) {
-
-			setParametersForCreation(spiderDataGroup);
-
-			String id = getIdForInputPGroup();
-			possiblyConstructAndCreatePGroupWithIdAndMode(id, "input");
-
-			String outputId = getIdForOutputPGroup();
-			possiblyConstructAndCreatePGroupWithIdAndMode(outputId, "output");
+		if (pGroupsShouldBeCreated(spiderDataGroup)) {
+			tryToCreatePGroups(spiderDataGroup);
 		}
+	}
 
+	private boolean pGroupsShouldBeCreated(SpiderDataGroup spiderDataGroup) {
+		return !spiderDataGroup.containsChildWithNameInData("excludePGroupCreation")
+				|| "false".equals(spiderDataGroup.extractAtomicValue("excludePGroupCreation"));
+	}
+
+	private void tryToCreatePGroups(SpiderDataGroup spiderDataGroup) {
+		setParametersForCreation(spiderDataGroup);
+		possiblyCreatInputpGroup();
+		possiblyCreateOutputPGroup();
 	}
 
 	private void setParametersForCreation(SpiderDataGroup spiderDataGroup) {
@@ -40,6 +42,16 @@ public class PGroupFromMetadataGroupCreator implements ExtendedFunctionality {
 		metadataId = DataCreatorHelper.extractIdFromDataGroup(spiderDataGroup);
 		dataDivider = DataCreatorHelper.extractDataDividerStringFromDataGroup(spiderDataGroup);
 		metadataChildReferences = spiderDataGroup.extractGroup("childReferences").getChildren();
+	}
+
+	private void possiblyCreatInputpGroup() {
+		String id = getIdForInputPGroup();
+		possiblyConstructAndCreatePGroupWithIdAndMode(id, "input");
+	}
+
+	private void possiblyCreateOutputPGroup() {
+		String outputId = getIdForOutputPGroup();
+		possiblyConstructAndCreatePGroupWithIdAndMode(outputId, "output");
 	}
 
 	private String getIdForInputPGroup() {
