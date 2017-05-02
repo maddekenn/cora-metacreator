@@ -7,6 +7,7 @@ import se.uu.ub.cora.spider.data.SpiderDataElement;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
+import se.uu.ub.cora.spider.record.DataException;
 import se.uu.ub.cora.spider.record.SpiderRecordCreator;
 import se.uu.ub.cora.spider.record.SpiderRecordReader;
 
@@ -75,10 +76,14 @@ public class PGroupFromMetadataGroupCreator implements ExtendedFunctionality {
 	}
 
 	private void constructAndCreatePGroupWithIdAndMode(String id, String mode) {
-		SpiderDataGroup inputPGroup = constructor
-				.constructPGroupWithIdDataDividerPresentationOfChildrenAndMode(id, dataDivider,
-						metadataId, metadataChildReferences, mode);
-		createRecord("presentationGroup", inputPGroup);
+		try {
+			SpiderDataGroup inputPGroup = constructor
+					.constructPGroupWithIdDataDividerPresentationOfChildrenAndMode(id, dataDivider,
+							metadataId, metadataChildReferences, mode);
+			createRecord("presentationGroup", inputPGroup);
+		} catch (DataException e) {
+			// do nothing
+		}
 	}
 
 	private void createRecord(String recordTypeToCreate, SpiderDataGroup spiderDataGroupToCreate) {

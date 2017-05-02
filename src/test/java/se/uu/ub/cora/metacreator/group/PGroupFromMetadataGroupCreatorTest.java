@@ -120,4 +120,16 @@ public class PGroupFromMetadataGroupCreatorTest {
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 2);
 	}
+
+	@Test
+	public void testPGroupsNotPossibleToCreatePGroups() {
+		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithId("someTestGroup");
+		SpiderDataGroup childReferences = metadataGroup.extractGroup("childReferences");
+		childReferences.removeChild("childReference");
+
+		PGroupFromMetadataGroupCreator creator = new PGroupFromMetadataGroupCreator();
+		creator.useExtendedFunctionality(authToken, metadataGroup);
+
+		assertEquals(instanceFactory.spiderRecordCreators.size(), 0);
+	}
 }
