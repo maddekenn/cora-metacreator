@@ -33,7 +33,7 @@ public class PGroupFromMetadataGroupCreator implements ExtendedFunctionality {
 
 	private void tryToCreatePGroups(SpiderDataGroup spiderDataGroup) {
 		setParametersForCreation(spiderDataGroup);
-		possiblyCreatInputpGroup();
+		possiblyCreateInputGroup();
 		possiblyCreateOutputPGroup();
 	}
 
@@ -44,7 +44,7 @@ public class PGroupFromMetadataGroupCreator implements ExtendedFunctionality {
 		metadataChildReferences = spiderDataGroup.extractGroup("childReferences").getChildren();
 	}
 
-	private void possiblyCreatInputpGroup() {
+	private void possiblyCreateInputGroup() {
 		String id = getIdForInputPGroup();
 		possiblyConstructAndCreatePGroupWithIdAndMode(id, "input");
 	}
