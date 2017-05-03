@@ -67,6 +67,8 @@ public class RecordTypeCreatorTest {
 		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "text");
 		SpiderDataGroup defTextIdGroup = record.extractGroup("defTextId");
 		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "text");
+
+		assertEquals(record.extractAtomicValue("excludePGroupCreation"), "true");
 	}
 
 	private void assertCorrectlyCreatedMetadataChildReference(String childRefId,

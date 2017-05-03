@@ -23,24 +23,30 @@ import se.uu.ub.cora.metacreator.DataCreatorHelper;
 import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
-public final class PVarCreator {
+public final class PVarConstructor {
 	private String textVarId;
 	private String dataDividerString;
 
-	private PVarCreator(String textVarId, String dataDividerString) {
+	private PVarConstructor(String textVarId, String dataDividerString) {
 		this.textVarId = textVarId;
 		this.dataDividerString = dataDividerString;
 	}
 
-	public static PVarCreator withTextVarIdAndDataDivider(String textVarId,
-			String dataDividerString) {
-		return new PVarCreator(textVarId, dataDividerString);
+	public static PVarConstructor withTextVarIdAndDataDivider(String textVarId,
+															  String dataDividerString) {
+		return new PVarConstructor(textVarId, dataDividerString);
 	}
 
 	public SpiderDataGroup createInputPVar() {
-		String pVarId = textVarId + "PVar";
+		String pVar = "PVar";
+		String pVarId = constructPVarIdWithEnding(pVar);
 		String mode = "input";
 		return createPVarWithIdAndMode(pVarId, mode);
+	}
+
+	private String constructPVarIdWithEnding(String pVar) {
+		String prefix = textVarId.substring(0, textVarId.indexOf("TextVar"));
+		return prefix + pVar;
 	}
 
 	private SpiderDataGroup createPVarWithIdAndMode(String pVarId, String mode) {
@@ -73,7 +79,7 @@ public final class PVarCreator {
 	}
 
 	public SpiderDataGroup createOutputPVar() {
-		String pVarId = textVarId + "OutputPVar";
+		String pVarId = constructPVarIdWithEnding("OutputPVar");
 		String mode = "output";
 		return createPVarWithIdAndMode(pVarId, mode);
 	}

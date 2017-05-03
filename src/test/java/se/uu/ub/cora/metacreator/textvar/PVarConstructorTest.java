@@ -30,9 +30,9 @@ import org.testng.annotations.Test;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
 @Test
-public class PVarCreatorTest {
+public class PVarConstructorTest {
 
-	private PVarCreator pVarCreator;
+	private PVarConstructor pVarConstructor;
 	private String id;
 	private String dataDividerString;
 
@@ -41,20 +41,20 @@ public class PVarCreatorTest {
 
 		id = "someTextVar";
 		dataDividerString = "cora";
-		pVarCreator = PVarCreator.withTextVarIdAndDataDivider(id, dataDividerString);
+		pVarConstructor = PVarConstructor.withTextVarIdAndDataDivider(id, dataDividerString);
 	}
 
 	@Test
 	public void testCreateInputPVarFromMetadataIdAndDataDivider() {
 
-		assertNotNull(pVarCreator);
-		SpiderDataGroup createdPVar = pVarCreator.createInputPVar();
+		assertNotNull(pVarConstructor);
+		SpiderDataGroup createdPVar = pVarConstructor.createInputPVar();
 
 		assertEquals(createdPVar.getNameInData(), "presentation");
 
 		assertCorrectAttribute(createdPVar);
 
-		assertCorrectRecordInfo(createdPVar, "someTextVarPVar");
+		assertCorrectRecordInfo(createdPVar, "somePVar");
 
 		assertEquals(createdPVar.getChildren().size(), 4);
 		assertCorrectPresentationOf(id, createdPVar);
@@ -88,14 +88,14 @@ public class PVarCreatorTest {
 	@Test
 	public void testCreateOutputPVarFromMetadataIdAndDataDivider() {
 
-		assertNotNull(pVarCreator);
-		SpiderDataGroup createdPVar = pVarCreator.createOutputPVar();
+		assertNotNull(pVarConstructor);
+		SpiderDataGroup createdPVar = pVarConstructor.createOutputPVar();
 
 		assertEquals(createdPVar.getNameInData(), "presentation");
 
 		assertCorrectAttribute(createdPVar);
 
-		assertCorrectRecordInfo(createdPVar, "someTextVarOutputPVar");
+		assertCorrectRecordInfo(createdPVar, "someOutputPVar");
 
 		assertEquals(createdPVar.getChildren().size(), 4);
 		assertCorrectPresentationOf(id, createdPVar);
