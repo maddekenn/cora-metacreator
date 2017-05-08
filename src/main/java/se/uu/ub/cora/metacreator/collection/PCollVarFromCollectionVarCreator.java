@@ -10,10 +10,10 @@ import se.uu.ub.cora.spider.record.SpiderRecordReader;
 public class PCollVarFromCollectionVarCreator implements ExtendedFunctionality {
 
 	private String authToken;
-	private String nameInData;
 	private String presentationOf;
 	private String dataDivider;
 	private PCollVarConstructor constructor;
+	private String idForPVars;
 
 	@Override
 	public void useExtendedFunctionality(String authToken,
@@ -28,10 +28,11 @@ public class PCollVarFromCollectionVarCreator implements ExtendedFunctionality {
 
 	private void setParametersForCreation(SpiderDataGroup collectionvarToCreateFrom) {
 		constructor = new PCollVarConstructor();
-		nameInData = collectionvarToCreateFrom.extractAtomicValue("nameInData");
 		presentationOf = DataCreatorHelper.extractIdFromDataGroup(collectionvarToCreateFrom);
 		dataDivider = DataCreatorHelper
 				.extractDataDividerStringFromDataGroup(collectionvarToCreateFrom);
+		String id = DataCreatorHelper.extractIdFromDataGroup(collectionvarToCreateFrom);
+		idForPVars = id.substring(0, id.indexOf("CollectionVar"));
 	}
 
 	private void possiblyCreateInputPCollVar() {
@@ -60,7 +61,7 @@ public class PCollVarFromCollectionVarCreator implements ExtendedFunctionality {
 	}
 
 	private String constructIdForPCollVar() {
-		return nameInData + "PCollVar";
+		return idForPVars + "PCollVar";
 	}
 
 	private void createRecord(String recordTypeToCreate, SpiderDataGroup spiderDataGroupToCreate) {
@@ -78,6 +79,6 @@ public class PCollVarFromCollectionVarCreator implements ExtendedFunctionality {
 	}
 
 	private String constructIdForOutputPCollVar() {
-		return nameInData + "OutputPCollVar";
+		return idForPVars + "OutputPCollVar";
 	}
 }

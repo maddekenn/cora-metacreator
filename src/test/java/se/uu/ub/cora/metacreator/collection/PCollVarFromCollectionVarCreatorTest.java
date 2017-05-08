@@ -25,7 +25,7 @@ public class PCollVarFromCollectionVarCreatorTest {
 	@Test
 	public void testPCollVarsDoesNotExist() {
 		SpiderDataGroup collectionVar = DataCreator
-				.createCollectionVariableWithIdDataDividerAndNameInData("someCollectionVar",
+				.createCollectionVariableWithIdDataDividerAndNameInData("someTestCollectionVar",
 						"testSystem", "some");
 
 		PCollVarFromCollectionVarCreator creator = new PCollVarFromCollectionVarCreator();
@@ -45,13 +45,13 @@ public class PCollVarFromCollectionVarCreatorTest {
 		assertEquals(record.extractAtomicValue("mode"), "input");
 
 		assertCorrectPresentationOf(record);
-		assertCorrectRecordInfo(record, "somePCollVar");
+		assertCorrectRecordInfo(record, "someTestPCollVar");
 		assertEquals(record.getAttributes().get("type"), "pCollVar");
 	}
 
 	private void assertCorrectPresentationOf(SpiderDataGroup record) {
 		SpiderDataGroup presentationOf = record.extractGroup("presentationOf");
-		assertEquals(presentationOf.extractAtomicValue("linkedRecordId"), "someCollectionVar");
+		assertEquals(presentationOf.extractAtomicValue("linkedRecordId"), "someTestCollectionVar");
 		assertEquals(presentationOf.extractAtomicValue("linkedRecordType"),
 				"metadataCollectionVariable");
 	}
@@ -71,7 +71,7 @@ public class PCollVarFromCollectionVarCreatorTest {
 		assertEquals(record.extractAtomicValue("mode"), "output");
 
 		assertCorrectPresentationOf(record);
-		assertCorrectRecordInfo(record, "someOutputPCollVar");
+		assertCorrectRecordInfo(record, "someTestOutputPCollVar");
 		assertEquals(record.getAttributes().get("type"), "pCollVar");
 	}
 
