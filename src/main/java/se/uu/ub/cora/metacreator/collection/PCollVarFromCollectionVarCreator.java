@@ -10,7 +10,6 @@ import se.uu.ub.cora.spider.record.SpiderRecordReader;
 public class PCollVarFromCollectionVarCreator implements ExtendedFunctionality {
 
 	private String authToken;
-	private String nameInData;
 	private String presentationOf;
 	private String dataDivider;
 	private PCollVarConstructor constructor;
@@ -29,7 +28,6 @@ public class PCollVarFromCollectionVarCreator implements ExtendedFunctionality {
 
 	private void setParametersForCreation(SpiderDataGroup collectionvarToCreateFrom) {
 		constructor = new PCollVarConstructor();
-		nameInData = collectionvarToCreateFrom.extractAtomicValue("nameInData");
 		presentationOf = DataCreatorHelper.extractIdFromDataGroup(collectionvarToCreateFrom);
 		dataDivider = DataCreatorHelper
 				.extractDataDividerStringFromDataGroup(collectionvarToCreateFrom);
