@@ -10,11 +10,26 @@ public class PCollVarConstructor {
 			String dataDivider, String presentationOf, String mode) {
 
 		SpiderDataGroup pCollVar = createGroupWithRecordInfo(id, dataDivider);
-
-		createAndAddPresentationOf(presentationOf, pCollVar);
-		addAtomicValues(mode, pCollVar);
 		pCollVar.addAttributeByIdWithValue("type", "pCollVar");
+
+		createAndAddChildren(presentationOf, mode, pCollVar);
 		return pCollVar;
+	}
+
+	private void createAndAddChildren(String presentationOf, String mode,
+			SpiderDataGroup pCollVar) {
+		createAndAddPresentationOf(presentationOf, pCollVar);
+		pCollVar.addChild(SpiderDataAtomic.withNameInDataAndValue("mode", mode));
+		createAndAddEmptyTextId(pCollVar);
+	}
+
+	private void createAndAddEmptyTextId(SpiderDataGroup pCollVar) {
+		SpiderDataGroup emptyTextIdGroup = SpiderDataGroup.withNameInData("emptyTextId");
+		emptyTextIdGroup
+				.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "text"));
+		emptyTextIdGroup.addChild(
+				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", "initialEmptyValueText"));
+		pCollVar.addChild(emptyTextIdGroup);
 	}
 
 	private SpiderDataGroup createGroupWithRecordInfo(String id, String dataDivider) {
@@ -36,12 +51,6 @@ public class PCollVarConstructor {
 		presentationOfGroup.addChild(
 				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", presentationOf));
 		pCollVar.addChild(presentationOfGroup);
-	}
-
-	private void addAtomicValues(String mode, SpiderDataGroup pCollVar) {
-		pCollVar.addChild(SpiderDataAtomic.withNameInDataAndValue("mode", mode));
-		pCollVar.addChild(
-				SpiderDataAtomic.withNameInDataAndValue("emptyTextId", "initialEmptyValueText"));
 	}
 
 }

@@ -9,7 +9,7 @@ import se.uu.ub.cora.spider.data.SpiderDataGroup;
 public class PCollVarConstructorTest {
 
 	@Test
-	public void testInit() {
+	public void testPCollVarConstructor() {
 		PCollVarConstructor constructor = new PCollVarConstructor();
 		SpiderDataGroup pCollVar = constructor
 				.constructPCollVarWithIdDataDividerPresentationOfAndMode("somePCollVar",
@@ -20,7 +20,9 @@ public class PCollVarConstructorTest {
 
 		assertEquals(pCollVar.getNameInData(), "presentation");
 		assertEquals(pCollVar.extractAtomicValue("mode"), "input");
-		assertEquals(pCollVar.extractAtomicValue("emptyTextId"), "initialEmptyValueText");
+		SpiderDataGroup emptyValue = pCollVar.extractGroup("emptyTextId");
+		assertEquals(emptyValue.extractAtomicValue("linkedRecordType"), "text");
+		assertEquals(emptyValue.extractAtomicValue("linkedRecordId"), "initialEmptyValueText");
 		assertEquals(pCollVar.getAttributes().get("type"), "pCollVar");
 
 	}
