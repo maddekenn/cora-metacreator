@@ -26,6 +26,7 @@ import se.uu.ub.cora.spider.dependency.SpiderInstanceFactory;
 import se.uu.ub.cora.spider.record.SpiderDownloader;
 import se.uu.ub.cora.spider.record.SpiderRecordCreator;
 import se.uu.ub.cora.spider.record.SpiderRecordDeleter;
+import se.uu.ub.cora.spider.record.SpiderRecordIncomingLinksReader;
 import se.uu.ub.cora.spider.record.SpiderRecordListReader;
 import se.uu.ub.cora.spider.record.SpiderRecordReader;
 import se.uu.ub.cora.spider.record.SpiderRecordSearcher;
@@ -84,6 +85,12 @@ public class SpiderInstanceFactorySpy implements SpiderInstanceFactory {
 
 	@Override
 	public SpiderRecordSearcher factorSpiderRecordSearcher() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SpiderRecordIncomingLinksReader factorSpiderRecordIncomingLinksReader() {
 		// TODO Auto-generated method stub
 		return null;
 	}

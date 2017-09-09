@@ -19,13 +19,11 @@
 
 package se.uu.ub.cora.metacreator.dependency;
 
-import se.uu.ub.cora.spider.data.SpiderDataList;
 import se.uu.ub.cora.spider.data.SpiderDataRecord;
 import se.uu.ub.cora.spider.record.SpiderRecordReader;
 import se.uu.ub.cora.spider.record.storage.RecordNotFoundException;
 
 public class SpiderRecordReaderSpy implements SpiderRecordReader {
-	public SpiderDataRecord record;
 
 	@Override
 	public SpiderDataRecord readRecord(String userId, String type, String id) {
@@ -99,59 +97,51 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 		if ("metadataCollectionVariable".equals(type)) {
 
 			switch (id) {
-				case "alreadyExistCollectionVar":
-					return null;
-				default:
-					throw new RecordNotFoundException("record not found in stub");
+			case "alreadyExistCollectionVar":
+				return null;
+			default:
+				throw new RecordNotFoundException("record not found in stub");
 			}
 		}
 		if ("presentationCollectionVar".equals(type)) {
 
 			switch (id) {
-				case "someExistingPCollVar":
-				case "someExistingOutputPCollVar":
-					return null;
-				default:
-					throw new RecordNotFoundException("record not found in stub");
+			case "someExistingPCollVar":
+			case "someExistingOutputPCollVar":
+				return null;
+			default:
+				throw new RecordNotFoundException("record not found in stub");
 			}
 		}
 		if ("presentationRecordLink".equals(type)) {
 
 			switch (id) {
-				case "someExistingPLink":
-				case "someExistingOutputPLink":
-					return null;
-				default:
-					throw new RecordNotFoundException("record not found in stub");
+			case "someExistingPLink":
+			case "someExistingOutputPLink":
+				return null;
+			default:
+				throw new RecordNotFoundException("record not found in stub");
 			}
 		}
 		if ("presentation".equals(type)) {
 
 			switch (id) {
-				case "identifierResourcePResLink":
-				case "identifierResourceOutputPResLink":
-				case "identifierPLink":
-				case "identifierOutputPLink":
-				case "identifierTypePCollVar":
-				case "identifierTypeOutputPCollVar":
-				case "identifierChildPGroup":
-				case "identifierChildOutputPGroup":
-				case "identifierValuePVar":
-				case "identifierValueOutputPVar":
-				case "somePVar":
-				case "someOutputPVar":
-					return null;
-				default:
-					throw new RecordNotFoundException("record not found in stub");
+			case "identifierResourcePResLink":
+			case "identifierResourceOutputPResLink":
+			case "identifierPLink":
+			case "identifierOutputPLink":
+			case "identifierTypePCollVar":
+			case "identifierTypeOutputPCollVar":
+			case "identifierChildPGroup":
+			case "identifierChildOutputPGroup":
+			case "identifierValuePVar":
+			case "identifierValueOutputPVar":
+			case "somePVar":
+			case "someOutputPVar":
+				return null;
+			default:
+				throw new RecordNotFoundException("record not found in stub");
 			}
-		}
-		return null;
-	}
-
-	@Override
-	public SpiderDataList readIncomingLinks(String userId, String type, String id) {
-		if (null == record) {
-			throw new RecordNotFoundException("Record not found");
 		}
 		return null;
 	}
