@@ -61,6 +61,7 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 			case "myRecordType2FormNewPGroup":
 			case "myRecordType2MenuPGroup":
 			case "myRecordType2ListPGroup":
+			case "myRecordType2AutocompletePGroup":
 			case "someExistingPGroup":
 			case "someExistingOutputPGroup":
 				return null;

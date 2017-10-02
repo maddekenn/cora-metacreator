@@ -67,6 +67,8 @@ public class RecordTypeMetaCompleterTest {
 				"menuPresentationViewId"), "myRecordTypeMenuPGroup");
 		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,
 				"listPresentationViewId"), "myRecordTypeListPGroup");
+		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,
+				"autocompletePresentationView"), "myRecordTypeAutocompletePGroup");
 		assertEquals(recordType.extractAtomicValue("selfPresentationViewId"),
 				"myRecordTypeViewSelfPGroup");
 		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "textId"),
@@ -84,7 +86,7 @@ public class RecordTypeMetaCompleterTest {
 
 		metaCompleter.useExtendedFunctionality(userId, recordType);
 
-		assertEquals(recordType.getChildren().size(), 14);
+		assertEquals(recordType.getChildren().size(), 15);
 
 		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "metadataId"),
 				"mySpecialGroup");

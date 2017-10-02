@@ -33,7 +33,7 @@ public class RecordTypeCreatorTest {
 		DataCreator.addAllValuesToSpiderDataGroup(recordType, "myRecordType");
 
 		recordTypeCreator.useExtendedFunctionality(userId, recordType);
-		assertEquals(instanceFactory.spiderRecordCreators.size(), 9);
+		assertEquals(instanceFactory.spiderRecordCreators.size(), 10);
 
 		assertCorrectlyCreatedMetadataGroup(2, "myRecordTypeGroup", "recordInfoGroup",
 				"myRecordType");
@@ -50,6 +50,8 @@ public class RecordTypeCreatorTest {
 				"recordInfoOutputPGroup");
 		assertCorrectlyCreatedPresentationGroup(8, "myRecordTypeFormNewPGroup",
 				"myRecordTypeNewGroup", "recordInfoNewPGroup");
+		assertCorrectlyCreatedPresentationGroup(9, "myRecordTypeAutocompletePGroup",
+				"myRecordTypeGroup", "recordInfoPGroup");
 
 	}
 
@@ -150,7 +152,7 @@ public class RecordTypeCreatorTest {
 		DataCreator.addAllValuesToSpiderDataGroup(recordType, "myRecordType");
 
 		recordTypeCreator.useExtendedFunctionality(userId, recordType);
-		assertEquals(instanceFactory.spiderRecordCreators.size(), 9);
+		assertEquals(instanceFactory.spiderRecordCreators.size(), 10);
 		SpiderRecordCreatorSpy spiderRecordCreator = instanceFactory.spiderRecordCreators.get(0);
 		assertEquals(spiderRecordCreator.type, "textSystemOne");
 		SpiderRecordCreatorSpy spiderRecordCreator2 = instanceFactory.spiderRecordCreators.get(1);
