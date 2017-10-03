@@ -30,10 +30,12 @@ public class DataCreator {
 
 		textVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("nameInData", "my"));
 		if (!"".equals(textId)) {
-			addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(textVarGroup, "textId", "someType", textId);
+			addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(textVarGroup, "textId",
+					"someType", textId);
 		}
 		if (!"".equals(defTextId)) {
-			addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(textVarGroup, "defTextId", "someType", defTextId);
+			addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(textVarGroup,
+					"defTextId", "someType", defTextId);
 		}
 		textVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("regEx", ".*"));
 
@@ -84,6 +86,9 @@ public class DataCreator {
 
 		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType,
 				"listPresentationViewId", "presentationGroup", id + "ListPGroup");
+
+		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType,
+				"autocompletePresentationView", "presentationGroup", id + "AutocompletePGroup");
 
 		addAtomicValueWithNameInDataAndValue(recordType, "selfPresentationViewId",
 				id + "ViewSelfPGroup");

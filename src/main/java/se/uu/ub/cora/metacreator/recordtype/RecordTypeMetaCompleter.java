@@ -87,6 +87,8 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 				linkedRecordType, id + "MenuPGroup");
 		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("listPresentationViewId",
 				linkedRecordType, id + "ListPGroup");
+		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting(
+				"autocompletePresentationView", linkedRecordType, id + "AutocompletePGroup");
 		addAtomicValueWithNameInDataAndValueIfNotExisting("selfPresentationViewId",
 				id + "ViewSelfPGroup");
 	}

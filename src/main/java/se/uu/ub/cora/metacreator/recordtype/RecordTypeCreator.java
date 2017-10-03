@@ -112,6 +112,9 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 		createOutputPresentations(presentationOf);
 
 		createNewFormPresentation();
+		String refRecordInfoId = "recordInfoPGroup";
+		extractPresentationIdAndSendToCreate(presentationOf, "autocompletePresentationView",
+				refRecordInfoId);
 	}
 
 	private String getPresentationOf(String metadataId) {
