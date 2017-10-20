@@ -34,7 +34,7 @@ public class PLinkFromRecordLinkCreator implements ExtendedFunctionality {
 	}
 
 	private void possiblyCreateInputPLink() {
-		String pLinkId = constructIdForPCollVar();
+		String pLinkId = constructIdForPLink();
 
 		if (pLinkIsMissing(pLinkId)) {
 			createPCollVarWithIdAndMode(pLinkId, "input");
@@ -57,8 +57,8 @@ public class PLinkFromRecordLinkCreator implements ExtendedFunctionality {
 		createRecord("presentationRecordLink", pCollVar);
 	}
 
-	private String constructIdForPCollVar() {
-		String firstPartOfId = id.substring(0, id.indexOf("Link"));
+	private String constructIdForPLink() {
+		String firstPartOfId = id.substring(0, id.lastIndexOf("Link"));
 		return firstPartOfId + "PLink";
 	}
 

@@ -23,7 +23,7 @@ public class PLinkFromRecordLinkCreatorTest {
 	}
 
 	@Test
-	public void testPCollVarsDoesNotExist() {
+	public void testPLinkDoesNotExist() {
 		SpiderDataGroup recordLink = DataCreator
 				.createRecordLinkWithIdDataDividerNameInDataAndLinkedRecordType("someRandomLink",
 						"testSystem", "someRandom", "someRecordType");
@@ -84,5 +84,21 @@ public class PLinkFromRecordLinkCreatorTest {
 		creator.useExtendedFunctionality(authToken, recordLink);
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 0);
+	}
+
+	@Test
+	public void testPLinkWithLinkAsPartOfName() {
+		SpiderDataGroup recordLink = DataCreator
+				.createRecordLinkWithIdDataDividerNameInDataAndLinkedRecordType("someLinkNameLink",
+						"testSystem", "someLink", "someRecordType");
+
+		PLinkFromRecordLinkCreator creator = new PLinkFromRecordLinkCreator();
+		creator.useExtendedFunctionality(authToken, recordLink);
+
+		SpiderRecordCreatorSpy spiderRecordCreatorSpy = instanceFactory.spiderRecordCreators.get(0);
+		SpiderDataGroup record = spiderRecordCreatorSpy.record;
+
+		SpiderDataGroup recordInfo = record.extractGroup("recordInfo");
+		assertEquals(recordInfo.extractAtomicValue("id"), "someLinkNamePLink");
 	}
 }
