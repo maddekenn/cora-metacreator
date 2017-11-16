@@ -15,9 +15,11 @@ public class PGroupConstructor {
 
 	private static final String LINKED_RECORD_ID = "linkedRecordId";
 	private static final String PRESENTATION = "presentation";
-	private SpiderDataGroup pGroup;
 	private String mode;
 	private String authToken;
+	private String id;
+	private String dataDivider;
+	private String presentationOf;
 
 	public PGroupConstructor(String authToken) {
 		this.authToken = authToken;
@@ -27,11 +29,17 @@ public class PGroupConstructor {
 																						 String dataDivider, String presentationOf,
 																						 List<SpiderDataElement> metadataChildReferences, String mode) {
 		this.mode = mode;
+		this.id = id;
+		this.dataDivider = dataDivider;
+		this.presentationOf = presentationOf;
+		return possiblyCreatePGroup(metadataChildReferences);
+
+	}
+
+	private SpiderDataGroup possiblyCreatePGroup(List<SpiderDataElement> metadataChildReferences) {
 		SpiderDataGroup childReferences = createChildren(metadataChildReferences);
 		ensurePGroupHasChildren(childReferences);
-		createPGroup(id, dataDivider, presentationOf, childReferences);
-
-		return pGroup;
+		return createPGroup(childReferences);
 	}
 
 	private SpiderDataGroup createChildren(List<SpiderDataElement> metadataChildReferences) {
@@ -179,22 +187,32 @@ public class PGroupConstructor {
 		}
 	}
 
-	private void createPGroup(String id, String dataDivider, String presentationOf,
-			SpiderDataGroup childReferences) {
-		pGroup = SpiderDataGroup.withNameInData(PRESENTATION);
-		pGroup.addAttributeByIdWithValue("type", "pGroup");
-		pGroup.addChild(childReferences);
-		createAndAddRecordInfoWithIdAndDataDivider(id, dataDivider);
-		createAndAddPresentationOf(presentationOf);
+	private SpiderDataGroup createPGroup(SpiderDataGroup childReferences) {
+		SpiderDataGroup pGroup = constructPGroup();
+		addChildReferencesToPGroup(childReferences, pGroup);
+		return pGroup;
 	}
 
-	private void createAndAddRecordInfoWithIdAndDataDivider(String id, String dataDivider) {
+	private void addChildReferencesToPGroup(SpiderDataGroup childReferences, SpiderDataGroup pGroup) {
+		pGroup.addChild(childReferences);
+		pGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("mode", mode));
+		createAndAddRecordInfoWithIdAndDataDivider(pGroup);
+		createAndAddPresentationOf(pGroup);
+	}
+
+	private SpiderDataGroup constructPGroup() {
+		SpiderDataGroup pGroup = SpiderDataGroup.withNameInData(PRESENTATION);
+		pGroup.addAttributeByIdWithValue("type", "pGroup");
+		return pGroup;
+	}
+
+	private void createAndAddRecordInfoWithIdAndDataDivider(SpiderDataGroup pGroup) {
 		SpiderDataGroup recordInfo = DataCreatorHelper.createRecordInfoWithIdAndDataDivider(id,
 				dataDivider);
 		pGroup.addChild(recordInfo);
 	}
 
-	private void createAndAddPresentationOf(String presentationOf) {
+	private void createAndAddPresentationOf(SpiderDataGroup pGroup) {
 		SpiderDataGroup presentationOfGroup = SpiderDataGroup.withNameInData("presentationOf");
 		presentationOfGroup.addChild(
 				SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "metadataGroup"));

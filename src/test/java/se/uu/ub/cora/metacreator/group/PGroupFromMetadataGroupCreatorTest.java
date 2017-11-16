@@ -32,13 +32,13 @@ public class PGroupFromMetadataGroupCreatorTest {
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 2);
 
-		assertCorrectPGroupWithIndexPGroupIdAndChildId(0, "someTestPGroup", "somePVar");
-		assertCorrectPGroupWithIndexPGroupIdAndChildId(1, "someTestOutputPGroup", "someOutputPVar");
+		assertCorrectPGroupWithIndexPGroupIdAndChildId(0, "someTestPGroup", "somePVar", "input");
+		assertCorrectPGroupWithIndexPGroupIdAndChildId(1, "someTestOutputPGroup", "someOutputPVar", "output");
 
 	}
 
 	private void assertCorrectPGroupWithIndexPGroupIdAndChildId(int index, String pGroupId,
-			String childId) {
+			String childId, String mode) {
 		SpiderRecordCreatorSpy spiderRecordCreatorSpy = instanceFactory.spiderRecordCreators
 				.get(index);
 		assertEquals(spiderRecordCreatorSpy.type, "presentationGroup");
@@ -51,6 +51,7 @@ public class PGroupFromMetadataGroupCreatorTest {
 		assertCorrectPresentationOf(record);
 
 		assertCorrectChildRef(childId, record);
+		assertEquals(record.extractAtomicValue("mode"), mode);
 	}
 
 	private void assertCorrectRecordInfo(SpiderDataGroup record, String expectedId) {
