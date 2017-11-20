@@ -20,6 +20,7 @@
 package se.uu.ub.cora.metacreator.dependency;
 
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
+import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.data.SpiderDataRecord;
 import se.uu.ub.cora.spider.record.SpiderRecordReader;
@@ -73,12 +74,14 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 		}
 		if ("metadataGroup".equals(type)) {
 			switch (id) {
+			case "myRecordTypeGroup":
+			case "myRecordTypeNewGroup":
 			case "myRecordType2Group":
 			case "myRecordType2NewGroup":
 				return null;
-				case "myRecordType3Group":
-				case "myRecordType3NewGroup":
-					return createRecordForMetadataGroupWithId(id);
+			case "myRecordType3Group":
+			case "myRecordType3NewGroup":
+				return createRecordForMetadataGroupWithId(id);
 			default:
 				throw new RecordNotFoundException("record not found in stub");
 			}
@@ -144,6 +147,8 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 			case "identifierValueOutputPVar":
 			case "somePVar":
 			case "someOutputPVar":
+			case "recordInfoPGroup":
+			case "recordInfoOutputPGroup":
 				return null;
 			default:
 				throw new RecordNotFoundException("record not found in stub");
@@ -152,8 +157,19 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 		return null;
 	}
 
-	private SpiderDataRecord createRecordForMetadataGroupWithId(String id){
+	private SpiderDataRecord createRecordForMetadataGroupWithId(String id) {
 		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithId(id);
+		SpiderDataGroup childReferences = metadataGroup.extractGroup("childReferences");
+		SpiderDataGroup childReference = SpiderDataGroup.withNameInData("childReference");
+		childReference.setRepeatId("1");
+		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMin", "0"));
+		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMax", "1"));
+
+		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(childReference,
+				"ref", "metadata", "recordInfoGroup");
+
+		childReferences.addChild(childReference);
+
 		return SpiderDataRecord.withSpiderDataGroup(metadataGroup);
 	}
 
