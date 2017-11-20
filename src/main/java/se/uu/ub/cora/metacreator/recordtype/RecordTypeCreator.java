@@ -1,13 +1,18 @@
 package se.uu.ub.cora.metacreator.recordtype;
 
 import se.uu.ub.cora.metacreator.TextConstructor;
+import se.uu.ub.cora.metacreator.group.PGroupConstructor;
 import se.uu.ub.cora.spider.data.SpiderDataAtomic;
+import se.uu.ub.cora.spider.data.SpiderDataElement;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.spider.data.SpiderDataRecord;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 import se.uu.ub.cora.spider.record.SpiderRecordCreator;
 import se.uu.ub.cora.spider.record.SpiderRecordReader;
 import se.uu.ub.cora.spider.record.storage.RecordNotFoundException;
+
+import java.util.List;
 
 public class RecordTypeCreator implements ExtendedFunctionality {
 
@@ -164,15 +169,24 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 	private void possiblyCreatePresentationGroupWithPresentationOfAndNameInData(
 			String presentationOf, String presentationId, String refRecordInfoId) {
 		if (recordDoesNotExistInStorage("presentationGroup", presentationId)) {
-			createPresentationGroup(presentationOf, presentationId, refRecordInfoId);
+			SpiderRecordReader spiderRecordReader = SpiderInstanceProvider.getSpiderRecordReader();
+			SpiderDataRecord spiderDataRecord = spiderRecordReader.readRecord(userId, "metadataGroup", presentationOf);
+			List<SpiderDataElement> metadataChildReferences = spiderDataRecord.getSpiderDataGroup().extractGroup("childReferences").getChildren();
+			createPresentationGroup(presentationOf, presentationId, metadataChildReferences);
 		}
 	}
 
-	private void createPresentationGroup(String presentationOf, String presentationId,
-			String refRecordInfoId) {
-		PresentationGroupCreator presentationGroup = PresentationGroupCreator
-				.withIdDataDividerAndPresentationOf(presentationId, dataDivider, presentationOf);
-		SpiderDataGroup pGroup = presentationGroup.createGroup(refRecordInfoId);
+	private void createPresentationGroup(String presentationOf, String presentationId, List<SpiderDataElement> metadataChildReferences) {
+//		PresentationGroupCreator presentationGroup = PresentationGroupCreator
+//				.withIdDataDividerAndPresentationOf(presentationId, dataDivider, presentationOf);
+//		SpiderDataGroup pGroup = presentationGroup.createGroup(refRecordInfoId);
+
+		PGroupConstructor constructor = new PGroupConstructor(userId);
+		SpiderDataGroup pGroup = constructor
+				.constructPGroupWithIdDataDividerPresentationOfChildrenAndMode(presentationId, dataDivider,
+						presentationOf, metadataChildReferences, "input");
+
+
 		storeRecord("presentationGroup", pGroup);
 	}
 

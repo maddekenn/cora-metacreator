@@ -19,6 +19,8 @@
 
 package se.uu.ub.cora.metacreator.dependency;
 
+import se.uu.ub.cora.metacreator.testdata.DataCreator;
+import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.data.SpiderDataRecord;
 import se.uu.ub.cora.spider.record.SpiderRecordReader;
 import se.uu.ub.cora.spider.record.storage.RecordNotFoundException;
@@ -74,6 +76,9 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 			case "myRecordType2Group":
 			case "myRecordType2NewGroup":
 				return null;
+				case "myRecordType3Group":
+				case "myRecordType3NewGroup":
+					return createRecordForMetadataGroupWithId(id);
 			default:
 				throw new RecordNotFoundException("record not found in stub");
 			}
@@ -145,6 +150,11 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 			}
 		}
 		return null;
+	}
+
+	private SpiderDataRecord createRecordForMetadataGroupWithId(String id){
+		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithId(id);
+		return SpiderDataRecord.withSpiderDataGroup(metadataGroup);
 	}
 
 }

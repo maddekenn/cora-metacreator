@@ -28,7 +28,7 @@ public class PresentationGroupCreatorTest {
 		SpiderDataGroup presentationOf = pGroup.extractGroup("presentationOf");
 		assertEquals(presentationOf.extractAtomicValue("linkedRecordId"), "myRecordTypeGroup");
 		assertEquals(presentationOf.extractAtomicValue("linkedRecordType"), "metadataGroup");
-
+//		assertEquals(pGroup.extractAtomicValue("mode"), "output");
 		assertCorrectChildReferences(pGroup);
 	}
 
