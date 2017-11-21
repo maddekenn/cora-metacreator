@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.dependency.SpiderRecordCreatorSpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
+import se.uu.ub.cora.spider.data.SpiderDataElement;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
@@ -22,7 +23,7 @@ public class RecordTypeCreatorTest {
 		SpiderInstanceProvider.setSpiderInstanceFactory(instanceFactory);
 		userId = "testUser";
 	}
-
+//TODO: när barnen är på plats, kolla att mode är rätt
 	@Test
 	public void testRecordTypeCreatorNoMetadataGroupOrPresentationsExists() {
 		RecordTypeCreator recordTypeCreator = RecordTypeCreator
@@ -40,17 +41,17 @@ public class RecordTypeCreatorTest {
 		assertCorrectlyCreatedMetadataGroup(3, "myRecordTypeNewGroup", "recordInfoNewGroup",
 				"myRecordType");
 
-		assertCorrectlyCreatedPresentationGroup(4, "myRecordTypeFormPGroup", "myRecordTypeGroup",
+		assertCorrectlyCreatedPresentationGroupWithAllChildren(4, "myRecordTypeFormPGroup", "myRecordTypeGroup",
 				"recordInfoPGroup");
-		assertCorrectlyCreatedPresentationGroup(5, "myRecordTypeViewPGroup", "myRecordTypeGroup",
+		assertCorrectlyCreatedPresentationGroupWithOnlyRecordInfo(5, "myRecordTypeViewPGroup", "myRecordTypeGroup",
 				"recordInfoOutputPGroup");
-		assertCorrectlyCreatedPresentationGroup(6, "myRecordTypeMenuPGroup", "myRecordTypeGroup",
+		assertCorrectlyCreatedPresentationGroupWithOnlyRecordInfo(6, "myRecordTypeMenuPGroup", "myRecordTypeGroup",
 				"recordInfoOutputPGroup");
-		assertCorrectlyCreatedPresentationGroup(7, "myRecordTypeListPGroup", "myRecordTypeGroup",
+		assertCorrectlyCreatedPresentationGroupWithOnlyRecordInfo(7, "myRecordTypeListPGroup", "myRecordTypeGroup",
 				"recordInfoOutputPGroup");
-		assertCorrectlyCreatedPresentationGroup(8, "myRecordTypeFormNewPGroup",
+		assertCorrectlyCreatedPresentationGroupWithAllChildren(8, "myRecordTypeFormNewPGroup",
 				"myRecordTypeNewGroup", "recordInfoNewPGroup");
-		assertCorrectlyCreatedPresentationGroup(9, "myRecordTypeAutocompletePGroup",
+		assertCorrectlyCreatedPresentationGroupWithOnlyRecordInfo(9, "myRecordTypeAutocompletePGroup",
 				"myRecordTypeGroup", "recordInfoPGroup");
 
 	}
@@ -64,7 +65,7 @@ public class RecordTypeCreatorTest {
 		SpiderDataGroup record = spiderRecordCreator.record;
 		assertEquals(record.extractAtomicValue("nameInData"), nameInData);
 		assertCorrectUserAndRecordInfo(id, spiderRecordCreator);
-		assertCorrectlyCreatedMetadataChildReference(childRefId, spiderRecordCreator);
+		assertCorrectlyCreatedMetadataChildReference(childRefId, spiderRecordCreator.record);
 		SpiderDataGroup textIdGroup = record.extractGroup("textId");
 		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "text");
 		SpiderDataGroup defTextIdGroup = record.extractGroup("defTextId");
@@ -73,9 +74,8 @@ public class RecordTypeCreatorTest {
 		assertEquals(record.extractAtomicValue("excludePGroupCreation"), "true");
 	}
 
-	private void assertCorrectlyCreatedMetadataChildReference(String childRefId,
-			SpiderRecordCreatorSpy spiderRecordCreator) {
-		SpiderDataGroup childRef = getChildRef(spiderRecordCreator);
+	private void assertCorrectlyCreatedMetadataChildReference(String childRefId,SpiderDataGroup record) {
+		SpiderDataGroup childRef = getChildRef(record);
 		SpiderDataGroup ref = (SpiderDataGroup) childRef.getFirstChildWithNameInData("ref");
 
 		assertEquals(ref.extractAtomicValue("linkedRecordId"), childRefId);
@@ -84,9 +84,54 @@ public class RecordTypeCreatorTest {
 		assertEquals(childRef.extractAtomicValue("repeatMax"), "1");
 	}
 
-	private void assertCorrectlyCreatedPresentationChildReference(String childRefId,
+	private void assertCorrectlyCreatedPresentationGroupWithAllChildren(int createdPGroupNo, String id,
+																		String presentationOf, String childRefId){
+
+		SpiderRecordCreatorSpy spiderRecordCreator = instanceFactory.spiderRecordCreators
+				.get(createdPGroupNo);
+		assertCorrectlyCreatedPresentationGroup(spiderRecordCreator, createdPGroupNo, id, presentationOf);
+		SpiderDataGroup record = spiderRecordCreator.record;
+		SpiderDataGroup childReferences = record.extractGroup("childReferences");
+		assertEquals(childReferences.getChildren().size(), 2);
+		SpiderDataGroup recordInfo = (SpiderDataGroup)childReferences.getChildren().get(1);
+		SpiderDataGroup refGroup = recordInfo.extractGroup("refGroup");
+		SpiderDataGroup ref = refGroup.extractGroup("ref");
+		assertEquals(ref.extractAtomicValue("linkedRecordId"), "recordInfoPGroup");
+
+//		assertCorrectlyCreatedPresentationChildReference(childRefId, spiderRecordCreator.record);
+	}
+
+	private void assertCorrectlyCreatedPresentationGroupWithOnlyRecordInfo(int createdPGroupNo, String id,
+																		   String presentationOf, String childRefId){
+
+		SpiderRecordCreatorSpy spiderRecordCreator = instanceFactory.spiderRecordCreators
+				.get(createdPGroupNo);
+		assertCorrectlyCreatedPresentationGroup(spiderRecordCreator, createdPGroupNo, id, presentationOf);
+		assertCorrectlyCreatedPresentationChildReference(childRefId, spiderRecordCreator.record);
+	}
+
+	private void assertCorrectlyCreatedPresentationGroup(SpiderRecordCreatorSpy spiderRecordCreator, int createdPGroupNo, String id,
+														 String presentationOf) {
+		assertEquals(spiderRecordCreator.type, "presentationGroup");
+		SpiderDataGroup presentationOfGroup = spiderRecordCreator.record
+				.extractGroup("presentationOf");
+		assertEquals(presentationOfGroup.extractAtomicValue("linkedRecordId"), presentationOf);
+		assertCorrectUserAndRecordInfo(id, spiderRecordCreator);
+	}
+
+	private void assertCorrectUserAndRecordInfo(String id,
 			SpiderRecordCreatorSpy spiderRecordCreator) {
-		SpiderDataGroup childRef = getChildRef(spiderRecordCreator);
+		assertEquals(spiderRecordCreator.userId, userId);
+		SpiderDataGroup recordInfo = spiderRecordCreator.record.extractGroup("recordInfo");
+		assertEquals(recordInfo.extractAtomicValue("id"), id);
+
+		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
+		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "test");
+	}
+
+	private void assertCorrectlyCreatedPresentationChildReference(String childRefId,
+																  SpiderDataGroup record) {
+		SpiderDataGroup childRef = getChildRef(record);
 		SpiderDataGroup refGroup = (SpiderDataGroup) childRef
 				.getFirstChildWithNameInData("refGroup");
 		assertEquals(refGroup.getRepeatId(), "0");
@@ -99,34 +144,12 @@ public class RecordTypeCreatorTest {
 
 	}
 
-	private SpiderDataGroup getChildRef(SpiderRecordCreatorSpy spiderRecordCreator) {
-		SpiderDataGroup childReferences = spiderRecordCreator.record
-				.extractGroup("childReferences");
+	private SpiderDataGroup getChildRef(SpiderDataGroup record) {
+		SpiderDataGroup childReferences = record.extractGroup("childReferences");
+		assertEquals(childReferences.getChildren().size(), 1);
 		SpiderDataGroup childRef = (SpiderDataGroup) childReferences
 				.getFirstChildWithNameInData("childReference");
 		return childRef;
-	}
-
-	private void assertCorrectlyCreatedPresentationGroup(int createdPGroupNo, String id,
-			String presentationOf, String childRefId) {
-		SpiderRecordCreatorSpy spiderRecordCreator = instanceFactory.spiderRecordCreators
-				.get(createdPGroupNo);
-		assertEquals(spiderRecordCreator.type, "presentationGroup");
-		SpiderDataGroup presentationOfGroup = spiderRecordCreator.record
-				.extractGroup("presentationOf");
-		assertEquals(presentationOfGroup.extractAtomicValue("linkedRecordId"), presentationOf);
-		assertCorrectUserAndRecordInfo(id, spiderRecordCreator);
-		assertCorrectlyCreatedPresentationChildReference(childRefId, spiderRecordCreator);
-	}
-
-	private void assertCorrectUserAndRecordInfo(String id,
-			SpiderRecordCreatorSpy spiderRecordCreator) {
-		assertEquals(spiderRecordCreator.userId, userId);
-		SpiderDataGroup recordInfo = spiderRecordCreator.record.extractGroup("recordInfo");
-		assertEquals(recordInfo.extractAtomicValue("id"), id);
-
-		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "test");
 	}
 
 	@Test
