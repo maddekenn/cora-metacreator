@@ -26,7 +26,7 @@ public class GroupCompleterTest {
         GroupCompleter completer = GroupCompleter.forTextLinkedRecordType("someLinkedRecordType");
 
         SpiderDataGroup metadataGroup = DataCreator
-                .createMetadataGroupWithId("someMetadataGroup");
+                .createMetadataGroupWithIdAndTextVarAsChildReference("someMetadataGroup");
 
         completer.useExtendedFunctionality(authToken, metadataGroup);
 
@@ -44,7 +44,7 @@ public class GroupCompleterTest {
         GroupCompleter completer = GroupCompleter.forTextLinkedRecordType("someLinkedRecordType");
 
         SpiderDataGroup metadataGroup = DataCreator
-                .createMetadataGroupWithId("someMetadataGroup");
+                .createMetadataGroupWithIdAndTextVarAsChildReference("someMetadataGroup");
 
         DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(metadataGroup,
                 "textId", "textSystemOne", "anExistingText");

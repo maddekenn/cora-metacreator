@@ -25,7 +25,7 @@ public class PGroupFromMetadataGroupCreatorTest {
 
 	@Test
 	public void testPGroupsDoesNotExist() {
-		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithId("someTestGroup");
+		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithIdAndTextVarAsChildReference("someTestGroup");
 
 		PGroupFromMetadataGroupCreator creator = new PGroupFromMetadataGroupCreator();
 		creator.useExtendedFunctionality(authToken, metadataGroup);
@@ -78,7 +78,7 @@ public class PGroupFromMetadataGroupCreatorTest {
 
 	@Test
 	public void testPGroupsAlreadyExist() {
-		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithId("someExistingGroup");
+		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithIdAndTextVarAsChildReference("someExistingGroup");
 
 		PGroupFromMetadataGroupCreator creator = new PGroupFromMetadataGroupCreator();
 		creator.useExtendedFunctionality(authToken, metadataGroup);
@@ -88,7 +88,7 @@ public class PGroupFromMetadataGroupCreatorTest {
 
 	@Test
 	public void testPGroupsShouldNotBeCreated() {
-		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithId("someTestGroup");
+		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithIdAndTextVarAsChildReference("someTestGroup");
 		metadataGroup
 				.addChild(SpiderDataAtomic.withNameInDataAndValue("excludePGroupCreation", "true"));
 
@@ -100,7 +100,7 @@ public class PGroupFromMetadataGroupCreatorTest {
 
 	@Test
 	public void testPGroupsExcludeCreationIsTrueSoPGroupsShouldNotBeCreated() {
-		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithId("someTestGroup");
+		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithIdAndTextVarAsChildReference("someTestGroup");
 		metadataGroup
 				.addChild(SpiderDataAtomic.withNameInDataAndValue("excludePGroupCreation", "true"));
 
@@ -112,7 +112,7 @@ public class PGroupFromMetadataGroupCreatorTest {
 
 	@Test
 	public void testPGroupsExcludeCreationIsFalseSoPGroupsShouldBeCreated() {
-		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithId("someTestGroup");
+		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithIdAndTextVarAsChildReference("someTestGroup");
 		metadataGroup.addChild(
 				SpiderDataAtomic.withNameInDataAndValue("excludePGroupCreation", "false"));
 
@@ -124,7 +124,7 @@ public class PGroupFromMetadataGroupCreatorTest {
 
 	@Test
 	public void testPGroupsNotPossibleToCreatePGroups() {
-		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithId("someTestGroup");
+		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithIdAndTextVarAsChildReference("someTestGroup");
 		SpiderDataGroup childReferences = metadataGroup.extractGroup("childReferences");
 		childReferences.removeChild("childReference");
 
