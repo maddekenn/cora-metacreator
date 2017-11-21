@@ -3,7 +3,7 @@ package se.uu.ub.cora.metacreator.recordtype;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
@@ -16,7 +16,7 @@ public class RecordTypeCreatorTest {
 	private SpiderInstanceFactorySpy instanceFactory;
 	private String userId;
 
-	@BeforeMethod
+	@BeforeTest
 	public void setUp() {
 		instanceFactory = new SpiderInstanceFactorySpy();
 		SpiderInstanceProvider.setSpiderInstanceFactory(instanceFactory);

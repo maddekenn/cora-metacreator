@@ -19,6 +19,9 @@
 
 package se.uu.ub.cora.metacreator.dependency;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
 import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
@@ -27,6 +30,7 @@ import se.uu.ub.cora.spider.record.SpiderRecordReader;
 import se.uu.ub.cora.spider.record.storage.RecordNotFoundException;
 
 public class SpiderRecordReaderSpy implements SpiderRecordReader {
+	public List<String> readMetadataIds = new ArrayList<>();
 
 	@Override
 	public SpiderDataRecord readRecord(String userId, String type, String id) {
@@ -74,14 +78,15 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 		}
 		if ("metadataGroup".equals(type)) {
 			switch (id) {
-			case "myRecordTypeGroup":
-			case "myRecordTypeNewGroup":
 			case "myRecordType2Group":
 			case "myRecordType2NewGroup":
 				return null;
 			case "myRecordType3Group":
 			case "myRecordType3NewGroup":
 				return createRecordForMetadataGroupWithId(id);
+			case "myRecordTypeGroup":
+			case "myRecordTypeNewGroup":
+				return checkIfAskedForOnceBefore(id);
 			default:
 				throw new RecordNotFoundException("record not found in stub");
 			}
@@ -155,6 +160,15 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 			}
 		}
 		return null;
+	}
+
+	private SpiderDataRecord checkIfAskedForOnceBefore(String id) {
+		// Used for a test where a check first is made and then the
+		if (readMetadataIds.contains(id)) {
+			return createRecordForMetadataGroupWithId(id);
+		}
+		readMetadataIds.add(id);
+		throw new RecordNotFoundException("record not found in stub");
 	}
 
 	private SpiderDataRecord createRecordForMetadataGroupWithId(String id) {
