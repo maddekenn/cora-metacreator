@@ -3,6 +3,7 @@ package se.uu.ub.cora.metacreator.recordtype;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -16,7 +17,7 @@ public class RecordTypeCreatorTest {
 	private SpiderInstanceFactorySpy instanceFactory;
 	private String userId;
 
-	@BeforeTest
+	@BeforeMethod
 	public void setUp() {
 		instanceFactory = new SpiderInstanceFactorySpy();
 		SpiderInstanceProvider.setSpiderInstanceFactory(instanceFactory);
@@ -41,18 +42,18 @@ public class RecordTypeCreatorTest {
 		assertCorrectlyCreatedMetadataGroup(3, "myRecordTypeNewGroup", "recordInfoNewGroup",
 				"myRecordType");
 
-		assertCorrectlyCreatedPresentationGroupWithOnlyRecordInfo(4, "myRecordTypeFormPGroup",
+		assertCorrectlyCreatedPresentationGroupWithIndexIdPresentationOfAndRecordInfo(4, "myRecordTypeFormPGroup",
 				"myRecordTypeGroup", "recordInfoPGroup");
-		assertCorrectlyCreatedPresentationGroupWithOnlyRecordInfo(8, "myRecordTypeFormNewPGroup",
+		assertCorrectlyCreatedPresentationGroupWithIndexIdPresentationOfAndRecordInfo(5, "myRecordTypeFormNewPGroup",
 				"myRecordTypeNewGroup", "recordInfoNewPGroup");
 
-		assertCorrectlyCreatedPresentationGroupWithOnlyRecordInfo(5, "myRecordTypeViewPGroup",
+		assertCorrectlyCreatedPresentationGroupWithIndexIdPresentationOfAndRecordInfo(6, "myRecordTypeViewPGroup",
 				"myRecordTypeGroup", "recordInfoOutputPGroup");
-		assertCorrectlyCreatedPresentationGroupWithOnlyRecordInfo(6, "myRecordTypeMenuPGroup",
+		assertCorrectlyCreatedPresentationGroupWithIndexIdPresentationOfAndRecordInfo(7, "myRecordTypeMenuPGroup",
 				"myRecordTypeGroup", "recordInfoOutputPGroup");
-		assertCorrectlyCreatedPresentationGroupWithOnlyRecordInfo(7, "myRecordTypeListPGroup",
+		assertCorrectlyCreatedPresentationGroupWithIndexIdPresentationOfAndRecordInfo(8, "myRecordTypeListPGroup",
 				"myRecordTypeGroup", "recordInfoOutputPGroup");
-		assertCorrectlyCreatedPresentationGroupWithOnlyRecordInfo(9,
+		assertCorrectlyCreatedPresentationGroupWithIndexIdPresentationOfAndRecordInfo(9,
 				"myRecordTypeAutocompletePGroup", "myRecordTypeGroup", "recordInfoPGroup");
 
 	}
@@ -86,12 +87,12 @@ public class RecordTypeCreatorTest {
 		assertEquals(childRef.extractAtomicValue("repeatMax"), "1");
 	}
 
-	private void assertCorrectlyCreatedPresentationGroupWithOnlyRecordInfo(int createdPGroupNo,
+	private void assertCorrectlyCreatedPresentationGroupWithIndexIdPresentationOfAndRecordInfo(int index,
 			String id, String presentationOf, String childRefId) {
 
 		SpiderRecordCreatorSpy spiderRecordCreator = instanceFactory.spiderRecordCreators
-				.get(createdPGroupNo);
-		assertCorrectlyCreatedPresentationGroup(spiderRecordCreator, createdPGroupNo, id,
+				.get(index);
+		assertCorrectlyCreatedPresentationGroup(spiderRecordCreator, index, id,
 				presentationOf);
 		assertCorrectlyCreatedPresentationChildReference(childRefId, spiderRecordCreator.record);
 	}
@@ -183,8 +184,17 @@ public class RecordTypeCreatorTest {
 
 		assertCorrectPresentationByIndexIdModeRecordInfoRefAndChildPresentation(2,
 				"myRecordType3FormPGroup", "input", "recordInfoPGroup", "somePVar", 2);
-		assertCorrectPresentationByIndexIdModeRecordInfoRefAndChildPresentation(6,
+		assertCorrectPresentationByIndexIdModeRecordInfoRefAndChildPresentation(3,
 				"myRecordType3FormNewPGroup", "input", "recordInfoNewPGroup", "somePVar", 2);
+
+		assertCorrectlyCreatedPresentationGroupWithIndexIdPresentationOfAndRecordInfo(4, "myRecordType3ViewPGroup",
+				"myRecordType3Group", "recordInfoOutputPGroup");
+		assertCorrectlyCreatedPresentationGroupWithIndexIdPresentationOfAndRecordInfo(5, "myRecordType3MenuPGroup",
+				"myRecordType3Group", "recordInfoOutputPGroup");
+		assertCorrectlyCreatedPresentationGroupWithIndexIdPresentationOfAndRecordInfo(6, "myRecordType3ListPGroup",
+				"myRecordType3Group", "recordInfoOutputPGroup");
+		assertCorrectlyCreatedPresentationGroupWithIndexIdPresentationOfAndRecordInfo(7,
+				"myRecordType3AutocompletePGroup", "myRecordType3Group", "recordInfoPGroup");
 	}
 
 	private void assertCorrectPresentationByIndexIdModeRecordInfoRefAndChildPresentation(int index,

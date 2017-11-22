@@ -80,7 +80,7 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 			switch (id) {
 			case "myRecordType2Group":
 			case "myRecordType2NewGroup":
-				return null;
+				return createRecordForMetadataGroupWithId(id);
 			case "myRecordType3Group":
 			case "myRecordType3NewGroup":
 				return createRecordForMetadataGroupWithIdAndOneTextVarAsChild(id);
