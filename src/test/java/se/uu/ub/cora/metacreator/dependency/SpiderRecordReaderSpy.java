@@ -155,11 +155,13 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 			case "recordInfoPGroup":
 			case "recordInfoNewPGroup":
 			case "recordInfoOutputPGroup":
+			case "searchTitlePVar":
 				return null;
 			default:
 				throw new RecordNotFoundException("record not found in stub");
 			}
 		}
+
 		return null;
 	}
 

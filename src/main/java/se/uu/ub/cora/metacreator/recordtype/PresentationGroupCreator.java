@@ -1,20 +1,58 @@
 package se.uu.ub.cora.metacreator.recordtype;
 
+import se.uu.ub.cora.metacreator.group.PGroupConstructor;
+import se.uu.ub.cora.spider.data.SpiderDataElement;
+import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
+import se.uu.ub.cora.spider.record.SpiderRecordCreator;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class PresentationGroupCreator{
 
 	private static final String PRESENTATION = "presentation";
-	private String presentationOf;
+	private final String authToken;
 	public String presentationId;
+	private final String dataDivider;
+	private String presentationOf;
+	private String mode;
+	private List<SpiderDataElement> metadataChildReferences;
 
-	public PresentationGroupCreator(String presentationId, String dataDivider) {
+	public PresentationGroupCreator(String authToken, String presentationId, String dataDivider) {
+		this.authToken = authToken;
 		this.presentationId = presentationId;
-		this.presentationOf = presentationOf;
+		this.dataDivider = dataDivider;
 	}
 
-	public static PresentationGroupCreator withIdDataDividerAndPresentationOf(String id,
-			String dataDivider, String presentationOf) {
-		return new PresentationGroupCreator(id, dataDivider);
+	public static PresentationGroupCreator withAuthTokenPresentationIdAndDataDivider(String authToken, String presentationId, String dataDivider) {
+		return new PresentationGroupCreator(authToken, presentationId, dataDivider);
 	}
+
+	public void setPresentationOfAndMode(String presentationOf, String mode) {
+		this.presentationOf = presentationOf;
+		this.mode = mode;
+	}
+
+	public void createGroup() {
+//		List<SpiderDataElement> metadataChildren = new ArrayList<>();
+		PGroupConstructor pGroupConstructor = new PGroupConstructor(authToken);
+
+		SpiderDataGroup dataGroup = pGroupConstructor.constructPGroupWithIdDataDividerPresentationOfChildrenAndMode(presentationId, dataDivider, presentationOf, metadataChildReferences, mode);
+		SpiderRecordCreator spiderRecordCreator = SpiderInstanceProvider
+				.getSpiderRecordCreator();
+		spiderRecordCreator.createAndStoreRecord(authToken, "presentationGroup",
+				dataGroup);
+	}
+
+	public void setMetadataChildReferences(List<SpiderDataElement> metadataChildReferences) {
+		this.metadataChildReferences = metadataChildReferences;
+	}
+
+//	public static PresentationGroupCreator withIdDataDividerAndPresentationOf(String id,
+//			String dataDivider, String presentationOf) {
+//		return new PresentationGroupCreator(id, dataDivider);
+//	}
 
 //	@Override
 //	public SpiderDataGroup createGroup(String refRecordInfoId) {
@@ -85,7 +123,4 @@ public class PresentationGroupCreator{
 //		return ref;
 //	}
 
-	public static PresentationGroupCreator withPresentationIdAndDataDivider(String presentationId, String dataDivider) {
-		return new PresentationGroupCreator(presentationId, dataDivider);
-	}
 }
