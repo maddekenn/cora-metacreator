@@ -108,7 +108,7 @@ public class RecordTypeCreatorTest {
 
 	private void assertCorrectUserAndRecordInfo(String id,
 			SpiderRecordCreatorSpy spiderRecordCreator) {
-		assertEquals(spiderRecordCreator.userId, userId);
+		assertEquals(spiderRecordCreator.authToken, userId);
 		SpiderDataGroup recordInfo = spiderRecordCreator.record.extractGroup("recordInfo");
 		assertEquals(recordInfo.extractAtomicValue("id"), id);
 

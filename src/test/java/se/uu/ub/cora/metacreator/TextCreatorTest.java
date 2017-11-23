@@ -41,7 +41,7 @@ public class TextCreatorTest {
 			String createdIdForText) {
 		SpiderRecordCreatorSpy spiderRecordCreator = instanceFactory.spiderRecordCreators
 				.get(createdTextNo);
-		assertEquals(spiderRecordCreator.userId, authToken);
+		assertEquals(spiderRecordCreator.authToken, authToken);
 		assertEquals(spiderRecordCreator.type, "textSystemOne");
 		SpiderDataGroup createdTextRecord = spiderRecordCreator.record;
 		SpiderDataGroup recordInfo = createdTextRecord.extractGroup("recordInfo");
