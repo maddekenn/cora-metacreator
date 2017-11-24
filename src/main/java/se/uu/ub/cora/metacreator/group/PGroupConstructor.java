@@ -183,7 +183,7 @@ public class PGroupConstructor {
 
 	private void ensurePGroupHasChildren(SpiderDataGroup childReferences) {
 		if (!childReferences.containsChildWithNameInData("childReference")) {
-			throw new DataException("No children were possible to add to presentationGroup");
+			throw new DataException("No children were possible to add to presentationGroup for id"+id+" and presentationOf "+presentationOf);
 		}
 	}
 

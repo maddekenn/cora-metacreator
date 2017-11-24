@@ -84,6 +84,9 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 			case "myRecordType3Group":
 			case "myRecordType3NewGroup":
 				return createRecordForMetadataGroupWithIdAndOneTextVarAsChild(id);
+			case "myRecordType4Group":
+			case "myRecordType4NewGroup":
+				return createRecordForMetadataGroupWithIdAndOneTextVarAsChild(id);
 			case "myRecordTypeGroup":
 			case "myRecordTypeNewGroup":
 				return checkIfAskedForOnceBefore(id);
@@ -213,4 +216,30 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 		childReferences.addChild(childReference);
 	}
 
+	private SpiderDataRecord createRecordForMetadataGroupWithIdAndTwoTextVarsAsChildren(String id) {
+		SpiderDataGroup metadataGroup = DataCreator
+				.createMetadataGroupWithIdAndTextVarAsChildReference(id);
+		SpiderDataGroup childReferences = metadataGroup.extractGroup("childReferences");
+		addChildReference(childReferences);
+
+
+		String recordInfoRefId = "recordInfoGroup";
+		if (id.contains("New")) {
+			recordInfoRefId = "recordInfoNewGroup";
+		}
+		addRecordInfoToChildReferences(metadataGroup, recordInfoRefId);
+
+		return SpiderDataRecord.withSpiderDataGroup(metadataGroup);
+	}
+
+	private void addChildReference(SpiderDataGroup childReferences) {
+		SpiderDataGroup childReference = SpiderDataGroup.withNameInData("childReference");
+		childReference.setRepeatId("0");
+		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMin", "0"));
+		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMax", "1"));
+
+		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(childReference,
+				"ref", "metadata", "someVarWithMissingPresentationTextVar");
+		childReferences.addChild(childReference);
+	}
 }

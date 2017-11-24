@@ -7,6 +7,8 @@ import se.uu.ub.cora.spider.data.SpiderDataElement;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 import se.uu.ub.cora.spider.record.SpiderRecordCreator;
+import se.uu.ub.cora.spider.record.SpiderRecordReader;
+import se.uu.ub.cora.spider.record.storage.RecordNotFoundException;
 
 public class PresentationGroupCreator {
 
@@ -33,14 +35,35 @@ public class PresentationGroupCreator {
 		this.mode = mode;
 	}
 
-	public void createGroup() {
-		PGroupConstructor pGroupConstructor = new PGroupConstructor(authToken);
+	public void createPGroupIfNotAlreadyExist() {
+		if(recordDoesNotExistInStorage()) {
+			createPGroup();
+		}
+	}
 
-		SpiderDataGroup dataGroup = pGroupConstructor
-				.constructPGroupWithIdDataDividerPresentationOfChildrenAndMode(presentationId,
-						dataDivider, presentationOf, metadataChildReferences, mode);
+	private boolean recordDoesNotExistInStorage() {
+		try {
+			SpiderRecordReader spiderRecordReader = SpiderInstanceProvider.getSpiderRecordReader();
+			spiderRecordReader.readRecord(authToken, "presentationGroup", presentationId);
+		} catch (RecordNotFoundException e) {
+			return true;
+		}
+		return false;
+	}
+
+	private void createPGroup() {
+		SpiderDataGroup dataGroup = createSpiderDataGroupToCreate();
+
 		SpiderRecordCreator spiderRecordCreator = SpiderInstanceProvider.getSpiderRecordCreator();
 		spiderRecordCreator.createAndStoreRecord(authToken, "presentationGroup", dataGroup);
+	}
+
+	private SpiderDataGroup createSpiderDataGroupToCreate() {
+		PGroupConstructor pGroupConstructor = new PGroupConstructor(authToken);
+
+		return pGroupConstructor
+                .constructPGroupWithIdDataDividerPresentationOfChildrenAndMode(presentationId,
+                        dataDivider, presentationOf, metadataChildReferences, mode);
 	}
 
 	public void setMetadataChildReferences(List<SpiderDataElement> metadataChildReferences) {

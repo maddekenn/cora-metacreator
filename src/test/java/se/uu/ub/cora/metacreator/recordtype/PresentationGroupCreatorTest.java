@@ -26,9 +26,9 @@ public class PresentationGroupCreatorTest {
 	}
 
 	@Test
-	public void testCreatePresentationGroup() {
-		PresentationGroupCreator pGroupCreator = createPresentationGroupCreator();
-		pGroupCreator.createGroup();
+	public void testCreatePresentationGroupWhenPGroupDoesNotExist() {
+		PresentationGroupCreator pGroupCreator = createPresentationGroupCreatorWithIdModeAndChildId("myRecordTypeViewId", "input", "searchTitleTextVar");
+		pGroupCreator.createPGroupIfNotAlreadyExist();
 
 		List<SpiderRecordCreatorSpy> spiderRecordCreators = instanceFactory.spiderRecordCreators;
 		SpiderRecordCreatorSpy spiderRecordCreatorSpy = spiderRecordCreators.get(0);
@@ -47,12 +47,12 @@ public class PresentationGroupCreatorTest {
 
 	}
 
-	private PresentationGroupCreator createPresentationGroupCreator() {
+	private PresentationGroupCreator createPresentationGroupCreatorWithIdModeAndChildId(String id, String mode, String childId) {
 		PresentationGroupCreator pGroupCreator = PresentationGroupCreator
-				.withAuthTokenPresentationIdAndDataDivider("testUser", "myRecordTypeViewId",
+				.withAuthTokenPresentationIdAndDataDivider("testUser", id,
 						"cora");
 
-		pGroupCreator.setPresentationOfAndMode("myRecordType", "input");
+		pGroupCreator.setPresentationOfAndMode("myRecordType", mode);
 		List<SpiderDataElement> metadataChildren = createMetadataChildReferences();
 		pGroupCreator.setMetadataChildReferences(metadataChildren);
 		return pGroupCreator;
@@ -84,17 +84,17 @@ public class PresentationGroupCreatorTest {
 		List<SpiderDataElement> metadataChildReferences = new ArrayList<>();
 		SpiderDataGroup childReference = createChildReference();
 
-		addRefPartToChildReference(childReference);
+		addRefPartToChildReference(childReference, "searchTitleTextVar");
 		childReference.setRepeatId("0");
 		metadataChildReferences.add(childReference);
 		return metadataChildReferences;
 	}
 
-	private void addRefPartToChildReference(SpiderDataGroup childReference) {
+	private void addRefPartToChildReference(SpiderDataGroup childReference, String childId) {
 		SpiderDataGroup ref = SpiderDataGroup.withNameInData("ref");
 		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "metadata"));
 		ref.addChild(
-				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", "searchTitleTextVar"));
+				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", childId));
 		childReference.addChild(ref);
 	}
 
@@ -103,6 +103,13 @@ public class PresentationGroupCreatorTest {
 		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMin", "1"));
 		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMax", "1"));
 		return childReference;
+	}
+
+	@Test
+	public void testCreatePresentationGroupWhenPGroupAlreadyExist() {
+		PresentationGroupCreator pGroupCreator = createPresentationGroupCreatorWithIdModeAndChildId("someExistingPGroup", "input", "searchTitleTextVar");
+		pGroupCreator.createPGroupIfNotAlreadyExist();
+		assertEquals(instanceFactory.spiderRecordCreators.size(), 0);
 	}
 
 }
