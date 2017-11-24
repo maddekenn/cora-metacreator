@@ -25,14 +25,14 @@ import se.uu.ub.cora.spider.record.SpiderRecordCreator;
 
 public class SpiderRecordCreatorSpy implements SpiderRecordCreator {
 
-	public String userId;
+	public String authToken;
 	public String type;
 	public SpiderDataGroup record;
 
 	@Override
 	public SpiderDataRecord createAndStoreRecord(String userId, String type,
 			SpiderDataGroup record) {
-		this.userId = userId;
+		this.authToken = userId;
 		this.type = type;
 		this.record = record;
 		return SpiderDataRecord.withSpiderDataGroup(record);

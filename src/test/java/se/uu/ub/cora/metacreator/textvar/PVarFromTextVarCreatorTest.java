@@ -60,7 +60,7 @@ public class PVarFromTextVarCreatorTest {
 			String createdIdForPVar) {
 		SpiderRecordCreatorSpy spiderRecordCreator1 = instanceFactory.spiderRecordCreators
 				.get(createdPVarNo);
-		assertEquals(spiderRecordCreator1.userId, userId);
+		assertEquals(spiderRecordCreator1.authToken, userId);
 		assertEquals(spiderRecordCreator1.type, "presentationVar");
 		SpiderDataGroup createdTextRecord = spiderRecordCreator1.record;
 		SpiderDataGroup recordInfo = createdTextRecord.extractGroup("recordInfo");

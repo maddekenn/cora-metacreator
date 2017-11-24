@@ -19,11 +19,18 @@
 
 package se.uu.ub.cora.metacreator.dependency;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import se.uu.ub.cora.metacreator.testdata.DataCreator;
+import se.uu.ub.cora.spider.data.SpiderDataAtomic;
+import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.data.SpiderDataRecord;
 import se.uu.ub.cora.spider.record.SpiderRecordReader;
 import se.uu.ub.cora.spider.record.storage.RecordNotFoundException;
 
 public class SpiderRecordReaderSpy implements SpiderRecordReader {
+	public List<String> readMetadataIds = new ArrayList<>();
 
 	@Override
 	public SpiderDataRecord readRecord(String userId, String type, String id) {
@@ -73,7 +80,16 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 			switch (id) {
 			case "myRecordType2Group":
 			case "myRecordType2NewGroup":
-				return null;
+				return createRecordForMetadataGroupWithId(id);
+			case "myRecordType3Group":
+			case "myRecordType3NewGroup":
+				return createRecordForMetadataGroupWithIdAndOneTextVarAsChild(id);
+			case "myRecordType4Group":
+			case "myRecordType4NewGroup":
+				return createRecordForMetadataGroupWithIdAndOneTextVarAsChild(id);
+			case "myRecordTypeGroup":
+			case "myRecordTypeNewGroup":
+				return checkIfAskedForOnceBefore(id);
 			default:
 				throw new RecordNotFoundException("record not found in stub");
 			}
@@ -139,12 +155,91 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 			case "identifierValueOutputPVar":
 			case "somePVar":
 			case "someOutputPVar":
+			case "recordInfoPGroup":
+			case "recordInfoNewPGroup":
+			case "recordInfoOutputPGroup":
+			case "searchTitlePVar":
 				return null;
 			default:
 				throw new RecordNotFoundException("record not found in stub");
 			}
 		}
+
 		return null;
 	}
 
+	private SpiderDataRecord checkIfAskedForOnceBefore(String id) {
+		// Used for a test where a check first is made and then the metadata is
+		// created
+		// the second time the group is asked for it needs to exist
+		if (readMetadataIds.contains(id)) {
+			return createRecordForMetadataGroupWithId(id);
+		}
+		readMetadataIds.add(id);
+		throw new RecordNotFoundException("record not found in stub");
+	}
+
+	private SpiderDataRecord createRecordForMetadataGroupWithId(String id) {
+		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithId(id);
+		String recordInfoRefId = "recordInfoGroup";
+		if (id.contains("New")) {
+			recordInfoRefId = "recordInfoNewGroup";
+		}
+		addRecordInfoToChildReferences(metadataGroup, recordInfoRefId);
+
+		return SpiderDataRecord.withSpiderDataGroup(metadataGroup);
+	}
+
+	private SpiderDataRecord createRecordForMetadataGroupWithIdAndOneTextVarAsChild(String id) {
+		SpiderDataGroup metadataGroup = DataCreator
+				.createMetadataGroupWithIdAndTextVarAsChildReference(id);
+		String recordInfoRefId = "recordInfoGroup";
+		if (id.contains("New")) {
+			recordInfoRefId = "recordInfoNewGroup";
+		}
+		addRecordInfoToChildReferences(metadataGroup, recordInfoRefId);
+
+		return SpiderDataRecord.withSpiderDataGroup(metadataGroup);
+	}
+
+	private void addRecordInfoToChildReferences(SpiderDataGroup metadataGroup,
+			String recordInfoRefId) {
+		SpiderDataGroup childReferences = metadataGroup.extractGroup("childReferences");
+		SpiderDataGroup childReference = SpiderDataGroup.withNameInData("childReference");
+		childReference.setRepeatId("1");
+		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMin", "0"));
+		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMax", "1"));
+
+		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(childReference,
+				"ref", "metadata", recordInfoRefId);
+
+		childReferences.addChild(childReference);
+	}
+
+	private SpiderDataRecord createRecordForMetadataGroupWithIdAndTwoTextVarsAsChildren(String id) {
+		SpiderDataGroup metadataGroup = DataCreator
+				.createMetadataGroupWithIdAndTextVarAsChildReference(id);
+		SpiderDataGroup childReferences = metadataGroup.extractGroup("childReferences");
+		addChildReference(childReferences);
+
+
+		String recordInfoRefId = "recordInfoGroup";
+		if (id.contains("New")) {
+			recordInfoRefId = "recordInfoNewGroup";
+		}
+		addRecordInfoToChildReferences(metadataGroup, recordInfoRefId);
+
+		return SpiderDataRecord.withSpiderDataGroup(metadataGroup);
+	}
+
+	private void addChildReference(SpiderDataGroup childReferences) {
+		SpiderDataGroup childReference = SpiderDataGroup.withNameInData("childReference");
+		childReference.setRepeatId("0");
+		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMin", "0"));
+		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMax", "1"));
+
+		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(childReference,
+				"ref", "metadata", "someVarWithMissingPresentationTextVar");
+		childReferences.addChild(childReference);
+	}
 }

@@ -224,7 +224,7 @@ public class DataCreator {
 		return search;
 	}
 
-	public static SpiderDataGroup createMetadataGroupWithId(String id) {
+	public static SpiderDataGroup createMetadataGroupWithIdAndTextVarAsChildReference(String id) {
 		SpiderDataGroup metadataGroup = createGroupWithIdAndNameInDataAndDataDivider(id, "metadata",
 				"test");
 		metadataGroup.addAttributeByIdWithValue("type", "group");
@@ -242,6 +242,20 @@ public class DataCreator {
 				"ref", "metadata", "someTextVar");
 
 		childReferences.addChild(childReference);
+		metadataGroup.addChild(childReferences);
+
+		return metadataGroup;
+	}
+
+	public static SpiderDataGroup createMetadataGroupWithId(String id) {
+		SpiderDataGroup metadataGroup = createGroupWithIdAndNameInDataAndDataDivider(id, "metadata",
+				"test");
+		metadataGroup.addAttributeByIdWithValue("type", "group");
+		metadataGroup.addChild(
+				SpiderDataAtomic.withNameInDataAndValue("nameInData", "someGroupNameInData"));
+
+		SpiderDataGroup childReferences = SpiderDataGroup.withNameInData("childReferences");
+
 		metadataGroup.addChild(childReferences);
 
 		return metadataGroup;
