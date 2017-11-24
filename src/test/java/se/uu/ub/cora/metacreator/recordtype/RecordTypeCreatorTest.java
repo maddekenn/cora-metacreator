@@ -231,7 +231,7 @@ public class RecordTypeCreatorTest {
 	}
 
 	@Test
-	public void testRecordTypeCreatorMetadataGroupsExistButNoPresentationsOneChildDoesNotExist() {
+	public void testRecordTypeCreatorMetadataGroupsExistButNoPresentationsAndOneChildPresentationDoesNotExist() {
 		RecordTypeCreator recordTypeCreator = RecordTypeCreator
 				.forImplementingTextType("textSystemOne");
 
@@ -241,10 +241,19 @@ public class RecordTypeCreatorTest {
 
 		recordTypeCreator.useExtendedFunctionality(userId, recordType);
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 8);
-		SpiderRecordCreatorSpy spiderRecordCreatorSpy = instanceFactory.spiderRecordCreators.get(2);
-		SpiderDataGroup childReferences = spiderRecordCreatorSpy.record.extractGroup("childReferences");
-		assertEquals(childReferences.getChildren().size(), 2);
+		assertCorrectNumberOfChildReferencesForIndex(2, 2);
+		assertCorrectNumberOfChildReferencesForIndex(2, 3);
+		assertCorrectNumberOfChildReferencesForIndex(2, 4);
+		assertCorrectNumberOfChildReferencesForIndex(1, 5);
+		assertCorrectNumberOfChildReferencesForIndex(1, 6);
+		assertCorrectNumberOfChildReferencesForIndex(1, 7);
 
+	}
+
+	private void assertCorrectNumberOfChildReferencesForIndex(int numberOfChildReferences, int index) {
+		SpiderRecordCreatorSpy spiderRecordCreatorSpy = instanceFactory.spiderRecordCreators.get(index);
+		SpiderDataGroup childReferences = spiderRecordCreatorSpy.record.extractGroup("childReferences");
+		assertEquals(childReferences.getChildren().size(), numberOfChildReferences);
 	}
 
 }
