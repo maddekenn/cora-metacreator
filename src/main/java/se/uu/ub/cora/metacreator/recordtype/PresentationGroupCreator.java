@@ -1,5 +1,6 @@
 package se.uu.ub.cora.metacreator.recordtype;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import se.uu.ub.cora.metacreator.group.PGroupConstructor;
@@ -67,7 +68,10 @@ public class PresentationGroupCreator {
 	}
 
 	public void setMetadataChildReferences(List<SpiderDataElement> metadataChildReferences) {
-		this.metadataChildReferences = metadataChildReferences;
+		this.metadataChildReferences = new ArrayList<>();
+		for(SpiderDataElement metadataChildReference : metadataChildReferences) {
+			this.metadataChildReferences.add(metadataChildReference);
+		}
 	}
 
 }
