@@ -81,8 +81,7 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 	}
 
 	private void createText(String textId) {
-		TextConstructor textConstructor = TextConstructor.withTextIdAndDataDivider(textId,
-				dataDivider);
+		TextConstructor textConstructor = TextConstructor.withTextIdAndDataDivider(textId, dataDivider);
 		SpiderDataGroup text = textConstructor.createText();
 		storeRecord(implementingTextType, text);
 	}
@@ -107,8 +106,7 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 		MetadataGroupCreator groupCreator = MetadataGroupCreator
 				.withIdAndNameInDataAndDataDivider(metadataId, recordTypeId, dataDivider);
 		SpiderDataGroup metadataGroup = groupCreator.createGroup(childReference);
-		metadataGroup
-				.addChild(SpiderDataAtomic.withNameInDataAndValue("excludePGroupCreation", "true"));
+		metadataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("excludePGroupCreation", "true"));
 		storeRecord(METADATA_GROUP, metadataGroup);
 	}
 
@@ -128,8 +126,10 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 
 	private void createFormPresentation(String presentationOf) {
 		String presentationId = extractPresentationIdUsingNameInData("presentationFormId");
-		List<SpiderDataElement> metadataChildReferences = getMetadataChildReferencesFromMetadataGroup(presentationOf);
-		usePGroupCreatorWithPresentationOfIdChildRefsAndMode(presentationOf, presentationId, metadataChildReferences, INPUT_MODE);
+		List<SpiderDataElement> metadataChildReferences = getMetadataChildReferencesFromMetadataGroup(
+				presentationOf);
+		usePGroupCreatorWithPresentationOfIdChildRefsAndMode(presentationOf, presentationId,
+				metadataChildReferences, INPUT_MODE);
 	}
 
 	private String extractPresentationIdUsingNameInData(String presentationNameInData) {
@@ -140,12 +140,13 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 	private List<SpiderDataElement> getMetadataChildReferencesFromMetadataGroup(String presentationOf) {
 		SpiderDataRecord spiderDataRecord = spiderRecordReader.readRecord(authToken, METADATA_GROUP,
 				presentationOf);
-		return spiderDataRecord.getSpiderDataGroup()
-				.extractGroup("childReferences").getChildren();
+		return spiderDataRecord.getSpiderDataGroup().extractGroup("childReferences").getChildren();
 	}
 
-	private void usePGroupCreatorWithPresentationOfIdChildRefsAndMode(String presentationOf, String presentationId, List<SpiderDataElement> metadataChildReferences, String mode) {
-		PresentationGroupCreator presentationGroupCreator = PresentationGroupCreator.withAuthTokenPresentationIdAndDataDivider(authToken, presentationId, dataDivider);
+	private void usePGroupCreatorWithPresentationOfIdChildRefsAndMode(String presentationOf,
+			String presentationId, List<SpiderDataElement> metadataChildReferences, String mode) {
+		PresentationGroupCreator presentationGroupCreator = PresentationGroupCreator
+				.withAuthTokenPresentationIdAndDataDivider(authToken, presentationId, dataDivider);
 		presentationGroupCreator.setPresentationOfAndMode(presentationOf, mode);
 		presentationGroupCreator.setMetadataChildReferences(metadataChildReferences);
 		presentationGroupCreator.createPGroupIfNotAlreadyExist();
@@ -154,22 +155,29 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 	private void createOutputPresentations(String presentationOf) {
 		String mode = "output";
 		createViewPresentation(presentationOf, mode);
-		createPresentationWithPresentationOfIdAndModeOnlyRecordInfoAsChild(presentationOf, "menuPresentationViewId", mode);
-		createPresentationWithPresentationOfIdAndModeOnlyRecordInfoAsChild(presentationOf, "listPresentationViewId", mode);
+		createPresentationWithPresentationOfIdAndModeOnlyRecordInfoAsChild(presentationOf,
+				"menuPresentationViewId", mode);
+		createPresentationWithPresentationOfIdAndModeOnlyRecordInfoAsChild(presentationOf,
+				"listPresentationViewId", mode);
 	}
 
 	private void createViewPresentation(String presentationOf, String mode) {
-		List<SpiderDataElement> metadataChildReferences = getMetadataChildReferencesFromMetadataGroup(presentationOf);
+		List<SpiderDataElement> metadataChildReferences = getMetadataChildReferencesFromMetadataGroup(
+				presentationOf);
 		String presentationId = extractPresentationIdUsingNameInData("presentationViewId");
-		usePGroupCreatorWithPresentationOfIdChildRefsAndMode(presentationOf, presentationId, metadataChildReferences, mode);
+		usePGroupCreatorWithPresentationOfIdChildRefsAndMode(presentationOf, presentationId,
+				metadataChildReferences, mode);
 	}
 
-	private void createPresentationWithPresentationOfIdAndModeOnlyRecordInfoAsChild(String presentationOf, String presentationIdToExtract, String mode) {
+	private void createPresentationWithPresentationOfIdAndModeOnlyRecordInfoAsChild(
+			String presentationOf, String presentationIdToExtract, String mode) {
 		String presentationId = extractPresentationIdFromNameInData(presentationIdToExtract);
 		SpiderDataRecord spiderDataRecord = spiderRecordReader.readRecord(authToken, METADATA_GROUP,
 				presentationOf);
-		List<SpiderDataElement> metadataChildReferences = getRecordInfoAsMetadataChildReference(spiderDataRecord);
-		usePGroupCreatorWithPresentationOfIdChildRefsAndMode(presentationOf, presentationId, metadataChildReferences, mode);
+		List<SpiderDataElement> metadataChildReferences = getRecordInfoAsMetadataChildReference(
+				spiderDataRecord);
+		usePGroupCreatorWithPresentationOfIdChildRefsAndMode(presentationOf, presentationId,
+				metadataChildReferences, mode);
 	}
 
 	private String extractPresentationIdFromNameInData(String presentationNameInData) {
@@ -179,8 +187,10 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 
 	private void createNewFormPresentation(String presentationOf) {
 		String presentationId = extractPresentationIdUsingNameInData("newPresentationFormId");
-		List<SpiderDataElement> metadataChildReferences = getMetadataChildReferencesFromMetadataGroup(presentationOf);
-		usePGroupCreatorWithPresentationOfIdChildRefsAndMode(presentationOf, presentationId, metadataChildReferences, INPUT_MODE);
+		List<SpiderDataElement> metadataChildReferences = getMetadataChildReferencesFromMetadataGroup(
+				presentationOf);
+		usePGroupCreatorWithPresentationOfIdChildRefsAndMode(presentationOf, presentationId,
+				metadataChildReferences, INPUT_MODE);
 	}
 
 	private void extractDataDivider() {
@@ -193,7 +203,8 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 		return recordInfoGroup.extractGroup("dataDivider");
 	}
 
-	private List<SpiderDataElement> getRecordInfoAsMetadataChildReference(SpiderDataRecord spiderDataRecord) {
+	private List<SpiderDataElement> getRecordInfoAsMetadataChildReference(
+			SpiderDataRecord spiderDataRecord) {
 		List<SpiderDataElement> metadataChildReferences = new ArrayList<>();
 		SpiderDataGroup childReferences = getChildReferences(spiderDataRecord);
 		for (SpiderDataElement spiderDataElement : childReferences.getChildren()) {
@@ -207,17 +218,18 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 		return spiderDataGroup.extractGroup("childReferences");
 	}
 
-	private void addChildIfRecordInfo(List<SpiderDataElement> metadataChildReferences, SpiderDataElement spiderDataElement) {
+	private void addChildIfRecordInfo(List<SpiderDataElement> metadataChildReferences,
+			SpiderDataElement spiderDataElement) {
 		String linkedRecordId = getRefLinkedRecordId((SpiderDataGroup) spiderDataElement);
 		if (refIsRecordInfo(linkedRecordId)) {
-            metadataChildReferences.add(spiderDataElement);
-        }
+			metadataChildReferences.add(spiderDataElement);
+		}
 	}
 
 	private String getRefLinkedRecordId(SpiderDataGroup spiderDataElement) {
 		SpiderDataGroup childReference = spiderDataElement;
 		SpiderDataGroup ref = childReference.extractGroup("ref");
-		return ref.extractAtomicValue("linkedRecordId");
+		return ref.extractAtomicValue(LINKED_RECORD_ID);
 	}
 
 	private boolean refIsRecordInfo(String linkedRecordId) {
@@ -225,14 +237,14 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 	}
 
 	private void storeRecord(String recordTypeToCreate, SpiderDataGroup spiderDataGroupToStore) {
-		SpiderRecordCreator spiderRecordCreatorOutput = SpiderInstanceProvider
-				.getSpiderRecordCreator();
+		SpiderRecordCreator spiderRecordCreatorOutput = SpiderInstanceProvider.getSpiderRecordCreator();
 		spiderRecordCreatorOutput.createAndStoreRecord(authToken, recordTypeToCreate,
 				spiderDataGroupToStore);
 	}
 
 	private void createAutocompletePresentation(String presentationOf) {
-		createPresentationWithPresentationOfIdAndModeOnlyRecordInfoAsChild(presentationOf, "autocompletePresentationView", INPUT_MODE);
+		createPresentationWithPresentationOfIdAndModeOnlyRecordInfoAsChild(presentationOf,
+				"autocompletePresentationView", INPUT_MODE);
 	}
 
 }
