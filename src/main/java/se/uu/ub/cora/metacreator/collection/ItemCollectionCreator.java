@@ -99,4 +99,8 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 						implementingTextType);
 		recordCreatorHelper.createTextsIfMissing();
 	}
+
+	public String getImplementingTextType() {
+		return implementingTextType;
+	}
 }

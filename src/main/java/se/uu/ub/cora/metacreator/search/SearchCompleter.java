@@ -6,10 +6,10 @@ import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 
 public class SearchCompleter implements ExtendedFunctionality {
 
-    private String textLinkedRecordType;
+    private String implementingTextType;
 
-    public SearchCompleter(String textLinkedRecordType) {
-        this.textLinkedRecordType = textLinkedRecordType;
+    public SearchCompleter(String implementingTextType) {
+        this.implementingTextType = implementingTextType;
     }
 
     public static SearchCompleter forTextLinkedRecordType(String textLinkedRecordType) {
@@ -19,6 +19,10 @@ public class SearchCompleter implements ExtendedFunctionality {
     @Override
     public void useExtendedFunctionality(String authToken, SpiderDataGroup spiderDataGroup) {
         MetadataCompleter completer = new MetadataCompleter();
-        completer.completeSpiderDataGroupWithLinkedTexts(spiderDataGroup, textLinkedRecordType);
+        completer.completeSpiderDataGroupWithLinkedTexts(spiderDataGroup, implementingTextType);
+    }
+
+    public String getImplementingTextType() {
+        return implementingTextType;
     }
 }

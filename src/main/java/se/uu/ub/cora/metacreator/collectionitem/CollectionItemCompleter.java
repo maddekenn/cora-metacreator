@@ -6,21 +6,24 @@ import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 
 public class CollectionItemCompleter implements ExtendedFunctionality {
 
-	private String linkedRecordType;
+	private String implementingTextType;
 
-	public CollectionItemCompleter(String linkedRecordType) {
-		this.linkedRecordType = linkedRecordType;
+	public CollectionItemCompleter(String implementingTextType) {
+		this.implementingTextType = implementingTextType;
 	}
 
-	public static CollectionItemCompleter forTextLinkedRecordType(String linkedRecordType) {
-		return new CollectionItemCompleter(linkedRecordType);
+	public static CollectionItemCompleter forTextLinkedRecordType(String implementingTextType) {
+		return new CollectionItemCompleter(implementingTextType);
 	}
 
 	@Override
 	public void useExtendedFunctionality(String authToken, SpiderDataGroup spiderDataGroup) {
 
 		MetadataCompleter metadataCompleter = new MetadataCompleter();
-		metadataCompleter.completeSpiderDataGroupWithLinkedTexts(spiderDataGroup, linkedRecordType);
+		metadataCompleter.completeSpiderDataGroupWithLinkedTexts(spiderDataGroup, implementingTextType);
 	}
 
+public String getImplementingTextType() {
+		return implementingTextType;
+	}
 }

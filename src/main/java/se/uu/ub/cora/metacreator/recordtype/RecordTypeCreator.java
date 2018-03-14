@@ -247,4 +247,7 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 				"autocompletePresentationView", INPUT_MODE);
 	}
 
+	public String getImplementingTextType() {
+		return implementingTextType;
+	}
 }

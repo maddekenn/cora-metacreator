@@ -21,4 +21,8 @@ public class ItemCollectionCompleter implements ExtendedFunctionality {
 		MetadataCompleter completer = new MetadataCompleter();
 		completer.completeSpiderDataGroupWithLinkedTexts(spiderDataGroup, implementingTextType);
 	}
+
+	public String getImplementingTextType(){
+		return implementingTextType;
+	}
 }
