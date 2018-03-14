@@ -36,8 +36,8 @@ public class MetadataGroupCreator extends GroupCreator{
 	}
 
 	private void addTextIds() {
-		createAndAddTextWithNameInDataIdAndLinkedRecordType("textId", id + "Text", "text");
-		createAndAddTextWithNameInDataIdAndLinkedRecordType("defTextId", id+"DefText", "text");
+		createAndAddTextWithNameInDataIdAndLinkedRecordType("textId", id + "Text", "coraText");
+		createAndAddTextWithNameInDataIdAndLinkedRecordType("defTextId", id+"DefText", "coraText");
 	}
 
 	private void createAndAddTextWithNameInDataIdAndLinkedRecordType(String nameInData, String textId, String linkedRecordType) {

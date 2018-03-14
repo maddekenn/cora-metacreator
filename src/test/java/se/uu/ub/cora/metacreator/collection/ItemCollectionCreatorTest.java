@@ -35,8 +35,10 @@ public class ItemCollectionCreatorTest {
 
 		SpiderDataGroup textIdGroup = record.extractGroup("textId");
 		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "firstItemText");
+		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "coraText");
 		SpiderDataGroup defTextIdGroup = record.extractGroup("defTextId");
 		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"), "firstItemDefText");
+		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "coraText");
 
 		assertEquals(record.getAttributes().get("type"), "collectionItem");
 

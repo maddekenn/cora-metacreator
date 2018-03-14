@@ -26,7 +26,7 @@ public class PCollVarConstructor {
 	private void createAndAddEmptyTextId(SpiderDataGroup pCollVar) {
 		SpiderDataGroup emptyTextIdGroup = SpiderDataGroup.withNameInData("emptyTextId");
 		emptyTextIdGroup
-				.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "text"));
+				.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "coraText"));
 		emptyTextIdGroup.addChild(
 				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", "initialEmptyValueText"));
 		pCollVar.addChild(emptyTextIdGroup);

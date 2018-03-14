@@ -66,10 +66,11 @@ public class RecordTypeCreatorTest {
 		assertEquals(record.extractAtomicValue("nameInData"), nameInData);
 		assertCorrectUserAndRecordInfo(id, spiderRecordCreator);
 		assertCorrectlyCreatedMetadataChildReference(childRefId, spiderRecordCreator.record);
+
 		SpiderDataGroup textIdGroup = record.extractGroup("textId");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "text");
+		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "coraText");
 		SpiderDataGroup defTextIdGroup = record.extractGroup("defTextId");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "text");
+		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "coraText");
 
 		assertEquals(record.extractAtomicValue("excludePGroupCreation"), "true");
 	}

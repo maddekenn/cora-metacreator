@@ -64,11 +64,11 @@ public class SearchGroupCreatorTest {
 	private void assertCorrectTexts(SpiderDataGroup searchGroup) {
 		SpiderDataGroup textIdGroup = searchGroup.extractGroup("textId");
 		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "myRecordTypeSearchText");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "text");
+		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "coraText");
 
 		SpiderDataGroup defTextIdGroup = searchGroup.extractGroup("defTextId");
 		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"),
 				"myRecordTypeSearchDefText");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "text");
+		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "coraText");
 	}
 }

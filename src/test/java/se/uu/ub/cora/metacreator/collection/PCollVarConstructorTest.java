@@ -21,7 +21,7 @@ public class PCollVarConstructorTest {
 		assertEquals(pCollVar.getNameInData(), "presentation");
 		assertEquals(pCollVar.extractAtomicValue("mode"), "input");
 		SpiderDataGroup emptyValue = pCollVar.extractGroup("emptyTextId");
-		assertEquals(emptyValue.extractAtomicValue("linkedRecordType"), "text");
+		assertEquals(emptyValue.extractAtomicValue("linkedRecordType"), "coraText");
 		assertEquals(emptyValue.extractAtomicValue("linkedRecordId"), "initialEmptyValueText");
 		assertEquals(pCollVar.getAttributes().get("type"), "pCollVar");
 

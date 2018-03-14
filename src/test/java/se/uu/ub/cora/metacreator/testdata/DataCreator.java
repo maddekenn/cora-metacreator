@@ -94,10 +94,10 @@ public class DataCreator {
 				id + "ViewSelfPGroup");
 
 		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "textId",
-				"text", id + "Text");
+				"implementingText", id + "Text");
 
 		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "defTextId",
-				"text", id + "DefText");
+				"implementingText", id + "DefText");
 		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "search",
 				"search", id + "Search");
 	}

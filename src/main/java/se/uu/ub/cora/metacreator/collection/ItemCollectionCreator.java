@@ -74,7 +74,7 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 
 		item.addChild(recordInfo);
 		MetadataCompleter completer = new MetadataCompleter();
-		completer.completeSpiderDataGroupWithLinkedTexts(item, "text");
+		completer.completeSpiderDataGroupWithLinkedTexts(item, "coraText");
 
 		addAtomicValues(id, item);
 		item.addAttributeByIdWithValue("type", "collectionItem");
