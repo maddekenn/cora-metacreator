@@ -6,11 +6,11 @@ import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 
 public class CollectionVariableCompleter implements ExtendedFunctionality {
 
-	private String textLinkedRecordType;
+	private String implementingTextType;
 	private SpiderDataGroup spiderDataGroup;
 
-	public CollectionVariableCompleter(String textLinkedRecordType) {
-		this.textLinkedRecordType = textLinkedRecordType;
+	public CollectionVariableCompleter(String implementingTextType) {
+		this.implementingTextType = implementingTextType;
 	}
 
 	public static CollectionVariableCompleter forTextLinkedRecordType(String textLinkedRecordType) {
@@ -29,7 +29,10 @@ public class CollectionVariableCompleter implements ExtendedFunctionality {
 
 	private void addTexts() {
 		MetadataCompleter completer = new MetadataCompleter();
-		completer.completeSpiderDataGroupWithLinkedTexts(spiderDataGroup, textLinkedRecordType);
+		completer.completeSpiderDataGroupWithLinkedTexts(spiderDataGroup, implementingTextType);
 	}
 
+	public String getImplementingTextType() {
+		return implementingTextType;
+	}
 }

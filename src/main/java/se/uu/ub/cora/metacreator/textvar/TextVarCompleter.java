@@ -25,10 +25,10 @@ import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 
 public final class TextVarCompleter implements ExtendedFunctionality {
 
-	private String textLinkedRecordType;
+	private String implementingTextType;
 
-	private TextVarCompleter(String textLinkedRecordType) {
-		this.textLinkedRecordType = textLinkedRecordType;
+	private TextVarCompleter(String implementingTextType) {
+		this.implementingTextType = implementingTextType;
 	}
 
 	public static TextVarCompleter forTextLinkedRecordType(String implementingTextType) {
@@ -38,7 +38,10 @@ public final class TextVarCompleter implements ExtendedFunctionality {
 	@Override
 	public void useExtendedFunctionality(String userId, SpiderDataGroup spiderDataGroup) {
 		MetadataCompleter completer = new MetadataCompleter();
-		completer.completeSpiderDataGroupWithLinkedTexts(spiderDataGroup, textLinkedRecordType);
+		completer.completeSpiderDataGroupWithLinkedTexts(spiderDataGroup, implementingTextType);
 	}
 
+	public String getImplementingTextType() {
+		return implementingTextType;
+	}
 }

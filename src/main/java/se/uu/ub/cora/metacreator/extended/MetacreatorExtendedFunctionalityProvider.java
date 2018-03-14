@@ -48,7 +48,6 @@ import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFunctionalityProvider {
 
 	private static final String CORA_TEXT = "coraText";
-	private static final String TEXT = "text";
 
 	public MetacreatorExtendedFunctionalityProvider(SpiderDependencyProvider dependencyProvider) {
 		super(dependencyProvider);
@@ -61,7 +60,7 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 				recordType);
 		if ("metadataTextVariable".equals(recordType)) {
 			list = ensureListIsRealList(list);
-			list.add(TextVarCompleter.forTextLinkedRecordType(TEXT));
+			list.add(TextVarCompleter.forTextLinkedRecordType(CORA_TEXT));
 			list.add(TextCreator.forImplementingTextType(CORA_TEXT));
 		}
 		if ("recordType".equals(recordType)) {
@@ -71,32 +70,32 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 		}
 		if ("metadataCollectionItem".equals(recordType)) {
 			list = ensureListIsRealList(list);
-			list.add(CollectionItemCompleter.forTextLinkedRecordType(TEXT));
+			list.add(CollectionItemCompleter.forTextLinkedRecordType(CORA_TEXT));
 			list.add(TextCreator.forImplementingTextType(CORA_TEXT));
 		}
 		if ("metadataItemCollection".equals(recordType)) {
 			list = ensureListIsRealList(list);
-			list.add(ItemCollectionCompleter.forTextLinkedRecordType(TEXT));
+			list.add(ItemCollectionCompleter.forTextLinkedRecordType(CORA_TEXT));
 			list.add(ItemCollectionCreator.forImplementingTextType(CORA_TEXT));
 		}
 		if ("search".equals(recordType)) {
 			list = ensureListIsRealList(list);
-			list.add(SearchCompleter.forTextLinkedRecordType(TEXT));
+			list.add(SearchCompleter.forTextLinkedRecordType(CORA_TEXT));
 			list.add(SearchCreator.forImplementingTextType(CORA_TEXT));
 		}
 		if ("metadataGroup".equals(recordType)) {
 			list = ensureListIsRealList(list);
-			list.add(GroupCompleter.forTextLinkedRecordType(TEXT));
+			list.add(GroupCompleter.forTextLinkedRecordType(CORA_TEXT));
 			list.add(TextCreator.forImplementingTextType(CORA_TEXT));
 		}
 		if ("metadataRecordLink".equals(recordType)) {
 			list = ensureListIsRealList(list);
-			list.add(RecordLinkCompleter.forTextLinkedRecordType(TEXT));
+			list.add(RecordLinkCompleter.forTextLinkedRecordType(CORA_TEXT));
 			list.add(TextCreator.forImplementingTextType(CORA_TEXT));
 		}
 		if ("metadataCollectionVariable".equals(recordType)) {
 			list = ensureListIsRealList(list);
-			list.add(CollectionVariableCompleter.forTextLinkedRecordType(TEXT));
+			list.add(CollectionVariableCompleter.forTextLinkedRecordType(CORA_TEXT));
 			list.add(TextCreator.forImplementingTextType(CORA_TEXT));
 		}
 
