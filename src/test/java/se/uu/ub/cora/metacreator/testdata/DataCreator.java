@@ -90,9 +90,6 @@ public class DataCreator {
 		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType,
 				"autocompletePresentationView", "presentationGroup", id + "AutocompletePGroup");
 
-		addAtomicValueWithNameInDataAndValue(recordType, "selfPresentationViewId",
-				id + "ViewSelfPGroup");
-
 		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "textId",
 				"implementingText", id + "Text");
 

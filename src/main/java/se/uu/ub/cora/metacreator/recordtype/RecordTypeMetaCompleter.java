@@ -66,13 +66,6 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 		return !spiderDataGroup.containsChildWithNameInData(nameInData);
 	}
 
-	private void addAtomicValueWithNameInDataAndValueIfNotExisting(String nameInData,
-			String value) {
-		if (childWithNameInDataIsMissing(nameInData)) {
-			spiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue(nameInData, value));
-		}
-	}
-
 	private void addPresentationIds() {
 
 		String linkedRecordType = "presentationGroup";
@@ -89,8 +82,6 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 				linkedRecordType, id + "ListPGroup");
 		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting(
 				"autocompletePresentationView", linkedRecordType, id + "AutocompletePGroup");
-		addAtomicValueWithNameInDataAndValueIfNotExisting("selfPresentationViewId",
-				id + "ViewSelfPGroup");
 	}
 
 	private void addTexts() {
