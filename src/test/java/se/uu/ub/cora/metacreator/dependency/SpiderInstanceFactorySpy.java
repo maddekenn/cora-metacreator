@@ -37,10 +37,12 @@ public class SpiderInstanceFactorySpy implements SpiderInstanceFactory {
 	public List<SpiderRecordCreatorSpy> spiderRecordCreators = new ArrayList<>();
 	public List<SpiderRecordReaderSpy> spiderRecordReaders = new ArrayList<>();
 	public List<SpiderRecordUpdaterSpy> spiderRecordUpdators = new ArrayList<>();
+	public boolean userSuppliedId = true;
 
 	@Override
 	public SpiderRecordReader factorSpiderRecordReader() {
 		SpiderRecordReaderSpy spiderRecordReaderSpy = new SpiderRecordReaderSpy();
+		spiderRecordReaderSpy.userSuppliedId = userSuppliedId;
 		spiderRecordReaders.add(spiderRecordReaderSpy);
 		return spiderRecordReaderSpy;
 	}
