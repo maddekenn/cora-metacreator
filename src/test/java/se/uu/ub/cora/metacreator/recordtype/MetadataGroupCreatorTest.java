@@ -42,6 +42,7 @@ public class MetadataGroupCreatorTest {
 		SpiderDataGroup childRef = (SpiderDataGroup)childRefs.getFirstChildWithNameInData("childReference");
 		SpiderDataGroup ref = (SpiderDataGroup) childRef.getFirstChildWithNameInData("ref");
 		assertEquals(ref.extractAtomicValue("linkedRecordId"), "recordInfoGroup");
+		assertEquals(ref.extractAtomicValue("linkedRecordType"), "metadataGroup");
 
 		SpiderDataAtomic repeatMin = (SpiderDataAtomic) childRef.getFirstChildWithNameInData("repeatMin");
 		assertEquals(repeatMin.getValue(), "1");
