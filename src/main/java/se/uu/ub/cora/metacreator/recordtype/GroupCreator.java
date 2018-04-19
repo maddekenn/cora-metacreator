@@ -48,7 +48,8 @@ public abstract class GroupCreator {
 		SpiderDataGroup refGroup = SpiderDataGroup.withNameInData("ref");
 		refGroup.addChild(
 				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", refRecordInfoId));
-		refGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "metadata"));
+		refGroup.addChild(
+				SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "metadataGroup"));
 		childReference.addChild(refGroup);
 
 		addValuesForChildReference(childReference);
@@ -57,7 +58,7 @@ public abstract class GroupCreator {
 		topLevelSpiderDataGroup.addChild(childReferences);
 	}
 
-	void addValuesForChildReference(SpiderDataGroup childReference){
+	void addValuesForChildReference(SpiderDataGroup childReference) {
 		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMin", "1"));
 		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMax", "1"));
 	}
