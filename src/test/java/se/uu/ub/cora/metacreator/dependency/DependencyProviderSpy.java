@@ -110,7 +110,7 @@ public class DependencyProviderSpy extends SpiderDependencyProvider {
 	}
 
 	@Override
-	public DataGroupTermCollector getDataGroupSearchTermCollector() {
+	public DataGroupTermCollector getDataGroupTermCollector() {
 		// TODO Auto-generated method stub
 		return null;
 	}
