@@ -6,6 +6,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
+import se.uu.ub.cora.metacreator.dependency.SpiderRecordReaderSpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
@@ -25,10 +26,12 @@ public class ItemCollectionCreatorTest {
 	public void testCreateItems() {
 		SpiderDataGroup itemCollection = DataCreator.createItemCollectionWithId("someCollection");
 		addExistingTextsToCollection(itemCollection);
-
 		ItemCollectionCreator creator = ItemCollectionCreator
 				.forImplementingTextType("textSystemOne");
 		creator.useExtendedFunctionality(authToken, itemCollection);
+
+		SpiderRecordReaderSpy spiderRecordReaderSpy = instanceFactory.spiderRecordReaders.get(0);
+		assertEquals(spiderRecordReaderSpy.readMetadataTypes.get(0), "metadataCollectionItem");
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 3);
 		String type = instanceFactory.spiderRecordCreators.get(0).type;

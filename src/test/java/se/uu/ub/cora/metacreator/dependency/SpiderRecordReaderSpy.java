@@ -31,10 +31,12 @@ import se.uu.ub.cora.spider.record.storage.RecordNotFoundException;
 
 public class SpiderRecordReaderSpy implements SpiderRecordReader {
 	public List<String> readMetadataIds = new ArrayList<>();
+	public List<String> readMetadataTypes = new ArrayList<>();
 	public boolean userSuppliedId = true;
 
 	@Override
 	public SpiderDataRecord readRecord(String userId, String type, String id) {
+		readMetadataTypes.add(type);
 		if ("textSystemOne".equals(type)) {
 			switch (id) {
 			case "textIdTextsInStorageTextVarText":
@@ -104,7 +106,7 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 				return null;
 			}
 		}
-		if ("genericCollectionItem".equals(type)) {
+		if ("metadataCollectionItem".equals(type)) {
 
 			switch (id) {
 			case "alreadyExistItem":

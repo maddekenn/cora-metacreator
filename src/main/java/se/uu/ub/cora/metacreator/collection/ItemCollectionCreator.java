@@ -58,7 +58,7 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 	private boolean itemDoesNotExist(String userId, String id) {
 		SpiderRecordReader reader = SpiderInstanceProvider.getSpiderRecordReader();
 		try {
-			reader.readRecord(userId, "genericCollectionItem", id);
+			reader.readRecord(userId, "metadataCollectionItem", id);
 		} catch (RecordNotFoundException e) {
 			return true;
 		}
