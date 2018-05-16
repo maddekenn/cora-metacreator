@@ -78,7 +78,7 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 
 		addAtomicValues(id, item);
 		item.addAttributeByIdWithValue("type", "collectionItem");
-		createRecord("metadataCollectionItem", item);
+		createRecord("genericCollectionItem", item);
 	}
 
 	private void addAtomicValues(String linkedRecordId, SpiderDataGroup item) {

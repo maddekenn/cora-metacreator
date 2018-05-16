@@ -6,6 +6,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
+import se.uu.ub.cora.metacreator.dependency.SpiderRecordReaderSpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
@@ -25,11 +26,17 @@ public class ItemCollectionCreatorTest {
 	public void testCreateItems() {
 		SpiderDataGroup itemCollection = DataCreator.createItemCollectionWithId("someCollection");
 		addExistingTextsToCollection(itemCollection);
-
-		ItemCollectionCreator creator = ItemCollectionCreator.forImplementingTextType("textSystemOne");
+		ItemCollectionCreator creator = ItemCollectionCreator
+				.forImplementingTextType("textSystemOne");
 		creator.useExtendedFunctionality(authToken, itemCollection);
 
+		SpiderRecordReaderSpy spiderRecordReaderSpy = instanceFactory.spiderRecordReaders.get(0);
+		assertEquals(spiderRecordReaderSpy.readMetadataTypes.get(0), "metadataCollectionItem");
+
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 3);
+		String type = instanceFactory.spiderRecordCreators.get(0).type;
+		assertEquals(type, "genericCollectionItem");
+
 		SpiderDataGroup record = instanceFactory.spiderRecordCreators.get(0).record;
 		assertEquals(record.extractAtomicValue("nameInData"), "first");
 
@@ -41,7 +48,6 @@ public class ItemCollectionCreatorTest {
 		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "coraText");
 
 		assertEquals(record.getAttributes().get("type"), "collectionItem");
-
 
 		SpiderDataGroup recordInfo = record.extractGroup("recordInfo");
 		assertEquals(recordInfo.extractAtomicValue("id"), "firstItem");
@@ -60,9 +66,8 @@ public class ItemCollectionCreatorTest {
 		itemReferences.addChild(ref);
 		addExistingTextsToCollection(itemCollection);
 
-
-
-		ItemCollectionCreator creator = ItemCollectionCreator.forImplementingTextType("textSystemOne");
+		ItemCollectionCreator creator = ItemCollectionCreator
+				.forImplementingTextType("textSystemOne");
 		creator.useExtendedFunctionality(authToken, itemCollection);
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 3);
@@ -81,34 +86,34 @@ public class ItemCollectionCreatorTest {
 	}
 
 	private void addExistingTextsToCollection(SpiderDataGroup itemCollection) {
-		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(
-				itemCollection, "textId", "textSystemOne", "someExistingText");
-		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(
-				itemCollection, "defTextId", "textSystemOne", "someExistingDefText");
+		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(itemCollection,
+				"textId", "textSystemOne", "someExistingText");
+		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(itemCollection,
+				"defTextId", "textSystemOne", "someExistingDefText");
 	}
 
 	@Test
-	public void testCreateTextNoTextExists(){
+	public void testCreateTextNoTextExists() {
 		SpiderDataGroup itemCollection = createItemCollectionWithOneExistingItem();
-		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(
-				itemCollection, "textId", "textSystemOne", "someNonExistingText");
-		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(
-				itemCollection, "defTextId", "textSystemOne", "someNonExistingDefText");
+		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(itemCollection,
+				"textId", "textSystemOne", "someNonExistingText");
+		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(itemCollection,
+				"defTextId", "textSystemOne", "someNonExistingDefText");
 
-
-		ItemCollectionCreator creator = ItemCollectionCreator.forImplementingTextType("textSystemOne");
+		ItemCollectionCreator creator = ItemCollectionCreator
+				.forImplementingTextType("textSystemOne");
 		creator.useExtendedFunctionality(authToken, itemCollection);
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 2);
 	}
 
 	@Test
-	public void testCreateTextWhenTextExists(){
+	public void testCreateTextWhenTextExists() {
 		SpiderDataGroup itemCollection = createItemCollectionWithOneExistingItem();
 		addExistingTextsToCollection(itemCollection);
 
-
-		ItemCollectionCreator creator = ItemCollectionCreator.forImplementingTextType("textSystemOne");
+		ItemCollectionCreator creator = ItemCollectionCreator
+				.forImplementingTextType("textSystemOne");
 		creator.useExtendedFunctionality(authToken, itemCollection);
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 0);
@@ -117,7 +122,7 @@ public class ItemCollectionCreatorTest {
 	private SpiderDataGroup createItemCollectionWithOneExistingItem() {
 		SpiderDataGroup itemCollection = DataCreator
 				.createItemCollectionWithId("someOtherCollection");
-		//Clear itemReferences, we are only just interested in creating texts
+		// Clear itemReferences, we are only just interested in creating texts
 		itemCollection.removeChild("collectionItemReferences");
 		SpiderDataGroup itemReferences = SpiderDataGroup.withNameInData("collectionItemReferences");
 		SpiderDataGroup ref = DataCreator.createItemRefWithLinkedIdAndRepeatId("alreadyExistItem",
