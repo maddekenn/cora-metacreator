@@ -167,7 +167,7 @@ public class DataCreator {
 			String repeatId) {
 		SpiderDataGroup ref = SpiderDataGroup.withNameInData("ref");
 		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType",
-				"metadataCollectionItem"));
+				"genericCollectionItem"));
 		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", itemId));
 		ref.setRepeatId(repeatId);
 		return ref;

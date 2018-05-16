@@ -58,7 +58,7 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 	private boolean itemDoesNotExist(String userId, String id) {
 		SpiderRecordReader reader = SpiderInstanceProvider.getSpiderRecordReader();
 		try {
-			reader.readRecord(userId, "metadataCollectionItem", id);
+			reader.readRecord(userId, "genericCollectionItem", id);
 		} catch (RecordNotFoundException e) {
 			return true;
 		}
@@ -78,7 +78,7 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 
 		addAtomicValues(id, item);
 		item.addAttributeByIdWithValue("type", "collectionItem");
-		createRecord("metadataCollectionItem", item);
+		createRecord("genericCollectionItem", item);
 	}
 
 	private void addAtomicValues(String linkedRecordId, SpiderDataGroup item) {
