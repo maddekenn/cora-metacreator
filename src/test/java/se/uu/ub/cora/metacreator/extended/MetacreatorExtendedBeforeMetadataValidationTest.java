@@ -15,6 +15,7 @@ import se.uu.ub.cora.metacreator.collection.ItemCollectionCompleter;
 import se.uu.ub.cora.metacreator.collection.ItemCollectionCreator;
 import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCompleter;
 import se.uu.ub.cora.metacreator.dependency.DependencyProviderSpy;
+import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.group.GroupCompleter;
 import se.uu.ub.cora.metacreator.recordlink.RecordLinkCompleter;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeCreator;
@@ -23,15 +24,19 @@ import se.uu.ub.cora.metacreator.search.SearchCompleter;
 import se.uu.ub.cora.metacreator.search.SearchCreator;
 import se.uu.ub.cora.metacreator.textvar.TextVarCompleter;
 import se.uu.ub.cora.spider.dependency.SpiderDependencyProvider;
+import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 
 public class MetacreatorExtendedBeforeMetadataValidationTest {
 	private MetacreatorExtendedFunctionalityProvider functionalityProvider;
+	private SpiderInstanceFactorySpy instanceFactory;
 
 	@BeforeMethod
 	public void setUp() {
 		SpiderDependencyProvider dependencyProvider = new DependencyProviderSpy(new HashMap<>());
 		functionalityProvider = new MetacreatorExtendedFunctionalityProvider(dependencyProvider);
+		instanceFactory = new SpiderInstanceFactorySpy();
+		SpiderInstanceProvider.setSpiderInstanceFactory(instanceFactory);
 	}
 
 	@Test
@@ -81,6 +86,19 @@ public class MetacreatorExtendedBeforeMetadataValidationTest {
 	public void testGetFunctionalityForCreateBeforeMetadataValidationForCollectionItem() {
 		List<ExtendedFunctionality> functionalityForCreateBeforeMetadataValidation = functionalityProvider
 				.getFunctionalityForCreateBeforeMetadataValidation("genericCollectionItem");
+		assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 2);
+		CollectionItemCompleter collectionItemCompleter = (CollectionItemCompleter) functionalityForCreateBeforeMetadataValidation
+				.get(0);
+		assertEquals(collectionItemCompleter.getImplementingTextType(), "coraText");
+		TextCreator textCreator = (TextCreator) functionalityForCreateBeforeMetadataValidation
+				.get(1);
+		assertEquals(textCreator.getImplementingTextType(), "coraText");
+	}
+
+	@Test
+	public void testGetFunctionalityForCreateBeforeMetadataValidationForCountryCollectionItem() {
+		List<ExtendedFunctionality> functionalityForCreateBeforeMetadataValidation = functionalityProvider
+				.getFunctionalityForCreateBeforeMetadataValidation("countryCollectionItem");
 		assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 2);
 		CollectionItemCompleter collectionItemCompleter = (CollectionItemCompleter) functionalityForCreateBeforeMetadataValidation
 				.get(0);

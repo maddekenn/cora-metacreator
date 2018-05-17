@@ -58,6 +58,7 @@ public class DependencyProviderSpy extends SpiderDependencyProvider {
 
 	@Override
 	public RecordStorage getRecordStorage() {
+		recordStorage = new RecordStorageSpy();
 		return recordStorage;
 	}
 

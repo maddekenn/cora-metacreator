@@ -74,10 +74,10 @@ public class MetacreatorExtendedFunctionalityProviderTest {
 	@Test
 	public void testEnsureListIsRealList() {
 		assertTrue(functionalityProvider
-				.ensureListIsRealList(Collections.emptyList()) instanceof ArrayList);
+				.ensureListExists(Collections.emptyList()) instanceof ArrayList);
 		List<ExtendedFunctionality> list = new ArrayList<>();
 		list.add(null);
-		assertEquals(functionalityProvider.ensureListIsRealList(list), list);
+		assertEquals(functionalityProvider.ensureListExists(list), list);
 	}
 
 
