@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import se.uu.ub.cora.bookkeeper.data.DataGroup;
 import se.uu.ub.cora.metacreator.TextCreator;
 import se.uu.ub.cora.metacreator.collection.CollectionVarFromItemCollectionCreator;
 import se.uu.ub.cora.metacreator.collection.CollectionVariableCompleter;
@@ -44,9 +45,11 @@ import se.uu.ub.cora.metacreator.textvar.TextVarCompleter;
 import se.uu.ub.cora.spider.dependency.SpiderDependencyProvider;
 import se.uu.ub.cora.spider.extended.BaseExtendedFunctionalityProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
+import se.uu.ub.cora.spider.record.storage.RecordStorage;
 
 public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFunctionalityProvider {
 
+	private static final String RECORD_TYPE = "recordType";
 	private static final String CORA_TEXT = "coraText";
 
 	public MetacreatorExtendedFunctionalityProvider(SpiderDependencyProvider dependencyProvider) {
@@ -55,46 +58,47 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 
 	@Override
 	public List<ExtendedFunctionality> getFunctionalityForCreateBeforeMetadataValidation(
-			String recordType) {
+			String recordTypeId) {
 		List<ExtendedFunctionality> list = super.getFunctionalityForCreateBeforeMetadataValidation(
-				recordType);
-		if ("metadataTextVariable".equals(recordType)) {
-			list = ensureListIsRealList(list);
+				recordTypeId);
+		String parentId = getParentIdIfExists(recordTypeId);
+		if ("metadataTextVariable".equals(recordTypeId)) {
+			list = ensureListExists(list);
 			list.add(TextVarCompleter.forTextLinkedRecordType(CORA_TEXT));
 			list.add(TextCreator.forImplementingTextType(CORA_TEXT));
 		}
-		if ("recordType".equals(recordType)) {
-			list = ensureListIsRealList(list);
+		if (RECORD_TYPE.equals(recordTypeId)) {
+			list = ensureListExists(list);
 			list.add(new RecordTypeMetaCompleter());
 			list.add(RecordTypeCreator.forImplementingTextType(CORA_TEXT));
 		}
-		if ("genericCollectionItem".equals(recordType)) {
-			list = ensureListIsRealList(list);
+		if (parentId.equals("metadataCollectionItem")) {
+			list = ensureListExists(list);
 			list.add(CollectionItemCompleter.forTextLinkedRecordType(CORA_TEXT));
 			list.add(TextCreator.forImplementingTextType(CORA_TEXT));
 		}
-		if ("metadataItemCollection".equals(recordType)) {
-			list = ensureListIsRealList(list);
+		if ("metadataItemCollection".equals(recordTypeId)) {
+			list = ensureListExists(list);
 			list.add(ItemCollectionCompleter.forTextLinkedRecordType(CORA_TEXT));
 			list.add(ItemCollectionCreator.forImplementingTextType(CORA_TEXT));
 		}
-		if ("search".equals(recordType)) {
-			list = ensureListIsRealList(list);
+		if ("search".equals(recordTypeId)) {
+			list = ensureListExists(list);
 			list.add(SearchCompleter.forTextLinkedRecordType(CORA_TEXT));
 			list.add(SearchCreator.forImplementingTextType(CORA_TEXT));
 		}
-		if ("metadataGroup".equals(recordType)) {
-			list = ensureListIsRealList(list);
+		if ("metadataGroup".equals(recordTypeId)) {
+			list = ensureListExists(list);
 			list.add(GroupCompleter.forTextLinkedRecordType(CORA_TEXT));
 			list.add(TextCreator.forImplementingTextType(CORA_TEXT));
 		}
-		if ("metadataRecordLink".equals(recordType)) {
-			list = ensureListIsRealList(list);
+		if ("metadataRecordLink".equals(recordTypeId)) {
+			list = ensureListExists(list);
 			list.add(RecordLinkCompleter.forTextLinkedRecordType(CORA_TEXT));
 			list.add(TextCreator.forImplementingTextType(CORA_TEXT));
 		}
-		if ("metadataCollectionVariable".equals(recordType)) {
-			list = ensureListIsRealList(list);
+		if ("metadataCollectionVariable".equals(recordTypeId)) {
+			list = ensureListExists(list);
 			list.add(CollectionVariableCompleter.forTextLinkedRecordType(CORA_TEXT));
 			list.add(TextCreator.forImplementingTextType(CORA_TEXT));
 		}
@@ -102,7 +106,29 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 		return list;
 	}
 
-	protected List<ExtendedFunctionality> ensureListIsRealList(List<ExtendedFunctionality> list) {
+	private String getParentIdIfExists(String recordType) {
+		DataGroup currentRecordType = getRecordTypeDefinition(recordType);
+		if (hasParent(currentRecordType)) {
+			return extractParentId(currentRecordType);
+		}
+		return "";
+	}
+
+	private String extractParentId(DataGroup currentRecordType) {
+		DataGroup parentGroup = currentRecordType.getFirstGroupWithNameInData("parentId");
+		return parentGroup.getFirstAtomicValueWithNameInData("linkedRecordId");
+	}
+
+	private DataGroup getRecordTypeDefinition(String recordType) {
+		RecordStorage recordStorage = dependencyProvider.getRecordStorage();
+		return recordStorage.read(RECORD_TYPE, recordType);
+	}
+
+	private boolean hasParent(DataGroup currentRecordType) {
+		return currentRecordType.containsChildWithNameInData("parentId");
+	}
+
+	protected List<ExtendedFunctionality> ensureListExists(List<ExtendedFunctionality> list) {
 		if (Collections.emptyList().equals(list)) {
 			return new ArrayList<>();
 		}
@@ -113,27 +139,27 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 	public List<ExtendedFunctionality> getFunctionalityForCreateBeforeReturn(String recordType) {
 		List<ExtendedFunctionality> list = super.getFunctionalityForCreateBeforeReturn(recordType);
 		if ("metadataTextVariable".equals(recordType)) {
-			list = ensureListIsRealList(list);
+			list = ensureListExists(list);
 			list.add(new PVarFromTextVarCreator());
 		}
-		if ("recordType".equals(recordType)) {
-			list = ensureListIsRealList(list);
+		if (RECORD_TYPE.equals(recordType)) {
+			list = ensureListExists(list);
 			list.add(new SearchFromRecordTypeCreator());
 		}
 		if ("metadataItemCollection".equals(recordType)) {
-			list = ensureListIsRealList(list);
+			list = ensureListExists(list);
 			list.add(new CollectionVarFromItemCollectionCreator());
 		}
 		if ("metadataCollectionVariable".equals(recordType)) {
-			list = ensureListIsRealList(list);
+			list = ensureListExists(list);
 			list.add(new PCollVarFromCollectionVarCreator());
 		}
 		if ("metadataRecordLink".equals(recordType)) {
-			list = ensureListIsRealList(list);
+			list = ensureListExists(list);
 			list.add(new PLinkFromRecordLinkCreator());
 		}
 		if ("metadataGroup".equals(recordType)) {
-			list = ensureListIsRealList(list);
+			list = ensureListExists(list);
 			list.add(new PGroupFromMetadataGroupCreator());
 		}
 		return list;
