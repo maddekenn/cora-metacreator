@@ -114,42 +114,16 @@ public class PGroupConstructor {
 			SpiderDataGroup metadataChildReference) {
 		String metadataRefId = getMetadataRefId(metadataChildReference);
 
-		String linkedRecordId = "";
-		String linkedRecordType = "presentation";
-
 		if (metadataChildIsCollectionVar(metadataRefId)) {
-			linkedRecordId = getPChildRefIdFromRefIdUsingTypeAndPChildEnding(metadataRefId,
-					"CollectionVar", "PCollVar");
-			linkedRecordType = "presentationCollectionVar";
-			// recordIdentifier = RecordIdentifier.usingTypeAndId(linkedRecordType,
-			// linkedRecordId);
+			return constructChildAsPCollVAr(metadataRefId);
 		} else if (metadataChildIsTextVariable(metadataRefId)) {
-			linkedRecordId = getPChildRefIdFromRefIdUsingTypeAndPChildEnding(metadataRefId,
-					"TextVar", "PVar");
-			linkedRecordType = "presentationVar";
-			// recordIdentifier = RecordIdentifier.usingTypeAndId(linkedRecordType,
-			// linkedRecordId);
+			return constructChildAsPVar(metadataRefId);
 		} else if (metadataChildIsResourceLink(metadataRefId)) {
-			linkedRecordId = getPChildRefIdFromRefIdUsingTypeAndPChildEnding(metadataRefId,
-					"ResLink", "PResLink");
-			linkedRecordType = "presentationResourceLink";
-			// recordIdentifier = RecordIdentifier.usingTypeAndId(linkedRecordType,
-			// linkedRecordId);
+			return constructChildAsPResourceLink(metadataRefId);
 		} else if (metadataChildIsRecordLink(metadataRefId)) {
-			linkedRecordId = getPChildRefIdFromRefIdUsingTypeAndPChildEnding(metadataRefId, "Link",
-					"PLink");
-			linkedRecordType = "presentationRecordLink";
-			// recordIdentifier = RecordIdentifier.usingTypeAndId(linkedRecordType,
-			// linkedRecordId);
+			return constructChildAsPRecordLink(metadataRefId);
 		} else if (metadataChildIsGroup(metadataRefId)) {
-			linkedRecordId = getPChildRefIdFromRefIdUsingTypeAndPChildEnding(metadataRefId, "Group",
-					"PGroup");
-			linkedRecordType = "presentationGroup";
-			// recordIdentifier = RecordIdentifier.usingTypeAndId(linkedRecordType,
-			// linkedRecordId);
-		}
-		if (!"".equals(linkedRecordId)) {
-			return RecordIdentifier.usingTypeAndId(linkedRecordType, linkedRecordId);
+			return constructChildAsPGroup(metadataRefId);
 		}
 		throw new DataException("Not possible to construct childReferenceId from metadataId");
 	}
@@ -163,6 +137,13 @@ public class PGroupConstructor {
 		return metadataRefId.endsWith("CollectionVar");
 	}
 
+	private RecordIdentifier constructChildAsPCollVAr(String metadataRefId) {
+		String linkedRecordId = getPChildRefIdFromRefIdUsingTypeAndPChildEnding(metadataRefId,
+				"CollectionVar", "PCollVar");
+		String linkedRecordType = "presentationCollectionVar";
+		return RecordIdentifier.usingTypeAndId(linkedRecordType, linkedRecordId);
+	}
+
 	private String getPChildRefIdFromRefIdUsingTypeAndPChildEnding(String metadataRefId,
 			String childType, String presentationIdEnding) {
 		String idPrefix = metadataRefId.substring(0, metadataRefId.indexOf(childType));
@@ -174,16 +155,44 @@ public class PGroupConstructor {
 		return metadataRefId.endsWith("TextVar");
 	}
 
-	private boolean metadataChildIsResourceLink(String metadataRefId) {
-		return metadataRefId.endsWith("ResLink");
+	private RecordIdentifier constructChildAsPVar(String metadataRefId) {
+		String linkedRecordId = getPChildRefIdFromRefIdUsingTypeAndPChildEnding(metadataRefId,
+				"TextVar", "PVar");
+		String linkedRecordType = "presentationVar";
+		return RecordIdentifier.usingTypeAndId(linkedRecordType, linkedRecordId);
 	}
 
 	private boolean metadataChildIsRecordLink(String metadataRefId) {
 		return metadataRefId.endsWith("Link");
 	}
 
+	private RecordIdentifier constructChildAsPRecordLink(String metadataRefId) {
+		String linkedRecordId = getPChildRefIdFromRefIdUsingTypeAndPChildEnding(metadataRefId,
+				"Link", "PLink");
+		String linkedRecordType = "presentationRecordLink";
+		return RecordIdentifier.usingTypeAndId(linkedRecordType, linkedRecordId);
+	}
+
+	private boolean metadataChildIsResourceLink(String metadataRefId) {
+		return metadataRefId.endsWith("ResLink");
+	}
+
+	private RecordIdentifier constructChildAsPResourceLink(String metadataRefId) {
+		String linkedRecordId = getPChildRefIdFromRefIdUsingTypeAndPChildEnding(metadataRefId,
+				"ResLink", "PResLink");
+		String linkedRecordType = "presentationResourceLink";
+		return RecordIdentifier.usingTypeAndId(linkedRecordType, linkedRecordId);
+	}
+
 	private boolean metadataChildIsGroup(String metadataRefId) {
 		return metadataRefId.endsWith("Group");
+	}
+
+	private RecordIdentifier constructChildAsPGroup(String metadataRefId) {
+		String linkedRecordId = getPChildRefIdFromRefIdUsingTypeAndPChildEnding(metadataRefId,
+				"Group", "PGroup");
+		String linkedRecordType = "presentationGroup";
+		return RecordIdentifier.usingTypeAndId(linkedRecordType, linkedRecordId);
 	}
 
 	private void ensurePChildExists(RecordIdentifier pChild) {
@@ -194,7 +203,6 @@ public class PGroupConstructor {
 	private SpiderDataGroup createRef(RecordIdentifier presRef) {
 		SpiderDataGroup ref = createRefDataGroup();
 		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", presRef.type));
-
 		ref.addChild(SpiderDataAtomic.withNameInDataAndValue(LINKED_RECORD_ID, presRef.id));
 		return ref;
 	}
