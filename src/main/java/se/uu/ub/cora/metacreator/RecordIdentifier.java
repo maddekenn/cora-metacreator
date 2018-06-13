@@ -20,14 +20,14 @@ package se.uu.ub.cora.metacreator;
 
 public final class RecordIdentifier {
 
+	public final String type;
+	public final String id;
+
 	public static RecordIdentifier usingTypeAndId(String type, String id) {
 		return new RecordIdentifier(type, id);
 	}
 
-	public final String type;
-	public final String id;
-
-	private RecordIdentifier(String type, String id) {
+		private RecordIdentifier(String type, String id) {
 		this.type = type;
 		this.id = id;
 	}
