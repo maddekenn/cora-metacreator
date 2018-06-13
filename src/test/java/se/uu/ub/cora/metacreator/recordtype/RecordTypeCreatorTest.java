@@ -127,7 +127,7 @@ public class RecordTypeCreatorTest {
 
 		SpiderDataGroup ref = (SpiderDataGroup) refGroup.getFirstChildWithNameInData("ref");
 		assertEquals(ref.extractAtomicValue("linkedRecordId"), childRefId);
-		assertEquals(ref.extractAtomicValue("linkedRecordType"), "presentation");
+		assertEquals(ref.extractAtomicValue("linkedRecordType"), "presentationGroup");
 		assertFalse(childRef.containsChildWithNameInData("default"));
 		assertFalse(childRef.containsChildWithNameInData("repeatMax"));
 
