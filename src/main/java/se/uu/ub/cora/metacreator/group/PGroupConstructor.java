@@ -22,6 +22,8 @@ public class PGroupConstructor {
 	private String dataDivider;
 	private String presentationOf;
 
+	private int repeatId = 0;
+
 	public PGroupConstructor(String authToken) {
 		this.authToken = authToken;
 	}
@@ -55,10 +57,34 @@ public class PGroupConstructor {
 
 	private void possiblyAddChildReference(SpiderDataGroup childReferences,
 			SpiderDataGroup metadataChildReference) {
+
+
+		SpiderDataGroup textChildReference = createChildReferenceForText(metadataChildReference);
 		SpiderDataGroup childReference = createChild(metadataChildReference);
 		if (childReference != null) {
+			childReferences.addChild(textChildReference);
 			childReferences.addChild(childReference);
 		}
+	}
+
+	private SpiderDataGroup createChildReferenceForText(SpiderDataGroup metadataChildReference) {
+		String metadataRefId = getMetadataRefId(metadataChildReference);
+
+		SpiderDataGroup textChildReference = createChildReferenceWithRepeatId(
+				getRepeatId(metadataChildReference));
+		SpiderDataGroup refGroup = createRefGroupAndAddToChildReference(textChildReference);
+
+		RecordIdentifier presRef = RecordIdentifier.usingTypeAndId("coraText", metadataRefId+"Text")   ;
+		SpiderDataGroup ref = createRef(presRef);
+		ref.addAttributeByIdWithValue("type", "text");
+		refGroup.addChild(ref);
+		return textChildReference;
+	}
+
+	private String getRepeatId(SpiderDataGroup metadataChildReference) {
+		int currentRepeatId = repeatId;
+		repeatId++;
+		return String.valueOf(currentRepeatId);
 	}
 
 	private SpiderDataGroup createChild(SpiderDataGroup metadataChildReference) {
@@ -71,7 +97,7 @@ public class PGroupConstructor {
 
 	private SpiderDataGroup createChildReference(SpiderDataGroup metadataChildReference) {
 		SpiderDataGroup childReference = createChildReferenceWithRepeatId(
-				metadataChildReference.getRepeatId());
+				getRepeatId(metadataChildReference));
 		SpiderDataGroup refGroup = createRefGroupAndAddToChildReference(childReference);
 
 		createRefAndAddToRefGroup(metadataChildReference, refGroup);

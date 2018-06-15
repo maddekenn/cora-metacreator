@@ -12,6 +12,8 @@ import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
+import java.util.List;
+
 public class PGroupFromMetadataGroupCreatorTest {
 	private SpiderInstanceFactorySpy instanceFactory;
 	private String authToken;
@@ -33,14 +35,14 @@ public class PGroupFromMetadataGroupCreatorTest {
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 2);
 
-		assertCorrectPGroupWithIndexPGroupIdAndChildId(0, "someTestPGroup", "somePVar", "input");
+		assertCorrectPGroupWithIndexPGroupIdAndChildId(0, "someTestPGroup", "somePVar", "input", "someTextVarText");
 		assertCorrectPGroupWithIndexPGroupIdAndChildId(1, "someTestOutputPGroup", "someOutputPVar",
-				"output");
+				"output", "someTextVarText");
 
 	}
 
 	private void assertCorrectPGroupWithIndexPGroupIdAndChildId(int index, String pGroupId,
-			String childId, String mode) {
+																String childId, String mode, String textId) {
 		SpiderRecordCreatorSpy spiderRecordCreatorSpy = instanceFactory.spiderRecordCreators
 				.get(index);
 		assertEquals(spiderRecordCreatorSpy.type, "presentationGroup");
@@ -52,7 +54,7 @@ public class PGroupFromMetadataGroupCreatorTest {
 		assertCorrectRecordInfo(record, pGroupId);
 		assertCorrectPresentationOf(record);
 
-		assertCorrectChildRef(childId, "presentationVar", record);
+		assertCorrectChildRef(childId, "presentationVar", record, textId);
 		assertEquals(record.extractAtomicValue("mode"), mode);
 	}
 
@@ -69,12 +71,17 @@ public class PGroupFromMetadataGroupCreatorTest {
 		assertEquals(presentationOf.extractAtomicValue("linkedRecordType"), "metadataGroup");
 	}
 
-	private void assertCorrectChildRef(String childId, String childtype, SpiderDataGroup record) {
+	private void assertCorrectChildRef(String childId, String childType, SpiderDataGroup record, String textId) {
 		SpiderDataGroup childReferences = record.extractGroup("childReferences");
-		SpiderDataGroup childReference = childReferences.extractGroup("childReference");
-		SpiderDataGroup refGroup = childReference.extractGroup("refGroup");
-		SpiderDataGroup ref = refGroup.extractGroup("ref");
-		assertEquals(ref.extractAtomicValue("linkedRecordType"), childtype);
+		List<SpiderDataGroup> childReferenceList = childReferences.getAllGroupsWithNameInData("childReference");
+		SpiderDataGroup refGroupText = childReferenceList.get(0).extractGroup("refGroup");
+		SpiderDataGroup refText = refGroupText.extractGroup("ref");
+		assertEquals(refText.extractAtomicValue("linkedRecordType"), "coraText");
+		assertEquals(refText.extractAtomicValue("linkedRecordId"), textId);
+
+		SpiderDataGroup refGroupPresentation = childReferenceList.get(1).extractGroup("refGroup");
+		SpiderDataGroup ref = refGroupPresentation.extractGroup("ref");
+		assertEquals(ref.extractAtomicValue("linkedRecordType"), childType);
 		assertEquals(ref.extractAtomicValue("linkedRecordId"), childId);
 	}
 

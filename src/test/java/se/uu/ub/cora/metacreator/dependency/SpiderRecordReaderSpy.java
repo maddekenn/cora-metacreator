@@ -147,8 +147,8 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 		if ("presentation".equals(type)) {
 
 			switch (id) {
-			case "identifierResourcePResLink":
-			case "identifierResourceOutputPResLink":
+			case "identifierPResLink":
+			case "identifierOutputPResLink":
 			case "identifierPLink":
 			case "identifierOutputPLink":
 			case "identifierTypePCollVar":
