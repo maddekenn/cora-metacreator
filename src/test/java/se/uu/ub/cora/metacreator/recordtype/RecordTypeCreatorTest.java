@@ -79,7 +79,8 @@ public class RecordTypeCreatorTest {
 
 	private void assertCorrectlyCreatedMetadataChildReference(String childRefId,
 			SpiderDataGroup record) {
-		SpiderDataGroup childRef = getChildRef(record);
+		SpiderDataGroup childRef = getChildRefbyIndex(record, 0);
+		assertEquals(record.extractGroup("childReferences").getChildren().size(), 1);
 		SpiderDataGroup ref = (SpiderDataGroup) childRef.getFirstChildWithNameInData("ref");
 
 		assertEquals(ref.extractAtomicValue("linkedRecordId"), childRefId);
@@ -120,7 +121,8 @@ public class RecordTypeCreatorTest {
 
 	private void assertCorrectlyCreatedPresentationChildReference(String childRefId,
 			SpiderDataGroup record) {
-		SpiderDataGroup childRef = getChildRef(record);
+		SpiderDataGroup childRef = getChildRefbyIndex(record, 1);
+		assertEquals(record.extractGroup("childReferences").getChildren().size(), 2);
 		SpiderDataGroup refGroup = (SpiderDataGroup) childRef
 				.getFirstChildWithNameInData("refGroup");
 		assertEquals(refGroup.getRepeatId(), "0");
@@ -133,11 +135,11 @@ public class RecordTypeCreatorTest {
 
 	}
 
-	private SpiderDataGroup getChildRef(SpiderDataGroup record) {
+	private SpiderDataGroup getChildRefbyIndex(SpiderDataGroup record, int index) {
 		SpiderDataGroup childReferences = record.extractGroup("childReferences");
-		assertEquals(childReferences.getChildren().size(), 1);
-		SpiderDataGroup childRef = (SpiderDataGroup) childReferences
-				.getFirstChildWithNameInData("childReference");
+
+		SpiderDataGroup childRef = childReferences.getAllGroupsWithNameInData("childReference")
+				.get(index);
 		return childRef;
 	}
 
@@ -185,12 +187,12 @@ public class RecordTypeCreatorTest {
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 8);
 
 		assertCorrectPresentationByIndexIdModeRecordInfoRefAndChildPresentation(2,
-				"myRecordType3FormPGroup", "input", "recordInfoPGroup", "somePVar", 2);
+				"myRecordType3FormPGroup", "input", "recordInfoPGroup", "somePVar", 4);
 		assertCorrectPresentationByIndexIdModeRecordInfoRefAndChildPresentation(3,
-				"myRecordType3FormNewPGroup", "input", "recordInfoNewPGroup", "somePVar", 2);
+				"myRecordType3FormNewPGroup", "input", "recordInfoNewPGroup", "somePVar", 4);
 
 		assertCorrectPresentationByIndexIdModeRecordInfoRefAndChildPresentation(4,
-				"myRecordType3ViewPGroup", "output", "recordInfoOutputPGroup", "someOutputPVar", 2);
+				"myRecordType3ViewPGroup", "output", "recordInfoOutputPGroup", "someOutputPVar", 4);
 		assertCorrectlyCreatedPresentationGroupWithIndexIdPresentationOfModeAndRecordInfo(5,
 				"myRecordType3MenuPGroup", "myRecordType3Group", "output",
 				"recordInfoOutputPGroup");
@@ -210,9 +212,9 @@ public class RecordTypeCreatorTest {
 		SpiderDataGroup createdRecord = spiderRecordCreatorSpy.record;
 		SpiderDataGroup childReferences = createdRecord.extractGroup("childReferences");
 		assertEquals(childReferences.getChildren().size(), expectedNumberOfChildren);
-		assertCorrectChildByIndexAndRefId(childReferences, 0, childPresentationId);
-		assertCorrectChildByIndexAndRefId(childReferences, 1, recordInfoRef);
-		SpiderDataGroup ref = getRef(childReferences);
+		assertCorrectChildByIndexAndRefId(childReferences, 1, childPresentationId);
+		assertCorrectChildByIndexAndRefId(childReferences, 3, recordInfoRef);
+		SpiderDataGroup ref = getRefByIndex(childReferences, 1);
 
 		SpiderDataGroup recordInfo = createdRecord.extractGroup("recordInfo");
 		assertEquals(recordInfo.extractAtomicValue("id"), id);
@@ -221,8 +223,9 @@ public class RecordTypeCreatorTest {
 		assertEquals(createdRecord.extractAtomicValue("mode"), mode);
 	}
 
-	private SpiderDataGroup getRef(SpiderDataGroup childReferences) {
-		SpiderDataGroup childReference = childReferences.extractGroup("childReference");
+	private SpiderDataGroup getRefByIndex(SpiderDataGroup childReferences, int index) {
+		SpiderDataGroup childReference = childReferences
+				.getAllGroupsWithNameInData("childReference").get(index);
 		SpiderDataGroup refGroup = childReference.extractGroup("refGroup");
 		return refGroup.extractGroup("ref");
 	}
@@ -246,12 +249,12 @@ public class RecordTypeCreatorTest {
 
 		recordTypeCreator.useExtendedFunctionality(userId, recordType);
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 8);
-		assertCorrectNumberOfChildReferencesForIndex(2, 2);
-		assertCorrectNumberOfChildReferencesForIndex(2, 3);
-		assertCorrectNumberOfChildReferencesForIndex(2, 4);
-		assertCorrectNumberOfChildReferencesForIndex(1, 5);
-		assertCorrectNumberOfChildReferencesForIndex(1, 6);
-		assertCorrectNumberOfChildReferencesForIndex(1, 7);
+		assertCorrectNumberOfChildReferencesForIndex(4, 2);
+		assertCorrectNumberOfChildReferencesForIndex(4, 3);
+		assertCorrectNumberOfChildReferencesForIndex(4, 4);
+		assertCorrectNumberOfChildReferencesForIndex(2, 5);
+		assertCorrectNumberOfChildReferencesForIndex(2, 6);
+		assertCorrectNumberOfChildReferencesForIndex(2, 7);
 
 	}
 

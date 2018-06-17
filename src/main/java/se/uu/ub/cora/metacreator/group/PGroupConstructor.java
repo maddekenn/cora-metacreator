@@ -1,8 +1,10 @@
 package se.uu.ub.cora.metacreator.group;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import se.uu.ub.cora.metacreator.DataCreatorHelper;
+import se.uu.ub.cora.metacreator.PresentationChildReference;
 import se.uu.ub.cora.metacreator.RecordIdentifier;
 import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataElement;
@@ -47,38 +49,54 @@ public class PGroupConstructor {
 
 	private SpiderDataGroup createChildren(List<SpiderDataElement> metadataChildReferences) {
 		SpiderDataGroup childReferences = SpiderDataGroup.withNameInData("childReferences");
+		List<PresentationChildReference> presentationChildren = new ArrayList<>();
 
 		for (SpiderDataElement metadataChildReference : metadataChildReferences) {
-			possiblyAddChildReference(childReferences, (SpiderDataGroup) metadataChildReference);
+			List<PresentationChildReference> possibleChildren = possiblyAddChildReferenceAndText(
+					(SpiderDataGroup) metadataChildReference);
+			presentationChildren.addAll(possibleChildren);
 		}
+
+		for (PresentationChildReference presentationChild : presentationChildren) {
+			childReferences.addChild(presentationChild.ref);
+
+		}
+		// childReferences.addChild(childReference);
 		return childReferences;
 
 	}
 
-	private void possiblyAddChildReference(SpiderDataGroup childReferences,
+	private List<PresentationChildReference> possiblyAddChildReferenceAndText(
 			SpiderDataGroup metadataChildReference) {
 
+		// List<SpiderDataGroup> possibleChildren = new ArrayList<>();
+		List<PresentationChildReference> possibleChildren = new ArrayList<>();
 
-		SpiderDataGroup textChildReference = createChildReferenceForText(metadataChildReference);
-		SpiderDataGroup childReference = createChild(metadataChildReference);
+		PresentationChildReference textChildReference = createChildReferenceForText(
+				metadataChildReference);
+		PresentationChildReference childReference = createChild(metadataChildReference);
 		if (childReference != null) {
-			childReferences.addChild(textChildReference);
-			childReferences.addChild(childReference);
+			possibleChildren.add(textChildReference);
+			possibleChildren.add(childReference);
 		}
+		return possibleChildren;
 	}
 
-	private SpiderDataGroup createChildReferenceForText(SpiderDataGroup metadataChildReference) {
+	private PresentationChildReference createChildReferenceForText(
+			SpiderDataGroup metadataChildReference) {
 		String metadataRefId = getMetadataRefId(metadataChildReference);
-
 		SpiderDataGroup textChildReference = createChildReferenceWithRepeatId(
 				getRepeatId(metadataChildReference));
 		SpiderDataGroup refGroup = createRefGroupAndAddToChildReference(textChildReference);
 
-		RecordIdentifier presRef = RecordIdentifier.usingTypeAndId("coraText", metadataRefId+"Text")   ;
+		RecordIdentifier presRef = RecordIdentifier.usingTypeAndId("coraText",
+				metadataRefId + "Text");
 		SpiderDataGroup ref = createRef(presRef);
 		ref.addAttributeByIdWithValue("type", "text");
 		refGroup.addChild(ref);
-		return textChildReference;
+		return PresentationChildReference.usingRefGroupAndRecordIdentifier(refGroup, presRef);
+
+		// return presentationChildRef;
 	}
 
 	private String getRepeatId(SpiderDataGroup metadataChildReference) {
@@ -87,7 +105,7 @@ public class PGroupConstructor {
 		return String.valueOf(currentRepeatId);
 	}
 
-	private SpiderDataGroup createChild(SpiderDataGroup metadataChildReference) {
+	private PresentationChildReference createChild(SpiderDataGroup metadataChildReference) {
 		try {
 			return createChildReference(metadataChildReference);
 		} catch (DataException | RecordNotFoundException e) {
@@ -95,14 +113,20 @@ public class PGroupConstructor {
 		}
 	}
 
-	private SpiderDataGroup createChildReference(SpiderDataGroup metadataChildReference) {
+	private PresentationChildReference createChildReference(
+			SpiderDataGroup metadataChildReference) {
 		SpiderDataGroup childReference = createChildReferenceWithRepeatId(
 				getRepeatId(metadataChildReference));
 		SpiderDataGroup refGroup = createRefGroupAndAddToChildReference(childReference);
 
-		createRefAndAddToRefGroup(metadataChildReference, refGroup);
+		SpiderDataGroup ref = createRefAndAddToRefGroup(metadataChildReference, refGroup);
+		refGroup.addChild(ref);
 
-		return childReference;
+		RecordIdentifier recordIdentifier = null;
+		// set type and id
+		return PresentationChildReference.usingRefGroupAndRecordIdentifier(refGroup,
+				recordIdentifier);
+
 	}
 
 	private SpiderDataGroup createChildReferenceWithRepeatId(String repeatId) {
@@ -123,33 +147,47 @@ public class PGroupConstructor {
 		return refGroup;
 	}
 
-	private void createRefAndAddToRefGroup(SpiderDataGroup metadataChildReference,
+	private SpiderDataGroup createRefAndAddToRefGroup(SpiderDataGroup metadataChildReference,
 			SpiderDataGroup refGroup) {
 		SpiderDataGroup ref = possiblyCreateRef(metadataChildReference);
-		refGroup.addChild(ref);
+		return ref;
+
 	}
 
 	private SpiderDataGroup possiblyCreateRef(SpiderDataGroup metadataChildReference) {
-		RecordIdentifier presRef = constructPresRefIdFromMetadataChild(metadataChildReference);
-		ensurePChildExists(presRef);
+		SpiderDataGroup presRef = constructPresRefIdFromMetadataChild(metadataChildReference);
 
-		return createRef(presRef);
+		// ensurePChildExists(presRef);
+
+		return presRef;
 	}
 
-	private RecordIdentifier constructPresRefIdFromMetadataChild(
+	private SpiderDataGroup constructPresRefIdFromMetadataChild(
 			SpiderDataGroup metadataChildReference) {
 		String metadataRefId = getMetadataRefId(metadataChildReference);
-
+		// TODO:create different constructors
 		if (metadataChildIsCollectionVar(metadataRefId)) {
-			return constructChildAsPCollVAr(metadataRefId);
+			ChildRefConstructor constructor = PCollVarChildRefConstructor
+					.usingMetadataChildReferenceAndMode(metadataChildReference, mode);
+			PresentationChildReference childRef = constructor.getChildRef();
+
+			return createRef(childRef.recordIdentifier);
 		} else if (metadataChildIsTextVariable(metadataRefId)) {
-			return constructChildAsPVar(metadataRefId);
+			ChildRefConstructor constructor = PVarChildRefConstructor
+					.usingMetadataChildReferenceAndMode(metadataChildReference, mode);
+			PresentationChildReference childRef = constructor.getChildRef();
+			return createRef(childRef.recordIdentifier);
 		} else if (metadataChildIsResourceLink(metadataRefId)) {
-			return constructChildAsPResourceLink(metadataRefId);
+			ChildRefConstructor constructor = PResLinkChildRefConstructor
+					.usingMetadataChildReferenceAndMode(metadataChildReference, mode);
+			PresentationChildReference childRef = constructor.getChildRef();
+			return createRef(childRef.recordIdentifier);
 		} else if (metadataChildIsRecordLink(metadataRefId)) {
-			return constructChildAsPRecordLink(metadataRefId);
+			RecordIdentifier pLink = constructChildAsPRecordLink(metadataRefId);
+			return createRef(pLink);
 		} else if (metadataChildIsGroup(metadataRefId)) {
-			return constructChildAsPGroup(metadataRefId);
+			RecordIdentifier pGroup = constructChildAsPGroup(metadataRefId);
+			return createRef(pGroup);
 		}
 		throw new DataException("Not possible to construct childReferenceId from metadataId");
 	}
