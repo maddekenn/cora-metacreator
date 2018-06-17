@@ -26,25 +26,25 @@ import se.uu.ub.cora.metacreator.PresentationChildReference;
 import se.uu.ub.cora.metacreator.RecordIdentifier;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
-public class PCollVarChildRefConstructorTest {
+public class PGroupChildRefConstructorTest {
 
 	@Test
 	public void testConstructorForInput() {
 		SpiderDataGroup metadataChildRef = DataCreatorForPresentationsConstructor
-				.createMetadataChildRefWithIdAndRepeatId("identifierTypeCollectionVar", "0");
-		ChildRefConstructor constructor = PCollVarChildRefConstructor
+				.createMetadataChildRefWithIdAndRepeatId("identifierChildGroup", "0");
+		ChildRefConstructor constructor = PGroupChildRefConstructor
 				.usingMetadataChildReferenceAndMode(metadataChildRef, "input");
 
 		PresentationChildReference childRef = constructor.getChildRef();
-		assertCorrectRecordIdentifier(childRef, "identifierTypePCollVar");
+		assertCorrectRecordIdentifier(childRef, "identifierChildPGroup");
 
-		assertCorrectRef(childRef, "identifierTypePCollVar");
+		assertCorrectRef(childRef, "identifierChildPGroup");
 
 	}
 
 	private void assertCorrectRef(PresentationChildReference childRef, String linkedRecordId) {
 		SpiderDataGroup ref = childRef.ref;
-		assertEquals(ref.extractAtomicValue("linkedRecordType"), "presentationCollectionVar");
+		assertEquals(ref.extractAtomicValue("linkedRecordType"), "presentationGroup");
 		assertEquals(ref.extractAtomicValue("linkedRecordId"), linkedRecordId);
 		assertEquals(ref.getAttributes().get("type"), "presentation");
 	}
@@ -52,21 +52,21 @@ public class PCollVarChildRefConstructorTest {
 	private void assertCorrectRecordIdentifier(PresentationChildReference childRef,
 			String identifierId) {
 		RecordIdentifier recordIdentifier = childRef.recordIdentifier;
-		assertEquals(recordIdentifier.type, "presentationCollectionVar");
+		assertEquals(recordIdentifier.type, "presentationGroup");
 		assertEquals(recordIdentifier.id, identifierId);
 	}
 
 	@Test
 	public void testConstructorForOutput() {
 		SpiderDataGroup metadataChildRef = DataCreatorForPresentationsConstructor
-				.createMetadataChildRefWithIdAndRepeatId("identifierTypeCollectionVar", "0");
-		ChildRefConstructor constructor = PCollVarChildRefConstructor
+				.createMetadataChildRefWithIdAndRepeatId("identifierChildGroup", "0");
+		ChildRefConstructor constructor = PGroupChildRefConstructor
 				.usingMetadataChildReferenceAndMode(metadataChildRef, "output");
 
 		PresentationChildReference childRef = constructor.getChildRef();
-		assertCorrectRecordIdentifier(childRef, "identifierTypeOutputPCollVar");
+		assertCorrectRecordIdentifier(childRef, "identifierChildOutputPGroup");
 
-		assertCorrectRef(childRef, "identifierTypeOutputPCollVar");
+		assertCorrectRef(childRef, "identifierChildOutputPGroup");
 
 	}
 }
