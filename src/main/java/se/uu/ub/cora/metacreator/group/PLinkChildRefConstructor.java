@@ -20,7 +20,7 @@ package se.uu.ub.cora.metacreator.group;
 
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
-public class PLinkChildRefConstructor extends ChildRefConstructor {
+public final class PLinkChildRefConstructor extends ChildRefConstructor {
 	static final String PRESENTATION_RECORD_LINK = "presentationRecordLink";
 
 	private PLinkChildRefConstructor(SpiderDataGroup metadataChildReference, String mode) {

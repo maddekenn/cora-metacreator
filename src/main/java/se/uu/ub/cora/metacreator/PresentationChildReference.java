@@ -2,7 +2,7 @@ package se.uu.ub.cora.metacreator;
 
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
-public class PresentationChildReference {
+public final class PresentationChildReference {
 
 	public SpiderDataGroup ref;
 	public RecordIdentifier recordIdentifier;

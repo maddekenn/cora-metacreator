@@ -20,7 +20,7 @@ package se.uu.ub.cora.metacreator.group;
 
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
-public class PVarChildRefConstructor extends ChildRefConstructor {
+public final class PVarChildRefConstructor extends ChildRefConstructor {
 	static final String PRESENTATION_VAR = "presentationVar";
 
 	private PVarChildRefConstructor(SpiderDataGroup metadataChildReference, String mode) {
