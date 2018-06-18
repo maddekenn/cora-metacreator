@@ -46,7 +46,7 @@ public class PGroupConstructorTest {
 	}
 
 	@Test
-	public void testGroupConstructorForInput() {
+	public void testGroupConstructornForInput() {
 		PGroupConstructor constructor = new PGroupConstructor(authToken);
 		SpiderDataGroup pGroup = constructor
 				.constructPGroupWithIdDataDividerPresentationOfChildrenAndMode("someTestPGroup",
@@ -57,7 +57,7 @@ public class PGroupConstructorTest {
 		assertCorrectPresentationOf(pGroup);
 
 		assertCorrectChildReferences(pGroup);
-		assertEquals(instanceFactory.spiderRecordReaders.size(), 6);
+		assertEquals(instanceFactory.spiderRecordReaders.size(), 12);
 	}
 
 	private void assertCorrectChildReferences(SpiderDataGroup pGroup) {
@@ -86,7 +86,9 @@ public class PGroupConstructorTest {
 				"identifierChildGroupText", "coraText");
 		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 9, "9",
 				"identifierChildPGroup", "presentationGroup");
-		assertEquals(childReferences.getChildren().size(), 10);
+		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 10, "10",
+				"identifierChildHasNoPresentationTextVarText", "coraText");
+		assertEquals(childReferences.getChildren().size(), 11);
 
 	}
 
@@ -97,6 +99,7 @@ public class PGroupConstructorTest {
 		assertEquals(firstChild.getNameInData(), "childReference");
 		assertEquals(firstChild.getRepeatId(), repeatId);
 
+		assertEquals(firstChild.getAllGroupsWithNameInData("refGroup").size(), 1);
 		SpiderDataGroup refGroup = firstChild.extractGroup("refGroup");
 		assertEquals(refGroup.getRepeatId(), "0");
 
@@ -124,62 +127,64 @@ public class PGroupConstructorTest {
 		assertEquals(presentationOf.extractAtomicValue("linkedRecordId"), "someTestGroup");
 	}
 
-//	@Test
-//	public void testGroupConstructorForOutput() {
-//		PGroupConstructor constructor = new PGroupConstructor(authToken);
-//		SpiderDataGroup pGroup = constructor
-//				.constructPGroupWithIdDataDividerPresentationOfChildrenAndMode("someTestPGroup",
-//						"testSystem", "someTestGroup", metadataChildReferences, "output");
-//		assertEquals(pGroup.getAttributes().get("type"), "pGroup");
-//		assertCorrectRecordInfo(pGroup);
-//		assertCorrectPresentationOf(pGroup);
-//
-//		assertCorrectOutputChildReferences(pGroup);
-//	}
-//
-//	private void assertCorrectOutputChildReferences(SpiderDataGroup pGroup) {
-//		SpiderDataGroup childReferences = pGroup.extractGroup("childReferences");
-//
-//		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 0, "0",
-//				"identifierTypeCollectionVarText", "coraText");
-//		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 1, "1",
-//				"identifierTypeOutputPCollVar", "presentationCollectionVar");
-//
-//		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 2, "2",
-//				"identifierValueTextVarText", "coraText");
-//		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 3, "3",
-//				"identifierValueOutputPVar", "presentationVar");
-//
-//		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 4, "4",
-//				"identifierResLinkText", "coraText");
-//		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 5, "5",
-//				"identifierOutputPResLink", "presentationResourceLink");
-//
-//		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 6, "6",
-//				"identifierLinkText", "coraText");
-//		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 7, "7",
-//				"identifierOutputPLink", "presentationRecordLink");
-//
-//		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 8, "8",
-//				"identifierChildGroupText", "coraText");
-//		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 9, "9",
-//				"identifierChildOutputPGroup", "presentationGroup");
-//
-//		assertEquals(childReferences.getChildren().size(), 10);
-//
-//	}
-//
-//	@Test(expectedExceptions = DataException.class)
-//	public void testGroupConstructorWithNoIdentifiedChildren() {
-//		PGroupConstructor constructor = new PGroupConstructor(authToken);
-//		List<SpiderDataElement> childReferences = new ArrayList<SpiderDataElement>();
-//
-//		SpiderDataGroup childRef = DataCreatorForPresentationsConstructor
-//				.createMetadataChildRefWithIdAndRepeatId("identifierChildGroupWithUnclearEnding",
-//						"5");
-//		childReferences.add(childRef);
-//
-//		constructor.constructPGroupWithIdDataDividerPresentationOfChildrenAndMode("someTestPGroup",
-//				"testSystem", "someTestGroup", childReferences, "output");
-//	}
+	@Test
+	public void testGroupConstructorForOutput() {
+		PGroupConstructor constructor = new PGroupConstructor(authToken);
+		SpiderDataGroup pGroup = constructor
+				.constructPGroupWithIdDataDividerPresentationOfChildrenAndMode("someTestPGroup",
+						"testSystem", "someTestGroup", metadataChildReferences, "output");
+		assertEquals(pGroup.getAttributes().get("type"), "pGroup");
+		assertCorrectRecordInfo(pGroup);
+		assertCorrectPresentationOf(pGroup);
+
+		assertCorrectOutputChildReferences(pGroup);
+	}
+
+	private void assertCorrectOutputChildReferences(SpiderDataGroup pGroup) {
+		SpiderDataGroup childReferences = pGroup.extractGroup("childReferences");
+
+		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 0, "0",
+				"identifierTypeCollectionVarText", "coraText");
+		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 1, "1",
+				"identifierTypeOutputPCollVar", "presentationCollectionVar");
+
+		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 2, "2",
+				"identifierValueTextVarText", "coraText");
+		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 3, "3",
+				"identifierValueOutputPVar", "presentationVar");
+
+		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 4, "4",
+				"identifierResLinkText", "coraText");
+		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 5, "5",
+				"identifierOutputPResLink", "presentationResourceLink");
+
+		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 6, "6",
+				"identifierLinkText", "coraText");
+		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 7, "7",
+				"identifierOutputPLink", "presentationRecordLink");
+
+		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 8, "8",
+				"identifierChildGroupText", "coraText");
+		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 9, "9",
+				"identifierChildOutputPGroup", "presentationGroup");
+		assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(childReferences, 10, "10",
+				"identifierChildHasNoPresentationTextVarText", "coraText");
+
+		assertEquals(childReferences.getChildren().size(), 11);
+
+	}
+
+	@Test(expectedExceptions = DataException.class)
+	public void testGroupConstructorWithNoIdentifiedChildren() {
+		PGroupConstructor constructor = new PGroupConstructor(authToken);
+		List<SpiderDataElement> childReferences = new ArrayList<SpiderDataElement>();
+
+		SpiderDataGroup childRef = DataCreatorForPresentationsConstructor
+				.createMetadataChildRefWithIdAndRepeatId("identifierChildGroupWithUnclearEnding",
+						"5");
+		childReferences.add(childRef);
+
+		constructor.constructPGroupWithIdDataDividerPresentationOfChildrenAndMode("someTestPGroup",
+				"testSystem", "someTestGroup", childReferences, "output");
+	}
 }
