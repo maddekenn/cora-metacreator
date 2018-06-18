@@ -30,7 +30,7 @@ public abstract class ChildRefConstructor {
 
 	protected abstract String constructIdFromMetdataRefId(String metadataRefId);
 
-	public PresentationChildReference getChildRef() {
+	public final PresentationChildReference getChildRef() {
 		String metadataRefId = getMetadataRefId(metadataChildReference);
 		String id = constructIdFromMetdataRefId(metadataRefId);
 
@@ -49,7 +49,7 @@ public abstract class ChildRefConstructor {
 		return metadataRef.extractAtomicValue("linkedRecordId");
 	}
 
-	protected String possibleOutputString() {
+	protected final String possibleOutputString() {
 		if ("output".equals(mode)) {
 			return "Output";
 		}
