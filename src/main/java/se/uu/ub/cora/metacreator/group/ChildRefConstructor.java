@@ -28,25 +28,33 @@ public abstract class ChildRefConstructor {
 	protected SpiderDataGroup metadataChildReference;
 	protected String mode;
 
-	protected abstract String constructIdFromMetdataRefId(String metadataRefId);
-
 	public final PresentationChildReference getChildRef() {
+		String id = getId();
+		SpiderDataGroup ref = createRefUsingId(id);
+		RecordIdentifier recordIdentifier = RecordIdentifier
+				.usingTypeAndId(getPresentationRecordType(), id);
+		return PresentationChildReference.usingRefGroupAndRecordIdentifier(ref, recordIdentifier);
+	}
+
+	private String getId() {
 		String metadataRefId = getMetadataRefId(metadataChildReference);
-		String id = constructIdFromMetdataRefId(metadataRefId);
-
-		SpiderDataGroup ref = SpiderDataGroup.withNameInData("ref");
-		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType",
-				getPresentationRecordType()));
-		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", id));
-		ref.addAttributeByIdWithValue("type", "presentation");
-
-		return PresentationChildReference.usingRefGroupAndRecordIdentifier(ref,
-				RecordIdentifier.usingTypeAndId(getPresentationRecordType(), id));
+		return constructIdFromMetdataRefId(metadataRefId);
 	}
 
 	private String getMetadataRefId(SpiderDataGroup metadataChildReference) {
 		SpiderDataGroup metadataRef = metadataChildReference.extractGroup("ref");
 		return metadataRef.extractAtomicValue("linkedRecordId");
+	}
+
+	protected abstract String constructIdFromMetdataRefId(String metadataRefId);
+
+	private SpiderDataGroup createRefUsingId(String id) {
+		SpiderDataGroup ref = SpiderDataGroup.withNameInData("ref");
+		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType",
+				getPresentationRecordType()));
+		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", id));
+		ref.addAttributeByIdWithValue("type", "presentation");
+		return ref;
 	}
 
 	protected final String possibleOutputString() {
@@ -57,5 +65,15 @@ public abstract class ChildRefConstructor {
 	}
 
 	protected abstract String getPresentationRecordType();
+
+	public String getMode() {
+		// for test
+		return mode;
+	}
+
+	public SpiderDataGroup getMetadataChildReference() {
+		// for test
+		return metadataChildReference;
+	}
 
 }
