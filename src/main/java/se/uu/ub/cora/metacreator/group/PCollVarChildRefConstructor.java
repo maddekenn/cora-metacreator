@@ -20,7 +20,7 @@ package se.uu.ub.cora.metacreator.group;
 
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
-public class PCollVarChildRefConstructor extends ChildRefConstructor {
+public final class PCollVarChildRefConstructor extends ChildRefConstructor {
 
 	static final String PRESENTATION_COLLECTION_VAR = "presentationCollectionVar";
 
