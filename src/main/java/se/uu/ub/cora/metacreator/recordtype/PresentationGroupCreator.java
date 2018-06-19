@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import se.uu.ub.cora.metacreator.group.PChildRefConstructorFactory;
-import se.uu.ub.cora.metacreator.group.PPChildRefConstructorFactoryImp;
+import se.uu.ub.cora.metacreator.group.PChildRefConstructorFactoryImp;
 import se.uu.ub.cora.metacreator.group.PGroupConstructor;
 import se.uu.ub.cora.spider.data.SpiderDataElement;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
@@ -80,7 +80,7 @@ public class PresentationGroupCreator {
 	}
 
 	private SpiderDataGroup createSpiderDataGroupToCreate() {
-		PChildRefConstructorFactory constructorFactory = new PPChildRefConstructorFactoryImp();
+		PChildRefConstructorFactory constructorFactory = new PChildRefConstructorFactoryImp();
 		PGroupConstructor pGroupConstructor = PGroupConstructor.usingAuthTokenAndPChildRefConstructorFactory(authToken, constructorFactory);
 
 		return pGroupConstructor

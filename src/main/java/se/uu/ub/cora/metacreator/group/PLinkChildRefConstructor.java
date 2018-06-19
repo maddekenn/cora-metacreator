@@ -22,6 +22,8 @@ import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
 public final class PLinkChildRefConstructor extends PChildRefConstructor {
 	static final String PRESENTATION_RECORD_LINK = "presentationRecordLink";
+	private static final String LINK = "Link";
+	private static final String PLINK = "PLink";
 
 	private PLinkChildRefConstructor(SpiderDataGroup metadataChildReference, String mode) {
 		this.metadataChildReference = metadataChildReference;
@@ -34,12 +36,13 @@ public final class PLinkChildRefConstructor extends PChildRefConstructor {
 	}
 
 	@Override
-	protected String constructIdFromMetadataRefId(String metadataRefId) {
-		String id = metadataRefId.substring(0, metadataRefId.indexOf("Link"));
+	protected String getMetadataRefIdEnding() {
+		return LINK;
+	}
 
-		id += possibleOutputString();
-		id += "PLink";
-		return id;
+	@Override
+	protected String getPresentationIdEnding() {
+		return PLINK;
 	}
 
 	@Override

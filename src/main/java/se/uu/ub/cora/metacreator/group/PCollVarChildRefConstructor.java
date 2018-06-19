@@ -23,6 +23,8 @@ import se.uu.ub.cora.spider.data.SpiderDataGroup;
 public final class PCollVarChildRefConstructor extends PChildRefConstructor {
 
 	static final String PRESENTATION_COLLECTION_VAR = "presentationCollectionVar";
+	private static final String COLLECTION_VAR = "CollectionVar";
+	private static final String PCOLL_VAR = "PCollVar";
 
 	private PCollVarChildRefConstructor(SpiderDataGroup metadataChildReference, String mode) {
 		this.metadataChildReference = metadataChildReference;
@@ -35,12 +37,13 @@ public final class PCollVarChildRefConstructor extends PChildRefConstructor {
 	}
 
 	@Override
-	protected String constructIdFromMetadataRefId(String metadataRefId) {
-		String id = metadataRefId.substring(0, metadataRefId.indexOf("CollectionVar"));
+	protected String getMetadataRefIdEnding() {
+		return COLLECTION_VAR;
+	}
 
-		id += possibleOutputString();
-		id += "PCollVar";
-		return id;
+	@Override
+	protected String getPresentationIdEnding() {
+		return PCOLL_VAR;
 	}
 
 	@Override

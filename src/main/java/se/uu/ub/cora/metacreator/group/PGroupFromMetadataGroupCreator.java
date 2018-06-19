@@ -56,7 +56,7 @@ public class PGroupFromMetadataGroupCreator implements ExtendedFunctionality {
 	}
 
 	private void setParametersForCreation(SpiderDataGroup spiderDataGroup) {
-		PChildRefConstructorFactory constructorFactory = new PPChildRefConstructorFactoryImp();
+		PChildRefConstructorFactory constructorFactory = new PChildRefConstructorFactoryImp();
 		constructor = PGroupConstructor.usingAuthTokenAndPChildRefConstructorFactory(authToken, constructorFactory);
 		metadataId = DataCreatorHelper.extractIdFromDataGroup(spiderDataGroup);
 		dataDivider = DataCreatorHelper.extractDataDividerStringFromDataGroup(spiderDataGroup);

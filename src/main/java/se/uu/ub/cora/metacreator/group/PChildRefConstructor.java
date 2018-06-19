@@ -41,20 +41,35 @@ public abstract class PChildRefConstructor {
 		return constructIdFromMetadataRefId(metadataRefId);
 	}
 
-	private String getMetadataRefId(SpiderDataGroup metadataChildReference) {
+	String getMetadataRefId(SpiderDataGroup metadataChildReference) {
 		SpiderDataGroup metadataRef = metadataChildReference.extractGroup("ref");
 		return metadataRef.extractAtomicValue("linkedRecordId");
 	}
 
-	protected abstract String constructIdFromMetadataRefId(String metadataRefId);
+	protected final String constructIdFromMetadataRefId(String metadataRefId) {
+		String id = metadataRefId.substring(0, metadataRefId.indexOf(getMetadataRefIdEnding()));
+
+		id += possibleOutputString();
+		id += getPresentationIdEnding();
+		return id;
+	}
 
 	private SpiderDataGroup createRefUsingId(String id) {
+		SpiderDataGroup ref =  createRefAsSpiderDataGroupWihAttribute();
+		addLinkedRecordTypeAndRecordIdToRef(id, ref);
+		return ref;
+	}
+
+	private SpiderDataGroup createRefAsSpiderDataGroupWihAttribute() {
 		SpiderDataGroup ref = SpiderDataGroup.withNameInData("ref");
+		ref.addAttributeByIdWithValue("type", "presentation");
+		return ref;
+	}
+
+	private void addLinkedRecordTypeAndRecordIdToRef(String id, SpiderDataGroup ref) {
 		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType",
 				getPresentationRecordType()));
 		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", id));
-		ref.addAttributeByIdWithValue("type", "presentation");
-		return ref;
 	}
 
 	protected final String possibleOutputString() {
@@ -64,6 +79,8 @@ public abstract class PChildRefConstructor {
 		return "";
 	}
 
+	protected abstract String getMetadataRefIdEnding();
+	protected abstract String getPresentationIdEnding();
 	protected abstract String getPresentationRecordType();
 
 	public String getMode() {

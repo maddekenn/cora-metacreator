@@ -22,6 +22,8 @@ import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
 public final class PResLinkChildRefConstructor extends PChildRefConstructor {
 	static final String PRESENTATION_RESOURCE_LINK = "presentationResourceLink";
+	private static final String RES_LINK = "ResLink";
+	private static final String PRES_LINK = "PResLink";
 
 	private PResLinkChildRefConstructor(SpiderDataGroup metadataChildReference, String mode) {
 		this.metadataChildReference = metadataChildReference;
@@ -34,12 +36,13 @@ public final class PResLinkChildRefConstructor extends PChildRefConstructor {
 	}
 
 	@Override
-	protected String constructIdFromMetadataRefId(String metadataRefId) {
-		String id = metadataRefId.substring(0, metadataRefId.indexOf("ResLink"));
+	protected String getMetadataRefIdEnding() {
+		return RES_LINK;
+	}
 
-		id += possibleOutputString();
-		id += "PResLink";
-		return id;
+	@Override
+	protected String getPresentationIdEnding() {
+		return PRES_LINK;
 	}
 
 	@Override

@@ -52,7 +52,7 @@ public class PGroupFromMetadataGroupCreatorTest {
 		creator.useExtendedFunctionality(authToken, metadataGroup);
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 2);
-		assertTrue(creator.constructor.getPChildRefConstructorFactory() instanceof PPChildRefConstructorFactoryImp);
+		assertTrue(creator.constructor.getPChildRefConstructorFactory() instanceof PChildRefConstructorFactoryImp);
 
 		assertCorrectPGroupWithIndexPGroupIdAndChildId(0, "someTestPGroup", "somePVar", "input", "someTextVarText");
 		assertCorrectPGroupWithIndexPGroupIdAndChildId(1, "someTestOutputPGroup", "someOutputPVar",

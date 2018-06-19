@@ -34,7 +34,7 @@ public class PChildRefConstructorFactoryTest {
 	@BeforeMethod
 	public void setUp() {
 		mode = "input";
-		factory = new PPChildRefConstructorFactoryImp();
+		factory = new PChildRefConstructorFactoryImp();
 	}
 
 	@Test

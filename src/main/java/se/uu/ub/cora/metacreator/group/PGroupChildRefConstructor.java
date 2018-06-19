@@ -22,6 +22,8 @@ import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
 public final class PGroupChildRefConstructor extends PChildRefConstructor {
 	static final String PRESENTATION_GROUP = "presentationGroup";
+	private static final String GROUP = "Group";
+	private static final String PGROUP = "PGroup";
 
 	private PGroupChildRefConstructor(SpiderDataGroup metadataChildReference, String mode) {
 		this.metadataChildReference = metadataChildReference;
@@ -34,12 +36,13 @@ public final class PGroupChildRefConstructor extends PChildRefConstructor {
 	}
 
 	@Override
-	protected String constructIdFromMetadataRefId(String metadataRefId) {
-		String id = metadataRefId.substring(0, metadataRefId.indexOf("Group"));
+	protected String getMetadataRefIdEnding() {
+		return GROUP;
+	}
 
-		id += possibleOutputString();
-		id += "PGroup";
-		return id;
+	@Override
+	protected String getPresentationIdEnding() {
+		return PGROUP;
 	}
 
 	@Override

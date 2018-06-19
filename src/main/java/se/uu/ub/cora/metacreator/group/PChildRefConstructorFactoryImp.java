@@ -21,7 +21,7 @@ package se.uu.ub.cora.metacreator.group;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.record.DataException;
 
-public class PPChildRefConstructorFactoryImp implements PChildRefConstructorFactory {
+public class PChildRefConstructorFactoryImp implements PChildRefConstructorFactory {
 
 	@Override
 	public PChildRefConstructor factor(SpiderDataGroup metadataChildReference, String mode) {

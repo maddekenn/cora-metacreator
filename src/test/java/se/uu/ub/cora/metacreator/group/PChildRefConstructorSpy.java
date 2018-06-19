@@ -27,12 +27,39 @@ public class PChildRefConstructorSpy extends PChildRefConstructor {
 	public PChildRefConstructorSpy(SpiderDataGroup metadataChildReference, String mode) {
 		this.metadataChildReference = metadataChildReference;
 		this.mode = mode;
+		metadataRefId = getMetadataRefId(metadataChildReference);
+	}
+//
+//	@Override
+//	protected String constructIdFromMetadataRefId(String metadataRefId) {
+//		this.metadataRefId = metadataRefId;
+//		return metadataRefId+"PEnding";
+//	}
+
+	@Override
+	protected String getMetadataRefIdEnding() {
+		if(metadataRefId.endsWith("CollectionVar")){
+			return "CollectionVar";
+		}
+		if(metadataRefId.endsWith("TextVar")){
+			return "TextVar";
+		}
+		if(metadataRefId.endsWith("ResLink")){
+			return "ResLink";
+		}
+		if(metadataRefId.endsWith("Link")){
+			return "Link";
+		}
+		if(metadataRefId.endsWith("Group")){
+			return "Group";
+		}
+
+		return "";
 	}
 
 	@Override
-	protected String constructIdFromMetadataRefId(String metadataRefId) {
-		this.metadataRefId = metadataRefId;
-		return metadataRefId+"PEnding";
+	protected String getPresentationIdEnding() {
+		return "PEnding";
 	}
 
 	@Override
