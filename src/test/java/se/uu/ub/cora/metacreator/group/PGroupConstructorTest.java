@@ -36,6 +36,7 @@ public class PGroupConstructorTest {
 	private SpiderInstanceFactorySpy instanceFactory;
 	private String authToken;
 	List<SpiderDataElement> metadataChildReferences;
+	ChildRefConstructorFactorySpy childRefConstructorFactory;
 
 	@BeforeMethod
 	public void setUp() {
@@ -43,11 +44,14 @@ public class PGroupConstructorTest {
 		SpiderInstanceProvider.setSpiderInstanceFactory(instanceFactory);
 		authToken = "testUser";
 		metadataChildReferences = DataCreatorForPresentationsConstructor.createChildren();
+		childRefConstructorFactory = new ChildRefConstructorFactorySpy();
 	}
 
 	@Test
-	public void testGroupConstructornForInput() {
-		PGroupConstructor constructor = new PGroupConstructor(authToken);
+	public void testGroupConstructorForInput() {
+		PGroupConstructor constructor = PGroupConstructor
+				.usingAuthTokenAndPChildRefConstructorFactory(authToken,
+						childRefConstructorFactory);
 		SpiderDataGroup pGroup = constructor
 				.constructPGroupWithIdDataDividerPresentationOfChildrenAndMode("someTestPGroup",
 						"testSystem", "someTestGroup", metadataChildReferences, "input");
@@ -58,6 +62,7 @@ public class PGroupConstructorTest {
 
 		assertCorrectChildReferences(pGroup);
 		assertEquals(instanceFactory.spiderRecordReaders.size(), 12);
+		assertEquals(childRefConstructorFactory.factored.size(), 6);
 	}
 
 	private void assertCorrectChildReferences(SpiderDataGroup pGroup) {
@@ -129,7 +134,9 @@ public class PGroupConstructorTest {
 
 	@Test
 	public void testGroupConstructorForOutput() {
-		PGroupConstructor constructor = new PGroupConstructor(authToken);
+		PGroupConstructor constructor = PGroupConstructor
+				.usingAuthTokenAndPChildRefConstructorFactory(authToken,
+						childRefConstructorFactory);
 		SpiderDataGroup pGroup = constructor
 				.constructPGroupWithIdDataDividerPresentationOfChildrenAndMode("someTestPGroup",
 						"testSystem", "someTestGroup", metadataChildReferences, "output");
@@ -176,7 +183,9 @@ public class PGroupConstructorTest {
 
 	@Test(expectedExceptions = DataException.class)
 	public void testGroupConstructorWithNoIdentifiedChildren() {
-		PGroupConstructor constructor = new PGroupConstructor(authToken);
+		PGroupConstructor constructor = PGroupConstructor
+				.usingAuthTokenAndPChildRefConstructorFactory(authToken,
+						childRefConstructorFactory);
 		List<SpiderDataElement> childReferences = new ArrayList<SpiderDataElement>();
 
 		SpiderDataGroup childRef = DataCreatorForPresentationsConstructor

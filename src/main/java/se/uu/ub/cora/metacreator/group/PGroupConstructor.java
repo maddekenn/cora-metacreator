@@ -37,6 +37,12 @@ public class PGroupConstructor {
 	private static final String CHILD_REFERENCE = "childReference";
 	private static final String LINKED_RECORD_ID = "linkedRecordId";
 	private static final String PRESENTATION = "presentation";
+
+	public static PGroupConstructor usingAuthTokenAndPChildRefConstructorFactory(String authToken,
+			ChildRefConstructorFactory constructorFactory) {
+		return new PGroupConstructor(authToken, constructorFactory);
+	}
+
 	private String mode;
 	private String authToken;
 	private String id;
@@ -44,9 +50,12 @@ public class PGroupConstructor {
 	private String presentationOf;
 
 	private int repeatId = 0;
+	private ChildRefConstructorFactory childRefConstructorFactory;
 
-	public PGroupConstructor(String authToken) {
+	private PGroupConstructor(String authToken,
+			ChildRefConstructorFactory childRefConstructorFactory) {
 		this.authToken = authToken;
+		this.childRefConstructorFactory = childRefConstructorFactory;
 	}
 
 	public SpiderDataGroup constructPGroupWithIdDataDividerPresentationOfChildrenAndMode(String id,
@@ -82,7 +91,7 @@ public class PGroupConstructor {
 
 		for (SpiderDataElement metadataChildReference : metadataChildReferences) {
 			try {
-				ChildRefConstructor constructor = getConstructorFromMetadataChild(
+				PChildRefConstructor constructor = getConstructorFromMetadataChild(
 						(SpiderDataGroup) metadataChildReference);
 
 				List<PresentationChildReference> possibleChildren = possiblyAddChildReferenceAndText(
@@ -96,26 +105,30 @@ public class PGroupConstructor {
 		return presentationChildren;
 	}
 
-	private ChildRefConstructor getConstructorFromMetadataChild(
+	private PChildRefConstructor getConstructorFromMetadataChild(
 			SpiderDataGroup metadataChildReference) {
-		String metadataRefId = getMetadataRefId(metadataChildReference);
-		if (metadataChildIsCollectionVar(metadataRefId)) {
-			return PCollVarChildRefConstructor
-					.usingMetadataChildReferenceAndMode(metadataChildReference, mode);
-		} else if (metadataChildIsTextVariable(metadataRefId)) {
-			return PVarChildRefConstructor
-					.usingMetadataChildReferenceAndMode(metadataChildReference, mode);
-		} else if (metadataChildIsResourceLink(metadataRefId)) {
-			return PResLinkChildRefConstructor
-					.usingMetadataChildReferenceAndMode(metadataChildReference, mode);
-		} else if (metadataChildIsRecordLink(metadataRefId)) {
-			return PLinkChildRefConstructor
-					.usingMetadataChildReferenceAndMode(metadataChildReference, mode);
-		} else if (metadataChildIsGroup(metadataRefId)) {
-			return PGroupChildRefConstructor
-					.usingMetadataChildReferenceAndMode(metadataChildReference, mode);
-		}
-		throw new DataException("Not possible to construct childReferenceId from metadataId");
+		// String metadataRefId = getMetadataRefId(metadataChildReference);
+
+		return childRefConstructorFactory.factor(metadataChildReference, mode);
+
+		// if (metadataChildIsCollectionVar(metadataRefId)) {
+		// return PCollVarChildRefConstructor
+		// .usingMetadataChildReferenceAndMode(metadataChildReference, mode);
+		// } else if (metadataChildIsTextVariable(metadataRefId)) {
+		// return PVarChildRefConstructor
+		// .usingMetadataChildReferenceAndMode(metadataChildReference, mode);
+		// } else if (metadataChildIsResourceLink(metadataRefId)) {
+		// return PResLinkChildRefConstructor
+		// .usingMetadataChildReferenceAndMode(metadataChildReference, mode);
+		// } else if (metadataChildIsRecordLink(metadataRefId)) {
+		// return PLinkChildRefConstructor
+		// .usingMetadataChildReferenceAndMode(metadataChildReference, mode);
+		// } else if (metadataChildIsGroup(metadataRefId)) {
+		// return PGroupChildRefConstructor
+		// .usingMetadataChildReferenceAndMode(metadataChildReference, mode);
+		// }
+		// throw new DataException("Not possible to construct childReferenceId from
+		// metadataId");
 	}
 
 	private String getMetadataRefId(SpiderDataGroup metadataChildReference) {
@@ -155,7 +168,7 @@ public class PGroupConstructor {
 	}
 
 	private List<PresentationChildReference> possiblyAddChildReferenceAndText(
-			SpiderDataGroup metadataChildReference, ChildRefConstructor constructor) {
+			SpiderDataGroup metadataChildReference, PChildRefConstructor constructor) {
 
 		List<PresentationChildReference> possibleChildren = new ArrayList<>();
 

@@ -32,7 +32,7 @@ public class PVarChildRefConstructorTest {
 	public void testConstructorForInput() {
 		SpiderDataGroup metadataChildRef = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierValueTextVar", "0");
-		ChildRefConstructor constructor = PVarChildRefConstructor
+		PChildRefConstructor constructor = PVarChildRefConstructor
 				.usingMetadataChildReferenceAndMode(metadataChildRef, "input");
 
 		PresentationChildReference childRef = constructor.getChildRef();
@@ -60,7 +60,7 @@ public class PVarChildRefConstructorTest {
 	public void testConstructorForOutput() {
 		SpiderDataGroup metadataChildRef = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierValueTextVar", "0");
-		ChildRefConstructor constructor = PVarChildRefConstructor
+		PChildRefConstructor constructor = PVarChildRefConstructor
 				.usingMetadataChildReferenceAndMode(metadataChildRef, "output");
 
 		PresentationChildReference childRef = constructor.getChildRef();

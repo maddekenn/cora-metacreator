@@ -32,7 +32,7 @@ public class PGroupChildRefConstructorTest {
 	public void testConstructorForInput() {
 		SpiderDataGroup metadataChildRef = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierChildGroup", "0");
-		ChildRefConstructor constructor = PGroupChildRefConstructor
+		PChildRefConstructor constructor = PGroupChildRefConstructor
 				.usingMetadataChildReferenceAndMode(metadataChildRef, "input");
 
 		PresentationChildReference childRef = constructor.getChildRef();
@@ -60,7 +60,7 @@ public class PGroupChildRefConstructorTest {
 	public void testConstructorForOutput() {
 		SpiderDataGroup metadataChildRef = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierChildGroup", "0");
-		ChildRefConstructor constructor = PGroupChildRefConstructor
+		PChildRefConstructor constructor = PGroupChildRefConstructor
 				.usingMetadataChildReferenceAndMode(metadataChildRef, "output");
 
 		PresentationChildReference childRef = constructor.getChildRef();

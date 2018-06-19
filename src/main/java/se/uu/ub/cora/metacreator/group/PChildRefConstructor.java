@@ -23,7 +23,7 @@ import se.uu.ub.cora.metacreator.RecordIdentifier;
 import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
-public abstract class ChildRefConstructor {
+public abstract class PChildRefConstructor {
 
 	protected SpiderDataGroup metadataChildReference;
 	protected String mode;

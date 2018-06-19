@@ -6,7 +6,7 @@ import se.uu.ub.cora.spider.record.DataException;
 public class ChildRefConstructorFactoryImp implements ChildRefConstructorFactory {
 
 	@Override
-	public ChildRefConstructor factor(SpiderDataGroup metadataChildReference, String mode) {
+	public PChildRefConstructor factor(SpiderDataGroup metadataChildReference, String mode) {
 		String metadataRefId = getMetadataRefId(metadataChildReference);
 		if (metadataChildIsTextVariable(metadataRefId)) {
 			return PVarChildRefConstructor

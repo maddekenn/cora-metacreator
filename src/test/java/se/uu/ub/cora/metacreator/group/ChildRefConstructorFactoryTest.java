@@ -41,7 +41,7 @@ public class ChildRefConstructorFactoryTest {
 	public void testFactorPVarChildRefConstructor() {
 		SpiderDataGroup metadataChildReference = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierValueTextVar", "5");
-		ChildRefConstructor constructor = factory.factor(metadataChildReference, mode);
+		PChildRefConstructor constructor = factory.factor(metadataChildReference, mode);
 		assertTrue(constructor instanceof PVarChildRefConstructor);
 		assertEquals(constructor.getMode(), mode);
 		assertEquals(constructor.getMetadataChildReference(), metadataChildReference);
@@ -52,7 +52,7 @@ public class ChildRefConstructorFactoryTest {
 
 		SpiderDataGroup metadataChildReference = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierTypeCollectionVar", "5");
-		ChildRefConstructor constructor = factory.factor(metadataChildReference, "output");
+		PChildRefConstructor constructor = factory.factor(metadataChildReference, "output");
 		assertTrue(constructor instanceof PCollVarChildRefConstructor);
 	}
 
@@ -60,7 +60,7 @@ public class ChildRefConstructorFactoryTest {
 	public void testFactorPResLinkChildRefConstructor() {
 		SpiderDataGroup metadataChildReference = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierResLink", "5");
-		ChildRefConstructor constructor = factory.factor(metadataChildReference, mode);
+		PChildRefConstructor constructor = factory.factor(metadataChildReference, mode);
 		assertTrue(constructor instanceof PResLinkChildRefConstructor);
 		assertEquals(constructor.getMode(), mode);
 		assertEquals(constructor.getMetadataChildReference(), metadataChildReference);
@@ -70,7 +70,7 @@ public class ChildRefConstructorFactoryTest {
 	public void testFactorPLinkChildRefConstructor() {
 		SpiderDataGroup metadataChildReference = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierLink", "5");
-		ChildRefConstructor constructor = factory.factor(metadataChildReference, mode);
+		PChildRefConstructor constructor = factory.factor(metadataChildReference, mode);
 		assertTrue(constructor instanceof PLinkChildRefConstructor);
 		assertEquals(constructor.getMode(), mode);
 		assertEquals(constructor.getMetadataChildReference(), metadataChildReference);
@@ -80,7 +80,7 @@ public class ChildRefConstructorFactoryTest {
 	public void testFactorPGroupChildRefConstructor() {
 		SpiderDataGroup metadataChildReference = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierChildGroup", "5");
-		ChildRefConstructor constructor = factory.factor(metadataChildReference, mode);
+		PChildRefConstructor constructor = factory.factor(metadataChildReference, mode);
 		assertTrue(constructor instanceof PGroupChildRefConstructor);
 		assertEquals(constructor.getMode(), mode);
 		assertEquals(constructor.getMetadataChildReference(), metadataChildReference);

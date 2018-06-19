@@ -4,6 +4,6 @@ import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
 public interface ChildRefConstructorFactory {
 
-	ChildRefConstructor factor(SpiderDataGroup metadataChildReference, String mode);
+	PChildRefConstructor factor(SpiderDataGroup metadataChildReference, String mode);
 
 }

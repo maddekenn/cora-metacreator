@@ -32,7 +32,7 @@ public class PLinkChildRefConstructorTest {
 	public void testConstructorForInput() {
 		SpiderDataGroup metadataChildRef = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierLink", "0");
-		ChildRefConstructor constructor = PLinkChildRefConstructor
+		PChildRefConstructor constructor = PLinkChildRefConstructor
 				.usingMetadataChildReferenceAndMode(metadataChildRef, "input");
 
 		PresentationChildReference childRef = constructor.getChildRef();
@@ -60,7 +60,7 @@ public class PLinkChildRefConstructorTest {
 	public void testConstructorForOutput() {
 		SpiderDataGroup metadataChildRef = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierLink", "0");
-		ChildRefConstructor constructor = PLinkChildRefConstructor
+		PChildRefConstructor constructor = PLinkChildRefConstructor
 				.usingMetadataChildReferenceAndMode(metadataChildRef, "output");
 
 		PresentationChildReference childRef = constructor.getChildRef();
