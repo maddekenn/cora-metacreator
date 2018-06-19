@@ -20,30 +20,8 @@ package se.uu.ub.cora.metacreator.group;
 
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
-public final class PGroupChildRefConstructor extends PChildRefConstructor {
-	static final String PRESENTATION_GROUP = "presentationGroup";
+public interface PChildRefConstructorFactory {
 
-	private PGroupChildRefConstructor(SpiderDataGroup metadataChildReference, String mode) {
-		this.metadataChildReference = metadataChildReference;
-		this.mode = mode;
-	}
+	PChildRefConstructor factor(SpiderDataGroup metadataChildReference, String mode);
 
-	public static PChildRefConstructor usingMetadataChildReferenceAndMode(
-			SpiderDataGroup metadataChildReference, String mode) {
-		return new PGroupChildRefConstructor(metadataChildReference, mode);
-	}
-
-	@Override
-	protected String constructIdFromMetadataRefId(String metadataRefId) {
-		String id = metadataRefId.substring(0, metadataRefId.indexOf("Group"));
-
-		id += possibleOutputString();
-		id += "PGroup";
-		return id;
-	}
-
-	@Override
-	protected String getPresentationRecordType() {
-		return PRESENTATION_GROUP;
-	}
 }

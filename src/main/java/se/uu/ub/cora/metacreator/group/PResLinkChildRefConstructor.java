@@ -34,7 +34,7 @@ public final class PResLinkChildRefConstructor extends PChildRefConstructor {
 	}
 
 	@Override
-	protected String constructIdFromMetdataRefId(String metadataRefId) {
+	protected String constructIdFromMetadataRefId(String metadataRefId) {
 		String id = metadataRefId.substring(0, metadataRefId.indexOf("ResLink"));
 
 		id += possibleOutputString();

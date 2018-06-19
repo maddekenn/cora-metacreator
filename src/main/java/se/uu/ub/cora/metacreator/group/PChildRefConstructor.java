@@ -38,7 +38,7 @@ public abstract class PChildRefConstructor {
 
 	private String getId() {
 		String metadataRefId = getMetadataRefId(metadataChildReference);
-		return constructIdFromMetdataRefId(metadataRefId);
+		return constructIdFromMetadataRefId(metadataRefId);
 	}
 
 	private String getMetadataRefId(SpiderDataGroup metadataChildReference) {
@@ -46,7 +46,7 @@ public abstract class PChildRefConstructor {
 		return metadataRef.extractAtomicValue("linkedRecordId");
 	}
 
-	protected abstract String constructIdFromMetdataRefId(String metadataRefId);
+	protected abstract String constructIdFromMetadataRefId(String metadataRefId);
 
 	private SpiderDataGroup createRefUsingId(String id) {
 		SpiderDataGroup ref = SpiderDataGroup.withNameInData("ref");

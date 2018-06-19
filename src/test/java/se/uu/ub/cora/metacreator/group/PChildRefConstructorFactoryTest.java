@@ -27,14 +27,14 @@ import org.testng.annotations.Test;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.record.DataException;
 
-public class ChildRefConstructorFactoryTest {
-	ChildRefConstructorFactory factory;
+public class PChildRefConstructorFactoryTest {
+	PChildRefConstructorFactory factory;
 	String mode = "input";
 
 	@BeforeMethod
 	public void setUp() {
 		mode = "input";
-		factory = new ChildRefConstructorFactoryImp();
+		factory = new PPChildRefConstructorFactoryImp();
 	}
 
 	@Test
