@@ -20,27 +20,30 @@ package se.uu.ub.cora.metacreator.group;
 
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
-public final class PCollVarChildRefConstructor extends ChildRefConstructor {
+public final class PCollVarChildRefConstructor extends PChildRefConstructor {
 
 	static final String PRESENTATION_COLLECTION_VAR = "presentationCollectionVar";
+	private static final String COLLECTION_VAR = "CollectionVar";
+	private static final String PCOLL_VAR = "PCollVar";
 
 	private PCollVarChildRefConstructor(SpiderDataGroup metadataChildReference, String mode) {
 		this.metadataChildReference = metadataChildReference;
 		this.mode = mode;
 	}
 
-	public static ChildRefConstructor usingMetadataChildReferenceAndMode(
+	public static PChildRefConstructor usingMetadataChildReferenceAndMode(
 			SpiderDataGroup metadataChildReference, String mode) {
 		return new PCollVarChildRefConstructor(metadataChildReference, mode);
 	}
 
 	@Override
-	protected String constructIdFromMetdataRefId(String metadataRefId) {
-		String id = metadataRefId.substring(0, metadataRefId.indexOf("CollectionVar"));
+	protected String getMetadataRefIdEnding() {
+		return COLLECTION_VAR;
+	}
 
-		id += possibleOutputString();
-		id += "PCollVar";
-		return id;
+	@Override
+	protected String getPresentationIdEnding() {
+		return PCOLL_VAR;
 	}
 
 	@Override

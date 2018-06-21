@@ -32,7 +32,7 @@ public class PCollVarChildRefConstructorTest {
 	public void testConstructorForInput() {
 		SpiderDataGroup metadataChildRef = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierTypeCollectionVar", "0");
-		ChildRefConstructor constructor = PCollVarChildRefConstructor
+		PChildRefConstructor constructor = PCollVarChildRefConstructor
 				.usingMetadataChildReferenceAndMode(metadataChildRef, "input");
 
 		PresentationChildReference childRef = constructor.getChildRef();
@@ -60,7 +60,7 @@ public class PCollVarChildRefConstructorTest {
 	public void testConstructorForOutput() {
 		SpiderDataGroup metadataChildRef = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierTypeCollectionVar", "0");
-		ChildRefConstructor constructor = PCollVarChildRefConstructor
+		PChildRefConstructor constructor = PCollVarChildRefConstructor
 				.usingMetadataChildReferenceAndMode(metadataChildRef, "output");
 
 		PresentationChildReference childRef = constructor.getChildRef();

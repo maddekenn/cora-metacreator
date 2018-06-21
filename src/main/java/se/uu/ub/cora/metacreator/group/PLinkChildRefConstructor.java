@@ -20,26 +20,29 @@ package se.uu.ub.cora.metacreator.group;
 
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
-public final class PLinkChildRefConstructor extends ChildRefConstructor {
+public final class PLinkChildRefConstructor extends PChildRefConstructor {
 	static final String PRESENTATION_RECORD_LINK = "presentationRecordLink";
+	private static final String LINK = "Link";
+	private static final String PLINK = "PLink";
 
 	private PLinkChildRefConstructor(SpiderDataGroup metadataChildReference, String mode) {
 		this.metadataChildReference = metadataChildReference;
 		this.mode = mode;
 	}
 
-	public static ChildRefConstructor usingMetadataChildReferenceAndMode(
+	public static PChildRefConstructor usingMetadataChildReferenceAndMode(
 			SpiderDataGroup metadataChildReference, String mode) {
 		return new PLinkChildRefConstructor(metadataChildReference, mode);
 	}
 
 	@Override
-	protected String constructIdFromMetdataRefId(String metadataRefId) {
-		String id = metadataRefId.substring(0, metadataRefId.indexOf("Link"));
+	protected String getMetadataRefIdEnding() {
+		return LINK;
+	}
 
-		id += possibleOutputString();
-		id += "PLink";
-		return id;
+	@Override
+	protected String getPresentationIdEnding() {
+		return PLINK;
 	}
 
 	@Override

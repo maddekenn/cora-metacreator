@@ -37,6 +37,7 @@ public class PGroupConstructor {
 	private static final String CHILD_REFERENCE = "childReference";
 	private static final String LINKED_RECORD_ID = "linkedRecordId";
 	private static final String PRESENTATION = "presentation";
+
 	private String mode;
 	private String authToken;
 	private String id;
@@ -44,9 +45,17 @@ public class PGroupConstructor {
 	private String presentationOf;
 
 	private int repeatId = 0;
+	private PChildRefConstructorFactory pChildRefConstructorFactory;
 
-	public PGroupConstructor(String authToken) {
+	private PGroupConstructor(String authToken,
+			PChildRefConstructorFactory pChildRefConstructorFactory) {
 		this.authToken = authToken;
+		this.pChildRefConstructorFactory = pChildRefConstructorFactory;
+	}
+
+	public static PGroupConstructor usingAuthTokenAndPChildRefConstructorFactory(String authToken,
+			PChildRefConstructorFactory constructorFactory) {
+		return new PGroupConstructor(authToken, constructorFactory);
 	}
 
 	public SpiderDataGroup constructPGroupWithIdDataDividerPresentationOfChildrenAndMode(String id,
@@ -82,7 +91,7 @@ public class PGroupConstructor {
 
 		for (SpiderDataElement metadataChildReference : metadataChildReferences) {
 			try {
-				ChildRefConstructor constructor = getConstructorFromMetadataChild(
+				PChildRefConstructor constructor = getConstructorFromMetadataChild(
 						(SpiderDataGroup) metadataChildReference);
 
 				List<PresentationChildReference> possibleChildren = possiblyAddChildReferenceAndText(
@@ -96,51 +105,14 @@ public class PGroupConstructor {
 		return presentationChildren;
 	}
 
-	private ChildRefConstructor getConstructorFromMetadataChild(
+	private PChildRefConstructor getConstructorFromMetadataChild(
 			SpiderDataGroup metadataChildReference) {
-		String metadataRefId = getMetadataRefId(metadataChildReference);
-		if (metadataChildIsCollectionVar(metadataRefId)) {
-			return PCollVarChildRefConstructor
-					.usingMetadataChildReferenceAndMode(metadataChildReference, mode);
-		} else if (metadataChildIsTextVariable(metadataRefId)) {
-			return PVarChildRefConstructor
-					.usingMetadataChildReferenceAndMode(metadataChildReference, mode);
-		} else if (metadataChildIsResourceLink(metadataRefId)) {
-			return PResLinkChildRefConstructor
-					.usingMetadataChildReferenceAndMode(metadataChildReference, mode);
-		} else if (metadataChildIsRecordLink(metadataRefId)) {
-			return PLinkChildRefConstructor
-					.usingMetadataChildReferenceAndMode(metadataChildReference, mode);
-		} else if (metadataChildIsGroup(metadataRefId)) {
-			return PGroupChildRefConstructor
-					.usingMetadataChildReferenceAndMode(metadataChildReference, mode);
-		}
-		throw new DataException("Not possible to construct childReferenceId from metadataId");
+		return pChildRefConstructorFactory.factor(metadataChildReference, mode);
 	}
 
 	private String getMetadataRefId(SpiderDataGroup metadataChildReference) {
 		SpiderDataGroup metadataRef = metadataChildReference.extractGroup("ref");
 		return metadataRef.extractAtomicValue(LINKED_RECORD_ID);
-	}
-
-	private boolean metadataChildIsCollectionVar(String metadataRefId) {
-		return metadataRefId.endsWith("CollectionVar");
-	}
-
-	private boolean metadataChildIsTextVariable(String metadataRefId) {
-		return metadataRefId.endsWith("TextVar");
-	}
-
-	private boolean metadataChildIsResourceLink(String metadataRefId) {
-		return metadataRefId.endsWith("ResLink");
-	}
-
-	private boolean metadataChildIsRecordLink(String metadataRefId) {
-		return metadataRefId.endsWith("Link");
-	}
-
-	private boolean metadataChildIsGroup(String metadataRefId) {
-		return metadataRefId.endsWith("Group");
 	}
 
 	private void createChildReferences(SpiderDataGroup childReferences,
@@ -155,7 +127,7 @@ public class PGroupConstructor {
 	}
 
 	private List<PresentationChildReference> possiblyAddChildReferenceAndText(
-			SpiderDataGroup metadataChildReference, ChildRefConstructor constructor) {
+			SpiderDataGroup metadataChildReference, PChildRefConstructor constructor) {
 
 		List<PresentationChildReference> possibleChildren = new ArrayList<>();
 
@@ -267,4 +239,7 @@ public class PGroupConstructor {
 		pGroup.addChild(presentationOfGroup);
 	}
 
+	public PChildRefConstructorFactory getPChildRefConstructorFactory() {
+		return pChildRefConstructorFactory;
+	}
 }

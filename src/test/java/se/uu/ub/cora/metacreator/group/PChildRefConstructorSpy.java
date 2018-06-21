@@ -20,33 +20,52 @@ package se.uu.ub.cora.metacreator.group;
 
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
-public final class PGroupChildRefConstructor extends PChildRefConstructor {
-	static final String PRESENTATION_GROUP = "presentationGroup";
-	private static final String GROUP = "Group";
-	private static final String PGROUP = "PGroup";
+public class PChildRefConstructorSpy extends PChildRefConstructor {
 
-	private PGroupChildRefConstructor(SpiderDataGroup metadataChildReference, String mode) {
+	public String metadataRefId;
+
+	public PChildRefConstructorSpy(SpiderDataGroup metadataChildReference, String mode) {
 		this.metadataChildReference = metadataChildReference;
 		this.mode = mode;
+		metadataRefId = getMetadataRefId(metadataChildReference);
 	}
-
-	public static PChildRefConstructor usingMetadataChildReferenceAndMode(
-			SpiderDataGroup metadataChildReference, String mode) {
-		return new PGroupChildRefConstructor(metadataChildReference, mode);
-	}
+//
+//	@Override
+//	protected String constructIdFromMetadataRefId(String metadataRefId) {
+//		this.metadataRefId = metadataRefId;
+//		return metadataRefId+"PEnding";
+//	}
 
 	@Override
 	protected String getMetadataRefIdEnding() {
-		return GROUP;
+		if(metadataRefId.endsWith("CollectionVar")){
+			return "CollectionVar";
+		}
+		if(metadataRefId.endsWith("TextVar")){
+			return "TextVar";
+		}
+		if(metadataRefId.endsWith("ResLink")){
+			return "ResLink";
+		}
+		if(metadataRefId.endsWith("Link")){
+			return "Link";
+		}
+		if(metadataRefId.endsWith("Group")){
+			return "Group";
+		}
+
+		return "";
 	}
 
 	@Override
 	protected String getPresentationIdEnding() {
-		return PGROUP;
+		return "PEnding";
 	}
 
 	@Override
 	protected String getPresentationRecordType() {
-		return PRESENTATION_GROUP;
+		// TODO Auto-generated method stub
+		return null;
 	}
+
 }

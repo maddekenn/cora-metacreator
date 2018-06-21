@@ -16,23 +16,12 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.uu.ub.cora.metacreator;
+package se.uu.ub.cora.metacreator.group;
 
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
-public final class PresentationChildReference {
+public interface PChildRefConstructorFactory {
 
-	public SpiderDataGroup ref;
-	public RecordIdentifier recordIdentifier;
-
-	private PresentationChildReference(SpiderDataGroup ref, RecordIdentifier recordIdentifier) {
-		this.ref = ref;
-		this.recordIdentifier = recordIdentifier;
-	}
-
-	public static PresentationChildReference usingRefGroupAndRecordIdentifier(SpiderDataGroup ref,
-			RecordIdentifier recordIdentifier) {
-		return new PresentationChildReference(ref, recordIdentifier);
-	}
+	PChildRefConstructor factor(SpiderDataGroup metadataChildReference, String mode);
 
 }

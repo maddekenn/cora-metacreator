@@ -187,6 +187,10 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 				throw new RecordNotFoundException("record not found in stub");
 			}
 		}
+		if("identifierChildHasNoPresentationPEnding".equals(id) ||
+				"identifierChildHasNoPresentationOutputPEnding".equals(id)){
+			throw new RecordNotFoundException("record not found in stub");
+		}
 
 		return null;
 	}
