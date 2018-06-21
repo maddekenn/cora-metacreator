@@ -32,7 +32,7 @@ import se.uu.ub.cora.spider.record.DataException;
 import se.uu.ub.cora.spider.record.SpiderRecordReader;
 import se.uu.ub.cora.spider.record.storage.RecordNotFoundException;
 
-public class PGroupConstructor {
+public final class PGroupConstructor {
 
 	private static final String CHILD_REFERENCE = "childReference";
 	private static final String LINKED_RECORD_ID = "linkedRecordId";
