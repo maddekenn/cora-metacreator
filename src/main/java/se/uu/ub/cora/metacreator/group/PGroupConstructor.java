@@ -38,11 +38,6 @@ public class PGroupConstructor {
 	private static final String LINKED_RECORD_ID = "linkedRecordId";
 	private static final String PRESENTATION = "presentation";
 
-	public static PGroupConstructor usingAuthTokenAndPChildRefConstructorFactory(String authToken,
-			PChildRefConstructorFactory constructorFactory) {
-		return new PGroupConstructor(authToken, constructorFactory);
-	}
-
 	private String mode;
 	private String authToken;
 	private String id;
@@ -50,12 +45,17 @@ public class PGroupConstructor {
 	private String presentationOf;
 
 	private int repeatId = 0;
-	private PChildRefConstructorFactory PChildRefConstructorFactory;
+	private PChildRefConstructorFactory pChildRefConstructorFactory;
 
 	private PGroupConstructor(String authToken,
-			PChildRefConstructorFactory PChildRefConstructorFactory) {
+			PChildRefConstructorFactory pChildRefConstructorFactory) {
 		this.authToken = authToken;
-		this.PChildRefConstructorFactory = PChildRefConstructorFactory;
+		this.pChildRefConstructorFactory = pChildRefConstructorFactory;
+	}
+
+	public static PGroupConstructor usingAuthTokenAndPChildRefConstructorFactory(String authToken,
+			PChildRefConstructorFactory constructorFactory) {
+		return new PGroupConstructor(authToken, constructorFactory);
 	}
 
 	public SpiderDataGroup constructPGroupWithIdDataDividerPresentationOfChildrenAndMode(String id,
@@ -107,7 +107,7 @@ public class PGroupConstructor {
 
 	private PChildRefConstructor getConstructorFromMetadataChild(
 			SpiderDataGroup metadataChildReference) {
-		return PChildRefConstructorFactory.factor(metadataChildReference, mode);
+		return pChildRefConstructorFactory.factor(metadataChildReference, mode);
 	}
 
 	private String getMetadataRefId(SpiderDataGroup metadataChildReference) {
@@ -240,6 +240,6 @@ public class PGroupConstructor {
 	}
 
 	public PChildRefConstructorFactory getPChildRefConstructorFactory() {
-		return PChildRefConstructorFactory;
+		return pChildRefConstructorFactory;
 	}
 }
