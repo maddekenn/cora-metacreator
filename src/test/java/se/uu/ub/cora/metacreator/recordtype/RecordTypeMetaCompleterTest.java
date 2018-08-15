@@ -58,11 +58,11 @@ public class RecordTypeMetaCompleterTest {
 				extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "newMetadataId"),
 				"myRecordTypeNewGroup");
 		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,
-				"presentationViewId"), "myRecordTypeViewPGroup");
+				"presentationViewId"), "myRecordTypeOutputPGroup");
 		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,
-				"presentationFormId"), "myRecordTypeFormPGroup");
+				"presentationFormId"), "myRecordTypePGroup");
 		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,
-				"newPresentationFormId"), "myRecordTypeFormNewPGroup");
+				"newPresentationFormId"), "myRecordTypeNewPGroup");
 		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,
 				"menuPresentationViewId"), "myRecordTypeMenuPGroup");
 		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,
@@ -96,11 +96,11 @@ public class RecordTypeMetaCompleterTest {
 				extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "newMetadataId"),
 				"mySpecialNewGroup");
 		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,
-				"presentationViewId"), "mySpecialViewPGroup");
+				"presentationViewId"), "mySpecialOutputPGroup");
 		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,
-				"presentationFormId"), "mySpecialFormPGroup");
+				"presentationFormId"), "mySpecialPGroup");
 		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,
-				"newPresentationFormId"), "mySpecialFormNewPGroup");
+				"newPresentationFormId"), "mySpecialNewPGroup");
 		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,
 				"menuPresentationViewId"), "mySpecialMenuPGroup");
 		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType,

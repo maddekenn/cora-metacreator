@@ -71,9 +71,9 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 		}
 		if ("presentationGroup".equals(type)) {
 			switch (id) {
-			case "myRecordType2ViewPGroup":
-			case "myRecordType2FormPGroup":
-			case "myRecordType2FormNewPGroup":
+			case "myRecordType2OutputPGroup":
+			case "myRecordType2PGroup":
+			case "myRecordType2NewPGroup":
 			case "myRecordType2MenuPGroup":
 			case "myRecordType2ListPGroup":
 			case "myRecordType2AutocompletePGroup":
