@@ -37,8 +37,8 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 	}
 
 	@Override
-	public void useExtendedFunctionality(String userId, SpiderDataGroup spiderDataGroup) {
-		this.authToken = userId;
+	public void useExtendedFunctionality(String authToken, SpiderDataGroup spiderDataGroup) {
+		this.authToken = authToken;
 		this.topLevelDataGroup = spiderDataGroup;
 		spiderRecordReader = SpiderInstanceProvider.getSpiderRecordReader();
 		SpiderDataGroup recordInfo = spiderDataGroup.extractGroup(RECORD_INFO);

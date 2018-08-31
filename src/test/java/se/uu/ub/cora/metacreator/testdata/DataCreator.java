@@ -73,13 +73,13 @@ public class DataCreator {
 				"metadataGroup", id + "NewGroup");
 
 		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType,
-				"presentationViewId", "presentationGroup", id + "ViewPGroup");
+				"presentationViewId", "presentationGroup", id + "OutputPGroup");
 
 		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType,
-				"presentationFormId", "presentationGroup", id + "FormPGroup");
+				"presentationFormId", "presentationGroup", id + "PGroup");
 
 		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType,
-				"newPresentationFormId", "presentationGroup", id + "FormNewPGroup");
+				"newPresentationFormId", "presentationGroup", id + "NewPGroup");
 
 		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType,
 				"menuPresentationViewId", "presentationGroup", id + "MenuPGroup");

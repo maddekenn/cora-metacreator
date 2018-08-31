@@ -71,11 +71,11 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 		String linkedRecordType = "presentationGroup";
 
 		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("presentationViewId",
-				linkedRecordType, id + "ViewPGroup");
+				linkedRecordType, id + "OutputPGroup");
 		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("presentationFormId",
-				linkedRecordType, id + "FormPGroup");
+				linkedRecordType, id + "PGroup");
 		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("newPresentationFormId",
-				linkedRecordType, id + "FormNewPGroup");
+				linkedRecordType, id + "NewPGroup");
 		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("menuPresentationViewId",
 				linkedRecordType, id + "MenuPGroup");
 		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("listPresentationViewId",
