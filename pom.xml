@@ -1,6 +1,7 @@
 <!--
   ~ Copyright 2016 Olov McKie
-  ~
+  ~ Copyright 2018 Uppsala University Library
+   ~
   ~ This file is part of Cora.
   ~
   ~     Cora is free software: you can redistribute it and/or modify
@@ -25,39 +26,24 @@
 	<parent>
 		<groupId>se.uu.ub.cora</groupId>
 		<artifactId>cora-parent</artifactId>
-        <version>0.6-SNAPSHOT</version>
+        <version>0.7-SNAPSHOT</version>
 	</parent>
 
     <artifactId>metacreator</artifactId>
-   	<version>0.1-SNAPSHOT</version>
+   	<version>0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Meta creator</name>
 
 	<properties>
-        <spider.version>0.14-SNAPSHOT</spider.version>
+        <spider.version>0.15-SNAPSHOT</spider.version>
 	</properties>
 
 	<scm>
-		<connection>scm:git:https://git.epc.ub.uu.se/epc/metacreator.git</connection>
-		<developerConnection>scm:git:https://git.epc.ub.uu.se/epc/metacreator.git</developerConnection>
-		<url>https://git.epc.ub.uu.se/epc/metacreator.git</url>
+		<connection>scm:git:https://github.com/lsu-ub-uu/metacreator.git</connection>
+		<developerConnection>scm:git:https://github.com/lsu-ub-uu/metacreator.git</developerConnection>
+		<url>https://github.com/lsu-ub-uu/metacreator.git</url>
 	</scm>
-
-	<repositories>
-		<repository>
-			<id>maven-public</id>
-			<name>LSU Nexus Repository</name>
-			<url>http://epc.ub.uu.se/nexus/repository/maven-public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<updatePolicy>daily</updatePolicy>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
 
 	<dependencies>
 		<dependency>
