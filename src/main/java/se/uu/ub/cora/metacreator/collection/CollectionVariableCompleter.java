@@ -1,6 +1,5 @@
 package se.uu.ub.cora.metacreator.collection;
 
-import se.uu.ub.cora.metacreator.MetadataCompleter;
 import se.uu.ub.cora.metacreator.RecordCompleter;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
