@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import se.uu.ub.cora.bookkeeper.data.DataAtomic;
 import se.uu.ub.cora.bookkeeper.data.DataGroup;
+import se.uu.ub.cora.spider.data.SpiderReadResult;
 import se.uu.ub.cora.spider.record.storage.RecordStorage;
 
 public class RecordStorageSpy implements RecordStorage {
@@ -13,8 +14,8 @@ public class RecordStorageSpy implements RecordStorage {
 		if ("countryCollectionItem".equals(id) || "genericCollectionItem".equals(id)) {
 			DataGroup dataGroup = DataGroup.withNameInData("recordType");
 			DataGroup parentGroup = DataGroup.withNameInData("parentId");
-			parentGroup.addChild(
-					DataAtomic.withNameInDataAndValue("" + "linkedRecordType", "recordType"));
+			parentGroup
+				.addChild(DataAtomic.withNameInDataAndValue("" + "linkedRecordType", "recordType"));
 			parentGroup.addChild(
 					DataAtomic.withNameInDataAndValue("linkedRecordId", "metadataCollectionItem"));
 			dataGroup.addChild(parentGroup);
@@ -50,13 +51,13 @@ public class RecordStorageSpy implements RecordStorage {
 	}
 
 	@Override
-	public Collection<DataGroup> readList(String type, DataGroup filter) {
+	public SpiderReadResult readList(String type, DataGroup filter) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Collection<DataGroup> readAbstractList(String type, DataGroup filter) {
+	public SpiderReadResult readAbstractList(String type, DataGroup filter) {
 		// TODO Auto-generated method stub
 		return null;
 	}
