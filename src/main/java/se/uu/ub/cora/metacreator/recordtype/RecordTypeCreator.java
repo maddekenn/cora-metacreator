@@ -180,18 +180,13 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 
 	private void createPresentationWithPresentationOfIdAndModeOnlyRecordInfoAsChild(
 			String presentationOf, String presentationIdToExtract, String mode) {
-		String presentationId = extractPresentationIdFromNameInData(presentationIdToExtract);
+		String presentationId = extractPresentationIdUsingNameInData(presentationIdToExtract);
 		SpiderDataRecord spiderDataRecord = spiderRecordReader.readRecord(authToken, METADATA_GROUP,
 				presentationOf);
 		List<SpiderDataElement> metadataChildReferences = getRecordInfoAsMetadataChildReference(
 				spiderDataRecord);
 		usePGroupCreatorWithPresentationOfIdChildRefsAndMode(presentationOf, presentationId,
 				metadataChildReferences, mode);
-	}
-
-	private String extractPresentationIdFromNameInData(String presentationNameInData) {
-		SpiderDataGroup presentationIdGroup = topLevelDataGroup.extractGroup(presentationNameInData);
-		return presentationIdGroup.extractAtomicValue(LINKED_RECORD_ID);
 	}
 
 	private void createNewFormPresentation(String presentationOf) {
