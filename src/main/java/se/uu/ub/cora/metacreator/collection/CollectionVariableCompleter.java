@@ -1,16 +1,14 @@
 package se.uu.ub.cora.metacreator.collection;
 
 import se.uu.ub.cora.metacreator.MetadataCompleter;
+import se.uu.ub.cora.metacreator.RecordCompleter;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 
-public class CollectionVariableCompleter implements ExtendedFunctionality {
-
-	private String implementingTextType;
-	private SpiderDataGroup spiderDataGroup;
+public class CollectionVariableCompleter extends RecordCompleter implements ExtendedFunctionality {
 
 	public CollectionVariableCompleter(String implementingTextType) {
-		this.implementingTextType = implementingTextType;
+		super(implementingTextType);
 	}
 
 	public static CollectionVariableCompleter forTextLinkedRecordType(String textLinkedRecordType) {
@@ -21,18 +19,5 @@ public class CollectionVariableCompleter implements ExtendedFunctionality {
 	public void useExtendedFunctionality(String authToken, SpiderDataGroup spiderDataGroup) {
 		this.spiderDataGroup = spiderDataGroup;
 		addValuesToDataGroup();
-	}
-
-	private void addValuesToDataGroup() {
-		addTexts();
-	}
-
-	private void addTexts() {
-		MetadataCompleter completer = new MetadataCompleter();
-		completer.completeSpiderDataGroupWithLinkedTexts(spiderDataGroup, implementingTextType);
-	}
-
-	public String getImplementingTextType() {
-		return implementingTextType;
 	}
 }
