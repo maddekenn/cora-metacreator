@@ -8,7 +8,11 @@ public class NumberVarCompleter implements ExtendedFunctionality {
 
 	private String implementingTextType;
 
-	public NumberVarCompleter(String implementingTextType) {
+	public static NumberVarCompleter forImplementingTextType(String implementingTextType) {
+		return new NumberVarCompleter(implementingTextType);
+	}
+
+	private NumberVarCompleter(String implementingTextType) {
 		this.implementingTextType = implementingTextType;
 	}
 
@@ -16,7 +20,10 @@ public class NumberVarCompleter implements ExtendedFunctionality {
 	public void useExtendedFunctionality(String authToken, SpiderDataGroup spiderDataGroup) {
 		MetadataCompleter completer = new MetadataCompleter();
 		completer.completeSpiderDataGroupWithLinkedTexts(spiderDataGroup, implementingTextType);
+	}
 
+	public String getImplementingTextType() {
+		return implementingTextType;
 	}
 
 }

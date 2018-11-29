@@ -42,8 +42,15 @@ public class NumberVarCompleterTest {
 	}
 
 	@Test
+	public void testGetimplementingTextType() {
+		NumberVarCompleter numberVarCompleter = NumberVarCompleter.forImplementingTextType("coraText");
+		assertEquals(numberVarCompleter.getImplementingTextType(), "coraText");
+
+	}
+
+	@Test
 	public void testWithNoTexts() {
-		NumberVarCompleter numberVarCompleter = new NumberVarCompleter("coraText");
+		NumberVarCompleter numberVarCompleter = NumberVarCompleter.forImplementingTextType("coraText");
 
 		SpiderDataGroup numberVarGroup = DataCreator.createNumberVarUsingIdNameInDataAndDataDivider(
 				"noTextsNumberVar", "metadata", "testSystem");
@@ -62,7 +69,7 @@ public class NumberVarCompleterTest {
 
 	@Test
 	public void testWithTextsInData() {
-		NumberVarCompleter numberVarCompleter = new NumberVarCompleter("coraText");
+		NumberVarCompleter numberVarCompleter = NumberVarCompleter.forImplementingTextType("coraText");
 
 		SpiderDataGroup numberVarGroup = DataCreator.createNumberVarUsingIdNameInDataAndDataDivider(
 				"noTextsNumberVar", "metadata", "testSystem");

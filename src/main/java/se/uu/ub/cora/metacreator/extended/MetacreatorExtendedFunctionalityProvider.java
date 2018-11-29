@@ -33,6 +33,7 @@ import se.uu.ub.cora.metacreator.collection.PCollVarFromCollectionVarCreator;
 import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCompleter;
 import se.uu.ub.cora.metacreator.group.GroupCompleter;
 import se.uu.ub.cora.metacreator.group.PGroupFromMetadataGroupCreator;
+import se.uu.ub.cora.metacreator.numbervar.NumberVarCompleter;
 import se.uu.ub.cora.metacreator.recordlink.PLinkFromRecordLinkCreator;
 import se.uu.ub.cora.metacreator.recordlink.RecordLinkCompleter;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeCreator;
@@ -100,6 +101,11 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 		if ("metadataCollectionVariable".equals(recordTypeId)) {
 			list = ensureListExists(list);
 			list.add(CollectionVariableCompleter.forTextLinkedRecordType(CORA_TEXT));
+			list.add(TextCreator.forImplementingTextType(CORA_TEXT));
+		}
+		if ("metadataNumberVariable".equals(recordTypeId)) {
+			list = ensureListExists(list);
+			list.add(NumberVarCompleter.forImplementingTextType(CORA_TEXT));
 			list.add(TextCreator.forImplementingTextType(CORA_TEXT));
 		}
 
