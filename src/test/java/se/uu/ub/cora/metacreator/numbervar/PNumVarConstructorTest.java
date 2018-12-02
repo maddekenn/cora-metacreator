@@ -41,8 +41,7 @@ public class PNumVarConstructorTest {
 
 		id = "someNumberVar";
 		dataDividerString = "cora";
-		pNumVarConstructor = new PNumVarConstructor(id, dataDividerString);
-		// PVarConstructor.withTextVarIdAndDataDivider(id, dataDividerString);
+		pNumVarConstructor = PNumVarConstructor.withTextVarIdAndDataDivider(id, dataDividerString);
 	}
 
 	@Test
@@ -89,7 +88,7 @@ public class PNumVarConstructorTest {
 	public void testCreateOutputPVarFromMetadataIdAndDataDivider() {
 
 		assertNotNull(pNumVarConstructor);
-		SpiderDataGroup createdPNumVar = pNumVarConstructor.createOutputPVar();
+		SpiderDataGroup createdPNumVar = pNumVarConstructor.createOutputPNumVar();
 
 		assertEquals(createdPNumVar.getNameInData(), "presentation");
 

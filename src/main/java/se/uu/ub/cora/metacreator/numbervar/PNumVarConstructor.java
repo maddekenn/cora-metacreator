@@ -1,3 +1,21 @@
+/*
+ * Copyright 2018 Uppsala University Library
+ *
+ * This file is part of Cora.
+ *
+ *     Cora is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     Cora is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package se.uu.ub.cora.metacreator.numbervar;
 
 import se.uu.ub.cora.metacreator.DataCreatorHelper;
@@ -9,9 +27,14 @@ public class PNumVarConstructor {
 	private String numberVarId;
 	private String dataDividerString;
 
-	public PNumVarConstructor(String numberVarId, String dataDividerString) {
+	private PNumVarConstructor(String numberVarId, String dataDividerString) {
 		this.numberVarId = numberVarId;
 		this.dataDividerString = dataDividerString;
+	}
+
+	public static PNumVarConstructor withTextVarIdAndDataDivider(String numberVarId,
+			String dataDividerString) {
+		return new PNumVarConstructor(numberVarId, dataDividerString);
 	}
 
 	public SpiderDataGroup createInputPNumVar() {
@@ -54,7 +77,7 @@ public class PNumVarConstructor {
 		pNumDataGroup.addChild(presentationOf);
 	}
 
-	public SpiderDataGroup createOutputPVar() {
+	public SpiderDataGroup createOutputPNumVar() {
 		String pVarId = constructPNumVarIdWithEnding("OutputPNumVar");
 		return createNumVarUsingIdAndMode(pVarId, "output");
 	}
