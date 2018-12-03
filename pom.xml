@@ -26,17 +26,17 @@
 	<parent>
 		<groupId>se.uu.ub.cora</groupId>
 		<artifactId>cora-parent</artifactId>
-        <version>0.7-SNAPSHOT</version>
+        <version>0.8-SNAPSHOT</version>
 	</parent>
 
     <artifactId>metacreator</artifactId>
-   	<version>0.2-SNAPSHOT</version>
+   	<version>0.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Meta creator</name>
 
 	<properties>
-        <spider.version>0.15-SNAPSHOT</spider.version>
+        <spider.version>0.16-SNAPSHOT</spider.version>
 	</properties>
 
 	<scm>
