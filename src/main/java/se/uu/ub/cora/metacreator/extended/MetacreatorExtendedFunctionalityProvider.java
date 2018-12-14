@@ -1,4 +1,5 @@
 /*
+ * Copyright 2018 Uppsala University Library
  * Copyright 2016 Olov McKie
  *
  * This file is part of Cora.
@@ -33,6 +34,8 @@ import se.uu.ub.cora.metacreator.collection.PCollVarFromCollectionVarCreator;
 import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCompleter;
 import se.uu.ub.cora.metacreator.group.GroupCompleter;
 import se.uu.ub.cora.metacreator.group.PGroupFromMetadataGroupCreator;
+import se.uu.ub.cora.metacreator.numbervar.NumberVarCompleter;
+import se.uu.ub.cora.metacreator.numbervar.PNumVarFromNumberVarCreator;
 import se.uu.ub.cora.metacreator.recordlink.PLinkFromRecordLinkCreator;
 import se.uu.ub.cora.metacreator.recordlink.RecordLinkCompleter;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeCreator;
@@ -102,6 +105,11 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 			list.add(CollectionVariableCompleter.forTextLinkedRecordType(CORA_TEXT));
 			list.add(TextCreator.forImplementingTextType(CORA_TEXT));
 		}
+		if ("metadataNumberVariable".equals(recordTypeId)) {
+			list = ensureListExists(list);
+			list.add(NumberVarCompleter.forImplementingTextType(CORA_TEXT));
+			list.add(TextCreator.forImplementingTextType(CORA_TEXT));
+		}
 
 		return list;
 	}
@@ -161,6 +169,10 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 		if ("metadataGroup".equals(recordType)) {
 			list = ensureListExists(list);
 			list.add(new PGroupFromMetadataGroupCreator());
+		}
+		if ("metadataNumberVariable".equals(recordType)) {
+			list = ensureListExists(list);
+			list.add(new PNumVarFromNumberVarCreator());
 		}
 		return list;
 	}

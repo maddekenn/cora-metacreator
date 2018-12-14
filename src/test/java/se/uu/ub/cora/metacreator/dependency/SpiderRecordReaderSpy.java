@@ -69,6 +69,15 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 				throw new RecordNotFoundException("record not found in stub");
 			}
 		}
+		if ("presentationNumberVar".equals(type)) {
+			switch (id) {
+			case "numVarInputPNumVarInStoragePNumVar":
+			case "numVarOutputPNumVarInStorageOutputPNumVar":
+				return null;
+			default:
+				throw new RecordNotFoundException("record not found in stub");
+			}
+		}
 		if ("presentationGroup".equals(type)) {
 			switch (id) {
 			case "myRecordType2OutputPGroup":
@@ -187,8 +196,8 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 				throw new RecordNotFoundException("record not found in stub");
 			}
 		}
-		if("identifierChildHasNoPresentationPEnding".equals(id) ||
-				"identifierChildHasNoPresentationOutputPEnding".equals(id)){
+		if ("identifierChildHasNoPresentationPEnding".equals(id)
+				|| "identifierChildHasNoPresentationOutputPEnding".equals(id)) {
 			throw new RecordNotFoundException("record not found in stub");
 		}
 

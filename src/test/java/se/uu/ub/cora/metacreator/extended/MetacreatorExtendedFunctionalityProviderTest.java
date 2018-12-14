@@ -1,4 +1,5 @@
 /*
+ * Copyright 2018 Uppsala University Library
  * Copyright 2016 Olov McKie
  *
  * This file is part of Cora.
@@ -34,6 +35,7 @@ import se.uu.ub.cora.metacreator.collection.CollectionVarFromItemCollectionCreat
 import se.uu.ub.cora.metacreator.collection.PCollVarFromCollectionVarCreator;
 import se.uu.ub.cora.metacreator.dependency.DependencyProviderSpy;
 import se.uu.ub.cora.metacreator.group.PGroupFromMetadataGroupCreator;
+import se.uu.ub.cora.metacreator.numbervar.PNumVarFromNumberVarCreator;
 import se.uu.ub.cora.metacreator.recordlink.PLinkFromRecordLinkCreator;
 import se.uu.ub.cora.metacreator.recordtype.SearchFromRecordTypeCreator;
 import se.uu.ub.cora.metacreator.textvar.PVarFromTextVarCreator;
@@ -80,7 +82,6 @@ public class MetacreatorExtendedFunctionalityProviderTest {
 		assertEquals(functionalityProvider.ensureListExists(list), list);
 	}
 
-
 	@Test
 	public void testGetFunctionalityForCreateBeforeReturnForRecordType() {
 		List<ExtendedFunctionality> functionalityForCreateBeforeReturn = functionalityProvider
@@ -116,8 +117,7 @@ public class MetacreatorExtendedFunctionalityProviderTest {
 		List<ExtendedFunctionality> functionalityForCreateBeforeReturn = functionalityProvider
 				.getFunctionalityForCreateBeforeReturn("metadataRecordLink");
 		assertEquals(functionalityForCreateBeforeReturn.size(), 1);
-		assertTrue(functionalityForCreateBeforeReturn
-				.get(0) instanceof PLinkFromRecordLinkCreator);
+		assertTrue(functionalityForCreateBeforeReturn.get(0) instanceof PLinkFromRecordLinkCreator);
 
 	}
 
@@ -129,6 +129,15 @@ public class MetacreatorExtendedFunctionalityProviderTest {
 		assertTrue(functionalityForCreateBeforeReturn
 				.get(0) instanceof PGroupFromMetadataGroupCreator);
 
+	}
+
+	@Test
+	public void testGetFunctionalityForCreateBeforeReturnForMetadataNumberVariable() {
+		List<ExtendedFunctionality> functionalityForCreateBeforeReturn = functionalityProvider
+				.getFunctionalityForCreateBeforeReturn("metadataNumberVariable");
+		assertEquals(functionalityForCreateBeforeReturn.size(), 1);
+		assertTrue(
+				functionalityForCreateBeforeReturn.get(0) instanceof PNumVarFromNumberVarCreator);
 	}
 
 }

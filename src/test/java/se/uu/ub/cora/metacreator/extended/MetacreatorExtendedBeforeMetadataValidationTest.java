@@ -17,6 +17,7 @@ import se.uu.ub.cora.metacreator.collectionitem.CollectionItemCompleter;
 import se.uu.ub.cora.metacreator.dependency.DependencyProviderSpy;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.group.GroupCompleter;
+import se.uu.ub.cora.metacreator.numbervar.NumberVarCompleter;
 import se.uu.ub.cora.metacreator.recordlink.RecordLinkCompleter;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeCreator;
 import se.uu.ub.cora.metacreator.recordtype.RecordTypeMetaCompleter;
@@ -47,6 +48,19 @@ public class MetacreatorExtendedBeforeMetadataValidationTest {
 		TextVarCompleter textVarCompleter = (TextVarCompleter) functionalityForCreateBeforeMetadataValidation
 				.get(0);
 		assertEquals(textVarCompleter.getImplementingTextType(), "coraText");
+		TextCreator textCreator = (TextCreator) functionalityForCreateBeforeMetadataValidation
+				.get(1);
+		assertEquals(textCreator.getImplementingTextType(), "coraText");
+	}
+
+	@Test
+	public void testGetFunctionalityForCreateBeforeMetadataValidationForNumberVariable() {
+		List<ExtendedFunctionality> functionalityForCreateBeforeMetadataValidation = functionalityProvider
+				.getFunctionalityForCreateBeforeMetadataValidation("metadataNumberVariable");
+		assertEquals(functionalityForCreateBeforeMetadataValidation.size(), 2);
+		NumberVarCompleter numberVarCompleter = (NumberVarCompleter) functionalityForCreateBeforeMetadataValidation
+				.get(0);
+		assertEquals(numberVarCompleter.getImplementingTextType(), "coraText");
 		TextCreator textCreator = (TextCreator) functionalityForCreateBeforeMetadataValidation
 				.get(1);
 		assertEquals(textCreator.getImplementingTextType(), "coraText");

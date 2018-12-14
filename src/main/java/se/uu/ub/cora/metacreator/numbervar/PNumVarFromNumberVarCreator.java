@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 Uppsala University Library
- * Copyright 2016 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -17,8 +16,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package se.uu.ub.cora.metacreator.textvar;
+package se.uu.ub.cora.metacreator.numbervar;
 
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
@@ -27,9 +25,9 @@ import se.uu.ub.cora.spider.record.SpiderRecordCreator;
 import se.uu.ub.cora.spider.record.SpiderRecordReader;
 import se.uu.ub.cora.spider.record.storage.RecordNotFoundException;
 
-public class PVarFromTextVarCreator implements ExtendedFunctionality {
+public class PNumVarFromNumberVarCreator implements ExtendedFunctionality {
 
-	private static final String PRESENTATION_VAR = "presentationVar";
+	private static final String PRESENTATION_NUMBER_VAR = "presentationNumberVar";
 	private String authToken;
 	private String id;
 	private String dataDividerString;
@@ -37,23 +35,31 @@ public class PVarFromTextVarCreator implements ExtendedFunctionality {
 	@Override
 	public void useExtendedFunctionality(String authToken, SpiderDataGroup spiderDataGroup) {
 		this.authToken = authToken;
-
 		extractIdAndDataDividerFromSpiderDataGroup(spiderDataGroup);
-		PVarConstructor pVarConstructor = PVarConstructor.withTextVarIdAndDataDivider(id,
+
+		PNumVarConstructor pNumVarConstructor = PNumVarConstructor.withTextVarIdAndDataDivider(id,
 				dataDividerString);
 
-		if (pVarDoesNotExistInStorage(id + "PVar")) {
-			SpiderDataGroup createdInputPVar = pVarConstructor.createInputPVar();
-			SpiderRecordCreator spiderRecordCreator = SpiderInstanceProvider
-					.getSpiderRecordCreator();
-			spiderRecordCreator.createAndStoreRecord(authToken, PRESENTATION_VAR, createdInputPVar);
+		possiblyCreateInputPNumVar(pNumVarConstructor);
+		possiblyCreateOutputPNumVar(pNumVarConstructor);
+	}
+
+	private void possiblyCreateOutputPNumVar(PNumVarConstructor pNumVarConstructor) {
+		if (pNumVarDoesNotExistInStorage(id, "OutputPNumVar")) {
+			SpiderDataGroup outputPNumVar = pNumVarConstructor.createOutputPNumVar();
+			createPNumVar(outputPNumVar);
 		}
-		if (pVarDoesNotExistInStorage(id + "OutputPVar")) {
-			SpiderDataGroup createdOutputPVar = pVarConstructor.createOutputPVar();
-			SpiderRecordCreator spiderRecordCreatorOutput = SpiderInstanceProvider
-					.getSpiderRecordCreator();
-			spiderRecordCreatorOutput.createAndStoreRecord(authToken, PRESENTATION_VAR,
-					createdOutputPVar);
+	}
+
+	private void createPNumVar(SpiderDataGroup inputPNumVar) {
+		SpiderRecordCreator spiderRecordCreator = SpiderInstanceProvider.getSpiderRecordCreator();
+		spiderRecordCreator.createAndStoreRecord(authToken, PRESENTATION_NUMBER_VAR, inputPNumVar);
+	}
+
+	private void possiblyCreateInputPNumVar(PNumVarConstructor pNumVarConstructor) {
+		if (pNumVarDoesNotExistInStorage(id, "PNumVar")) {
+			SpiderDataGroup inputPNumVar = pNumVarConstructor.createInputPNumVar();
+			createPNumVar(inputPNumVar);
 		}
 	}
 
@@ -71,13 +77,16 @@ public class PVarFromTextVarCreator implements ExtendedFunctionality {
 		return recordInfoGroup.extractGroup("dataDivider").extractAtomicValue("linkedRecordId");
 	}
 
-	private boolean pVarDoesNotExistInStorage(String pVarId) {
+	private boolean pNumVarDoesNotExistInStorage(String id, String suffix) {
+		String idWithoutEnding = id.substring(0, id.indexOf("NumberVar"));
 		try {
 			SpiderRecordReader spiderRecordReader = SpiderInstanceProvider.getSpiderRecordReader();
-			spiderRecordReader.readRecord(authToken, PRESENTATION_VAR, pVarId);
+			spiderRecordReader.readRecord(authToken, PRESENTATION_NUMBER_VAR,
+					idWithoutEnding + suffix);
 		} catch (RecordNotFoundException e) {
 			return true;
 		}
 		return false;
 	}
+
 }

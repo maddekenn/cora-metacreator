@@ -269,4 +269,19 @@ public class DataCreator {
 
 		return metadataRecordLink;
 	}
+
+	public static SpiderDataGroup createNumberVarUsingIdNameInDataAndDataDivider(String id,
+			String nameInData, String dataDividerString) {
+		SpiderDataGroup numberVarGroup = DataCreator
+				.createGroupWithIdAndNameInDataAndDataDivider(id, nameInData, dataDividerString);
+
+		numberVarGroup
+				.addChild(SpiderDataAtomic.withNameInDataAndValue("nameInData", "someNameInData"));
+		numberVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("min", "0"));
+		numberVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("max", "20"));
+		numberVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("warningMin", "2"));
+		numberVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("warningMax", "10"));
+		numberVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("numberOfDecimals", "0"));
+		return numberVarGroup;
+	}
 }
