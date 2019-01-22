@@ -37,12 +37,13 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 	private void addValuesToDataGroup() {
 		SpiderDataGroup recordInfoGroup = spiderDataGroup.extractGroup("recordInfo");
 		id = recordInfoGroup.extractAtomicValue("id");
-		addMetadataIds();
-		addPresentationIds();
-		addTexts();
+		addMissingMetadataIds();
+		addMissingPresentationIds();
+		addMissingTexts();
+		addPublicIfMissing();
 	}
 
-	private void addMetadataIds() {
+	private void addMissingMetadataIds() {
 		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("metadataId",
 				"metadataGroup", id + "Group");
 		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("newMetadataId",
@@ -66,7 +67,7 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 		return !spiderDataGroup.containsChildWithNameInData(nameInData);
 	}
 
-	private void addPresentationIds() {
+	private void addMissingPresentationIds() {
 
 		String linkedRecordType = "presentationGroup";
 
@@ -84,10 +85,20 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 				"autocompletePresentationView", linkedRecordType, id + "AutocompletePGroup");
 	}
 
-	private void addTexts() {
+	private void addMissingTexts() {
 		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("textId", "coraText",
 				id + "Text");
 		createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting("defTextId", "coraText",
 				id + "DefText");
+	}
+
+	private void addPublicIfMissing() {
+		if (publicIsMissing()) {
+			spiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("public", "no"));
+		}
+	}
+
+	private boolean publicIsMissing() {
+		return !spiderDataGroup.containsChildWithNameInData("public");
 	}
 }

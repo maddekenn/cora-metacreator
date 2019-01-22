@@ -75,8 +75,10 @@ public class RecordTypeMetaCompleterTest {
 				"coraText");
 		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "defTextId"),
 				"myRecordTypeDefText");
-		assertEquals(extractLinkedRecordTypeFromLinkInDataGroupByNameInData(recordType, "defTextId"),
+		assertEquals(
+				extractLinkedRecordTypeFromLinkInDataGroupByNameInData(recordType, "defTextId"),
 				"coraText");
+		assertEquals(recordType.extractAtomicValue("public"), "no");
 
 	}
 
@@ -88,7 +90,7 @@ public class RecordTypeMetaCompleterTest {
 
 		metaCompleter.useExtendedFunctionality(userId, recordType);
 
-		assertEquals(recordType.getChildren().size(), 14);
+		assertEquals(recordType.getChildren().size(), 15);
 
 		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "metadataId"),
 				"mySpecialGroup");
@@ -111,7 +113,8 @@ public class RecordTypeMetaCompleterTest {
 				"implementingText");
 		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "defTextId"),
 				"mySpecialDefText");
-		assertEquals(extractLinkedRecordTypeFromLinkInDataGroupByNameInData(recordType, "defTextId"),
+		assertEquals(
+				extractLinkedRecordTypeFromLinkInDataGroupByNameInData(recordType, "defTextId"),
 				"implementingText");
 	}
 
@@ -124,7 +127,7 @@ public class RecordTypeMetaCompleterTest {
 	}
 
 	private String extractLinkedRecordTypeFromLinkInDataGroupByNameInData(SpiderDataGroup dataGroup,
-																		String nameInData) {
+			String nameInData) {
 		SpiderDataGroup link = (SpiderDataGroup) dataGroup.getFirstChildWithNameInData(nameInData);
 		SpiderDataAtomic linkedRecordType = (SpiderDataAtomic) link
 				.getFirstChildWithNameInData("linkedRecordType");

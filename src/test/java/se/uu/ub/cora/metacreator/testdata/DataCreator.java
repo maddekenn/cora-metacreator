@@ -97,6 +97,8 @@ public class DataCreator {
 				"implementingText", id + "DefText");
 		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "search",
 				"search", id + "Search");
+		recordType.addChild(SpiderDataAtomic.withNameInDataAndValue("public", "no"));
+
 	}
 
 	private static void addAtomicValueWithNameInDataAndValue(SpiderDataGroup spiderDataGroup,
