@@ -34,7 +34,7 @@
 	<name>Meta creator</name>
 
 	<properties>
-        <spider.version>0.19.0</spider.version>
+        <spider.version>0.20.0</spider.version>
 	</properties>
 
 	<scm>
@@ -49,6 +49,7 @@
 			<groupId>se.uu.ub.cora</groupId>
 			<artifactId>spider</artifactId>
 			<version>${spider.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>
