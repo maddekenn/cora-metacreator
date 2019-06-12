@@ -31,10 +31,12 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.logger.LoggerProvider;
 import se.uu.ub.cora.metacreator.collection.CollectionVarFromItemCollectionCreator;
 import se.uu.ub.cora.metacreator.collection.PCollVarFromCollectionVarCreator;
 import se.uu.ub.cora.metacreator.dependency.DependencyProviderSpy;
 import se.uu.ub.cora.metacreator.group.PGroupFromMetadataGroupCreator;
+import se.uu.ub.cora.metacreator.log.LoggerFactorySpy;
 import se.uu.ub.cora.metacreator.numbervar.PNumVarFromNumberVarCreator;
 import se.uu.ub.cora.metacreator.recordlink.PLinkFromRecordLinkCreator;
 import se.uu.ub.cora.metacreator.recordtype.SearchFromRecordTypeCreator;
@@ -45,9 +47,12 @@ import se.uu.ub.cora.spider.extended.UserUpdaterForAppTokenAsExtendedFunctionali
 
 public class MetacreatorExtendedFunctionalityProviderTest {
 	private MetacreatorExtendedFunctionalityProvider functionalityProvider;
+	private LoggerFactorySpy loggerFactorySpy;
 
 	@BeforeMethod
 	public void setUp() {
+		loggerFactorySpy = new LoggerFactorySpy();
+		LoggerProvider.setLoggerFactory(loggerFactorySpy);
 		SpiderDependencyProvider dependencyProvider = new DependencyProviderSpy(new HashMap<>());
 		functionalityProvider = new MetacreatorExtendedFunctionalityProvider(dependencyProvider);
 	}

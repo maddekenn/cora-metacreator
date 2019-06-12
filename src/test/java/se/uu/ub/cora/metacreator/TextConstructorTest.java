@@ -24,7 +24,6 @@ import static org.testng.Assert.assertNotNull;
 
 import org.testng.annotations.Test;
 
-import se.uu.ub.cora.metacreator.TextConstructor;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
 public class TextConstructorTest {

@@ -48,7 +48,7 @@ import se.uu.ub.cora.metacreator.textvar.TextVarCompleter;
 import se.uu.ub.cora.spider.dependency.SpiderDependencyProvider;
 import se.uu.ub.cora.spider.extended.BaseExtendedFunctionalityProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
-import se.uu.ub.cora.spider.record.storage.RecordStorage;
+import se.uu.ub.cora.storage.RecordStorage;
 
 public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFunctionalityProvider {
 

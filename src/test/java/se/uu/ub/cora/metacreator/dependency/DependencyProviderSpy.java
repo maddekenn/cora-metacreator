@@ -1,6 +1,6 @@
 /*
 
- * Copyright 2015 Uppsala University Library
+ * Copyright 2015, 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -33,16 +33,17 @@ import se.uu.ub.cora.spider.dependency.SpiderDependencyProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionalityProvider;
 import se.uu.ub.cora.spider.record.RecordSearch;
 import se.uu.ub.cora.spider.record.SpiderUploader;
-import se.uu.ub.cora.spider.record.storage.RecordIdGenerator;
-import se.uu.ub.cora.spider.record.storage.RecordStorage;
 import se.uu.ub.cora.spider.search.RecordIndexer;
-import se.uu.ub.cora.spider.stream.storage.StreamStorage;
+import se.uu.ub.cora.storage.RecordIdGenerator;
+import se.uu.ub.cora.storage.RecordStorage;
+import se.uu.ub.cora.storage.StreamStorage;
 
 public class DependencyProviderSpy extends SpiderDependencyProvider {
 
 	public DependencyProviderSpy(Map<String, String> initInfo) {
 		super(initInfo);
 		// TODO Auto-generated constructor stub
+		setRecordStorageProvider(new RecordStorageProviderSpy());
 	}
 
 	public RecordStorage recordStorage;
@@ -57,17 +58,6 @@ public class DependencyProviderSpy extends SpiderDependencyProvider {
 	public Authenticator authenticator;
 
 	@Override
-	public RecordStorage getRecordStorage() {
-		recordStorage = new RecordStorageSpy();
-		return recordStorage;
-	}
-
-	@Override
-	public RecordIdGenerator getIdGenerator() {
-		return idGenerator;
-	}
-
-	@Override
 	public DataValidator getDataValidator() {
 		return dataValidator;
 	}
@@ -75,11 +65,6 @@ public class DependencyProviderSpy extends SpiderDependencyProvider {
 	@Override
 	public DataRecordLinkCollector getDataRecordLinkCollector() {
 		return linkCollector;
-	}
-
-	@Override
-	public StreamStorage getStreamStorage() {
-		return streamStorage;
 	}
 
 	@Override

@@ -20,6 +20,8 @@
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.util.List;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -29,8 +31,6 @@ import se.uu.ub.cora.metacreator.testdata.DataCreator;
 import se.uu.ub.cora.spider.data.SpiderDataAtomic;
 import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
-
-import java.util.List;
 
 public class PGroupFromMetadataGroupCreatorTest {
 	private SpiderInstanceFactorySpy instanceFactory;
