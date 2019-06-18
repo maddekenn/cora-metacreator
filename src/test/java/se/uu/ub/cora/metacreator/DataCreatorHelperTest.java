@@ -34,7 +34,7 @@ public class DataCreatorHelperTest {
 	public void testCreateRecordInfo() {
 		DataGroup recordInfo = DataCreatorHelper.createRecordInfoWithIdAndDataDivider("someId",
 				"test");
-		assertEquals(recordInfo.getFirstGroupWithNameInData("id"), "someId");
+		assertEquals(recordInfo.getFirstAtomicValueWithNameInData("id"), "someId");
 		DataGroup dataDivider = recordInfo.getFirstGroupWithNameInData("dataDivider");
 		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordType"), "system");
 		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordId"), "test");

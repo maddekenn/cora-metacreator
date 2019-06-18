@@ -22,10 +22,10 @@ package se.uu.ub.cora.metacreator.dependency;
 import java.util.ArrayList;
 import java.util.List;
 
+import se.uu.ub.cora.data.DataAtomic;
+import se.uu.ub.cora.data.DataGroup;
+import se.uu.ub.cora.data.DataRecord;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
-import se.uu.ub.cora.spider.data.SpiderDataRecord;
 import se.uu.ub.cora.spider.record.SpiderRecordReader;
 import se.uu.ub.cora.spider.record.storage.RecordNotFoundException;
 
@@ -35,7 +35,7 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 	public boolean userSuppliedId = true;
 
 	@Override
-	public SpiderDataRecord readRecord(String userId, String type, String id) {
+	public DataRecord readRecord(String userId, String type, String id) {
 		readMetadataTypes.add(type);
 		if ("textSystemOne".equals(type)) {
 			switch (id) {
@@ -204,7 +204,7 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 		return null;
 	}
 
-	private SpiderDataRecord checkIfAskedForOnceBefore(String id) {
+	private DataRecord checkIfAskedForOnceBefore(String id) {
 		// Used for a test where a check first is made and then the metadata is
 		// created
 		// the second time the group is asked for it needs to exist
@@ -215,8 +215,8 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 		throw new RecordNotFoundException("record not found in stub");
 	}
 
-	private SpiderDataRecord createRecordForMetadataGroupWithId(String id) {
-		SpiderDataGroup metadataGroup = DataCreator.createMetadataGroupWithId(id);
+	private DataRecord createRecordForMetadataGroupWithId(String id) {
+		DataGroup metadataGroup = DataCreator.createMetadataGroupWithId(id);
 		String recordInfoRefId = "recordInfoGroup";
 		if (id.contains("New")) {
 			recordInfoRefId = "recordInfoNewGroup";
@@ -226,11 +226,11 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 		}
 		addRecordInfoToChildReferences(metadataGroup, recordInfoRefId);
 
-		return SpiderDataRecord.withSpiderDataGroup(metadataGroup);
+		return DataRecord.withDataGroup(metadataGroup);
 	}
 
-	private SpiderDataRecord createRecordForMetadataGroupWithIdAndOneTextVarAsChild(String id) {
-		SpiderDataGroup metadataGroup = DataCreator
+	private DataRecord createRecordForMetadataGroupWithIdAndOneTextVarAsChild(String id) {
+		DataGroup metadataGroup = DataCreator
 				.createMetadataGroupWithIdAndTextVarAsChildReference(id);
 		String recordInfoRefId = "recordInfoGroup";
 		if (id.contains("New")) {
@@ -238,16 +238,15 @@ public class SpiderRecordReaderSpy implements SpiderRecordReader {
 		}
 		addRecordInfoToChildReferences(metadataGroup, recordInfoRefId);
 
-		return SpiderDataRecord.withSpiderDataGroup(metadataGroup);
+		return DataRecord.withDataGroup(metadataGroup);
 	}
 
-	private void addRecordInfoToChildReferences(SpiderDataGroup metadataGroup,
-			String recordInfoRefId) {
-		SpiderDataGroup childReferences = metadataGroup.extractGroup("childReferences");
-		SpiderDataGroup childReference = SpiderDataGroup.withNameInData("childReference");
+	private void addRecordInfoToChildReferences(DataGroup metadataGroup, String recordInfoRefId) {
+		DataGroup childReferences = metadataGroup.getFirstGroupWithNameInData("childReferences");
+		DataGroup childReference = DataGroup.withNameInData("childReference");
 		childReference.setRepeatId("1");
-		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMin", "0"));
-		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMax", "1"));
+		childReference.addChild(DataAtomic.withNameInDataAndValue("repeatMin", "0"));
+		childReference.addChild(DataAtomic.withNameInDataAndValue("repeatMax", "1"));
 
 		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(childReference,
 				"ref", "metadata", recordInfoRefId);

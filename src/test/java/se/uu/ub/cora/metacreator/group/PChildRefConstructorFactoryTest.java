@@ -24,7 +24,7 @@ import static org.testng.Assert.assertTrue;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.spider.record.DataException;
 
 public class PChildRefConstructorFactoryTest {
@@ -39,7 +39,7 @@ public class PChildRefConstructorFactoryTest {
 
 	@Test
 	public void testFactorPVarChildRefConstructor() {
-		SpiderDataGroup metadataChildReference = DataCreatorForPresentationsConstructor
+		DataGroup metadataChildReference = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierValueTextVar", "5");
 		PChildRefConstructor constructor = factory.factor(metadataChildReference, mode);
 		assertTrue(constructor instanceof PVarChildRefConstructor);
@@ -50,7 +50,7 @@ public class PChildRefConstructorFactoryTest {
 	@Test
 	public void testFactorPCollVarChildRefConstructor() {
 
-		SpiderDataGroup metadataChildReference = DataCreatorForPresentationsConstructor
+		DataGroup metadataChildReference = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierTypeCollectionVar", "5");
 		PChildRefConstructor constructor = factory.factor(metadataChildReference, "output");
 		assertTrue(constructor instanceof PCollVarChildRefConstructor);
@@ -58,7 +58,7 @@ public class PChildRefConstructorFactoryTest {
 
 	@Test
 	public void testFactorPResLinkChildRefConstructor() {
-		SpiderDataGroup metadataChildReference = DataCreatorForPresentationsConstructor
+		DataGroup metadataChildReference = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierResLink", "5");
 		PChildRefConstructor constructor = factory.factor(metadataChildReference, mode);
 		assertTrue(constructor instanceof PResLinkChildRefConstructor);
@@ -68,7 +68,7 @@ public class PChildRefConstructorFactoryTest {
 
 	@Test
 	public void testFactorPLinkChildRefConstructor() {
-		SpiderDataGroup metadataChildReference = DataCreatorForPresentationsConstructor
+		DataGroup metadataChildReference = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierLink", "5");
 		PChildRefConstructor constructor = factory.factor(metadataChildReference, mode);
 		assertTrue(constructor instanceof PLinkChildRefConstructor);
@@ -78,7 +78,7 @@ public class PChildRefConstructorFactoryTest {
 
 	@Test
 	public void testFactorPGroupChildRefConstructor() {
-		SpiderDataGroup metadataChildReference = DataCreatorForPresentationsConstructor
+		DataGroup metadataChildReference = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierChildGroup", "5");
 		PChildRefConstructor constructor = factory.factor(metadataChildReference, mode);
 		assertTrue(constructor instanceof PGroupChildRefConstructor);
@@ -88,7 +88,7 @@ public class PChildRefConstructorFactoryTest {
 
 	@Test(expectedExceptions = DataException.class)
 	public void testFactorUnknownChildRefConstructor() {
-		SpiderDataGroup metadataChildReference = DataCreatorForPresentationsConstructor
+		DataGroup metadataChildReference = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierChildNonExistingType", "5");
 		factory.factor(metadataChildReference, mode);
 	}

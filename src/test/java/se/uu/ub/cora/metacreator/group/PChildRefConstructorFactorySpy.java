@@ -21,21 +21,22 @@ package se.uu.ub.cora.metacreator.group;
 import java.util.ArrayList;
 import java.util.List;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.spider.record.DataException;
 
 public class PChildRefConstructorFactorySpy implements PChildRefConstructorFactory {
 
 	public List<PChildRefConstructor> factored = new ArrayList<>();
-	public String mode="";
+	public String mode = "";
 
 	@Override
-	public PChildRefConstructor factor(SpiderDataGroup metadataChildReference, String mode) {
+	public PChildRefConstructor factor(DataGroup metadataChildReference, String mode) {
 		this.mode = mode;
 		PChildRefConstructor pChildRefConstructor = new PChildRefConstructorSpy(
 				metadataChildReference, mode);
-		SpiderDataGroup ref = metadataChildReference.extractGroup("ref");
-        if("identifierChildGroupWithUnclearEnding".equals(ref.extractAtomicValue("linkedRecordId"))){
+		DataGroup ref = metadataChildReference.getFirstGroupWithNameInData("ref");
+		if ("identifierChildGroupWithUnclearEnding"
+				.equals(ref.getFirstAtomicValueWithNameInData("linkedRecordId"))) {
 			throw new DataException("Not possible to construct childReferenceId from metadataId");
 		}
 		factored.add(pChildRefConstructor);

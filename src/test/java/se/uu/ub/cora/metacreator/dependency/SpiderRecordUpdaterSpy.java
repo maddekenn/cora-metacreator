@@ -19,8 +19,8 @@
 
 package se.uu.ub.cora.metacreator.dependency;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
-import se.uu.ub.cora.spider.data.SpiderDataRecord;
+import se.uu.ub.cora.data.DataGroup;
+import se.uu.ub.cora.data.DataRecord;
 import se.uu.ub.cora.spider.record.SpiderRecordUpdater;
 
 public class SpiderRecordUpdaterSpy implements SpiderRecordUpdater {
@@ -28,16 +28,15 @@ public class SpiderRecordUpdaterSpy implements SpiderRecordUpdater {
 	public String userId;
 	public String type;
 	public String id;
-	public SpiderDataGroup record;
+	public DataGroup record;
 
 	@Override
-	public SpiderDataRecord updateRecord(String userId, String type, String id,
-			SpiderDataGroup record) {
+	public DataRecord updateRecord(String userId, String type, String id, DataGroup record) {
 		this.userId = userId;
 		this.type = type;
 		this.id = id;
 		this.record = record;
-		return SpiderDataRecord.withSpiderDataGroup(record);
+		return DataRecord.withDataGroup(record);
 	}
 
 }

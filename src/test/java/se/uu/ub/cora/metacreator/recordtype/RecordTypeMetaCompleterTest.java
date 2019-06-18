@@ -23,10 +23,10 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.data.DataAtomic;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
 public class RecordTypeMetaCompleterTest {
@@ -45,13 +45,12 @@ public class RecordTypeMetaCompleterTest {
 	@Test
 	public void testDefaultValuesWhenAllValuesMissing() {
 
-		SpiderDataGroup recordType = DataCreator
-				.createSpiderDataGroupForRecordTypeWithId("myRecordType");
+		DataGroup recordType = DataCreator.createSpiderDataGroupForRecordTypeWithId("myRecordType");
 		metaCompleter.useExtendedFunctionality(userId, recordType);
 		assertAllValuesWereAddedCorrectly(recordType);
 	}
 
-	private void assertAllValuesWereAddedCorrectly(SpiderDataGroup recordType) {
+	private void assertAllValuesWereAddedCorrectly(DataGroup recordType) {
 		assertEquals(extractLinkedRecordIdFromLinkInDataGroupByNameInData(recordType, "metadataId"),
 				"myRecordTypeGroup");
 		assertEquals(
@@ -78,14 +77,13 @@ public class RecordTypeMetaCompleterTest {
 		assertEquals(
 				extractLinkedRecordTypeFromLinkInDataGroupByNameInData(recordType, "defTextId"),
 				"coraText");
-		assertEquals(recordType.extractAtomicValue("public"), "false");
+		assertEquals(recordType.getFirstAtomicValueWithNameInData("public"), "false");
 
 	}
 
 	@Test
 	public void testDefaultValuesWhenAllValuesPresent() {
-		SpiderDataGroup recordType = DataCreator
-				.createSpiderDataGroupForRecordTypeWithId("mySpecial");
+		DataGroup recordType = DataCreator.createSpiderDataGroupForRecordTypeWithId("mySpecial");
 		DataCreator.addAllValuesToSpiderDataGroup(recordType, "mySpecial");
 
 		metaCompleter.useExtendedFunctionality(userId, recordType);
@@ -118,18 +116,17 @@ public class RecordTypeMetaCompleterTest {
 				"implementingText");
 	}
 
-	private String extractLinkedRecordIdFromLinkInDataGroupByNameInData(SpiderDataGroup dataGroup,
+	private String extractLinkedRecordIdFromLinkInDataGroupByNameInData(DataGroup dataGroup,
 			String nameInData) {
-		SpiderDataGroup link = (SpiderDataGroup) dataGroup.getFirstChildWithNameInData(nameInData);
-		SpiderDataAtomic linkedRecordId = (SpiderDataAtomic) link
-				.getFirstChildWithNameInData("linkedRecordId");
+		DataGroup link = (DataGroup) dataGroup.getFirstChildWithNameInData(nameInData);
+		DataAtomic linkedRecordId = (DataAtomic) link.getFirstChildWithNameInData("linkedRecordId");
 		return linkedRecordId.getValue();
 	}
 
-	private String extractLinkedRecordTypeFromLinkInDataGroupByNameInData(SpiderDataGroup dataGroup,
+	private String extractLinkedRecordTypeFromLinkInDataGroupByNameInData(DataGroup dataGroup,
 			String nameInData) {
-		SpiderDataGroup link = (SpiderDataGroup) dataGroup.getFirstChildWithNameInData(nameInData);
-		SpiderDataAtomic linkedRecordType = (SpiderDataAtomic) link
+		DataGroup link = (DataGroup) dataGroup.getFirstChildWithNameInData(nameInData);
+		DataAtomic linkedRecordType = (DataAtomic) link
 				.getFirstChildWithNameInData("linkedRecordType");
 		return linkedRecordType.getValue();
 	}

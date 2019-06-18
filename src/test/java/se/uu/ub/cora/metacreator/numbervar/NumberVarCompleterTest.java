@@ -24,10 +24,10 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.data.DataAtomic;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
 public class NumberVarCompleterTest {
@@ -43,65 +43,73 @@ public class NumberVarCompleterTest {
 
 	@Test
 	public void testGetimplementingTextType() {
-		NumberVarCompleter numberVarCompleter = NumberVarCompleter.forImplementingTextType("coraText");
+		NumberVarCompleter numberVarCompleter = NumberVarCompleter
+				.forImplementingTextType("coraText");
 		assertEquals(numberVarCompleter.getImplementingTextType(), "coraText");
 
 	}
 
 	@Test
 	public void testWithNoTexts() {
-		NumberVarCompleter numberVarCompleter = NumberVarCompleter.forImplementingTextType("coraText");
+		NumberVarCompleter numberVarCompleter = NumberVarCompleter
+				.forImplementingTextType("coraText");
 
-		SpiderDataGroup numberVarGroup = DataCreator.createNumberVarUsingIdNameInDataAndDataDivider(
+		DataGroup numberVarGroup = DataCreator.createNumberVarUsingIdNameInDataAndDataDivider(
 				"noTextsNumberVar", "metadata", "testSystem");
 
 		numberVarCompleter.useExtendedFunctionality(userId, numberVarGroup);
 
-		SpiderDataGroup textIdGroup = numberVarGroup.extractGroup("textId");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "noTextsNumberVarText");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "coraText");
+		DataGroup textIdGroup = numberVarGroup.getFirstGroupWithNameInData("textId");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"noTextsNumberVarText");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"), "coraText");
 
-		SpiderDataGroup defTextIdGroup = numberVarGroup.extractGroup("defTextId");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"),
+		DataGroup defTextIdGroup = numberVarGroup.getFirstGroupWithNameInData("defTextId");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
 				"noTextsNumberVarDefText");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "coraText");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"),
+				"coraText");
 	}
 
 	@Test
 	public void testWithTextsInData() {
-		NumberVarCompleter numberVarCompleter = NumberVarCompleter.forImplementingTextType("coraText");
+		NumberVarCompleter numberVarCompleter = NumberVarCompleter
+				.forImplementingTextType("coraText");
 
-		SpiderDataGroup numberVarGroup = DataCreator.createNumberVarUsingIdNameInDataAndDataDivider(
+		DataGroup numberVarGroup = DataCreator.createNumberVarUsingIdNameInDataAndDataDivider(
 				"noTextsNumberVar", "metadata", "testSystem");
 		addTextsToGroup(numberVarGroup);
 
 		numberVarCompleter.useExtendedFunctionality(userId, numberVarGroup);
 
-		SpiderDataGroup textIdGroup = numberVarGroup.extractGroup("textId");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "someExistingText");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "someOtherTextType");
+		DataGroup textIdGroup = numberVarGroup.getFirstGroupWithNameInData("textId");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"someExistingText");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"),
+				"someOtherTextType");
 
-		SpiderDataGroup defTextIdGroup = numberVarGroup.extractGroup("defTextId");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"), "someExistingDefText");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "someOtherTextType");
+		DataGroup defTextIdGroup = numberVarGroup.getFirstGroupWithNameInData("defTextId");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"someExistingDefText");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"),
+				"someOtherTextType");
 
 	}
 
-	private void addTextsToGroup(SpiderDataGroup numberVarGroup) {
-		SpiderDataGroup textIdGroup = createTextGroupUsingNameInDataAndTextId("textId",
+	private void addTextsToGroup(DataGroup numberVarGroup) {
+		DataGroup textIdGroup = createTextGroupUsingNameInDataAndTextId("textId",
 				"someExistingText");
 		numberVarGroup.addChild(textIdGroup);
-		SpiderDataGroup defTextIdGroup = createTextGroupUsingNameInDataAndTextId("defTextId",
+		DataGroup defTextIdGroup = createTextGroupUsingNameInDataAndTextId("defTextId",
 				"someExistingDefText");
 		numberVarGroup.addChild(defTextIdGroup);
 	}
 
-	private SpiderDataGroup createTextGroupUsingNameInDataAndTextId(String nameInData,
-			String textId) {
-		SpiderDataGroup textIdGroup = SpiderDataGroup.withNameInData(nameInData);
+	private DataGroup createTextGroupUsingNameInDataAndTextId(String nameInData, String textId) {
+		DataGroup textIdGroup = DataGroup.withNameInData(nameInData);
 		textIdGroup.addChild(
-				SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "someOtherTextType"));
-		textIdGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", textId));
+				DataAtomic.withNameInDataAndValue("linkedRecordType", "someOtherTextType"));
+		textIdGroup.addChild(DataAtomic.withNameInDataAndValue("linkedRecordId", textId));
 		return textIdGroup;
 	}
 

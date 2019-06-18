@@ -5,9 +5,9 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
 public class RecordLinkCompleterTest {
@@ -26,17 +26,21 @@ public class RecordLinkCompleterTest {
 		RecordLinkCompleter completer = RecordLinkCompleter
 				.forTextLinkedRecordType("someLinkedRecordType");
 
-		SpiderDataGroup recordLink = DataCreator.createMetadataRecordLinkWithId("someRecordLink");
+		DataGroup recordLink = DataCreator.createMetadataRecordLinkWithId("someRecordLink");
 
 		completer.useExtendedFunctionality(authToken, recordLink);
 
-		SpiderDataGroup textIdGroup = recordLink.extractGroup("textId");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "someRecordLinkText");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "someLinkedRecordType");
+		DataGroup textIdGroup = recordLink.getFirstGroupWithNameInData("textId");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"someRecordLinkText");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"),
+				"someLinkedRecordType");
 
-		SpiderDataGroup defTextIdGroup = recordLink.extractGroup("defTextId");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"), "someRecordLinkDefText");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "someLinkedRecordType");
+		DataGroup defTextIdGroup = recordLink.getFirstGroupWithNameInData("defTextId");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"someRecordLinkDefText");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"),
+				"someLinkedRecordType");
 	}
 
 	@Test
@@ -44,7 +48,7 @@ public class RecordLinkCompleterTest {
 		RecordLinkCompleter completer = RecordLinkCompleter
 				.forTextLinkedRecordType("someLinkedRecordType");
 
-		SpiderDataGroup recordLink = DataCreator.createMetadataRecordLinkWithId("someRecordLink");
+		DataGroup recordLink = DataCreator.createMetadataRecordLinkWithId("someRecordLink");
 		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordLink,
 				"textId", "textSystemOne", "anExistingText");
 		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordLink,
@@ -52,12 +56,16 @@ public class RecordLinkCompleterTest {
 
 		completer.useExtendedFunctionality(authToken, recordLink);
 
-		SpiderDataGroup textIdGroup = recordLink.extractGroup("textId");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "anExistingText");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "textSystemOne");
+		DataGroup textIdGroup = recordLink.getFirstGroupWithNameInData("textId");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"anExistingText");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"),
+				"textSystemOne");
 
-		SpiderDataGroup defTextIdGroup = recordLink.extractGroup("defTextId");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"), "anExistingDefText");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "textSystemOne");
+		DataGroup defTextIdGroup = recordLink.getFirstGroupWithNameInData("defTextId");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"anExistingDefText");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"),
+				"textSystemOne");
 	}
 }

@@ -6,7 +6,7 @@ import static org.testng.Assert.assertNotNull;
 
 import org.testng.annotations.Test;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 
 public class SearchGroupCreatorTest {
 
@@ -16,9 +16,9 @@ public class SearchGroupCreatorTest {
 		SearchGroupCreator searchGroupCreator = SearchGroupCreator
 				.withIdIdAndDataDividerAndRecordType("myRecordTypeSearch", "cora", "myRecordType");
 
-		SpiderDataGroup searchGroup = searchGroupCreator.createGroup("");
-		SpiderDataGroup recordInfo = searchGroup.extractGroup("recordInfo");
-		assertEquals(recordInfo.extractAtomicValue("id"), "myRecordTypeSearch");
+		DataGroup searchGroup = searchGroupCreator.createGroup("");
+		DataGroup recordInfo = searchGroup.getFirstGroupWithNameInData("recordInfo");
+		assertEquals(recordInfo.getFirstAtomicValueWithNameInData("id"), "myRecordTypeSearch");
 
 		assertCorrectDataDivider(recordInfo);
 
@@ -30,45 +30,50 @@ public class SearchGroupCreatorTest {
 
 		assertCorrectPresentationId(searchGroup);
 
-		assertEquals(searchGroup.extractAtomicValue("searchGroup"), "autocomplete");
+		assertEquals(searchGroup.getFirstAtomicValueWithNameInData("searchGroup"), "autocomplete");
 
 		assertCorrectTexts(searchGroup);
 
 	}
 
-	private void assertCorrectDataDivider(SpiderDataGroup recordInfo) {
-		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordType"), "system");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "cora");
+	private void assertCorrectDataDivider(DataGroup recordInfo) {
+		DataGroup dataDivider = recordInfo.getFirstGroupWithNameInData("dataDivider");
+		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordType"), "system");
+		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordId"), "cora");
 	}
 
-	private void assertCorrectRecordTypeToSearchIn(SpiderDataGroup searchGroup) {
-		SpiderDataGroup recordTypeToSearchIn = searchGroup.extractGroup("recordTypeToSearchIn");
-		assertEquals(recordTypeToSearchIn.extractAtomicValue("linkedRecordId"), "myRecordType");
-		assertEquals(recordTypeToSearchIn.extractAtomicValue("linkedRecordType"), "recordType");
+	private void assertCorrectRecordTypeToSearchIn(DataGroup searchGroup) {
+		DataGroup recordTypeToSearchIn = searchGroup
+				.getFirstGroupWithNameInData("recordTypeToSearchIn");
+		assertEquals(recordTypeToSearchIn.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"myRecordType");
+		assertEquals(recordTypeToSearchIn.getFirstAtomicValueWithNameInData("linkedRecordType"),
+				"recordType");
 		assertNotNull(recordTypeToSearchIn.getRepeatId());
 	}
 
-
-	private void assertCorrectMetadataId(SpiderDataGroup searchGroup) {
-		SpiderDataGroup metadataId = searchGroup.extractGroup("metadataId");
-		assertEquals(metadataId.extractAtomicValue("linkedRecordId"), "autocompleteSearchGroup");
+	private void assertCorrectMetadataId(DataGroup searchGroup) {
+		DataGroup metadataId = searchGroup.getFirstGroupWithNameInData("metadataId");
+		assertEquals(metadataId.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"autocompleteSearchGroup");
 	}
 
-	private void assertCorrectPresentationId(SpiderDataGroup searchGroup) {
-		SpiderDataGroup presentationId = searchGroup.extractGroup("presentationId");
-		assertEquals(presentationId.extractAtomicValue("linkedRecordId"),
+	private void assertCorrectPresentationId(DataGroup searchGroup) {
+		DataGroup presentationId = searchGroup.getFirstGroupWithNameInData("presentationId");
+		assertEquals(presentationId.getFirstAtomicValueWithNameInData("linkedRecordId"),
 				"autocompleteSearchPGroup");
 	}
 
-	private void assertCorrectTexts(SpiderDataGroup searchGroup) {
-		SpiderDataGroup textIdGroup = searchGroup.extractGroup("textId");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "myRecordTypeSearchText");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "coraText");
+	private void assertCorrectTexts(DataGroup searchGroup) {
+		DataGroup textIdGroup = searchGroup.getFirstGroupWithNameInData("textId");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"myRecordTypeSearchText");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"), "coraText");
 
-		SpiderDataGroup defTextIdGroup = searchGroup.extractGroup("defTextId");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"),
+		DataGroup defTextIdGroup = searchGroup.getFirstGroupWithNameInData("defTextId");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
 				"myRecordTypeSearchDefText");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "coraText");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"),
+				"coraText");
 	}
 }

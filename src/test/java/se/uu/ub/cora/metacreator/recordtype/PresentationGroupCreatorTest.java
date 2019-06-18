@@ -8,11 +8,11 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.data.DataAtomic;
+import se.uu.ub.cora.data.DataElement;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.dependency.SpiderRecordCreatorSpy;
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
-import se.uu.ub.cora.spider.data.SpiderDataElement;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
 public class PresentationGroupCreatorTest {
@@ -37,12 +37,13 @@ public class PresentationGroupCreatorTest {
 		assertEquals(spiderRecordCreators.size(), 1);
 		assertEquals(spiderRecordCreatorSpy.authToken, "testUser");
 
-		SpiderDataGroup record = spiderRecordCreatorSpy.record;
+		DataGroup record = spiderRecordCreatorSpy.record;
 		assertCorrectIdAndDataDivider(record);
 
-		assertEquals(record.extractAtomicValue("mode"), "input");
-		SpiderDataGroup presentationOf = record.extractGroup("presentationOf");
-		assertEquals(presentationOf.extractAtomicValue("linkedRecordId"), "myRecordType");
+		assertEquals(record.getFirstAtomicValueWithNameInData("mode"), "input");
+		DataGroup presentationOf = record.getFirstGroupWithNameInData("presentationOf");
+		assertEquals(presentationOf.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"myRecordType");
 
 		assertCorrectChildReferences(record);
 
@@ -54,41 +55,42 @@ public class PresentationGroupCreatorTest {
 				.withAuthTokenPresentationIdAndDataDivider("testUser", id, "cora");
 
 		pGroupCreator.setPresentationOfAndMode("myRecordType", mode);
-		List<SpiderDataElement> metadataChildren = createMetadataChildReferences();
+		List<DataElement> metadataChildren = createMetadataChildReferences();
 		pGroupCreator.setMetadataChildReferences(metadataChildren);
 		return pGroupCreator;
 	}
 
-	private void assertCorrectIdAndDataDivider(SpiderDataGroup record) {
-		SpiderDataGroup recordInfo = record.extractGroup("recordInfo");
-		assertEquals(recordInfo.extractAtomicValue("id"), "myRecordTypeViewId");
-		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordType"), "system");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "cora");
+	private void assertCorrectIdAndDataDivider(DataGroup record) {
+		DataGroup recordInfo = record.getFirstGroupWithNameInData("recordInfo");
+		assertEquals(recordInfo.getFirstAtomicValueWithNameInData("id"), "myRecordTypeViewId");
+		DataGroup dataDivider = recordInfo.getFirstGroupWithNameInData("dataDivider");
+		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordType"), "system");
+		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordId"), "cora");
 	}
 
-	private void assertCorrectChildReferences(SpiderDataGroup record) {
-		SpiderDataGroup childReferences = record.extractGroup("childReferences");
+	private void assertCorrectChildReferences(DataGroup record) {
+		DataGroup childReferences = record.getFirstGroupWithNameInData("childReferences");
 		assertEquals(childReferences.getChildren().size(), 2);
-		SpiderDataGroup refText = extractRefFromChildReferenceByChildIndex(childReferences, 0);
-		assertEquals(refText.extractAtomicValue("linkedRecordId"), "searchTitleTextVarText");
+		DataGroup refText = extractRefFromChildReferenceByChildIndex(childReferences, 0);
+		assertEquals(refText.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"searchTitleTextVarText");
 		assertEquals(refText.getAttributes().get("type"), "text");
-		SpiderDataGroup ref = extractRefFromChildReferenceByChildIndex(childReferences, 1);
-		assertEquals(ref.extractAtomicValue("linkedRecordId"), "searchTitlePVar");
+		DataGroup ref = extractRefFromChildReferenceByChildIndex(childReferences, 1);
+		assertEquals(ref.getFirstAtomicValueWithNameInData("linkedRecordId"), "searchTitlePVar");
 		assertEquals(ref.getAttributes().get("type"), "presentation");
 	}
 
-	private SpiderDataGroup extractRefFromChildReferenceByChildIndex(
-			SpiderDataGroup childReferences, int index) {
-		SpiderDataGroup childReference = childReferences
-				.getAllGroupsWithNameInData("childReference").get(index);
-		SpiderDataGroup refGRoup = childReference.extractGroup("refGroup");
-		return refGRoup.extractGroup("ref");
+	private DataGroup extractRefFromChildReferenceByChildIndex(DataGroup childReferences,
+			int index) {
+		DataGroup childReference = childReferences.getAllGroupsWithNameInData("childReference")
+				.get(index);
+		DataGroup refGRoup = childReference.getFirstGroupWithNameInData("refGroup");
+		return refGRoup.getFirstGroupWithNameInData("ref");
 	}
 
-	private List<SpiderDataElement> createMetadataChildReferences() {
-		List<SpiderDataElement> metadataChildReferences = new ArrayList<>();
-		SpiderDataGroup childReference = createChildReference();
+	private List<DataElement> createMetadataChildReferences() {
+		List<DataElement> metadataChildReferences = new ArrayList<>();
+		DataGroup childReference = createChildReference();
 
 		addRefPartToChildReference(childReference, "searchTitleTextVar");
 		childReference.setRepeatId("0");
@@ -96,17 +98,17 @@ public class PresentationGroupCreatorTest {
 		return metadataChildReferences;
 	}
 
-	private void addRefPartToChildReference(SpiderDataGroup childReference, String childId) {
-		SpiderDataGroup ref = SpiderDataGroup.withNameInData("ref");
-		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "metadata"));
-		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", childId));
+	private void addRefPartToChildReference(DataGroup childReference, String childId) {
+		DataGroup ref = DataGroup.withNameInData("ref");
+		ref.addChild(DataAtomic.withNameInDataAndValue("linkedRecordType", "metadata"));
+		ref.addChild(DataAtomic.withNameInDataAndValue("linkedRecordId", childId));
 		childReference.addChild(ref);
 	}
 
-	private SpiderDataGroup createChildReference() {
-		SpiderDataGroup childReference = SpiderDataGroup.withNameInData("childReference");
-		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMin", "1"));
-		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMax", "1"));
+	private DataGroup createChildReference() {
+		DataGroup childReference = DataGroup.withNameInData("childReference");
+		childReference.addChild(DataAtomic.withNameInDataAndValue("repeatMin", "1"));
+		childReference.addChild(DataAtomic.withNameInDataAndValue("repeatMax", "1"));
 		return childReference;
 	}
 
