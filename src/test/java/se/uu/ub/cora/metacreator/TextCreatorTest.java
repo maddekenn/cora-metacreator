@@ -5,10 +5,10 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.dependency.SpiderRecordCreatorSpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
 public class TextCreatorTest {
@@ -24,10 +24,10 @@ public class TextCreatorTest {
 
 	@Test
 	public void testNonExistingTexts() {
-		TextCreator creator = TextCreator
-				.forImplementingTextType("textSystemOne");
-		SpiderDataGroup item = DataCreator.createCollectionItemGroupWithIdTextIdDefTextIdAndImplementingTextType(
-				"firstItem", "nonExistingText", "nonExistingDefText", "textSystemOne");
+		TextCreator creator = TextCreator.forImplementingTextType("textSystemOne");
+		DataGroup item = DataCreator
+				.createCollectionItemGroupWithIdTextIdDefTextIdAndImplementingTextType("firstItem",
+						"nonExistingText", "nonExistingDefText", "textSystemOne");
 
 		creator.useExtendedFunctionality(authToken, item);
 
@@ -42,19 +42,19 @@ public class TextCreatorTest {
 				.get(createdTextNo);
 		assertEquals(spiderRecordCreator.authToken, authToken);
 		assertEquals(spiderRecordCreator.type, "textSystemOne");
-		SpiderDataGroup createdTextRecord = spiderRecordCreator.record;
-		SpiderDataGroup recordInfo = createdTextRecord.extractGroup("recordInfo");
-		String id = recordInfo.extractAtomicValue("id");
+		DataGroup createdTextRecord = spiderRecordCreator.record;
+		DataGroup recordInfo = createdTextRecord.getFirstGroupWithNameInData("recordInfo");
+		String id = recordInfo.getFirstAtomicValueWithNameInData("id");
 		assertEquals(id, createdIdForText);
 	}
 
 	@Test
 	public void testWithExistingTextsInStorage() {
-		TextCreator creator = TextCreator
-				.forImplementingTextType("textSystemOne");
+		TextCreator creator = TextCreator.forImplementingTextType("textSystemOne");
 
-		SpiderDataGroup item = DataCreator.createCollectionItemGroupWithIdTextIdDefTextIdAndImplementingTextType(
-				"firstItem", "someExistingTextId", "someExistingDefTextId", "textSystemOne");
+		DataGroup item = DataCreator
+				.createCollectionItemGroupWithIdTextIdDefTextIdAndImplementingTextType("firstItem",
+						"someExistingTextId", "someExistingDefTextId", "textSystemOne");
 		creator.useExtendedFunctionality(authToken, item);
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 0);

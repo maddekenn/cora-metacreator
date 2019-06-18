@@ -18,9 +18,9 @@
  */
 package se.uu.ub.cora.metacreator.numbervar;
 
+import se.uu.ub.cora.data.DataAtomic;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.DataCreatorHelper;
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
 public class PNumVarConstructor {
 
@@ -37,7 +37,7 @@ public class PNumVarConstructor {
 		return new PNumVarConstructor(numberVarId, dataDividerString);
 	}
 
-	public SpiderDataGroup createInputPNumVar() {
+	public DataGroup createInputPNumVar() {
 		String pVarId = constructPNumVarIdWithEnding("PNumVar");
 		return createNumVarUsingIdAndMode(pVarId, "input");
 	}
@@ -47,37 +47,35 @@ public class PNumVarConstructor {
 		return prefix + suffix;
 	}
 
-	private SpiderDataGroup createNumVarUsingIdAndMode(String pVarId, String mode) {
-		SpiderDataGroup pNumDataGroup = createPNumVarSpiderDataGroup();
+	private DataGroup createNumVarUsingIdAndMode(String pVarId, String mode) {
+		DataGroup pNumDataGroup = createPNumVarSpiderDataGroup();
 		createAndAddRecordInfoToPNumGroupUsingId(pNumDataGroup, pVarId);
 		createAndAddPresentationOf(pNumDataGroup);
-		pNumDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("mode", mode));
+		pNumDataGroup.addChild(DataAtomic.withNameInDataAndValue("mode", mode));
 		return pNumDataGroup;
 	}
 
-	private SpiderDataGroup createPNumVarSpiderDataGroup() {
-		SpiderDataGroup pNumDataGroup = SpiderDataGroup.withNameInData("presentation");
+	private DataGroup createPNumVarSpiderDataGroup() {
+		DataGroup pNumDataGroup = DataGroup.withNameInData("presentation");
 		pNumDataGroup.addAttributeByIdWithValue("type", "pNumVar");
 		return pNumDataGroup;
 	}
 
-	private void createAndAddRecordInfoToPNumGroupUsingId(SpiderDataGroup pNumDataGroup,
-			String pVarId) {
-		SpiderDataGroup recordInfo = DataCreatorHelper.createRecordInfoWithIdAndDataDivider(pVarId,
+	private void createAndAddRecordInfoToPNumGroupUsingId(DataGroup pNumDataGroup, String pVarId) {
+		DataGroup recordInfo = DataCreatorHelper.createRecordInfoWithIdAndDataDivider(pVarId,
 				dataDividerString);
 		pNumDataGroup.addChild(recordInfo);
 	}
 
-	private void createAndAddPresentationOf(SpiderDataGroup pNumDataGroup) {
-		SpiderDataGroup presentationOf = SpiderDataGroup.withNameInData("presentationOf");
-		presentationOf.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType",
-				"metadataNumberVariable"));
-		presentationOf
-				.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", numberVarId));
+	private void createAndAddPresentationOf(DataGroup pNumDataGroup) {
+		DataGroup presentationOf = DataGroup.withNameInData("presentationOf");
+		presentationOf.addChild(
+				DataAtomic.withNameInDataAndValue("linkedRecordType", "metadataNumberVariable"));
+		presentationOf.addChild(DataAtomic.withNameInDataAndValue("linkedRecordId", numberVarId));
 		pNumDataGroup.addChild(presentationOf);
 	}
 
-	public SpiderDataGroup createOutputPNumVar() {
+	public DataGroup createOutputPNumVar() {
 		String pVarId = constructPNumVarIdWithEnding("OutputPNumVar");
 		return createNumVarUsingIdAndMode(pVarId, "output");
 	}

@@ -18,19 +18,19 @@
  */
 package se.uu.ub.cora.metacreator.group;
 
+import se.uu.ub.cora.data.DataAtomic;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.PresentationChildReference;
 import se.uu.ub.cora.metacreator.RecordIdentifier;
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
 public abstract class PChildRefConstructor {
 
-	protected SpiderDataGroup metadataChildReference;
+	protected DataGroup metadataChildReference;
 	protected String mode;
 
 	public final PresentationChildReference getChildRef() {
 		String id = getId();
-		SpiderDataGroup ref = createRefUsingId(id);
+		DataGroup ref = createRefUsingId(id);
 		RecordIdentifier recordIdentifier = RecordIdentifier
 				.usingTypeAndId(getPresentationRecordType(), id);
 		return PresentationChildReference.usingRefGroupAndRecordIdentifier(ref, recordIdentifier);
@@ -41,9 +41,9 @@ public abstract class PChildRefConstructor {
 		return constructIdFromMetadataRefId(metadataRefId);
 	}
 
-	String getMetadataRefId(SpiderDataGroup metadataChildReference) {
-		SpiderDataGroup metadataRef = metadataChildReference.extractGroup("ref");
-		return metadataRef.extractAtomicValue("linkedRecordId");
+	String getMetadataRefId(DataGroup metadataChildReference) {
+		DataGroup metadataRef = metadataChildReference.getFirstGroupWithNameInData("ref");
+		return metadataRef.getFirstAtomicValueWithNameInData("linkedRecordId");
 	}
 
 	protected final String constructIdFromMetadataRefId(String metadataRefId) {
@@ -54,22 +54,22 @@ public abstract class PChildRefConstructor {
 		return id;
 	}
 
-	private SpiderDataGroup createRefUsingId(String id) {
-		SpiderDataGroup ref =  createRefAsSpiderDataGroupWihAttribute();
+	private DataGroup createRefUsingId(String id) {
+		DataGroup ref = createRefAsSpiderDataGroupWihAttribute();
 		addLinkedRecordTypeAndRecordIdToRef(id, ref);
 		return ref;
 	}
 
-	private SpiderDataGroup createRefAsSpiderDataGroupWihAttribute() {
-		SpiderDataGroup ref = SpiderDataGroup.withNameInData("ref");
+	private DataGroup createRefAsSpiderDataGroupWihAttribute() {
+		DataGroup ref = DataGroup.withNameInData("ref");
 		ref.addAttributeByIdWithValue("type", "presentation");
 		return ref;
 	}
 
-	private void addLinkedRecordTypeAndRecordIdToRef(String id, SpiderDataGroup ref) {
-		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType",
-				getPresentationRecordType()));
-		ref.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", id));
+	private void addLinkedRecordTypeAndRecordIdToRef(String id, DataGroup ref) {
+		ref.addChild(
+				DataAtomic.withNameInDataAndValue("linkedRecordType", getPresentationRecordType()));
+		ref.addChild(DataAtomic.withNameInDataAndValue("linkedRecordId", id));
 	}
 
 	protected final String possibleOutputString() {
@@ -80,7 +80,9 @@ public abstract class PChildRefConstructor {
 	}
 
 	protected abstract String getMetadataRefIdEnding();
+
 	protected abstract String getPresentationIdEnding();
+
 	protected abstract String getPresentationRecordType();
 
 	public String getMode() {
@@ -88,7 +90,7 @@ public abstract class PChildRefConstructor {
 		return mode;
 	}
 
-	public SpiderDataGroup getMetadataChildReference() {
+	public DataGroup getMetadataChildReference() {
 		// for test
 		return metadataChildReference;
 	}

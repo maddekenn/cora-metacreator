@@ -1,6 +1,6 @@
 package se.uu.ub.cora.metacreator;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 import se.uu.ub.cora.spider.record.SpiderRecordCreator;
 import se.uu.ub.cora.spider.record.SpiderRecordReader;
@@ -9,10 +9,10 @@ import se.uu.ub.cora.spider.record.storage.RecordNotFoundException;
 public class RecordCreatorHelper {
 
 	private final String authToken;
-	private SpiderDataGroup spiderDataGroup;
+	private DataGroup spiderDataGroup;
 	private String implementingTextType;
 
-	public RecordCreatorHelper(String authToken, SpiderDataGroup spiderDataGroup,
+	public RecordCreatorHelper(String authToken, DataGroup spiderDataGroup,
 			String implementingTextType) {
 		this.authToken = authToken;
 		this.spiderDataGroup = spiderDataGroup;
@@ -20,7 +20,7 @@ public class RecordCreatorHelper {
 	}
 
 	public static RecordCreatorHelper withAuthTokenSpiderDataGroupAndImplementingTextType(
-			String authToken, SpiderDataGroup spiderDataGroup, String implementingTextType) {
+			String authToken, DataGroup spiderDataGroup, String implementingTextType) {
 		return new RecordCreatorHelper(authToken, spiderDataGroup, implementingTextType);
 	}
 
@@ -30,8 +30,8 @@ public class RecordCreatorHelper {
 	}
 
 	private void createTextWithTextIdToExtractIfMissing(String textIdToExtract) {
-		SpiderDataGroup textIdGroup = this.spiderDataGroup.extractGroup(textIdToExtract);
-		String textId = textIdGroup.extractAtomicValue("linkedRecordId");
+		DataGroup textIdGroup = this.spiderDataGroup.getFirstGroupWithNameInData(textIdToExtract);
+		String textId = textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId");
 		if (textIsMissing(textId)) {
 			createTextWithTextId(textId);
 		}
@@ -56,8 +56,9 @@ public class RecordCreatorHelper {
 
 	private void createTextInStorageWithTextIdDataDividerAndTextType(String textId,
 			String dataDivider, String implementingTextType) {
-		TextConstructor textConstructor = TextConstructor.withTextIdAndDataDivider(textId, dataDivider);
-		SpiderDataGroup textGroup = textConstructor.createText();
+		TextConstructor textConstructor = TextConstructor.withTextIdAndDataDivider(textId,
+				dataDivider);
+		DataGroup textGroup = textConstructor.createText();
 
 		SpiderRecordCreator spiderRecordCreator = SpiderInstanceProvider.getSpiderRecordCreator();
 		spiderRecordCreator.createAndStoreRecord(authToken, implementingTextType, textGroup);

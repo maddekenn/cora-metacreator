@@ -1,7 +1,7 @@
 package se.uu.ub.cora.metacreator;
 
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataAtomic;
+import se.uu.ub.cora.data.DataGroup;
 
 public final class DataCreatorHelper {
 
@@ -12,22 +12,20 @@ public final class DataCreatorHelper {
 		throw new UnsupportedOperationException();
 	}
 
-	public static String extractDataDividerStringFromDataGroup(SpiderDataGroup topLevelGroup) {
-		SpiderDataGroup dataDividerGroup = extractDataDividerGroupFromSpiderDataGroup(
-				topLevelGroup);
-		return dataDividerGroup.extractAtomicValue("linkedRecordId");
+	public static String extractDataDividerStringFromDataGroup(DataGroup topLevelGroup) {
+		DataGroup dataDividerGroup = extractDataDividerGroupFromSpiderDataGroup(topLevelGroup);
+		return dataDividerGroup.getFirstAtomicValueWithNameInData("linkedRecordId");
 	}
 
-	private static SpiderDataGroup extractDataDividerGroupFromSpiderDataGroup(
-			SpiderDataGroup topLevelGroup) {
-		SpiderDataGroup recordInfoGroup = topLevelGroup.extractGroup(RECORD_INFO);
-		return recordInfoGroup.extractGroup("dataDivider");
+	private static DataGroup extractDataDividerGroupFromSpiderDataGroup(DataGroup topLevelGroup) {
+		DataGroup recordInfoGroup = topLevelGroup.getFirstGroupWithNameInData(RECORD_INFO);
+		return recordInfoGroup.getFirstGroupWithNameInData("dataDivider");
 	}
 
-	public static SpiderDataGroup createRecordInfoWithIdAndDataDivider(String id,
+	public static DataGroup createRecordInfoWithIdAndDataDivider(String id,
 			String dataDividerLinkedRecordId) {
-		SpiderDataGroup recordInfo = SpiderDataGroup.withNameInData(RECORD_INFO);
-		recordInfo.addChild(SpiderDataAtomic.withNameInDataAndValue("id", id));
+		DataGroup recordInfo = DataGroup.withNameInData(RECORD_INFO);
+		recordInfo.addChild(DataAtomic.withNameInDataAndValue("id", id));
 
 		createAndAddDataDivider(dataDividerLinkedRecordId, recordInfo);
 
@@ -35,17 +33,17 @@ public final class DataCreatorHelper {
 	}
 
 	private static void createAndAddDataDivider(String dataDividerLinkedRecordId,
-			SpiderDataGroup recordInfo) {
-		SpiderDataGroup dataDivider = SpiderDataGroup.withNameInData("dataDivider");
-		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "system"));
-		dataDivider.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId",
-				dataDividerLinkedRecordId));
+			DataGroup recordInfo) {
+		DataGroup dataDivider = DataGroup.withNameInData("dataDivider");
+		dataDivider.addChild(DataAtomic.withNameInDataAndValue("linkedRecordType", "system"));
+		dataDivider.addChild(
+				DataAtomic.withNameInDataAndValue("linkedRecordId", dataDividerLinkedRecordId));
 		recordInfo.addChild(dataDivider);
 	}
 
-	public static String extractIdFromDataGroup(SpiderDataGroup mainDataGroup) {
-		SpiderDataGroup recordInfo = mainDataGroup.extractGroup(RECORD_INFO);
-		return recordInfo.extractAtomicValue("id");
+	public static String extractIdFromDataGroup(DataGroup mainDataGroup) {
+		DataGroup recordInfo = mainDataGroup.getFirstGroupWithNameInData(RECORD_INFO);
+		return recordInfo.getFirstAtomicValueWithNameInData("id");
 	}
 
 }

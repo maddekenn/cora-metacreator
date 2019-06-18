@@ -18,25 +18,25 @@
  */
 package se.uu.ub.cora.metacreator.recordtype;
 
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataAtomic;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 
 public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 
-	private SpiderDataGroup spiderDataGroup;
+	private DataGroup spiderDataGroup;
 	private String id;
 
 	@Override
-	public void useExtendedFunctionality(String userId, SpiderDataGroup spiderDataGroup) {
+	public void useExtendedFunctionality(String userId, DataGroup spiderDataGroup) {
 		this.spiderDataGroup = spiderDataGroup;
 
 		addValuesToDataGroup();
 	}
 
 	private void addValuesToDataGroup() {
-		SpiderDataGroup recordInfoGroup = spiderDataGroup.extractGroup("recordInfo");
-		id = recordInfoGroup.extractAtomicValue("id");
+		DataGroup recordInfoGroup = spiderDataGroup.getFirstGroupWithNameInData("recordInfo");
+		id = recordInfoGroup.getFirstAtomicValueWithNameInData("id");
 		addMissingMetadataIds();
 		addMissingPresentationIds();
 		addMissingTexts();
@@ -54,11 +54,9 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 	private void createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting(String nameInData,
 			String linkedRecordType, String linkedRecordId) {
 		if (childWithNameInDataIsMissing(nameInData)) {
-			SpiderDataGroup link = SpiderDataGroup.withNameInData(nameInData);
-			link.addChild(
-					SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", linkedRecordType));
-			link.addChild(
-					SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", linkedRecordId));
+			DataGroup link = DataGroup.withNameInData(nameInData);
+			link.addChild(DataAtomic.withNameInDataAndValue("linkedRecordType", linkedRecordType));
+			link.addChild(DataAtomic.withNameInDataAndValue("linkedRecordId", linkedRecordId));
 			spiderDataGroup.addChild(link);
 		}
 	}
@@ -94,7 +92,7 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 
 	private void addPublicIfMissing() {
 		if (publicIsMissing()) {
-			spiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("public", "false"));
+			spiderDataGroup.addChild(DataAtomic.withNameInDataAndValue("public", "false"));
 		}
 	}
 

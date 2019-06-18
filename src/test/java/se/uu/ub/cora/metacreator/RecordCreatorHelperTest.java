@@ -5,10 +5,10 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.dependency.SpiderRecordCreatorSpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
 public class RecordCreatorHelperTest {
@@ -25,8 +25,7 @@ public class RecordCreatorHelperTest {
 
 	@Test
 	public void testInit() {
-		SpiderDataGroup itemCollection = DataCreator
-				.createItemCollectionWithId("someOtherCollection");
+		DataGroup itemCollection = DataCreator.createItemCollectionWithId("someOtherCollection");
 		String textId = "someNonExistingText";
 		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(itemCollection,
 				"textId", "textSystemOne", textId);
@@ -47,11 +46,11 @@ public class RecordCreatorHelperTest {
 	private void assertCorrectlyCreatedText(String textId, int createdIndex) {
 		SpiderRecordCreatorSpy spiderRecordCreator = instanceFactory.spiderRecordCreators
 				.get(createdIndex);
-		SpiderDataGroup recordInfo = spiderRecordCreator.record.extractGroup("recordInfo");
-		assertEquals(recordInfo.extractAtomicValue("id"), textId);
+		DataGroup recordInfo = spiderRecordCreator.record.getFirstGroupWithNameInData("recordInfo");
+		assertEquals(recordInfo.getFirstAtomicValueWithNameInData("id"), textId);
 		assertEquals(spiderRecordCreator.type, "textSystemOne");
 
-		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "test");
+		DataGroup dataDivider = recordInfo.getFirstGroupWithNameInData("dataDivider");
+		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordId"), "test");
 	}
 }

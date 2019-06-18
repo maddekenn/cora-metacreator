@@ -1,6 +1,7 @@
 /*
  * Copyright 2016 Olov McKie
- *
+ * Copyright 2019 Uppsala University Library
+ * 
  * This file is part of Cora.
  *
  *     Cora is free software: you can redistribute it and/or modify
@@ -19,8 +20,8 @@
 
 package se.uu.ub.cora.metacreator;
 
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataAtomic;
+import se.uu.ub.cora.data.DataGroup;
 
 public final class TextConstructor {
 	private String textId;
@@ -31,36 +32,35 @@ public final class TextConstructor {
 		this.dataDividerString = dataDividerString;
 	}
 
-	public static TextConstructor withTextIdAndDataDivider(String textId, String dataDividerString) {
+	public static TextConstructor withTextIdAndDataDivider(String textId,
+			String dataDividerString) {
 		return new TextConstructor(textId, dataDividerString);
 	}
 
-	public SpiderDataGroup createText() {
-		SpiderDataGroup textGroup = SpiderDataGroup.withNameInData("text");
+	public DataGroup createText() {
+		DataGroup textGroup = DataGroup.withNameInData("text");
 
-		SpiderDataGroup recordInfo = createRecordInfoWithIdAndDataDividerRecordId();
+		DataGroup recordInfo = createRecordInfoWithIdAndDataDividerRecordId();
 		textGroup.addChild(recordInfo);
 
-		SpiderDataGroup textPartSv = createTextPartWithTextIdTypeLangText("default", "sv",
-				"Text för:");
+		DataGroup textPartSv = createTextPartWithTextIdTypeLangText("default", "sv", "Text för:");
 		textGroup.addChild(textPartSv);
-		SpiderDataGroup textPartEn = createTextPartWithTextIdTypeLangText("alternative", "en",
+		DataGroup textPartEn = createTextPartWithTextIdTypeLangText("alternative", "en",
 				"Text for:");
 		textGroup.addChild(textPartEn);
 		return textGroup;
 	}
 
-	private SpiderDataGroup createTextPartWithTextIdTypeLangText(String type, String lang,
-			String text) {
-		SpiderDataGroup textPart = SpiderDataGroup.withNameInData("textPart");
+	private DataGroup createTextPartWithTextIdTypeLangText(String type, String lang, String text) {
+		DataGroup textPart = DataGroup.withNameInData("textPart");
 		textPart.addAttributeByIdWithValue("type", type);
 		textPart.addAttributeByIdWithValue("lang", lang);
-		textPart.addChild(SpiderDataAtomic.withNameInDataAndValue("text", text + textId));
+		textPart.addChild(DataAtomic.withNameInDataAndValue("text", text + textId));
 		return textPart;
 	}
 
-	private SpiderDataGroup createRecordInfoWithIdAndDataDividerRecordId() {
-		return DataCreatorHelper.createRecordInfoWithIdAndDataDivider(textId,dataDividerString);
+	private DataGroup createRecordInfoWithIdAndDataDividerRecordId() {
+		return DataCreatorHelper.createRecordInfoWithIdAndDataDivider(textId, dataDividerString);
 	}
 
 }

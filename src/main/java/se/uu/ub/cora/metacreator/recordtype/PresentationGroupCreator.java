@@ -21,11 +21,11 @@ package se.uu.ub.cora.metacreator.recordtype;
 import java.util.ArrayList;
 import java.util.List;
 
+import se.uu.ub.cora.data.DataElement;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.group.PChildRefConstructorFactory;
 import se.uu.ub.cora.metacreator.group.PChildRefConstructorFactoryImp;
 import se.uu.ub.cora.metacreator.group.PGroupConstructor;
-import se.uu.ub.cora.spider.data.SpiderDataElement;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 import se.uu.ub.cora.spider.record.SpiderRecordCreator;
 import se.uu.ub.cora.spider.record.SpiderRecordReader;
@@ -38,7 +38,7 @@ public class PresentationGroupCreator {
 	private final String dataDivider;
 	private String presentationOf;
 	private String mode;
-	private List<SpiderDataElement> metadataChildReferences;
+	private List<DataElement> metadataChildReferences;
 
 	public PresentationGroupCreator(String authToken, String presentationId, String dataDivider) {
 		this.authToken = authToken;
@@ -57,7 +57,7 @@ public class PresentationGroupCreator {
 	}
 
 	public void createPGroupIfNotAlreadyExist() {
-		if(recordDoesNotExistInStorage()) {
+		if (recordDoesNotExistInStorage()) {
 			createPGroup();
 		}
 	}
@@ -73,24 +73,24 @@ public class PresentationGroupCreator {
 	}
 
 	private void createPGroup() {
-		SpiderDataGroup dataGroup = createSpiderDataGroupToCreate();
+		DataGroup dataGroup = createSpiderDataGroupToCreate();
 
 		SpiderRecordCreator spiderRecordCreator = SpiderInstanceProvider.getSpiderRecordCreator();
 		spiderRecordCreator.createAndStoreRecord(authToken, "presentationGroup", dataGroup);
 	}
 
-	private SpiderDataGroup createSpiderDataGroupToCreate() {
+	private DataGroup createSpiderDataGroupToCreate() {
 		PChildRefConstructorFactory constructorFactory = new PChildRefConstructorFactoryImp();
-		PGroupConstructor pGroupConstructor = PGroupConstructor.usingAuthTokenAndPChildRefConstructorFactory(authToken, constructorFactory);
+		PGroupConstructor pGroupConstructor = PGroupConstructor
+				.usingAuthTokenAndPChildRefConstructorFactory(authToken, constructorFactory);
 
-		return pGroupConstructor
-                .constructPGroupWithIdDataDividerPresentationOfChildrenAndMode(presentationId,
-                        dataDivider, presentationOf, metadataChildReferences, mode);
+		return pGroupConstructor.constructPGroupWithIdDataDividerPresentationOfChildrenAndMode(
+				presentationId, dataDivider, presentationOf, metadataChildReferences, mode);
 	}
 
-	public void setMetadataChildReferences(List<SpiderDataElement> metadataChildReferences) {
+	public void setMetadataChildReferences(List<DataElement> metadataChildReferences) {
 		this.metadataChildReferences = new ArrayList<>();
-		for(SpiderDataElement metadataChildReference : metadataChildReferences) {
+		for (DataElement metadataChildReference : metadataChildReferences) {
 			this.metadataChildReferences.add(metadataChildReference);
 		}
 	}

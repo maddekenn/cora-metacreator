@@ -1,7 +1,7 @@
 package se.uu.ub.cora.metacreator.collection;
 
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.RecordCompleter;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 
 public class CollectionVariableCompleter extends RecordCompleter implements ExtendedFunctionality {
@@ -15,7 +15,7 @@ public class CollectionVariableCompleter extends RecordCompleter implements Exte
 	}
 
 	@Override
-	public void useExtendedFunctionality(String authToken, SpiderDataGroup spiderDataGroup) {
+	public void useExtendedFunctionality(String authToken, DataGroup spiderDataGroup) {
 		this.spiderDataGroup = spiderDataGroup;
 		addValuesToDataGroup();
 	}

@@ -18,7 +18,7 @@
  */
 package se.uu.ub.cora.metacreator.group;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 
 public final class PVarChildRefConstructor extends PChildRefConstructor {
 
@@ -26,13 +26,13 @@ public final class PVarChildRefConstructor extends PChildRefConstructor {
 	private static final String TEXT_VAR = "TextVar";
 	private static final String PRESENTATION_VAR = "presentationVar";
 
-	private PVarChildRefConstructor(SpiderDataGroup metadataChildReference, String mode) {
+	private PVarChildRefConstructor(DataGroup metadataChildReference, String mode) {
 		this.metadataChildReference = metadataChildReference;
 		this.mode = mode;
 	}
 
 	public static PChildRefConstructor usingMetadataChildReferenceAndMode(
-			SpiderDataGroup metadataChildReference, String mode) {
+			DataGroup metadataChildReference, String mode) {
 		return new PVarChildRefConstructor(metadataChildReference, mode);
 	}
 
@@ -45,7 +45,6 @@ public final class PVarChildRefConstructor extends PChildRefConstructor {
 	protected String getPresentationIdEnding() {
 		return PVAR;
 	}
-
 
 	@Override
 	protected String getPresentationRecordType() {

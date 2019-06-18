@@ -18,10 +18,10 @@
  */
 package se.uu.ub.cora.metacreator.group;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 
 public interface PChildRefConstructorFactory {
 
-	PChildRefConstructor factor(SpiderDataGroup metadataChildReference, String mode);
+	PChildRefConstructor factor(DataGroup metadataChildReference, String mode);
 
 }

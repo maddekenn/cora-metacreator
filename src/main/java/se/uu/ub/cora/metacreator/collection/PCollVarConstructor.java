@@ -1,55 +1,54 @@
 package se.uu.ub.cora.metacreator.collection;
 
+import se.uu.ub.cora.data.DataAtomic;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.DataCreatorHelper;
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
 public class PCollVarConstructor {
 
-	SpiderDataGroup constructPCollVarWithIdDataDividerPresentationOfAndMode(String id,
-			String dataDivider, String presentationOf, String mode) {
+	DataGroup constructPCollVarWithIdDataDividerPresentationOfAndMode(String id, String dataDivider,
+			String presentationOf, String mode) {
 
-		SpiderDataGroup pCollVar = createGroupWithRecordInfo(id, dataDivider);
+		DataGroup pCollVar = createGroupWithRecordInfo(id, dataDivider);
 		pCollVar.addAttributeByIdWithValue("type", "pCollVar");
 
 		createAndAddChildren(presentationOf, mode, pCollVar);
 		return pCollVar;
 	}
 
-	private void createAndAddChildren(String presentationOf, String mode,
-			SpiderDataGroup pCollVar) {
+	private void createAndAddChildren(String presentationOf, String mode, DataGroup pCollVar) {
 		createAndAddPresentationOf(presentationOf, pCollVar);
-		pCollVar.addChild(SpiderDataAtomic.withNameInDataAndValue("mode", mode));
+		pCollVar.addChild(DataAtomic.withNameInDataAndValue("mode", mode));
 		createAndAddEmptyTextId(pCollVar);
 	}
 
-	private void createAndAddEmptyTextId(SpiderDataGroup pCollVar) {
-		SpiderDataGroup emptyTextIdGroup = SpiderDataGroup.withNameInData("emptyTextId");
+	private void createAndAddEmptyTextId(DataGroup pCollVar) {
+		DataGroup emptyTextIdGroup = DataGroup.withNameInData("emptyTextId");
 		emptyTextIdGroup
-				.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "coraText"));
+				.addChild(DataAtomic.withNameInDataAndValue("linkedRecordType", "coraText"));
 		emptyTextIdGroup.addChild(
-				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", "initialEmptyValueText"));
+				DataAtomic.withNameInDataAndValue("linkedRecordId", "initialEmptyValueText"));
 		pCollVar.addChild(emptyTextIdGroup);
 	}
 
-	private SpiderDataGroup createGroupWithRecordInfo(String id, String dataDivider) {
-		SpiderDataGroup pCollVar = SpiderDataGroup.withNameInData("presentation");
+	private DataGroup createGroupWithRecordInfo(String id, String dataDivider) {
+		DataGroup pCollVar = DataGroup.withNameInData("presentation");
 		createAndAddRecordInfo(id, dataDivider, pCollVar);
 		return pCollVar;
 	}
 
-	private void createAndAddRecordInfo(String id, String dataDivider, SpiderDataGroup pCollVar) {
-		SpiderDataGroup recordInfo = DataCreatorHelper.createRecordInfoWithIdAndDataDivider(id,
+	private void createAndAddRecordInfo(String id, String dataDivider, DataGroup pCollVar) {
+		DataGroup recordInfo = DataCreatorHelper.createRecordInfoWithIdAndDataDivider(id,
 				dataDivider);
 		pCollVar.addChild(recordInfo);
 	}
 
-	private void createAndAddPresentationOf(String presentationOf, SpiderDataGroup pCollVar) {
-		SpiderDataGroup presentationOfGroup = SpiderDataGroup.withNameInData("presentationOf");
-		presentationOfGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType",
+	private void createAndAddPresentationOf(String presentationOf, DataGroup pCollVar) {
+		DataGroup presentationOfGroup = DataGroup.withNameInData("presentationOf");
+		presentationOfGroup.addChild(DataAtomic.withNameInDataAndValue("linkedRecordType",
 				"metadataCollectionVariable"));
-		presentationOfGroup.addChild(
-				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", presentationOf));
+		presentationOfGroup
+				.addChild(DataAtomic.withNameInDataAndValue("linkedRecordId", presentationOf));
 		pCollVar.addChild(presentationOfGroup);
 	}
 

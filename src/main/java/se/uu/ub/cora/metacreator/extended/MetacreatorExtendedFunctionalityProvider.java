@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import se.uu.ub.cora.bookkeeper.data.DataGroup;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.TextCreator;
 import se.uu.ub.cora.metacreator.collection.CollectionVarFromItemCollectionCreator;
 import se.uu.ub.cora.metacreator.collection.CollectionVariableCompleter;

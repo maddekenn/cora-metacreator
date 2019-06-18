@@ -1,7 +1,7 @@
 package se.uu.ub.cora.metacreator;
 
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataAtomic;
+import se.uu.ub.cora.data.DataGroup;
 
 public class MetadataCompleter {
 
@@ -9,31 +9,30 @@ public class MetadataCompleter {
 	private static final String TEXT_ID = "textId";
 	private String id = "";
 
-	public void completeSpiderDataGroupWithTexts(SpiderDataGroup metadataGroup) {
+	public void completeSpiderDataGroupWithTexts(DataGroup metadataGroup) {
 		id = extractIdFromMetadataGroup(metadataGroup);
 		possiblyCompleteTextId(metadataGroup);
 		possiblyCompleteDefTextId(metadataGroup);
 	}
 
-	private void possiblyCompleteDefTextId(SpiderDataGroup metadataGroup) {
+	private void possiblyCompleteDefTextId(DataGroup metadataGroup) {
 		if (!metadataGroup.containsChildWithNameInData(DEF_TEXT_ID)) {
-			metadataGroup
-					.addChild(SpiderDataAtomic.withNameInDataAndValue(DEF_TEXT_ID, id + "DefText"));
+			metadataGroup.addChild(DataAtomic.withNameInDataAndValue(DEF_TEXT_ID, id + "DefText"));
 		}
 	}
 
-	private void possiblyCompleteTextId(SpiderDataGroup metadataGroup) {
+	private void possiblyCompleteTextId(DataGroup metadataGroup) {
 		if (!metadataGroup.containsChildWithNameInData(TEXT_ID)) {
-			metadataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue(TEXT_ID, id + "Text"));
+			metadataGroup.addChild(DataAtomic.withNameInDataAndValue(TEXT_ID, id + "Text"));
 		}
 	}
 
-	private String extractIdFromMetadataGroup(SpiderDataGroup metadataGroup) {
-		SpiderDataGroup recordInfo = metadataGroup.extractGroup("recordInfo");
-		return recordInfo.extractAtomicValue("id");
+	private String extractIdFromMetadataGroup(DataGroup metadataGroup) {
+		DataGroup recordInfo = metadataGroup.getFirstGroupWithNameInData("recordInfo");
+		return recordInfo.getFirstAtomicValueWithNameInData("id");
 	}
 
-	public void completeSpiderDataGroupWithLinkedTexts(SpiderDataGroup metadataGroup,
+	public void completeSpiderDataGroupWithLinkedTexts(DataGroup metadataGroup,
 			String textRecordType) {
 		id = extractIdFromMetadataGroup(metadataGroup);
 		possiblyAddLinkedTextWithNameInDataTextIdAndTextRecordType(metadataGroup, TEXT_ID,
@@ -42,26 +41,26 @@ public class MetadataCompleter {
 				id + "DefText", textRecordType);
 	}
 
-	private void possiblyAddLinkedTextWithNameInDataTextIdAndTextRecordType(
-			SpiderDataGroup metadataGroup, String textNameInData, String textId,
-			String textRecordType) {
+	private void possiblyAddLinkedTextWithNameInDataTextIdAndTextRecordType(DataGroup metadataGroup,
+			String textNameInData, String textId, String textRecordType) {
 		if (!metadataGroup.containsChildWithNameInData(textNameInData)) {
-			addLinkedTextWithNameInDataTextIdAndTextRecordType(metadataGroup, textNameInData, textId, textRecordType);
+			addLinkedTextWithNameInDataTextIdAndTextRecordType(metadataGroup, textNameInData,
+					textId, textRecordType);
 		}
 	}
 
-	private void addLinkedTextWithNameInDataTextIdAndTextRecordType(SpiderDataGroup metadataGroup, String textNameInData, String textId, String textRecordType) {
-		SpiderDataGroup textIdGroup = createLinkedTextWithNameInDataLinkedIdAndLinkedType(
-                textNameInData, textId, textRecordType);
+	private void addLinkedTextWithNameInDataTextIdAndTextRecordType(DataGroup metadataGroup,
+			String textNameInData, String textId, String textRecordType) {
+		DataGroup textIdGroup = createLinkedTextWithNameInDataLinkedIdAndLinkedType(textNameInData,
+				textId, textRecordType);
 		metadataGroup.addChild(textIdGroup);
 	}
 
-	private SpiderDataGroup createLinkedTextWithNameInDataLinkedIdAndLinkedType(String nameInData,
-																				String textId, String textRecordType) {
-		SpiderDataGroup textIdGroup = SpiderDataGroup.withNameInData(nameInData);
-		textIdGroup.addChild(
-				SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", textRecordType));
-		textIdGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", textId));
+	private DataGroup createLinkedTextWithNameInDataLinkedIdAndLinkedType(String nameInData,
+			String textId, String textRecordType) {
+		DataGroup textIdGroup = DataGroup.withNameInData(nameInData);
+		textIdGroup.addChild(DataAtomic.withNameInDataAndValue("linkedRecordType", textRecordType));
+		textIdGroup.addChild(DataAtomic.withNameInDataAndValue("linkedRecordId", textId));
 		return textIdGroup;
 	}
 

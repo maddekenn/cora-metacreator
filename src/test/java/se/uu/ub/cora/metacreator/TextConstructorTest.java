@@ -24,7 +24,7 @@ import static org.testng.Assert.assertNotNull;
 
 import org.testng.annotations.Test;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 
 public class TextConstructorTest {
 
@@ -32,37 +32,38 @@ public class TextConstructorTest {
 	public void testCreateTextsFromMetadataId() {
 		String textId = "someTextVar";
 		String dataDividerString = "cora";
-		TextConstructor textConstructor = TextConstructor.withTextIdAndDataDivider(textId, dataDividerString);
+		TextConstructor textConstructor = TextConstructor.withTextIdAndDataDivider(textId,
+				dataDividerString);
 		assertNotNull(textConstructor);
-		SpiderDataGroup createdText = textConstructor.createText();
+		DataGroup createdText = textConstructor.createText();
 		assertEquals(createdText.getNameInData(), "text");
 
 		assertEquals(createdText.getChildren().size(), 3);
 
 		assertCorrectRecordInfo(createdText);
 
-		SpiderDataGroup textPart1 = (SpiderDataGroup) createdText.getChildren().get(1);
+		DataGroup textPart1 = (DataGroup) createdText.getChildren().get(1);
 		assertEquals(textPart1.getChildren().size(), 1);
 		assertEquals(textPart1.getAttributes().size(), 2);
 		assertEquals(textPart1.getAttributes().get("type"), "default");
 		assertEquals(textPart1.getAttributes().get("lang"), "sv");
-		assertEquals(textPart1.extractAtomicValue("text"), "Text för:someTextVar");
+		assertEquals(textPart1.getFirstAtomicValueWithNameInData("text"), "Text för:someTextVar");
 
-		SpiderDataGroup textPart2 = (SpiderDataGroup) createdText.getChildren().get(2);
+		DataGroup textPart2 = (DataGroup) createdText.getChildren().get(2);
 		assertEquals(textPart2.getChildren().size(), 1);
 		assertEquals(textPart2.getAttributes().size(), 2);
 		assertEquals(textPart2.getAttributes().get("type"), "alternative");
 		assertEquals(textPart2.getAttributes().get("lang"), "en");
-		assertEquals(textPart2.extractAtomicValue("text"), "Text for:someTextVar");
+		assertEquals(textPart2.getFirstAtomicValueWithNameInData("text"), "Text for:someTextVar");
 
 	}
 
-	private void assertCorrectRecordInfo(SpiderDataGroup createdText) {
-		SpiderDataGroup recordInfo = createdText.extractGroup("recordInfo");
-		assertEquals(recordInfo.extractAtomicValue("id"), "someTextVar");
+	private void assertCorrectRecordInfo(DataGroup createdText) {
+		DataGroup recordInfo = createdText.getFirstGroupWithNameInData("recordInfo");
+		assertEquals(recordInfo.getFirstAtomicValueWithNameInData("id"), "someTextVar");
 
-		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordType"), "system");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "cora");
+		DataGroup dataDivider = recordInfo.getFirstGroupWithNameInData("dataDivider");
+		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordType"), "system");
+		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordId"), "cora");
 	}
 }
