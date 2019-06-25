@@ -34,7 +34,7 @@ public class RecordCreatorHelperTest {
 				"defTextId", "textSystemOne", defTextId);
 
 		RecordCreatorHelper creatorHelper = RecordCreatorHelper
-				.withAuthTokenSpiderDataGroupAndImplementingTextType("testUser", itemCollection,
+				.withAuthTokenDataGroupAndImplementingTextType("testUser", itemCollection,
 						"textSystemOne");
 		creatorHelper.createTextsIfMissing();
 

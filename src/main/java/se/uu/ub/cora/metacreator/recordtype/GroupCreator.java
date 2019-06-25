@@ -6,7 +6,7 @@ import se.uu.ub.cora.data.DataGroup;
 public abstract class GroupCreator {
 	protected String id;
 	protected String dataDivider;
-	protected DataGroup topLevelSpiderDataGroup;
+	protected DataGroup topLevelDataGroup;
 
 	public GroupCreator(String id, String dataDivider) {
 		this.id = id;
@@ -14,20 +14,20 @@ public abstract class GroupCreator {
 	}
 
 	public DataGroup createGroup(String refRecordInfoId) {
-		topLevelSpiderDataGroup = createTopLevelSpiderDataGroup();
+		topLevelDataGroup = createTopLevelDataGroup();
 
-		createAndAddRecordInfoToSpiderDataGroup();
+		createAndAddRecordInfoToDataGroup();
 
 		addChildReferencesWithChildId(refRecordInfoId);
 		addAttributeType();
-		return topLevelSpiderDataGroup;
+		return topLevelDataGroup;
 	}
 
-	abstract DataGroup createTopLevelSpiderDataGroup();
+	abstract DataGroup createTopLevelDataGroup();
 
 	abstract void addAttributeType();
 
-	protected void createAndAddRecordInfoToSpiderDataGroup() {
+	protected void createAndAddRecordInfoToDataGroup() {
 		DataGroup recordInfo = DataGroup.withNameInData("recordInfo");
 		recordInfo.addChild(DataAtomic.withNameInDataAndValue("id", id));
 
@@ -36,7 +36,7 @@ public abstract class GroupCreator {
 		dataDividerGroup.addChild(DataAtomic.withNameInDataAndValue("linkedRecordId", dataDivider));
 
 		recordInfo.addChild(dataDividerGroup);
-		topLevelSpiderDataGroup.addChild(recordInfo);
+		topLevelDataGroup.addChild(recordInfo);
 	}
 
 	protected void addChildReferencesWithChildId(String refRecordInfoId) {
@@ -51,7 +51,7 @@ public abstract class GroupCreator {
 		addValuesForChildReference(childReference);
 		childReference.setRepeatId("0");
 		childReferences.addChild(childReference);
-		topLevelSpiderDataGroup.addChild(childReferences);
+		topLevelDataGroup.addChild(childReferences);
 	}
 
 	void addValuesForChildReference(DataGroup childReference) {

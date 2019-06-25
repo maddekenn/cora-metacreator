@@ -15,8 +15,8 @@ public class CollectionVariableCompleter extends RecordCompleter implements Exte
 	}
 
 	@Override
-	public void useExtendedFunctionality(String authToken, DataGroup spiderDataGroup) {
-		this.spiderDataGroup = spiderDataGroup;
+	public void useExtendedFunctionality(String authToken, DataGroup dataGroup) {
+		this.dataGroup = dataGroup;
 		addValuesToDataGroup();
 	}
 }

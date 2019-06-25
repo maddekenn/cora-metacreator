@@ -26,8 +26,8 @@ public class SearchFromRecordTypeCreatorTest {
 	public void testUseExtendedFunctionality() {
 		SearchFromRecordTypeCreator searchCreator = new SearchFromRecordTypeCreator();
 
-		DataGroup recordType = DataCreator.createSpiderDataGroupForRecordTypeWithId("myRecordType");
-		DataCreator.addAllValuesToSpiderDataGroup(recordType, "myRecordType");
+		DataGroup recordType = DataCreator.createDataGroupForRecordTypeWithId("myRecordType");
+		DataCreator.addAllValuesToDataGroup(recordType, "myRecordType");
 
 		searchCreator.useExtendedFunctionality(authToken, recordType);
 
@@ -39,8 +39,8 @@ public class SearchFromRecordTypeCreatorTest {
 		SearchFromRecordTypeCreator searchCreator = new SearchFromRecordTypeCreator();
 
 		DataGroup recordType = DataCreator
-				.createSpiderDataGroupForRecordTypeWithId("myRecordTypeExists");
-		DataCreator.addAllValuesToSpiderDataGroup(recordType, "myRecordTypeExists");
+				.createDataGroupForRecordTypeWithId("myRecordTypeExists");
+		DataCreator.addAllValuesToDataGroup(recordType, "myRecordTypeExists");
 
 		searchCreator.useExtendedFunctionality(authToken, recordType);
 

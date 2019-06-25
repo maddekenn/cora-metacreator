@@ -48,14 +48,14 @@ public class PNumVarConstructor {
 	}
 
 	private DataGroup createNumVarUsingIdAndMode(String pVarId, String mode) {
-		DataGroup pNumDataGroup = createPNumVarSpiderDataGroup();
+		DataGroup pNumDataGroup = createPNumVarDataGroup();
 		createAndAddRecordInfoToPNumGroupUsingId(pNumDataGroup, pVarId);
 		createAndAddPresentationOf(pNumDataGroup);
 		pNumDataGroup.addChild(DataAtomic.withNameInDataAndValue("mode", mode));
 		return pNumDataGroup;
 	}
 
-	private DataGroup createPNumVarSpiderDataGroup() {
+	private DataGroup createPNumVarDataGroup() {
 		DataGroup pNumDataGroup = DataGroup.withNameInData("presentation");
 		pNumDataGroup.addAttributeByIdWithValue("type", "pNumVar");
 		return pNumDataGroup;

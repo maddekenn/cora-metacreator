@@ -4,7 +4,7 @@ import se.uu.ub.cora.data.DataGroup;
 
 public abstract class RecordCompleter {
 	protected String implementingTextType;
-	protected DataGroup spiderDataGroup;
+	protected DataGroup dataGroup;
 
 	public RecordCompleter(String implementingTextType) {
 		this.implementingTextType = implementingTextType;
@@ -16,7 +16,7 @@ public abstract class RecordCompleter {
 
 	private void addTexts() {
 		MetadataCompleter completer = new MetadataCompleter();
-		completer.completeSpiderDataGroupWithLinkedTexts(spiderDataGroup, implementingTextType);
+		completer.completeDataGroupWithLinkedTexts(dataGroup, implementingTextType);
 	}
 
 	public String getImplementingTextType() {

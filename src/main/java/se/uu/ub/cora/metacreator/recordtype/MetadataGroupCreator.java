@@ -24,16 +24,16 @@ public class MetadataGroupCreator extends GroupCreator {
 		addNameInData();
 		addTextIds();
 
-		return topLevelSpiderDataGroup;
+		return topLevelDataGroup;
 	}
 
 	private void addNameInData() {
-		topLevelSpiderDataGroup
+		topLevelDataGroup
 				.addChild(DataAtomic.withNameInDataAndValue("nameInData", nameInData));
 	}
 
 	@Override
-	protected DataGroup createTopLevelSpiderDataGroup() {
+	protected DataGroup createTopLevelDataGroup() {
 		return DataGroup.withNameInData("metadata");
 	}
 
@@ -49,12 +49,12 @@ public class MetadataGroupCreator extends GroupCreator {
 		textIdGroup.addChild(DataAtomic.withNameInDataAndValue("linkedRecordId", textId));
 		textIdGroup
 				.addChild(DataAtomic.withNameInDataAndValue("linkedRecordType", linkedRecordType));
-		topLevelSpiderDataGroup.addChild(textIdGroup);
+		topLevelDataGroup.addChild(textIdGroup);
 	}
 
 	@Override
 	protected void addAttributeType() {
-		topLevelSpiderDataGroup.addAttributeByIdWithValue("type", "group");
+		topLevelDataGroup.addAttributeByIdWithValue("type", "group");
 	}
 
 }

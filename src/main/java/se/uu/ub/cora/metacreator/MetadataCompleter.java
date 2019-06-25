@@ -9,7 +9,7 @@ public class MetadataCompleter {
 	private static final String TEXT_ID = "textId";
 	private String id = "";
 
-	public void completeSpiderDataGroupWithTexts(DataGroup metadataGroup) {
+	public void completeDataGroupWithTexts(DataGroup metadataGroup) {
 		id = extractIdFromMetadataGroup(metadataGroup);
 		possiblyCompleteTextId(metadataGroup);
 		possiblyCompleteDefTextId(metadataGroup);
@@ -32,7 +32,7 @@ public class MetadataCompleter {
 		return recordInfo.getFirstAtomicValueWithNameInData("id");
 	}
 
-	public void completeSpiderDataGroupWithLinkedTexts(DataGroup metadataGroup,
+	public void completeDataGroupWithLinkedTexts(DataGroup metadataGroup,
 			String textRecordType) {
 		id = extractIdFromMetadataGroup(metadataGroup);
 		possiblyAddLinkedTextWithNameInDataTextIdAndTextRecordType(metadataGroup, TEXT_ID,

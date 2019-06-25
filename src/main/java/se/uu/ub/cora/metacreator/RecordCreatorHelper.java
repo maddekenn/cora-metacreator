@@ -9,19 +9,19 @@ import se.uu.ub.cora.spider.record.storage.RecordNotFoundException;
 public class RecordCreatorHelper {
 
 	private final String authToken;
-	private DataGroup spiderDataGroup;
+	private DataGroup dataGroup;
 	private String implementingTextType;
 
-	public RecordCreatorHelper(String authToken, DataGroup spiderDataGroup,
+	public RecordCreatorHelper(String authToken, DataGroup dataGroup,
 			String implementingTextType) {
 		this.authToken = authToken;
-		this.spiderDataGroup = spiderDataGroup;
+		this.dataGroup = dataGroup;
 		this.implementingTextType = implementingTextType;
 	}
 
-	public static RecordCreatorHelper withAuthTokenSpiderDataGroupAndImplementingTextType(
-			String authToken, DataGroup spiderDataGroup, String implementingTextType) {
-		return new RecordCreatorHelper(authToken, spiderDataGroup, implementingTextType);
+	public static RecordCreatorHelper withAuthTokenDataGroupAndImplementingTextType(
+			String authToken, DataGroup dataGroup, String implementingTextType) {
+		return new RecordCreatorHelper(authToken, dataGroup, implementingTextType);
 	}
 
 	public void createTextsIfMissing() {
@@ -30,7 +30,7 @@ public class RecordCreatorHelper {
 	}
 
 	private void createTextWithTextIdToExtractIfMissing(String textIdToExtract) {
-		DataGroup textIdGroup = this.spiderDataGroup.getFirstGroupWithNameInData(textIdToExtract);
+		DataGroup textIdGroup = this.dataGroup.getFirstGroupWithNameInData(textIdToExtract);
 		String textId = textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId");
 		if (textIsMissing(textId)) {
 			createTextWithTextId(textId);
@@ -49,7 +49,7 @@ public class RecordCreatorHelper {
 
 	private void createTextWithTextId(String textId) {
 		String dataDivider = DataCreatorHelper
-				.extractDataDividerStringFromDataGroup(spiderDataGroup);
+				.extractDataDividerStringFromDataGroup(dataGroup);
 		createTextInStorageWithTextIdDataDividerAndTextType(textId, dataDivider,
 				implementingTextType);
 	}

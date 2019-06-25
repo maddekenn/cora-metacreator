@@ -24,18 +24,18 @@ import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 
 public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 
-	private DataGroup spiderDataGroup;
+	private DataGroup dataGroup;
 	private String id;
 
 	@Override
-	public void useExtendedFunctionality(String userId, DataGroup spiderDataGroup) {
-		this.spiderDataGroup = spiderDataGroup;
+	public void useExtendedFunctionality(String userId, DataGroup dataGroup) {
+		this.dataGroup = dataGroup;
 
 		addValuesToDataGroup();
 	}
 
 	private void addValuesToDataGroup() {
-		DataGroup recordInfoGroup = spiderDataGroup.getFirstGroupWithNameInData("recordInfo");
+		DataGroup recordInfoGroup = dataGroup.getFirstGroupWithNameInData("recordInfo");
 		id = recordInfoGroup.getFirstAtomicValueWithNameInData("id");
 		addMissingMetadataIds();
 		addMissingPresentationIds();
@@ -57,12 +57,12 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 			DataGroup link = DataGroup.withNameInData(nameInData);
 			link.addChild(DataAtomic.withNameInDataAndValue("linkedRecordType", linkedRecordType));
 			link.addChild(DataAtomic.withNameInDataAndValue("linkedRecordId", linkedRecordId));
-			spiderDataGroup.addChild(link);
+			dataGroup.addChild(link);
 		}
 	}
 
 	private boolean childWithNameInDataIsMissing(String nameInData) {
-		return !spiderDataGroup.containsChildWithNameInData(nameInData);
+		return !dataGroup.containsChildWithNameInData(nameInData);
 	}
 
 	private void addMissingPresentationIds() {
@@ -92,11 +92,11 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 
 	private void addPublicIfMissing() {
 		if (publicIsMissing()) {
-			spiderDataGroup.addChild(DataAtomic.withNameInDataAndValue("public", "false"));
+			dataGroup.addChild(DataAtomic.withNameInDataAndValue("public", "false"));
 		}
 	}
 
 	private boolean publicIsMissing() {
-		return !spiderDataGroup.containsChildWithNameInData("public");
+		return !dataGroup.containsChildWithNameInData("public");
 	}
 }

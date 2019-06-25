@@ -73,13 +73,13 @@ public class PresentationGroupCreator {
 	}
 
 	private void createPGroup() {
-		DataGroup dataGroup = createSpiderDataGroupToCreate();
+		DataGroup dataGroup = createDataGroupToCreate();
 
 		SpiderRecordCreator spiderRecordCreator = SpiderInstanceProvider.getSpiderRecordCreator();
 		spiderRecordCreator.createAndStoreRecord(authToken, "presentationGroup", dataGroup);
 	}
 
-	private DataGroup createSpiderDataGroupToCreate() {
+	private DataGroup createDataGroupToCreate() {
 		PChildRefConstructorFactory constructorFactory = new PChildRefConstructorFactoryImp();
 		PGroupConstructor pGroupConstructor = PGroupConstructor
 				.usingAuthTokenAndPChildRefConstructorFactory(authToken, constructorFactory);

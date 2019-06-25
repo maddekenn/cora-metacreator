@@ -16,7 +16,7 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 
 	private final String implementingTextType;
 	private String authToken;
-	private DataGroup spiderDataGroup;
+	private DataGroup dataGroup;
 
 	public ItemCollectionCreator(String implementingTextType) {
 		this.implementingTextType = implementingTextType;
@@ -27,16 +27,16 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 	}
 
 	@Override
-	public void useExtendedFunctionality(String authToken, DataGroup spiderDataGroup) {
+	public void useExtendedFunctionality(String authToken, DataGroup dataGroup) {
 		this.authToken = authToken;
-		this.spiderDataGroup = spiderDataGroup;
+		this.dataGroup = dataGroup;
 
-		possiblyCreateItems(authToken, spiderDataGroup);
-		possiblyCreateTexts(authToken, spiderDataGroup);
+		possiblyCreateItems(authToken);
+		possiblyCreateTexts(authToken);
 	}
 
-	private void possiblyCreateItems(String authToken, DataGroup spiderDataGroup) {
-		DataGroup itemReferences = spiderDataGroup
+	private void possiblyCreateItems(String authToken) {
+		DataGroup itemReferences = dataGroup
 				.getFirstGroupWithNameInData("collectionItemReferences");
 		for (DataElement child : itemReferences.getChildren()) {
 			DataGroup item = (DataGroup) child;
@@ -68,14 +68,13 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 
 	private void createItem(String id) {
 		DataGroup item = DataGroup.withNameInData("metadata");
-		String dataDivider = DataCreatorHelper
-				.extractDataDividerStringFromDataGroup(spiderDataGroup);
+		String dataDivider = DataCreatorHelper.extractDataDividerStringFromDataGroup(dataGroup);
 		DataGroup recordInfo = DataCreatorHelper.createRecordInfoWithIdAndDataDivider(id,
 				dataDivider);
 
 		item.addChild(recordInfo);
 		MetadataCompleter completer = new MetadataCompleter();
-		completer.completeSpiderDataGroupWithLinkedTexts(item, "coraText");
+		completer.completeDataGroupWithLinkedTexts(item, "coraText");
 
 		addAtomicValues(id, item);
 		item.addAttributeByIdWithValue("type", "collectionItem");
@@ -87,16 +86,16 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 		item.addChild(DataAtomic.withNameInDataAndValue("nameInData", nameInData));
 	}
 
-	private void createRecord(String recordTypeToCreate, DataGroup spiderDataGroupToCreate) {
+	private void createRecord(String recordTypeToCreate, DataGroup dataGroupToCreate) {
 		SpiderRecordCreator spiderRecordCreatorOutput = SpiderInstanceProvider
 				.getSpiderRecordCreator();
 		spiderRecordCreatorOutput.createAndStoreRecord(authToken, recordTypeToCreate,
-				spiderDataGroupToCreate);
+				dataGroupToCreate);
 	}
 
-	private void possiblyCreateTexts(String authToken, DataGroup spiderDataGroup) {
+	private void possiblyCreateTexts(String authToken) {
 		RecordCreatorHelper recordCreatorHelper = RecordCreatorHelper
-				.withAuthTokenSpiderDataGroupAndImplementingTextType(authToken, spiderDataGroup,
+				.withAuthTokenDataGroupAndImplementingTextType(authToken, dataGroup,
 						implementingTextType);
 		recordCreatorHelper.createTextsIfMissing();
 	}

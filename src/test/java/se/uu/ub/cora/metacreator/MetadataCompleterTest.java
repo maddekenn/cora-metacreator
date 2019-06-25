@@ -13,7 +13,7 @@ public class MetadataCompleterTest {
 	public void testCompleteTextsNoTextIdsExist() {
 		MetadataCompleter metaCompleter = new MetadataCompleter();
 		DataGroup metadataGroup = createItemWithNoTexts();
-		metaCompleter.completeSpiderDataGroupWithTexts(metadataGroup);
+		metaCompleter.completeDataGroupWithTexts(metadataGroup);
 
 		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("textId"), "someIdText");
 		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("defTextId"), "someIdDefText");
@@ -33,7 +33,7 @@ public class MetadataCompleterTest {
 		DataGroup metadataGroup = createItemWithNoTexts();
 		metadataGroup.addChild(DataAtomic.withNameInDataAndValue("textId", "someText"));
 
-		metaCompleter.completeSpiderDataGroupWithTexts(metadataGroup);
+		metaCompleter.completeDataGroupWithTexts(metadataGroup);
 
 		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("textId"), "someText");
 		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("defTextId"), "someIdDefText");
@@ -45,7 +45,7 @@ public class MetadataCompleterTest {
 		DataGroup metadataGroup = createItemWithNoTexts();
 		metadataGroup.addChild(DataAtomic.withNameInDataAndValue("defTextId", "someDefText"));
 
-		metaCompleter.completeSpiderDataGroupWithTexts(metadataGroup);
+		metaCompleter.completeDataGroupWithTexts(metadataGroup);
 
 		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("textId"), "someIdText");
 		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("defTextId"), "someDefText");
@@ -58,7 +58,7 @@ public class MetadataCompleterTest {
 		metadataGroup.addChild(DataAtomic.withNameInDataAndValue("textId", "someText"));
 		metadataGroup.addChild(DataAtomic.withNameInDataAndValue("defTextId", "someDefText"));
 
-		metaCompleter.completeSpiderDataGroupWithTexts(metadataGroup);
+		metaCompleter.completeDataGroupWithTexts(metadataGroup);
 
 		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("textId"), "someText");
 		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("defTextId"), "someDefText");
@@ -68,7 +68,7 @@ public class MetadataCompleterTest {
 	public void testCompleteLinkedTextsNoTextIdsExist() {
 		MetadataCompleter metaCompleter = new MetadataCompleter();
 		DataGroup metadataGroup = createItemWithNoTexts();
-		metaCompleter.completeSpiderDataGroupWithLinkedTexts(metadataGroup, "textSystemOne");
+		metaCompleter.completeDataGroupWithLinkedTexts(metadataGroup, "textSystemOne");
 
 		DataGroup textIdGroup = metadataGroup.getFirstGroupWithNameInData("textId");
 		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"), "someIdText");
@@ -87,7 +87,7 @@ public class MetadataCompleterTest {
 		DataGroup metadataGroup = createItemWithNoTexts();
 		addTexts(metadataGroup);
 
-		metaCompleter.completeSpiderDataGroupWithLinkedTexts(metadataGroup, "testOtherText");
+		metaCompleter.completeDataGroupWithLinkedTexts(metadataGroup, "testOtherText");
 
 		DataGroup textIdGroup = metadataGroup.getFirstGroupWithNameInData("textId");
 		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),

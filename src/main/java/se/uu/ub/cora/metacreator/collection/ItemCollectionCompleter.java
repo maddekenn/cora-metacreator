@@ -17,9 +17,9 @@ public class ItemCollectionCompleter implements ExtendedFunctionality {
 	}
 
 	@Override
-	public void useExtendedFunctionality(String authToken, DataGroup spiderDataGroup) {
+	public void useExtendedFunctionality(String authToken, DataGroup dataGroup) {
 		MetadataCompleter completer = new MetadataCompleter();
-		completer.completeSpiderDataGroupWithLinkedTexts(spiderDataGroup, implementingTextType);
+		completer.completeDataGroupWithLinkedTexts(dataGroup, implementingTextType);
 	}
 
 	public String getImplementingTextType() {

@@ -21,7 +21,7 @@ public class SearchGroupCreator extends GroupCreator {
 	public DataGroup createGroup(String childReferenceId) {
 		super.createGroup(childReferenceId);
 		addChildren();
-		return topLevelSpiderDataGroup;
+		return topLevelDataGroup;
 	}
 
 	private void addChildren() {
@@ -34,7 +34,7 @@ public class SearchGroupCreator extends GroupCreator {
 
 		addTexts();
 
-		topLevelSpiderDataGroup
+		topLevelDataGroup
 				.addChild(DataAtomic.withNameInDataAndValue("searchGroup", "autocomplete"));
 	}
 
@@ -42,7 +42,7 @@ public class SearchGroupCreator extends GroupCreator {
 			String linkedRecordType, String linkedRecordId) {
 		DataGroup recordTypeToSearchIn = createLinkChildWithNameInDataAndLinkedTypeAndLinkedId(
 				nameInData, linkedRecordType, linkedRecordId);
-		topLevelSpiderDataGroup.addChild(recordTypeToSearchIn);
+		topLevelDataGroup.addChild(recordTypeToSearchIn);
 	}
 
 	private void addLinkChildWithNameInDataLinkedTypeAndLinkedIdAndRepeatId(String nameInData,
@@ -50,7 +50,7 @@ public class SearchGroupCreator extends GroupCreator {
 		DataGroup linkChild = createLinkChildWithNameInDataAndLinkedTypeAndLinkedId(nameInData,
 				linkedRecordType, linkedRecordId);
 		linkChild.setRepeatId(repeatId);
-		topLevelSpiderDataGroup.addChild(linkChild);
+		topLevelDataGroup.addChild(linkChild);
 	}
 
 	private DataGroup createLinkChildWithNameInDataAndLinkedTypeAndLinkedId(String nameInData,
@@ -67,7 +67,7 @@ public class SearchGroupCreator extends GroupCreator {
 	}
 
 	@Override
-	DataGroup createTopLevelSpiderDataGroup() {
+	DataGroup createTopLevelDataGroup() {
 		return DataGroup.withNameInData("search");
 	}
 

@@ -16,9 +16,9 @@ public class SearchCreator implements ExtendedFunctionality {
 	}
 
 	@Override
-	public void useExtendedFunctionality(String authToken, DataGroup spiderDataGroup) {
+	public void useExtendedFunctionality(String authToken, DataGroup dataGroup) {
 		RecordCreatorHelper recordCreatorHelper = RecordCreatorHelper
-				.withAuthTokenSpiderDataGroupAndImplementingTextType(authToken, spiderDataGroup,
+				.withAuthTokenDataGroupAndImplementingTextType(authToken, dataGroup,
 						implementingTextType);
 		recordCreatorHelper.createTextsIfMissing();
 	}
