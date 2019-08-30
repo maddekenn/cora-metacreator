@@ -2,10 +2,10 @@ package se.uu.ub.cora.metacreator.dependency;
 
 import java.util.Collection;
 
-import se.uu.ub.cora.bookkeeper.data.DataAtomic;
-import se.uu.ub.cora.bookkeeper.data.DataGroup;
+import se.uu.ub.cora.data.DataAtomic;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.storage.RecordStorage;
-import se.uu.ub.cora.storage.SpiderReadResult;
+import se.uu.ub.cora.storage.StorageReadResult;
 
 public class RecordStorageSpy implements RecordStorage {
 
@@ -14,8 +14,8 @@ public class RecordStorageSpy implements RecordStorage {
 		if ("countryCollectionItem".equals(id) || "genericCollectionItem".equals(id)) {
 			DataGroup dataGroup = DataGroup.withNameInData("recordType");
 			DataGroup parentGroup = DataGroup.withNameInData("parentId");
-			parentGroup
-				.addChild(DataAtomic.withNameInDataAndValue("" + "linkedRecordType", "recordType"));
+			parentGroup.addChild(
+					DataAtomic.withNameInDataAndValue("" + "linkedRecordType", "recordType"));
 			parentGroup.addChild(
 					DataAtomic.withNameInDataAndValue("linkedRecordId", "metadataCollectionItem"));
 			dataGroup.addChild(parentGroup);
@@ -51,13 +51,13 @@ public class RecordStorageSpy implements RecordStorage {
 	}
 
 	@Override
-	public SpiderReadResult readList(String type, DataGroup filter) {
+	public StorageReadResult readList(String type, DataGroup filter) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public SpiderReadResult readAbstractList(String type, DataGroup filter) {
+	public StorageReadResult readAbstractList(String type, DataGroup filter) {
 		// TODO Auto-generated method stub
 		return null;
 	}
