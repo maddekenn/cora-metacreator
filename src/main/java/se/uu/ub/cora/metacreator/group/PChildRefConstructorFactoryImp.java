@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Uppsala University Library
+ * Copyright 2018, 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -29,6 +29,9 @@ public class PChildRefConstructorFactoryImp implements PChildRefConstructorFacto
 		if (metadataChildIsTextVariable(metadataRefId)) {
 			return PVarChildRefConstructor
 					.usingMetadataChildReferenceAndMode(metadataChildReference, mode);
+		} else if (metadataChildIsNumberVariable(metadataRefId)) {
+			return PNumberVarChildRefConstructor
+					.usingMetadataChildReferenceAndMode(metadataChildReference, mode);
 		} else if (metadataChildIsCollectionVar(metadataRefId)) {
 			return PCollVarChildRefConstructor
 					.usingMetadataChildReferenceAndMode(metadataChildReference, mode);
@@ -52,6 +55,10 @@ public class PChildRefConstructorFactoryImp implements PChildRefConstructorFacto
 
 	private boolean metadataChildIsTextVariable(String metadataRefId) {
 		return metadataRefId.endsWith("TextVar");
+	}
+
+	private boolean metadataChildIsNumberVariable(String metadataRefId) {
+		return metadataRefId.endsWith("NumberVar");
 	}
 
 	private boolean metadataChildIsCollectionVar(String metadataRefId) {

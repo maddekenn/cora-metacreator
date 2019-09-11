@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Uppsala University Library
+ * Copyright 2018, 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -43,6 +43,16 @@ public class PChildRefConstructorFactoryTest {
 				.createMetadataChildRefWithIdAndRepeatId("identifierValueTextVar", "5");
 		PChildRefConstructor constructor = factory.factor(metadataChildReference, mode);
 		assertTrue(constructor instanceof PVarChildRefConstructor);
+		assertEquals(constructor.getMode(), mode);
+		assertEquals(constructor.getMetadataChildReference(), metadataChildReference);
+	}
+
+	@Test
+	public void testFactorPNumVarChildRefConstructor() {
+		SpiderDataGroup metadataChildReference = DataCreatorForPresentationsConstructor
+				.createMetadataChildRefWithIdAndRepeatId("ageNumberVar", "5");
+		PChildRefConstructor constructor = factory.factor(metadataChildReference, mode);
+		assertTrue(constructor instanceof PNumberVarChildRefConstructor);
 		assertEquals(constructor.getMode(), mode);
 		assertEquals(constructor.getMetadataChildReference(), metadataChildReference);
 	}
