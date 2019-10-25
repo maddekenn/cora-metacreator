@@ -204,7 +204,7 @@ public final class PGroupConstructor {
 		}
 	}
 
-	private SpiderDataGroup constructPGroupWithChildReferences(SpiderDataGroup childReferences) {
+	private SpiderDataGroup constructPGroupWithChildReferences(SpiderDataElement childReferences) {
 		SpiderDataGroup pGroup = constructPGroup();
 		addChildReferencesToPGroup(childReferences, pGroup);
 		return pGroup;
