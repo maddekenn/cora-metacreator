@@ -57,7 +57,7 @@ public class PresentationGroupCreator {
 	}
 
 	public void createPGroupIfNotAlreadyExist() {
-		if(recordDoesNotExistInStorage()) {
+		if (recordDoesNotExistInStorage()) {
 			createPGroup();
 		}
 	}
@@ -81,18 +81,16 @@ public class PresentationGroupCreator {
 
 	private SpiderDataGroup createSpiderDataGroupToCreate() {
 		PChildRefConstructorFactory constructorFactory = new PChildRefConstructorFactoryImp();
-		PGroupConstructor pGroupConstructor = PGroupConstructor.usingAuthTokenAndPChildRefConstructorFactory(authToken, constructorFactory);
+		PGroupConstructor pGroupConstructor = PGroupConstructor
+				.usingAuthTokenAndPChildRefConstructorFactory(authToken, constructorFactory);
 
-		return pGroupConstructor
-                .constructPGroupWithIdDataDividerPresentationOfChildrenAndMode(presentationId,
-                        dataDivider, presentationOf, metadataChildReferences, mode);
+		return pGroupConstructor.constructPGroupWithIdDataDividerPresentationOfChildrenAndMode(
+				presentationId, dataDivider, presentationOf, metadataChildReferences, mode);
 	}
 
 	public void setMetadataChildReferences(List<SpiderDataElement> metadataChildReferences) {
 		this.metadataChildReferences = new ArrayList<>();
-		for(SpiderDataElement metadataChildReference : metadataChildReferences) {
-			this.metadataChildReferences.add(metadataChildReference);
-		}
+		this.metadataChildReferences.addAll(metadataChildReferences);
 	}
 
 }

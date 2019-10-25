@@ -75,7 +75,7 @@ public class MetacreatorExtendedFunctionalityProvider extends BaseExtendedFuncti
 			list.add(new RecordTypeMetaCompleter());
 			list.add(RecordTypeCreator.forImplementingTextType(CORA_TEXT));
 		}
-		if (parentId.equals("metadataCollectionItem")) {
+		if ("metadataCollectionItem".equals(parentId)) {
 			list = ensureListExists(list);
 			list.add(CollectionItemCompleter.forTextLinkedRecordType(CORA_TEXT));
 			list.add(TextCreator.forImplementingTextType(CORA_TEXT));

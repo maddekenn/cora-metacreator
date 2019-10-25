@@ -210,7 +210,7 @@ public final class PGroupConstructor {
 		return pGroup;
 	}
 
-	private void addChildReferencesToPGroup(SpiderDataGroup childReferences,
+	private void addChildReferencesToPGroup(SpiderDataElement childReferences,
 			SpiderDataGroup pGroup) {
 		pGroup.addChild(childReferences);
 		pGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("mode", mode));
