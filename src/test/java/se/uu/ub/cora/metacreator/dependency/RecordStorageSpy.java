@@ -2,7 +2,6 @@ package se.uu.ub.cora.metacreator.dependency;
 
 import java.util.Collection;
 
-import se.uu.ub.cora.data.DataAtomic;
 import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.storage.RecordStorage;
 import se.uu.ub.cora.storage.StorageReadResult;
@@ -12,16 +11,14 @@ public class RecordStorageSpy implements RecordStorage {
 	@Override
 	public DataGroup read(String type, String id) {
 		if ("countryCollectionItem".equals(id) || "genericCollectionItem".equals(id)) {
-			DataGroup dataGroup = DataGroup.withNameInData("recordType");
-			DataGroup parentGroup = DataGroup.withNameInData("parentId");
-			parentGroup.addChild(
-					DataAtomic.withNameInDataAndValue("" + "linkedRecordType", "recordType"));
-			parentGroup.addChild(
-					DataAtomic.withNameInDataAndValue("linkedRecordId", "metadataCollectionItem"));
+			DataGroup dataGroup = new DataGroupSpy("recordType");
+			DataGroup parentGroup = new DataGroupSpy("parentId");
+			parentGroup.addChild(new DataAtomicSpy("" + "linkedRecordType", "recordType"));
+			parentGroup.addChild(new DataAtomicSpy("linkedRecordId", "metadataCollectionItem"));
 			dataGroup.addChild(parentGroup);
 			return dataGroup;
 		}
-		return DataGroup.withNameInData("recordType");
+		return new DataGroupSpy("recordType");
 	}
 
 	@Override
