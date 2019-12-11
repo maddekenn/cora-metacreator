@@ -5,10 +5,11 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.data.DataGroup;
+import se.uu.ub.cora.metacreator.DataGroupSpy;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.dependency.SpiderRecordReaderSpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
 public class ItemCollectionCreatorTest {
@@ -24,7 +25,7 @@ public class ItemCollectionCreatorTest {
 
 	@Test
 	public void testCreateItems() {
-		SpiderDataGroup itemCollection = DataCreator.createItemCollectionWithId("someCollection");
+		DataGroup itemCollection = DataCreator.createItemCollectionWithId("someCollection");
 		addExistingTextsToCollection(itemCollection);
 		ItemCollectionCreator creator = ItemCollectionCreator
 				.forImplementingTextType("textSystemOne");
@@ -37,32 +38,34 @@ public class ItemCollectionCreatorTest {
 		String type = instanceFactory.spiderRecordCreators.get(0).type;
 		assertEquals(type, "genericCollectionItem");
 
-		SpiderDataGroup record = instanceFactory.spiderRecordCreators.get(0).record;
-		assertEquals(record.extractAtomicValue("nameInData"), "first");
+		DataGroup record = instanceFactory.spiderRecordCreators.get(0).record;
+		assertEquals(record.getFirstAtomicValueWithNameInData("nameInData"), "first");
 
-		SpiderDataGroup textIdGroup = record.extractGroup("textId");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "firstItemText");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "coraText");
-		SpiderDataGroup defTextIdGroup = record.extractGroup("defTextId");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"), "firstItemDefText");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "coraText");
+		DataGroup textIdGroup = record.getFirstGroupWithNameInData("textId");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"firstItemText");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"), "coraText");
+		DataGroup defTextIdGroup = record.getFirstGroupWithNameInData("defTextId");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"firstItemDefText");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"),
+				"coraText");
 
 		assertEquals(record.getAttributes().get("type"), "collectionItem");
 
-		SpiderDataGroup recordInfo = record.extractGroup("recordInfo");
-		assertEquals(recordInfo.extractAtomicValue("id"), "firstItem");
-		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "test");
+		DataGroup recordInfo = record.getFirstGroupWithNameInData("recordInfo");
+		assertEquals(recordInfo.getFirstAtomicValueWithNameInData("id"), "firstItem");
+		DataGroup dataDivider = recordInfo.getFirstGroupWithNameInData("dataDivider");
+		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordId"), "test");
 	}
 
 	@Test
 	public void testCreateItemOneItemAlreadyExist() {
-		SpiderDataGroup itemCollection = DataCreator
-				.createItemCollectionWithId("someOtherCollection");
-		SpiderDataGroup itemReferences = itemCollection.extractGroup("collectionItemReferences");
+		DataGroup itemCollection = DataCreator.createItemCollectionWithId("someOtherCollection");
+		DataGroup itemReferences = itemCollection
+				.getFirstGroupWithNameInData("collectionItemReferences");
 
-		SpiderDataGroup ref = DataCreator.createItemRefWithLinkedIdAndRepeatId("alreadyExistItem",
-				"4");
+		DataGroup ref = DataCreator.createItemRefWithLinkedIdAndRepeatId("alreadyExistItem", "4");
 		itemReferences.addChild(ref);
 		addExistingTextsToCollection(itemCollection);
 
@@ -71,21 +74,23 @@ public class ItemCollectionCreatorTest {
 		creator.useExtendedFunctionality(authToken, itemCollection);
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 3);
-		SpiderDataGroup record = instanceFactory.spiderRecordCreators.get(1).record;
-		assertEquals(record.extractAtomicValue("nameInData"), "second");
+		DataGroup record = instanceFactory.spiderRecordCreators.get(1).record;
+		assertEquals(record.getFirstAtomicValueWithNameInData("nameInData"), "second");
 
-		SpiderDataGroup textIdGroup = record.extractGroup("textId");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "secondItemText");
-		SpiderDataGroup defTextIdGroup = record.extractGroup("defTextId");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"), "secondItemDefText");
+		DataGroup textIdGroup = record.getFirstGroupWithNameInData("textId");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"secondItemText");
+		DataGroup defTextIdGroup = record.getFirstGroupWithNameInData("defTextId");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"secondItemDefText");
 
-		SpiderDataGroup recordInfo = record.extractGroup("recordInfo");
-		assertEquals(recordInfo.extractAtomicValue("id"), "secondItem");
-		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "test");
+		DataGroup recordInfo = record.getFirstGroupWithNameInData("recordInfo");
+		assertEquals(recordInfo.getFirstAtomicValueWithNameInData("id"), "secondItem");
+		DataGroup dataDivider = recordInfo.getFirstGroupWithNameInData("dataDivider");
+		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordId"), "test");
 	}
 
-	private void addExistingTextsToCollection(SpiderDataGroup itemCollection) {
+	private void addExistingTextsToCollection(DataGroup itemCollection) {
 		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(itemCollection,
 				"textId", "textSystemOne", "someExistingText");
 		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(itemCollection,
@@ -94,7 +99,7 @@ public class ItemCollectionCreatorTest {
 
 	@Test
 	public void testCreateTextNoTextExists() {
-		SpiderDataGroup itemCollection = createItemCollectionWithOneExistingItem();
+		DataGroup itemCollection = createItemCollectionWithOneExistingItem();
 		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(itemCollection,
 				"textId", "textSystemOne", "someNonExistingText");
 		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(itemCollection,
@@ -109,7 +114,7 @@ public class ItemCollectionCreatorTest {
 
 	@Test
 	public void testCreateTextWhenTextExists() {
-		SpiderDataGroup itemCollection = createItemCollectionWithOneExistingItem();
+		DataGroup itemCollection = createItemCollectionWithOneExistingItem();
 		addExistingTextsToCollection(itemCollection);
 
 		ItemCollectionCreator creator = ItemCollectionCreator
@@ -119,14 +124,12 @@ public class ItemCollectionCreatorTest {
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 0);
 	}
 
-	private SpiderDataGroup createItemCollectionWithOneExistingItem() {
-		SpiderDataGroup itemCollection = DataCreator
-				.createItemCollectionWithId("someOtherCollection");
+	private DataGroup createItemCollectionWithOneExistingItem() {
+		DataGroup itemCollection = DataCreator.createItemCollectionWithId("someOtherCollection");
 		// Clear itemReferences, we are only just interested in creating texts
-		itemCollection.removeChild("collectionItemReferences");
-		SpiderDataGroup itemReferences = SpiderDataGroup.withNameInData("collectionItemReferences");
-		SpiderDataGroup ref = DataCreator.createItemRefWithLinkedIdAndRepeatId("alreadyExistItem",
-				"4");
+		itemCollection.removeFirstChildWithNameInData("collectionItemReferences");
+		DataGroup itemReferences = new DataGroupSpy("collectionItemReferences");
+		DataGroup ref = DataCreator.createItemRefWithLinkedIdAndRepeatId("alreadyExistItem", "4");
 		itemReferences.addChild(ref);
 		itemCollection.addChild(itemReferences);
 		return itemCollection;

@@ -18,19 +18,19 @@
  */
 package se.uu.ub.cora.metacreator;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 
 public final class PresentationChildReference {
 
-	public SpiderDataGroup ref;
+	public DataGroup ref;
 	public RecordIdentifier recordIdentifier;
 
-	private PresentationChildReference(SpiderDataGroup ref, RecordIdentifier recordIdentifier) {
+	private PresentationChildReference(DataGroup ref, RecordIdentifier recordIdentifier) {
 		this.ref = ref;
 		this.recordIdentifier = recordIdentifier;
 	}
 
-	public static PresentationChildReference usingRefGroupAndRecordIdentifier(SpiderDataGroup ref,
+	public static PresentationChildReference usingRefGroupAndRecordIdentifier(DataGroup ref,
 			RecordIdentifier recordIdentifier) {
 		return new PresentationChildReference(ref, recordIdentifier);
 	}

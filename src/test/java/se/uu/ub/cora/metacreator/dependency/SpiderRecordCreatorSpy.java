@@ -19,23 +19,23 @@
 
 package se.uu.ub.cora.metacreator.dependency;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
-import se.uu.ub.cora.spider.data.SpiderDataRecord;
+import se.uu.ub.cora.data.DataGroup;
+import se.uu.ub.cora.data.DataRecord;
+import se.uu.ub.cora.metacreator.DataRecordSpy;
 import se.uu.ub.cora.spider.record.SpiderRecordCreator;
 
 public class SpiderRecordCreatorSpy implements SpiderRecordCreator {
 
 	public String authToken;
 	public String type;
-	public SpiderDataGroup record;
+	public DataGroup record;
 
 	@Override
-	public SpiderDataRecord createAndStoreRecord(String userId, String type,
-			SpiderDataGroup record) {
+	public DataRecord createAndStoreRecord(String userId, String type, DataGroup record) {
 		this.authToken = userId;
 		this.type = type;
 		this.record = record;
-		return SpiderDataRecord.withSpiderDataGroup(record);
+		return new DataRecordSpy(record);
 	}
 
 }

@@ -1,65 +1,69 @@
 package se.uu.ub.cora.metacreator.recordtype;
 
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataAtomicProvider;
+import se.uu.ub.cora.data.DataGroup;
+import se.uu.ub.cora.data.DataGroupProvider;
 
 public abstract class GroupCreator {
 	protected String id;
 	protected String dataDivider;
-	protected SpiderDataGroup topLevelSpiderDataGroup;
+	protected DataGroup topLevelDataGroup;
 
 	public GroupCreator(String id, String dataDivider) {
 		this.id = id;
 		this.dataDivider = dataDivider;
 	}
 
-	public SpiderDataGroup createGroup(String refRecordInfoId) {
-		topLevelSpiderDataGroup = createTopLevelSpiderDataGroup();
+	public DataGroup createGroup(String refRecordInfoId) {
+		topLevelDataGroup = createTopLevelSpiderDataGroup();
 
 		createAndAddRecordInfoToSpiderDataGroup();
 
 		addChildReferencesWithChildId(refRecordInfoId);
 		addAttributeType();
-		return topLevelSpiderDataGroup;
+		return topLevelDataGroup;
 	}
 
-	abstract SpiderDataGroup createTopLevelSpiderDataGroup();
+	abstract DataGroup createTopLevelSpiderDataGroup();
 
 	abstract void addAttributeType();
 
 	protected void createAndAddRecordInfoToSpiderDataGroup() {
-		SpiderDataGroup recordInfo = SpiderDataGroup.withNameInData("recordInfo");
-		recordInfo.addChild(SpiderDataAtomic.withNameInDataAndValue("id", id));
+		DataGroup recordInfo = DataGroupProvider.getDataGroupUsingNameInData("recordInfo");
+		recordInfo.addChild(DataAtomicProvider.getDataAtomicUsingNameInDataAndValue("id", id));
 
-		SpiderDataGroup dataDividerGroup = SpiderDataGroup.withNameInData("dataDivider");
-		dataDividerGroup
-				.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "system"));
-		dataDividerGroup
-				.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", dataDivider));
+		DataGroup dataDividerGroup = DataGroupProvider.getDataGroupUsingNameInData("dataDivider");
+		dataDividerGroup.addChild(DataAtomicProvider
+				.getDataAtomicUsingNameInDataAndValue("linkedRecordType", "system"));
+		dataDividerGroup.addChild(DataAtomicProvider
+				.getDataAtomicUsingNameInDataAndValue("linkedRecordId", dataDivider));
 
 		recordInfo.addChild(dataDividerGroup);
-		topLevelSpiderDataGroup.addChild(recordInfo);
+		topLevelDataGroup.addChild(recordInfo);
 	}
 
 	protected void addChildReferencesWithChildId(String refRecordInfoId) {
-		SpiderDataGroup childReferences = SpiderDataGroup.withNameInData("childReferences");
-		SpiderDataGroup childReference = SpiderDataGroup.withNameInData("childReference");
+		DataGroup childReferences = DataGroupProvider
+				.getDataGroupUsingNameInData("childReferences");
+		DataGroup childReference = DataGroupProvider.getDataGroupUsingNameInData("childReference");
 
-		SpiderDataGroup refGroup = SpiderDataGroup.withNameInData("ref");
-		refGroup.addChild(
-				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", refRecordInfoId));
-		refGroup.addChild(
-				SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "metadataGroup"));
+		DataGroup refGroup = DataGroupProvider.getDataGroupUsingNameInData("ref");
+		refGroup.addChild(DataAtomicProvider.getDataAtomicUsingNameInDataAndValue("linkedRecordId",
+				refRecordInfoId));
+		refGroup.addChild(DataAtomicProvider
+				.getDataAtomicUsingNameInDataAndValue("linkedRecordType", "metadataGroup"));
 		childReference.addChild(refGroup);
 
 		addValuesForChildReference(childReference);
 		childReference.setRepeatId("0");
 		childReferences.addChild(childReference);
-		topLevelSpiderDataGroup.addChild(childReferences);
+		topLevelDataGroup.addChild(childReferences);
 	}
 
-	void addValuesForChildReference(SpiderDataGroup childReference) {
-		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMin", "1"));
-		childReference.addChild(SpiderDataAtomic.withNameInDataAndValue("repeatMax", "1"));
+	void addValuesForChildReference(DataGroup childReference) {
+		childReference.addChild(
+				DataAtomicProvider.getDataAtomicUsingNameInDataAndValue("repeatMin", "1"));
+		childReference.addChild(
+				DataAtomicProvider.getDataAtomicUsingNameInDataAndValue("repeatMax", "1"));
 	}
 }

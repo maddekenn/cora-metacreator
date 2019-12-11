@@ -16,47 +16,24 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.uu.ub.cora.metacreator.dependency;
+package se.uu.ub.cora.metacreator.recordtype;
 
-import se.uu.ub.cora.data.DataAtomic;
+import se.uu.ub.cora.data.DataGroup;
+import se.uu.ub.cora.data.DataGroupFactory;
 
-public class DataAtomicSpy implements DataAtomic {
-
-	public String nameInData;
-	public String value;
-	public String repeatId;
-
-	public DataAtomicSpy(String nameInData, String value) {
-		this.nameInData = nameInData;
-		this.value = value;
-	}
-
-	public DataAtomicSpy(String nameInData, String value, String repeatId) {
-		this.nameInData = nameInData;
-		this.value = value;
-		this.repeatId = repeatId;
-
-	}
+public class DataGroupFactorySpy implements DataGroupFactory {
 
 	@Override
-	public String getRepeatId() {
-		return repeatId;
-	}
-
-	@Override
-	public String getNameInData() {
-		return nameInData;
-	}
-
-	@Override
-	public String getValue() {
-		return value;
-	}
-
-	@Override
-	public void setRepeatId(String repeatId) {
+	public DataGroup factorUsingNameInData(String nameInData) {
 		// TODO Auto-generated method stub
+		return null;
+	}
 
+	@Override
+	public DataGroup factorAsLinkWithNameInDataTypeAndId(String nameInData, String recordType,
+			String recordId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

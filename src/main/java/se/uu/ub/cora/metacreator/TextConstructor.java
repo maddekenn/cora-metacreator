@@ -19,8 +19,9 @@
 
 package se.uu.ub.cora.metacreator;
 
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataAtomicProvider;
+import se.uu.ub.cora.data.DataGroup;
+import se.uu.ub.cora.data.DataGroupProvider;
 
 public final class TextConstructor {
 	private String textId;
@@ -31,36 +32,36 @@ public final class TextConstructor {
 		this.dataDividerString = dataDividerString;
 	}
 
-	public static TextConstructor withTextIdAndDataDivider(String textId, String dataDividerString) {
+	public static TextConstructor withTextIdAndDataDivider(String textId,
+			String dataDividerString) {
 		return new TextConstructor(textId, dataDividerString);
 	}
 
-	public SpiderDataGroup createText() {
-		SpiderDataGroup textGroup = SpiderDataGroup.withNameInData("text");
+	public DataGroup createText() {
+		DataGroup textGroup = DataGroupProvider.getDataGroupUsingNameInData("text");
 
-		SpiderDataGroup recordInfo = createRecordInfoWithIdAndDataDividerRecordId();
+		DataGroup recordInfo = createRecordInfoWithIdAndDataDividerRecordId();
 		textGroup.addChild(recordInfo);
 
-		SpiderDataGroup textPartSv = createTextPartWithTextIdTypeLangText("default", "sv",
-				"Text för:");
+		DataGroup textPartSv = createTextPartWithTextIdTypeLangText("default", "sv", "Text för:");
 		textGroup.addChild(textPartSv);
-		SpiderDataGroup textPartEn = createTextPartWithTextIdTypeLangText("alternative", "en",
+		DataGroup textPartEn = createTextPartWithTextIdTypeLangText("alternative", "en",
 				"Text for:");
 		textGroup.addChild(textPartEn);
 		return textGroup;
 	}
 
-	private SpiderDataGroup createTextPartWithTextIdTypeLangText(String type, String lang,
-			String text) {
-		SpiderDataGroup textPart = SpiderDataGroup.withNameInData("textPart");
+	private DataGroup createTextPartWithTextIdTypeLangText(String type, String lang, String text) {
+		DataGroup textPart = DataGroupProvider.getDataGroupUsingNameInData("textPart");
 		textPart.addAttributeByIdWithValue("type", type);
 		textPart.addAttributeByIdWithValue("lang", lang);
-		textPart.addChild(SpiderDataAtomic.withNameInDataAndValue("text", text + textId));
+		textPart.addChild(
+				DataAtomicProvider.getDataAtomicUsingNameInDataAndValue("text", text + textId));
 		return textPart;
 	}
 
-	private SpiderDataGroup createRecordInfoWithIdAndDataDividerRecordId() {
-		return DataCreatorHelper.createRecordInfoWithIdAndDataDivider(textId,dataDividerString);
+	private DataGroup createRecordInfoWithIdAndDataDividerRecordId() {
+		return DataCreatorHelper.createRecordInfoWithIdAndDataDivider(textId, dataDividerString);
 	}
 
 }

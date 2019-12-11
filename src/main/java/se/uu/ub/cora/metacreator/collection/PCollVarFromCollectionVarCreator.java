@@ -1,7 +1,7 @@
 package se.uu.ub.cora.metacreator.collection;
 
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.DataCreatorHelper;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 import se.uu.ub.cora.spider.record.SpiderRecordCreator;
@@ -17,7 +17,7 @@ public class PCollVarFromCollectionVarCreator implements ExtendedFunctionality {
 
 	@Override
 	public void useExtendedFunctionality(String authToken,
-			SpiderDataGroup collectionVarToCreateFrom) {
+			DataGroup collectionVarToCreateFrom) {
 		this.authToken = authToken;
 
 		setParametersForCreation(collectionVarToCreateFrom);
@@ -26,7 +26,7 @@ public class PCollVarFromCollectionVarCreator implements ExtendedFunctionality {
 		possiblyCreateOutputPCollVar();
 	}
 
-	private void setParametersForCreation(SpiderDataGroup collectionvarToCreateFrom) {
+	private void setParametersForCreation(DataGroup collectionvarToCreateFrom) {
 		constructor = new PCollVarConstructor();
 		presentationOf = DataCreatorHelper.extractIdFromDataGroup(collectionvarToCreateFrom);
 		dataDivider = DataCreatorHelper
@@ -54,7 +54,7 @@ public class PCollVarFromCollectionVarCreator implements ExtendedFunctionality {
 	}
 
 	private void createPCollVarWithIdAndMode(String pCollVarId, String mode) {
-		SpiderDataGroup pCollVar = constructor
+		DataGroup pCollVar = constructor
 				.constructPCollVarWithIdDataDividerPresentationOfAndMode(pCollVarId, dataDivider,
 						presentationOf, mode);
 		createRecord("presentationCollectionVar", pCollVar);
@@ -64,7 +64,7 @@ public class PCollVarFromCollectionVarCreator implements ExtendedFunctionality {
 		return idForPVars + "PCollVar";
 	}
 
-	private void createRecord(String recordTypeToCreate, SpiderDataGroup spiderDataGroupToCreate) {
+	private void createRecord(String recordTypeToCreate, DataGroup spiderDataGroupToCreate) {
 		SpiderRecordCreator spiderRecordCreatorOutput = SpiderInstanceProvider
 				.getSpiderRecordCreator();
 		spiderRecordCreatorOutput.createAndStoreRecord(authToken, recordTypeToCreate,

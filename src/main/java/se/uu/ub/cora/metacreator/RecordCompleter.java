@@ -1,10 +1,10 @@
 package se.uu.ub.cora.metacreator;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 
 public abstract class RecordCompleter {
     protected String implementingTextType;
-    protected SpiderDataGroup spiderDataGroup;
+    protected DataGroup dataGroup;
 
     public RecordCompleter(String implementingTextType) {
         this.implementingTextType = implementingTextType;
@@ -16,7 +16,7 @@ public abstract class RecordCompleter {
 
     private void addTexts() {
         MetadataCompleter completer = new MetadataCompleter();
-        completer.completeSpiderDataGroupWithLinkedTexts(spiderDataGroup, implementingTextType);
+        completer.completeDataGroupWithLinkedTexts(dataGroup, implementingTextType);
     }
 
     public String getImplementingTextType() {

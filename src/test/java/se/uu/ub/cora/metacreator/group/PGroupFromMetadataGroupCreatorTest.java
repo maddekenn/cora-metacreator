@@ -15,7 +15,8 @@
  *
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
- */package se.uu.ub.cora.metacreator.group;
+ */
+package se.uu.ub.cora.metacreator.group;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -25,11 +26,11 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.data.DataGroup;
+import se.uu.ub.cora.metacreator.DataAtomicSpy;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.dependency.SpiderRecordCreatorSpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
 public class PGroupFromMetadataGroupCreatorTest {
@@ -45,28 +46,30 @@ public class PGroupFromMetadataGroupCreatorTest {
 
 	@Test
 	public void testPGroupsDoesNotExist() {
-		SpiderDataGroup metadataGroup = DataCreator
+		DataGroup metadataGroup = DataCreator
 				.createMetadataGroupWithIdAndTextVarAsChildReference("someTestGroup");
 
 		PGroupFromMetadataGroupCreator creator = new PGroupFromMetadataGroupCreator();
 		creator.useExtendedFunctionality(authToken, metadataGroup);
 
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 2);
-		assertTrue(creator.constructor.getPChildRefConstructorFactory() instanceof PChildRefConstructorFactoryImp);
+		assertTrue(creator.constructor
+				.getPChildRefConstructorFactory() instanceof PChildRefConstructorFactoryImp);
 
-		assertCorrectPGroupWithIndexPGroupIdAndChildId(0, "someTestPGroup", "somePVar", "input", "someTextVarText");
+		assertCorrectPGroupWithIndexPGroupIdAndChildId(0, "someTestPGroup", "somePVar", "input",
+				"someTextVarText");
 		assertCorrectPGroupWithIndexPGroupIdAndChildId(1, "someTestOutputPGroup", "someOutputPVar",
 				"output", "someTextVarText");
 
 	}
 
 	private void assertCorrectPGroupWithIndexPGroupIdAndChildId(int index, String pGroupId,
-																String childId, String mode, String textId) {
+			String childId, String mode, String textId) {
 		SpiderRecordCreatorSpy spiderRecordCreatorSpy = instanceFactory.spiderRecordCreators
 				.get(index);
 		assertEquals(spiderRecordCreatorSpy.type, "presentationGroup");
 
-		SpiderDataGroup record = spiderRecordCreatorSpy.record;
+		DataGroup record = spiderRecordCreatorSpy.record;
 
 		assertEquals(record.getNameInData(), "presentation");
 
@@ -74,39 +77,44 @@ public class PGroupFromMetadataGroupCreatorTest {
 		assertCorrectPresentationOf(record);
 
 		assertCorrectChildRef(childId, "presentationVar", record, textId);
-		assertEquals(record.extractAtomicValue("mode"), mode);
+		assertEquals(record.getFirstAtomicValueWithNameInData("mode"), mode);
 	}
 
-	private void assertCorrectRecordInfo(SpiderDataGroup record, String expectedId) {
-		SpiderDataGroup recordInfo = record.extractGroup("recordInfo");
-		assertEquals(recordInfo.extractAtomicValue("id"), expectedId);
-		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "test");
+	private void assertCorrectRecordInfo(DataGroup record, String expectedId) {
+		DataGroup recordInfo = record.getFirstGroupWithNameInData("recordInfo");
+		assertEquals(recordInfo.getFirstAtomicValueWithNameInData("id"), expectedId);
+		DataGroup dataDivider = recordInfo.getFirstGroupWithNameInData("dataDivider");
+		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordId"), "test");
 	}
 
-	private void assertCorrectPresentationOf(SpiderDataGroup record) {
-		SpiderDataGroup presentationOf = record.extractGroup("presentationOf");
-		assertEquals(presentationOf.extractAtomicValue("linkedRecordId"), "someTestGroup");
-		assertEquals(presentationOf.extractAtomicValue("linkedRecordType"), "metadataGroup");
+	private void assertCorrectPresentationOf(DataGroup record) {
+		DataGroup presentationOf = record.getFirstGroupWithNameInData("presentationOf");
+		assertEquals(presentationOf.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"someTestGroup");
+		assertEquals(presentationOf.getFirstAtomicValueWithNameInData("linkedRecordType"),
+				"metadataGroup");
 	}
 
-	private void assertCorrectChildRef(String childId, String childType, SpiderDataGroup record, String textId) {
-		SpiderDataGroup childReferences = record.extractGroup("childReferences");
-		List<SpiderDataGroup> childReferenceList = childReferences.getAllGroupsWithNameInData("childReference");
-		SpiderDataGroup refGroupText = childReferenceList.get(0).extractGroup("refGroup");
-		SpiderDataGroup refText = refGroupText.extractGroup("ref");
-		assertEquals(refText.extractAtomicValue("linkedRecordType"), "coraText");
-		assertEquals(refText.extractAtomicValue("linkedRecordId"), textId);
+	private void assertCorrectChildRef(String childId, String childType, DataGroup record,
+			String textId) {
+		DataGroup childReferences = record.getFirstGroupWithNameInData("childReferences");
+		List<DataGroup> childReferenceList = childReferences
+				.getAllGroupsWithNameInData("childReference");
+		DataGroup refGroupText = childReferenceList.get(0).getFirstGroupWithNameInData("refGroup");
+		DataGroup refText = refGroupText.getFirstGroupWithNameInData("ref");
+		assertEquals(refText.getFirstAtomicValueWithNameInData("linkedRecordType"), "coraText");
+		assertEquals(refText.getFirstAtomicValueWithNameInData("linkedRecordId"), textId);
 
-		SpiderDataGroup refGroupPresentation = childReferenceList.get(1).extractGroup("refGroup");
-		SpiderDataGroup ref = refGroupPresentation.extractGroup("ref");
-		assertEquals(ref.extractAtomicValue("linkedRecordType"), childType);
-		assertEquals(ref.extractAtomicValue("linkedRecordId"), childId);
+		DataGroup refGroupPresentation = childReferenceList.get(1)
+				.getFirstGroupWithNameInData("refGroup");
+		DataGroup ref = refGroupPresentation.getFirstGroupWithNameInData("ref");
+		assertEquals(ref.getFirstAtomicValueWithNameInData("linkedRecordType"), childType);
+		assertEquals(ref.getFirstAtomicValueWithNameInData("linkedRecordId"), childId);
 	}
 
 	@Test
 	public void testPGroupsAlreadyExist() {
-		SpiderDataGroup metadataGroup = DataCreator
+		DataGroup metadataGroup = DataCreator
 				.createMetadataGroupWithIdAndTextVarAsChildReference("someExistingGroup");
 
 		PGroupFromMetadataGroupCreator creator = new PGroupFromMetadataGroupCreator();
@@ -117,10 +125,9 @@ public class PGroupFromMetadataGroupCreatorTest {
 
 	@Test
 	public void testPGroupsShouldNotBeCreated() {
-		SpiderDataGroup metadataGroup = DataCreator
+		DataGroup metadataGroup = DataCreator
 				.createMetadataGroupWithIdAndTextVarAsChildReference("someTestGroup");
-		metadataGroup
-				.addChild(SpiderDataAtomic.withNameInDataAndValue("excludePGroupCreation", "true"));
+		metadataGroup.addChild(new DataAtomicSpy("excludePGroupCreation", "true"));
 
 		PGroupFromMetadataGroupCreator creator = new PGroupFromMetadataGroupCreator();
 		creator.useExtendedFunctionality(authToken, metadataGroup);
@@ -130,10 +137,9 @@ public class PGroupFromMetadataGroupCreatorTest {
 
 	@Test
 	public void testPGroupsExcludeCreationIsTrueSoPGroupsShouldNotBeCreated() {
-		SpiderDataGroup metadataGroup = DataCreator
+		DataGroup metadataGroup = DataCreator
 				.createMetadataGroupWithIdAndTextVarAsChildReference("someTestGroup");
-		metadataGroup
-				.addChild(SpiderDataAtomic.withNameInDataAndValue("excludePGroupCreation", "true"));
+		metadataGroup.addChild(new DataAtomicSpy("excludePGroupCreation", "true"));
 
 		PGroupFromMetadataGroupCreator creator = new PGroupFromMetadataGroupCreator();
 		creator.useExtendedFunctionality(authToken, metadataGroup);
@@ -143,10 +149,9 @@ public class PGroupFromMetadataGroupCreatorTest {
 
 	@Test
 	public void testPGroupsExcludeCreationIsFalseSoPGroupsShouldBeCreated() {
-		SpiderDataGroup metadataGroup = DataCreator
+		DataGroup metadataGroup = DataCreator
 				.createMetadataGroupWithIdAndTextVarAsChildReference("someTestGroup");
-		metadataGroup.addChild(
-				SpiderDataAtomic.withNameInDataAndValue("excludePGroupCreation", "false"));
+		metadataGroup.addChild(new DataAtomicSpy("excludePGroupCreation", "false"));
 
 		PGroupFromMetadataGroupCreator creator = new PGroupFromMetadataGroupCreator();
 		creator.useExtendedFunctionality(authToken, metadataGroup);
@@ -156,10 +161,10 @@ public class PGroupFromMetadataGroupCreatorTest {
 
 	@Test
 	public void testPGroupsNotPossibleToCreatePGroups() {
-		SpiderDataGroup metadataGroup = DataCreator
+		DataGroup metadataGroup = DataCreator
 				.createMetadataGroupWithIdAndTextVarAsChildReference("someTestGroup");
-		SpiderDataGroup childReferences = metadataGroup.extractGroup("childReferences");
-		childReferences.removeChild("childReference");
+		DataGroup childReferences = metadataGroup.getFirstGroupWithNameInData("childReferences");
+		childReferences.removeFirstChildWithNameInData("childReference");
 
 		PGroupFromMetadataGroupCreator creator = new PGroupFromMetadataGroupCreator();
 		creator.useExtendedFunctionality(authToken, metadataGroup);

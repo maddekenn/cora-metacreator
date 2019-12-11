@@ -4,50 +4,68 @@ import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.Test;
 
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataAtomic;
+import se.uu.ub.cora.data.DataAtomicFactory;
+import se.uu.ub.cora.data.DataAtomicProvider;
+import se.uu.ub.cora.data.DataGroup;
+import se.uu.ub.cora.data.DataGroupFactory;
+import se.uu.ub.cora.data.DataGroupProvider;
 
 public class MetadataGroupCreatorTest {
 
+	private DataGroupFactory dataGroupFactory;
+	private DataAtomicFactory dataAtomicFactory;
 
 	@Test
-	public void testCreateMetadataGroup(){
-		MetadataGroupCreator creator = MetadataGroupCreator.withIdAndNameInDataAndDataDivider("myRecordTypeGroup", "myRecordType", "cora");
-		SpiderDataGroup metadataGroup = creator.createGroup("recordInfoGroup");
+	public void setUp() {
+		dataGroupFactory = new DataGroupFactorySpy();
+		DataGroupProvider.setDataGroupFactory(dataGroupFactory);
+		dataAtomicFactory = new DataAtomicFactorySpy();
+		DataAtomicProvider.setDataAtomicFactory(dataAtomicFactory);
+	}
 
-		SpiderDataGroup recordInfo = metadataGroup.extractGroup("recordInfo");
-        assertEquals(recordInfo.extractAtomicValue("id"), "myRecordTypeGroup");
+	@Test
+	public void testCreateMetadataGroup() {
+		MetadataGroupCreator creator = MetadataGroupCreator
+				.withIdAndNameInDataAndDataDivider("myRecordTypeGroup", "myRecordType", "cora");
+		DataGroup metadataGroup = creator.createGroup("recordInfoGroup");
 
-        SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordType"), "system");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "cora");
+		DataGroup recordInfo = metadataGroup.getFirstGroupWithNameInData("recordInfo");
+		assertEquals(recordInfo.getFirstAtomicValueWithNameInData("id"), "myRecordTypeGroup");
 
-		assertEquals(metadataGroup.extractAtomicValue("nameInData"), "myRecordType");
-		SpiderDataGroup textIdGroup = metadataGroup.extractGroup("textId");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "myRecordTypeGroupText");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "coraText");
-		SpiderDataGroup defTextIdGroup = metadataGroup.extractGroup("defTextId");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"), "myRecordTypeGroupDefText");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "coraText");
+		DataGroup dataDivider = recordInfo.getFirstGroupWithNameInData("dataDivider");
+		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordType"), "system");
+		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordId"), "cora");
+
+		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("nameInData"), "myRecordType");
+		DataGroup textIdGroup = metadataGroup.getFirstGroupWithNameInData("textId");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"myRecordTypeGroupText");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"), "coraText");
+		DataGroup defTextIdGroup = metadataGroup.getFirstGroupWithNameInData("defTextId");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"myRecordTypeGroupDefText");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"),
+				"coraText");
 
 		assertCorrectChildReferences(metadataGroup);
 
 		assertEquals(metadataGroup.getAttributes().get("type"), "group");
 	}
 
-	private void assertCorrectChildReferences(SpiderDataGroup metadataGroup) {
-		SpiderDataGroup childRefs = metadataGroup.extractGroup("childReferences");
+	private void assertCorrectChildReferences(DataGroup metadataGroup) {
+		DataGroup childRefs = metadataGroup.getFirstGroupWithNameInData("childReferences");
 		assertEquals(childRefs.getChildren().size(), 1);
 
-		SpiderDataGroup childRef = (SpiderDataGroup)childRefs.getFirstChildWithNameInData("childReference");
-		SpiderDataGroup ref = (SpiderDataGroup) childRef.getFirstChildWithNameInData("ref");
-		assertEquals(ref.extractAtomicValue("linkedRecordId"), "recordInfoGroup");
-		assertEquals(ref.extractAtomicValue("linkedRecordType"), "metadataGroup");
+		DataGroup childRef = (DataGroup) childRefs.getFirstChildWithNameInData("childReference");
+		DataGroup ref = (DataGroup) childRef.getFirstChildWithNameInData("ref");
+		assertEquals(ref.getFirstAtomicValueWithNameInData("linkedRecordId"), "recordInfoGroup");
+		assertEquals(ref.getFirstAtomicValueWithNameInData("linkedRecordType"), "metadataGroup");
 
-		SpiderDataAtomic repeatMin = (SpiderDataAtomic) childRef.getFirstChildWithNameInData("repeatMin");
+		DataAtomic repeatMin = (DataAtomic) childRef.getFirstChildWithNameInData("repeatMin");
 		assertEquals(repeatMin.getValue(), "1");
 
-		SpiderDataAtomic repeatMax = (SpiderDataAtomic) childRef.getFirstChildWithNameInData("repeatMax");
+		DataAtomic repeatMax = (DataAtomic) childRef.getFirstChildWithNameInData("repeatMax");
 		assertEquals(repeatMax.getValue(), "1");
 	}
 }

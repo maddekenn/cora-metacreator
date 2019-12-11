@@ -1,6 +1,6 @@
 package se.uu.ub.cora.metacreator.group;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 
 public class PNumberVarChildRefConstructor extends PChildRefConstructor {
 
@@ -8,13 +8,13 @@ public class PNumberVarChildRefConstructor extends PChildRefConstructor {
 	private static final String METADATA_REF_ENDING = "NumberVar";
 	private static final String PRESENTATION_RECORD_TYPE = "presentationNumberVar";
 
-	private PNumberVarChildRefConstructor(SpiderDataGroup metadataChildReference, String mode) {
+	private PNumberVarChildRefConstructor(DataGroup metadataChildReference, String mode) {
 		this.metadataChildReference = metadataChildReference;
 		this.mode = mode;
 	}
 
 	public static PChildRefConstructor usingMetadataChildReferenceAndMode(
-			SpiderDataGroup metadataChildReference, String mode) {
+			DataGroup metadataChildReference, String mode) {
 		return new PNumberVarChildRefConstructor(metadataChildReference, mode);
 	}
 

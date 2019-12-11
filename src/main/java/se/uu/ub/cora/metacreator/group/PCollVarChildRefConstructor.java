@@ -18,7 +18,7 @@
  */
 package se.uu.ub.cora.metacreator.group;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 
 public final class PCollVarChildRefConstructor extends PChildRefConstructor {
 
@@ -26,13 +26,13 @@ public final class PCollVarChildRefConstructor extends PChildRefConstructor {
 	private static final String COLLECTION_VAR = "CollectionVar";
 	private static final String PCOLL_VAR = "PCollVar";
 
-	private PCollVarChildRefConstructor(SpiderDataGroup metadataChildReference, String mode) {
+	private PCollVarChildRefConstructor(DataGroup metadataChildReference, String mode) {
 		this.metadataChildReference = metadataChildReference;
 		this.mode = mode;
 	}
 
 	public static PChildRefConstructor usingMetadataChildReferenceAndMode(
-			SpiderDataGroup metadataChildReference, String mode) {
+			DataGroup metadataChildReference, String mode) {
 		return new PCollVarChildRefConstructor(metadataChildReference, mode);
 	}
 

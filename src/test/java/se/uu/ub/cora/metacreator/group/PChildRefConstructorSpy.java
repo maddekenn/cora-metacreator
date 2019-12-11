@@ -18,13 +18,13 @@
  */
 package se.uu.ub.cora.metacreator.group;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 
 public class PChildRefConstructorSpy extends PChildRefConstructor {
 
 	public String metadataRefId;
 
-	public PChildRefConstructorSpy(SpiderDataGroup metadataChildReference, String mode) {
+	public PChildRefConstructorSpy(DataGroup metadataChildReference, String mode) {
 		this.metadataChildReference = metadataChildReference;
 		this.mode = mode;
 		metadataRefId = getMetadataRefId(metadataChildReference);

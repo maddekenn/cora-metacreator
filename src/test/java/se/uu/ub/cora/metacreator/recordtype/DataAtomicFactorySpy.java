@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Uppsala University Library
+ * Copyright 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -16,12 +16,24 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.uu.ub.cora.metacreator.group;
+package se.uu.ub.cora.metacreator.recordtype;
 
-import se.uu.ub.cora.data.DataGroup;
+import se.uu.ub.cora.data.DataAtomic;
+import se.uu.ub.cora.data.DataAtomicFactory;
 
-public interface PChildRefConstructorFactory {
+public class DataAtomicFactorySpy implements DataAtomicFactory {
 
-	PChildRefConstructor factor(DataGroup metadataChildReference, String mode);
+	@Override
+	public DataAtomic factorUsingNameInDataAndValue(String nameInData, String value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DataAtomic factorUsingNameInDataAndValueAndRepeatId(String nameInData, String value,
+			String repeatId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

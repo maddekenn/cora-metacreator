@@ -18,20 +18,20 @@
  */
 package se.uu.ub.cora.metacreator.group;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 
 public final class PResLinkChildRefConstructor extends PChildRefConstructor {
 	static final String PRESENTATION_RESOURCE_LINK = "presentationResourceLink";
 	private static final String RES_LINK = "ResLink";
 	private static final String PRES_LINK = "PResLink";
 
-	private PResLinkChildRefConstructor(SpiderDataGroup metadataChildReference, String mode) {
+	private PResLinkChildRefConstructor(DataGroup metadataChildReference, String mode) {
 		this.metadataChildReference = metadataChildReference;
 		this.mode = mode;
 	}
 
 	public static PChildRefConstructor usingMetadataChildReferenceAndMode(
-			SpiderDataGroup metadataChildReference, String mode) {
+			DataGroup metadataChildReference, String mode) {
 		return new PResLinkChildRefConstructor(metadataChildReference, mode);
 	}
 

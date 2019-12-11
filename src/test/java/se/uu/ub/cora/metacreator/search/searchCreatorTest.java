@@ -6,9 +6,9 @@ import static org.testng.Assert.assertNotNull;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
 public class searchCreatorTest {
@@ -24,7 +24,7 @@ public class searchCreatorTest {
 
     @Test
     public void testCreateTextNoTextExists(){
-        SpiderDataGroup search = DataCreator.createSearchWithId("someSearch");
+        DataGroup search = DataCreator.createSearchWithId("someSearch");
         DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(
                 search, "textId", "textSystemOne", "someNonExistingText");
         DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(
@@ -39,7 +39,7 @@ public class searchCreatorTest {
 
     @Test
     public void testCreateTextWhenTextExists(){
-        SpiderDataGroup search = DataCreator.createSearchWithId("someSearch");
+        DataGroup search = DataCreator.createSearchWithId("someSearch");
         DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(
                 search, "textId", "textSystemOne", "someExistingText");
         DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(

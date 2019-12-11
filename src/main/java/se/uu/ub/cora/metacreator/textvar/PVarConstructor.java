@@ -19,9 +19,10 @@
 
 package se.uu.ub.cora.metacreator.textvar;
 
+import se.uu.ub.cora.data.DataAtomicProvider;
+import se.uu.ub.cora.data.DataGroup;
+import se.uu.ub.cora.data.DataGroupProvider;
 import se.uu.ub.cora.metacreator.DataCreatorHelper;
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
 public final class PVarConstructor {
 	private String textVarId;
@@ -33,11 +34,11 @@ public final class PVarConstructor {
 	}
 
 	public static PVarConstructor withTextVarIdAndDataDivider(String textVarId,
-															  String dataDividerString) {
+			String dataDividerString) {
 		return new PVarConstructor(textVarId, dataDividerString);
 	}
 
-	public SpiderDataGroup createInputPVar() {
+	public DataGroup createInputPVar() {
 		String pVar = "PVar";
 		String pVarId = constructPVarIdWithEnding(pVar);
 		String mode = "input";
@@ -49,8 +50,8 @@ public final class PVarConstructor {
 		return prefix + pVar;
 	}
 
-	private SpiderDataGroup createPVarWithIdAndMode(String pVarId, String mode) {
-		SpiderDataGroup pVarGroup = SpiderDataGroup.withNameInData("presentation");
+	private DataGroup createPVarWithIdAndMode(String pVarId, String mode) {
+		DataGroup pVarGroup = DataGroupProvider.getDataGroupUsingNameInData("presentation");
 
 		pVarGroup.addAttributeByIdWithValue("type", "pVar");
 
@@ -58,27 +59,28 @@ public final class PVarConstructor {
 
 		pVarGroup.addChild(createPresentationOf());
 
-		pVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("mode", mode));
-		pVarGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("inputType", "input"));
+		pVarGroup.addChild(DataAtomicProvider.getDataAtomicUsingNameInDataAndValue("mode", mode));
+		pVarGroup.addChild(
+				DataAtomicProvider.getDataAtomicUsingNameInDataAndValue("inputType", "input"));
 
 		return pVarGroup;
 	}
 
-	private SpiderDataGroup createPresentationOf() {
-		SpiderDataGroup presentationOf = SpiderDataGroup.withNameInData("presentationOf");
+	private DataGroup createPresentationOf() {
+		DataGroup presentationOf = DataGroupProvider.getDataGroupUsingNameInData("presentationOf");
 
-		presentationOf.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType",
-				"metadataTextVariable"));
-		presentationOf
-				.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", textVarId));
+		presentationOf.addChild(DataAtomicProvider
+				.getDataAtomicUsingNameInDataAndValue("linkedRecordType", "metadataTextVariable"));
+		presentationOf.addChild(DataAtomicProvider
+				.getDataAtomicUsingNameInDataAndValue("linkedRecordId", textVarId));
 		return presentationOf;
 	}
 
-	private SpiderDataGroup createRecordInfoWithIdAndDataDividerRecordId(String pVarId) {
-		return DataCreatorHelper.createRecordInfoWithIdAndDataDivider(pVarId,dataDividerString);
+	private DataGroup createRecordInfoWithIdAndDataDividerRecordId(String pVarId) {
+		return DataCreatorHelper.createRecordInfoWithIdAndDataDivider(pVarId, dataDividerString);
 	}
 
-	public SpiderDataGroup createOutputPVar() {
+	public DataGroup createOutputPVar() {
 		String pVarId = constructPVarIdWithEnding("OutputPVar");
 		String mode = "output";
 		return createPVarWithIdAndMode(pVarId, mode);

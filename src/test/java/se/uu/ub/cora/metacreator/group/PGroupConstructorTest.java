@@ -26,16 +26,16 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.data.DataElement;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
-import se.uu.ub.cora.spider.data.SpiderDataElement;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 import se.uu.ub.cora.spider.record.DataException;
 
 public class PGroupConstructorTest {
 	private SpiderInstanceFactorySpy instanceFactory;
 	private String authToken;
-	List<SpiderDataElement> metadataChildReferences;
+	List<DataElement> metadataChildReferences;
 	PChildRefConstructorFactorySpy childRefConstructorFactory;
 
 	@BeforeMethod
@@ -52,7 +52,7 @@ public class PGroupConstructorTest {
 		PGroupConstructor constructor = PGroupConstructor
 				.usingAuthTokenAndPChildRefConstructorFactory(authToken,
 						childRefConstructorFactory);
-		SpiderDataGroup pGroup = constructor
+		DataGroup pGroup = constructor
 				.constructPGroupWithIdDataDividerPresentationOfChildrenAndMode("someTestPGroup",
 						"testSystem", "someTestGroup", metadataChildReferences, "input");
 		assertEquals(pGroup.getAttributes().get("type"), "pGroup");
@@ -65,13 +65,13 @@ public class PGroupConstructorTest {
 		assertEquals(instanceFactory.spiderRecordReaders.size(), 12);
 		assertEquals(childRefConstructorFactory.mode, "input");
 		assertEquals(childRefConstructorFactory.factored.size(), 6);
-		SpiderDataGroup childReferences = pGroup.extractGroup("childReferences");
+		DataGroup childReferences = pGroup.getFirstGroupWithNameInData("childReferences");
 		assertEveryOtherChildrenIsText(childReferences);
 		assertEquals(childReferences.getChildren().size(), 11);
 
 	}
 
-	private void assertCorrectFactoredChildReferences(SpiderDataGroup pGroup) {
+	private void assertCorrectFactoredChildReferences(DataGroup pGroup) {
 		assertCorrectFactoredByIndexAndMetadataRefId(0, "identifierTypeCollectionVar");
 		assertCorrectFactoredByIndexAndMetadataRefId(1, "identifierValueTextVar");
 		assertCorrectFactoredByIndexAndMetadataRefId(2, "identifierResLink");
@@ -80,7 +80,7 @@ public class PGroupConstructorTest {
 		assertCorrectFactoredByIndexAndMetadataRefId(5, "identifierChildHasNoPresentationTextVar");
 	}
 
-	private void assertEveryOtherChildrenIsText(SpiderDataGroup childReferences) {
+	private void assertEveryOtherChildrenIsText(DataGroup childReferences) {
 		assertChildIsText(childReferences, 0);
 		assertChildIsText(childReferences, 2);
 		assertChildIsText(childReferences, 4);
@@ -89,32 +89,33 @@ public class PGroupConstructorTest {
 		assertChildIsText(childReferences, 10);
 	}
 
-	private void assertChildIsText(SpiderDataGroup childReferences, int index) {
-		SpiderDataGroup textChild = (SpiderDataGroup) childReferences.getChildren().get(index);
-		SpiderDataGroup refGroup = textChild.extractGroup("refGroup");
-		SpiderDataGroup ref = refGroup.extractGroup("ref");
-		assertEquals(ref.extractAtomicValue("linkedRecordType"), "coraText");
+	private void assertChildIsText(DataGroup childReferences, int index) {
+		DataGroup textChild = (DataGroup) childReferences.getChildren().get(index);
+		DataGroup refGroup = textChild.getFirstGroupWithNameInData("refGroup");
+		DataGroup ref = refGroup.getFirstGroupWithNameInData("ref");
+		assertEquals(ref.getFirstAtomicValueWithNameInData("linkedRecordType"), "coraText");
 	}
 
 	private void assertCorrectFactoredByIndexAndMetadataRefId(int index, String metadataRefId) {
-		PChildRefConstructorSpy firstFactored = (PChildRefConstructorSpy) childRefConstructorFactory.factored.get(index);
+		PChildRefConstructorSpy firstFactored = (PChildRefConstructorSpy) childRefConstructorFactory.factored
+				.get(index);
 		assertEquals(firstFactored.metadataRefId, metadataRefId);
 	}
 
-	private void assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(
-			SpiderDataGroup childReferences, int index, String repeatId, String id,
-			String recordType) {
-		SpiderDataGroup firstChild = (SpiderDataGroup) childReferences.getChildren().get(index);
+	private void assertCorrectChildInListByIndexWithRepeatIdAndIdAndType(DataGroup childReferences,
+			int index, String repeatId, String id, String recordType) {
+		DataGroup firstChild = (DataGroup) childReferences.getChildren().get(index);
 		assertEquals(firstChild.getNameInData(), "childReference");
 		assertEquals(firstChild.getRepeatId(), repeatId);
 
 		assertEquals(firstChild.getAllGroupsWithNameInData("refGroup").size(), 1);
-		SpiderDataGroup refGroup = firstChild.extractGroup("refGroup");
+		DataGroup refGroup = firstChild.getFirstGroupWithNameInData("refGroup");
 		assertEquals(refGroup.getRepeatId(), "0");
 
-		SpiderDataGroup firstChildRef = refGroup.extractGroup("ref");
-		assertEquals(firstChildRef.extractAtomicValue("linkedRecordType"), recordType);
-		assertEquals(firstChildRef.extractAtomicValue("linkedRecordId"), id);
+		DataGroup firstChildRef = refGroup.getFirstGroupWithNameInData("ref");
+		assertEquals(firstChildRef.getFirstAtomicValueWithNameInData("linkedRecordType"),
+				recordType);
+		assertEquals(firstChildRef.getFirstAtomicValueWithNameInData("linkedRecordId"), id);
 		String typeAttribute = "presentation";
 		if ("coraText".equals(recordType)) {
 			typeAttribute = "text";
@@ -122,18 +123,20 @@ public class PGroupConstructorTest {
 		assertEquals(firstChildRef.getAttributes().get("type"), typeAttribute);
 	}
 
-	private void assertCorrectRecordInfo(SpiderDataGroup pGroup) {
-		SpiderDataGroup recordInfo = pGroup.extractGroup("recordInfo");
-		assertEquals(recordInfo.extractAtomicValue("id"), "someTestPGroup");
+	private void assertCorrectRecordInfo(DataGroup pGroup) {
+		DataGroup recordInfo = pGroup.getFirstGroupWithNameInData("recordInfo");
+		assertEquals(recordInfo.getFirstAtomicValueWithNameInData("id"), "someTestPGroup");
 
-		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "testSystem");
+		DataGroup dataDivider = recordInfo.getFirstGroupWithNameInData("dataDivider");
+		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordId"), "testSystem");
 	}
 
-	private void assertCorrectPresentationOf(SpiderDataGroup pGroup) {
-		SpiderDataGroup presentationOf = pGroup.extractGroup("presentationOf");
-		assertEquals(presentationOf.extractAtomicValue("linkedRecordType"), "metadataGroup");
-		assertEquals(presentationOf.extractAtomicValue("linkedRecordId"), "someTestGroup");
+	private void assertCorrectPresentationOf(DataGroup pGroup) {
+		DataGroup presentationOf = pGroup.getFirstGroupWithNameInData("presentationOf");
+		assertEquals(presentationOf.getFirstAtomicValueWithNameInData("linkedRecordType"),
+				"metadataGroup");
+		assertEquals(presentationOf.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"someTestGroup");
 	}
 
 	@Test
@@ -141,7 +144,7 @@ public class PGroupConstructorTest {
 		PGroupConstructor constructor = PGroupConstructor
 				.usingAuthTokenAndPChildRefConstructorFactory(authToken,
 						childRefConstructorFactory);
-		SpiderDataGroup pGroup = constructor
+		DataGroup pGroup = constructor
 				.constructPGroupWithIdDataDividerPresentationOfChildrenAndMode("someTestPGroup",
 						"testSystem", "someTestGroup", metadataChildReferences, "output");
 		assertEquals(pGroup.getAttributes().get("type"), "pGroup");
@@ -152,7 +155,7 @@ public class PGroupConstructorTest {
 		assertEquals(instanceFactory.spiderRecordReaders.size(), 12);
 		assertEquals(childRefConstructorFactory.mode, "output");
 		assertEquals(childRefConstructorFactory.factored.size(), 6);
-		SpiderDataGroup childReferences = pGroup.extractGroup("childReferences");
+		DataGroup childReferences = pGroup.getFirstGroupWithNameInData("childReferences");
 		assertEveryOtherChildrenIsText(childReferences);
 		assertEquals(childReferences.getChildren().size(), 11);
 
@@ -163,9 +166,9 @@ public class PGroupConstructorTest {
 		PGroupConstructor constructor = PGroupConstructor
 				.usingAuthTokenAndPChildRefConstructorFactory(authToken,
 						childRefConstructorFactory);
-		List<SpiderDataElement> childReferences = new ArrayList<SpiderDataElement>();
+		List<DataElement> childReferences = new ArrayList<DataElement>();
 
-		SpiderDataGroup childRef = DataCreatorForPresentationsConstructor
+		DataGroup childRef = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierChildGroupWithUnclearEnding",
 						"5");
 		childReferences.add(childRef);

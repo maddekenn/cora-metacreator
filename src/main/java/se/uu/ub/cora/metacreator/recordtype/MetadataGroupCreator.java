@@ -1,9 +1,10 @@
 package se.uu.ub.cora.metacreator.recordtype;
 
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataAtomicProvider;
+import se.uu.ub.cora.data.DataGroup;
+import se.uu.ub.cora.data.DataGroupProvider;
 
-public class MetadataGroupCreator extends GroupCreator{
+public class MetadataGroupCreator extends GroupCreator {
 
 	private String nameInData;
 
@@ -12,44 +13,50 @@ public class MetadataGroupCreator extends GroupCreator{
 		this.nameInData = nameInData;
 	}
 
-	public static MetadataGroupCreator withIdAndNameInDataAndDataDivider(String id, String nameInData, String dataDivider) {
+	public static MetadataGroupCreator withIdAndNameInDataAndDataDivider(String id,
+			String nameInData, String dataDivider) {
 		return new MetadataGroupCreator(id, nameInData, dataDivider);
 	}
 
 	@Override
-	public SpiderDataGroup createGroup(String refRecordInfoId) {
+	public DataGroup createGroup(String refRecordInfoId) {
 
 		super.createGroup(refRecordInfoId);
 		addNameInData();
 		addTextIds();
 
-		return topLevelSpiderDataGroup;
+		return topLevelDataGroup;
 	}
 
 	private void addNameInData() {
-		topLevelSpiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("nameInData", nameInData));
+		topLevelDataGroup.addChild(
+				DataAtomicProvider.getDataAtomicUsingNameInDataAndValue("nameInData", nameInData));
 	}
 
 	@Override
-	protected SpiderDataGroup createTopLevelSpiderDataGroup() {
-		return SpiderDataGroup.withNameInData("metadata");
+	protected DataGroup createTopLevelSpiderDataGroup() {
+		return DataGroupProvider.getDataGroupUsingNameInData("metadata");
 	}
 
 	private void addTextIds() {
 		createAndAddTextWithNameInDataIdAndLinkedRecordType("textId", id + "Text", "coraText");
-		createAndAddTextWithNameInDataIdAndLinkedRecordType("defTextId", id+"DefText", "coraText");
+		createAndAddTextWithNameInDataIdAndLinkedRecordType("defTextId", id + "DefText",
+				"coraText");
 	}
 
-	private void createAndAddTextWithNameInDataIdAndLinkedRecordType(String nameInData, String textId, String linkedRecordType) {
-		SpiderDataGroup textIdGroup = SpiderDataGroup.withNameInData(nameInData);
-		textIdGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", textId));
-		textIdGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", linkedRecordType));
-		topLevelSpiderDataGroup.addChild(textIdGroup);
+	private void createAndAddTextWithNameInDataIdAndLinkedRecordType(String nameInData,
+			String textId, String linkedRecordType) {
+		DataGroup textIdGroup = DataGroupProvider.getDataGroupUsingNameInData(nameInData);
+		textIdGroup.addChild(
+				DataAtomicProvider.getDataAtomicUsingNameInDataAndValue("linkedRecordId", textId));
+		textIdGroup.addChild(DataAtomicProvider
+				.getDataAtomicUsingNameInDataAndValue("linkedRecordType", linkedRecordType));
+		topLevelDataGroup.addChild(textIdGroup);
 	}
 
 	@Override
 	protected void addAttributeType() {
-		topLevelSpiderDataGroup.addAttributeByIdWithValue("type", "group");
+		topLevelDataGroup.addAttributeByIdWithValue("type", "group");
 	}
 
 }

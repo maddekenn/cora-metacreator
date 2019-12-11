@@ -5,10 +5,10 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.dependency.SpiderRecordCreatorSpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
 public class PCollVarFromCollectionVarCreatorTest {
@@ -24,7 +24,7 @@ public class PCollVarFromCollectionVarCreatorTest {
 
 	@Test
 	public void testPCollVarsDoesNotExist() {
-		SpiderDataGroup collectionVar = DataCreator
+		DataGroup collectionVar = DataCreator
 				.createCollectionVariableWithIdDataDividerAndNameInData("someTestCollectionVar",
 						"testSystem", "some");
 
@@ -39,36 +39,36 @@ public class PCollVarFromCollectionVarCreatorTest {
 	private void assertCorrectlyCreatedInputPCollVar() {
 		SpiderRecordCreatorSpy spiderRecordCreatorSpy = instanceFactory.spiderRecordCreators.get(0);
 		assertEquals(spiderRecordCreatorSpy.type, "presentationCollectionVar");
-		SpiderDataGroup record = spiderRecordCreatorSpy.record;
+		DataGroup record = spiderRecordCreatorSpy.record;
 
 		assertEquals(record.getNameInData(), "presentation");
-		assertEquals(record.extractAtomicValue("mode"), "input");
+		assertEquals(record.getFirstAtomicValueWithNameInData("mode"), "input");
 
 		assertCorrectPresentationOf(record);
 		assertCorrectRecordInfo(record, "someTestPCollVar");
 		assertEquals(record.getAttributes().get("type"), "pCollVar");
 	}
 
-	private void assertCorrectPresentationOf(SpiderDataGroup record) {
-		SpiderDataGroup presentationOf = record.extractGroup("presentationOf");
-		assertEquals(presentationOf.extractAtomicValue("linkedRecordId"), "someTestCollectionVar");
-		assertEquals(presentationOf.extractAtomicValue("linkedRecordType"),
+	private void assertCorrectPresentationOf(DataGroup record) {
+		DataGroup presentationOf = record.getFirstGroupWithNameInData("presentationOf");
+		assertEquals(presentationOf.getFirstAtomicValueWithNameInData("linkedRecordId"), "someTestCollectionVar");
+		assertEquals(presentationOf.getFirstAtomicValueWithNameInData("linkedRecordType"),
 				"metadataCollectionVariable");
 	}
 
-	private void assertCorrectRecordInfo(SpiderDataGroup record, String expextedId) {
-		SpiderDataGroup recordInfo = record.extractGroup("recordInfo");
-		assertEquals(recordInfo.extractAtomicValue("id"), expextedId);
-		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "testSystem");
+	private void assertCorrectRecordInfo(DataGroup record, String expextedId) {
+		DataGroup recordInfo = record.getFirstGroupWithNameInData("recordInfo");
+		assertEquals(recordInfo.getFirstAtomicValueWithNameInData("id"), expextedId);
+		DataGroup dataDivider = recordInfo.getFirstGroupWithNameInData("dataDivider");
+		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordId"), "testSystem");
 	}
 
 	private void assertCorrectlyCreatedOutputPCollVar() {
 		SpiderRecordCreatorSpy spiderRecordCreatorSpy = instanceFactory.spiderRecordCreators.get(1);
 		assertEquals(spiderRecordCreatorSpy.type, "presentationCollectionVar");
-		SpiderDataGroup record = spiderRecordCreatorSpy.record;
+		DataGroup record = spiderRecordCreatorSpy.record;
 		assertEquals(record.getNameInData(), "presentation");
-		assertEquals(record.extractAtomicValue("mode"), "output");
+		assertEquals(record.getFirstAtomicValueWithNameInData("mode"), "output");
 
 		assertCorrectPresentationOf(record);
 		assertCorrectRecordInfo(record, "someTestOutputPCollVar");
@@ -77,7 +77,7 @@ public class PCollVarFromCollectionVarCreatorTest {
 
 	@Test
 	public void testPCollVarsAlreadyExist() {
-		SpiderDataGroup collectionVar = DataCreator
+		DataGroup collectionVar = DataCreator
 				.createCollectionVariableWithIdDataDividerAndNameInData("someExistingCollectionVar",
 						"testSystem", "someExisting");
 

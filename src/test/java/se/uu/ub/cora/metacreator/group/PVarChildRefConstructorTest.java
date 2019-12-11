@@ -22,15 +22,15 @@ import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.PresentationChildReference;
 import se.uu.ub.cora.metacreator.RecordIdentifier;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
 public class PVarChildRefConstructorTest {
 
 	@Test
 	public void testConstructorForInput() {
-		SpiderDataGroup metadataChildRef = DataCreatorForPresentationsConstructor
+		DataGroup metadataChildRef = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierValueTextVar", "0");
 		PChildRefConstructor constructor = PVarChildRefConstructor
 				.usingMetadataChildReferenceAndMode(metadataChildRef, "input");
@@ -43,9 +43,9 @@ public class PVarChildRefConstructorTest {
 	}
 
 	private void assertCorrectRef(PresentationChildReference childRef, String linkedRecordId) {
-		SpiderDataGroup ref = childRef.ref;
-		assertEquals(ref.extractAtomicValue("linkedRecordType"), "presentationVar");
-		assertEquals(ref.extractAtomicValue("linkedRecordId"), linkedRecordId);
+		DataGroup ref = childRef.ref;
+		assertEquals(ref.getFirstAtomicValueWithNameInData("linkedRecordType"), "presentationVar");
+		assertEquals(ref.getFirstAtomicValueWithNameInData("linkedRecordId"), linkedRecordId);
 		assertEquals(ref.getAttributes().get("type"), "presentation");
 	}
 
@@ -58,7 +58,7 @@ public class PVarChildRefConstructorTest {
 
 	@Test
 	public void testConstructorForOutput() {
-		SpiderDataGroup metadataChildRef = DataCreatorForPresentationsConstructor
+		DataGroup metadataChildRef = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierValueTextVar", "0");
 		PChildRefConstructor constructor = PVarChildRefConstructor
 				.usingMetadataChildReferenceAndMode(metadataChildRef, "output");

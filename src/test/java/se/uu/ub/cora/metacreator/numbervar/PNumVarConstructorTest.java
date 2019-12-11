@@ -27,7 +27,7 @@ import java.util.Map;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 
 @Test
 public class PNumVarConstructorTest {
@@ -48,7 +48,7 @@ public class PNumVarConstructorTest {
 	public void testCreateInputPNumVarFromMetadataIdAndDataDivider() {
 
 		assertNotNull(pNumVarConstructor);
-		SpiderDataGroup createdPNumVar = pNumVarConstructor.createInputPNumVar();
+		DataGroup createdPNumVar = pNumVarConstructor.createInputPNumVar();
 
 		assertEquals(createdPNumVar.getNameInData(), "presentation");
 
@@ -58,37 +58,37 @@ public class PNumVarConstructorTest {
 
 		assertEquals(createdPNumVar.getChildren().size(), 3);
 		assertCorrectPresentationOf(id, createdPNumVar);
-		assertEquals(createdPNumVar.extractAtomicValue("mode"), "input");
+		assertEquals(createdPNumVar.getFirstAtomicValueWithNameInData("mode"), "input");
 
 	}
 
-	private void assertCorrectAttribute(SpiderDataGroup createdPVar) {
+	private void assertCorrectAttribute(DataGroup createdPVar) {
 		Map<String, String> attributes = createdPVar.getAttributes();
 		assertEquals(attributes.size(), 1);
 		assertEquals(attributes.get("type"), "pNumVar");
 	}
 
-	private void assertCorrectRecordInfo(SpiderDataGroup createdPNumVar, String id) {
-		SpiderDataGroup recordInfo = createdPNumVar.extractGroup("recordInfo");
-		assertEquals(recordInfo.extractAtomicValue("id"), id);
+	private void assertCorrectRecordInfo(DataGroup createdPNumVar, String id) {
+		DataGroup recordInfo = createdPNumVar.getFirstGroupWithNameInData("recordInfo");
+		assertEquals(recordInfo.getFirstAtomicValueWithNameInData("id"), id);
 
-		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordType"), "system");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "cora");
+		DataGroup dataDivider = recordInfo.getFirstGroupWithNameInData("dataDivider");
+		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordType"), "system");
+		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordId"), "cora");
 	}
 
-	private void assertCorrectPresentationOf(String id, SpiderDataGroup createdPVar) {
-		SpiderDataGroup presentationOf = createdPVar.extractGroup("presentationOf");
-		assertEquals(presentationOf.extractAtomicValue("linkedRecordType"),
+	private void assertCorrectPresentationOf(String id, DataGroup createdPVar) {
+		DataGroup presentationOf = createdPVar.getFirstGroupWithNameInData("presentationOf");
+		assertEquals(presentationOf.getFirstAtomicValueWithNameInData("linkedRecordType"),
 				"metadataNumberVariable");
-		assertEquals(presentationOf.extractAtomicValue("linkedRecordId"), id);
+		assertEquals(presentationOf.getFirstAtomicValueWithNameInData("linkedRecordId"), id);
 	}
 
 	@Test
 	public void testCreateOutputPVarFromMetadataIdAndDataDivider() {
 
 		assertNotNull(pNumVarConstructor);
-		SpiderDataGroup createdPNumVar = pNumVarConstructor.createOutputPNumVar();
+		DataGroup createdPNumVar = pNumVarConstructor.createOutputPNumVar();
 
 		assertEquals(createdPNumVar.getNameInData(), "presentation");
 
@@ -99,7 +99,7 @@ public class PNumVarConstructorTest {
 		assertEquals(createdPNumVar.getChildren().size(), 3);
 		assertCorrectPresentationOf(id, createdPNumVar);
 
-		assertEquals(createdPNumVar.extractAtomicValue("mode"), "output");
+		assertEquals(createdPNumVar.getFirstAtomicValueWithNameInData("mode"), "output");
 
 	}
 }

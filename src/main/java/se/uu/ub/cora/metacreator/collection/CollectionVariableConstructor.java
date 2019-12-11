@@ -1,20 +1,21 @@
 package se.uu.ub.cora.metacreator.collection;
 
+import se.uu.ub.cora.data.DataAtomicProvider;
+import se.uu.ub.cora.data.DataGroup;
+import se.uu.ub.cora.data.DataGroupProvider;
 import se.uu.ub.cora.metacreator.DataCreatorHelper;
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
 public class CollectionVariableConstructor {
 
-	protected SpiderDataGroup collectionVar;
+	protected DataGroup collectionVar;
 
-	public SpiderDataGroup constructCollectionVarWithIdNameInDataDataDividerAndRefCollection(
-			String id, String nameInData, String dataDivider, String refCollection) {
+	public DataGroup constructCollectionVarWithIdNameInDataDataDividerAndRefCollection(String id,
+			String nameInData, String dataDivider, String refCollection) {
 
 		return createSpiderDataGroup(id, nameInData, dataDivider, refCollection);
 	}
 
-	private SpiderDataGroup createSpiderDataGroup(String id, String nameInData, String dataDivider,
+	private DataGroup createSpiderDataGroup(String id, String nameInData, String dataDivider,
 			String refCollection) {
 		createSpiderDataGroup();
 		addChildren(id, nameInData, dataDivider, refCollection);
@@ -22,7 +23,7 @@ public class CollectionVariableConstructor {
 	}
 
 	private void createSpiderDataGroup() {
-		collectionVar = SpiderDataGroup.withNameInData("metadata");
+		collectionVar = DataGroupProvider.getDataGroupUsingNameInData("metadata");
 		collectionVar.addAttributeByIdWithValue("type", "collectionVariable");
 	}
 
@@ -35,22 +36,23 @@ public class CollectionVariableConstructor {
 	}
 
 	private void addAtomicValues(String nameInData) {
-		collectionVar.addChild(SpiderDataAtomic.withNameInDataAndValue("nameInData", nameInData));
+		collectionVar.addChild(
+				DataAtomicProvider.getDataAtomicUsingNameInDataAndValue("nameInData", nameInData));
 	}
 
-	private void createAndAddRecordInfo(String id, String dataDivider,
-			SpiderDataGroup collectionVar) {
-		SpiderDataGroup recordInfo = DataCreatorHelper.createRecordInfoWithIdAndDataDivider(id,
+	private void createAndAddRecordInfo(String id, String dataDivider, DataGroup collectionVar) {
+		DataGroup recordInfo = DataCreatorHelper.createRecordInfoWithIdAndDataDivider(id,
 				dataDivider);
 		collectionVar.addChild(recordInfo);
 	}
 
 	private void addRefCollection(String refCollection) {
-		SpiderDataGroup refCollectionGroup = SpiderDataGroup.withNameInData("refCollection");
-		refCollectionGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType",
-				"metadataItemCollection"));
-		refCollectionGroup
-				.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", refCollection));
+		DataGroup refCollectionGroup = DataGroupProvider
+				.getDataGroupUsingNameInData("refCollection");
+		refCollectionGroup.addChild(DataAtomicProvider.getDataAtomicUsingNameInDataAndValue(
+				"linkedRecordType", "metadataItemCollection"));
+		refCollectionGroup.addChild(DataAtomicProvider
+				.getDataAtomicUsingNameInDataAndValue("linkedRecordId", refCollection));
 		collectionVar.addChild(refCollectionGroup);
 	}
 
