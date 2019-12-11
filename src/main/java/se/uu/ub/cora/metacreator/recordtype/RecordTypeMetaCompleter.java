@@ -29,8 +29,8 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 	private String id;
 
 	@Override
-	public void useExtendedFunctionality(String userId, DataGroup spiderDataGroup) {
-		this.dataGroup = spiderDataGroup;
+	public void useExtendedFunctionality(String userId, DataGroup dataGroup) {
+		this.dataGroup = dataGroup;
 
 		addValuesToDataGroup();
 	}

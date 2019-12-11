@@ -44,7 +44,7 @@ public class DataCreator {
 		return textVarGroup;
 	}
 
-	public static DataGroup createSpiderDataGroupForRecordTypeWithId(String id) {
+	public static DataGroup createDataGroupForRecordTypeWithId(String id) {
 		DataGroup recordType = createGroupWithIdAndNameInDataAndDataDivider(id, "recordType",
 				"test");
 		recordType.addChild(new DataAtomicSpy("abstract", "false"));
@@ -65,7 +65,7 @@ public class DataCreator {
 		return recordType;
 	}
 
-	public static void addAllValuesToSpiderDataGroup(DataGroup recordType, String id) {
+	public static void addAllValuesToDataGroup(DataGroup recordType, String id) {
 		addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(recordType, "metadataId",
 				"metadataGroup", id + "Group");
 
@@ -101,17 +101,12 @@ public class DataCreator {
 
 	}
 
-	private static void addAtomicValueWithNameInDataAndValue(DataGroup spiderDataGroup,
-			String nameInData, String value) {
-		spiderDataGroup.addChild(new DataAtomicSpy(nameInData, value));
-	}
-
 	public static void addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(
-			DataGroup spiderDataGroup, String nameInData, String type, String id) {
+			DataGroup dataGroup, String nameInData, String type, String id) {
 		DataGroup link = new DataGroupSpy(nameInData);
 		link.addChild(new DataAtomicSpy("linkedRecordType", type));
 		link.addChild(new DataAtomicSpy("linkedRecordId", id));
-		spiderDataGroup.addChild(link);
+		dataGroup.addChild(link);
 	}
 
 	public static DataGroup createCollectionItemGroupWithIdTextIdDefTextIdAndImplementingTextType(

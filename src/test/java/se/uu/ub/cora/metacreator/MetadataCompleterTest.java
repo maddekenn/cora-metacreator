@@ -12,7 +12,7 @@ public class MetadataCompleterTest {
 	public void testCompleteTextsNoTextIdsExist() {
 		MetadataCompleter metaCompleter = new MetadataCompleter();
 		DataGroup metadataGroup = createItemWithNoTexts();
-		metaCompleter.completeSpiderDataGroupWithTexts(metadataGroup);
+		metaCompleter.completeDataGroupWithTexts(metadataGroup);
 
 		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("textId"), "someIdText");
 		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("defTextId"), "someIdDefText");
@@ -32,7 +32,7 @@ public class MetadataCompleterTest {
 		DataGroup metadataGroup = createItemWithNoTexts();
 		metadataGroup.addChild(new DataAtomicSpy("textId", "someText"));
 
-		metaCompleter.completeSpiderDataGroupWithTexts(metadataGroup);
+		metaCompleter.completeDataGroupWithTexts(metadataGroup);
 
 		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("textId"), "someText");
 		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("defTextId"), "someIdDefText");
@@ -44,7 +44,7 @@ public class MetadataCompleterTest {
 		DataGroup metadataGroup = createItemWithNoTexts();
 		metadataGroup.addChild(new DataAtomicSpy("defTextId", "someDefText"));
 
-		metaCompleter.completeSpiderDataGroupWithTexts(metadataGroup);
+		metaCompleter.completeDataGroupWithTexts(metadataGroup);
 
 		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("textId"), "someIdText");
 		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("defTextId"), "someDefText");
@@ -57,7 +57,7 @@ public class MetadataCompleterTest {
 		metadataGroup.addChild(new DataAtomicSpy("textId", "someText"));
 		metadataGroup.addChild(new DataAtomicSpy("defTextId", "someDefText"));
 
-		metaCompleter.completeSpiderDataGroupWithTexts(metadataGroup);
+		metaCompleter.completeDataGroupWithTexts(metadataGroup);
 
 		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("textId"), "someText");
 		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("defTextId"), "someDefText");

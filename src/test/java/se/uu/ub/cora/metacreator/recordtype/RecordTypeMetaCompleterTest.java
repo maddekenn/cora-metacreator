@@ -45,7 +45,7 @@ public class RecordTypeMetaCompleterTest {
 	@Test
 	public void testDefaultValuesWhenAllValuesMissing() {
 
-		DataGroup recordType = DataCreator.createSpiderDataGroupForRecordTypeWithId("myRecordType");
+		DataGroup recordType = DataCreator.createDataGroupForRecordTypeWithId("myRecordType");
 		metaCompleter.useExtendedFunctionality(userId, recordType);
 		assertAllValuesWereAddedCorrectly(recordType);
 	}
@@ -83,8 +83,8 @@ public class RecordTypeMetaCompleterTest {
 
 	@Test
 	public void testDefaultValuesWhenAllValuesPresent() {
-		DataGroup recordType = DataCreator.createSpiderDataGroupForRecordTypeWithId("mySpecial");
-		DataCreator.addAllValuesToSpiderDataGroup(recordType, "mySpecial");
+		DataGroup recordType = DataCreator.createDataGroupForRecordTypeWithId("mySpecial");
+		DataCreator.addAllValuesToDataGroup(recordType, "mySpecial");
 
 		metaCompleter.useExtendedFunctionality(userId, recordType);
 

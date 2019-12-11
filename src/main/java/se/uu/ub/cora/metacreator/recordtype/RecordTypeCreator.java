@@ -37,11 +37,11 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 	}
 
 	@Override
-	public void useExtendedFunctionality(String authToken, DataGroup spiderDataGroup) {
+	public void useExtendedFunctionality(String authToken, DataGroup dataGroup) {
 		this.authToken = authToken;
-		this.topLevelDataGroup = spiderDataGroup;
+		this.topLevelDataGroup = dataGroup;
 		spiderRecordReader = SpiderInstanceProvider.getSpiderRecordReader();
-		DataGroup recordInfo = spiderDataGroup.getFirstGroupWithNameInData(RECORD_INFO);
+		DataGroup recordInfo = dataGroup.getFirstGroupWithNameInData(RECORD_INFO);
 		recordTypeId = recordInfo.getFirstAtomicValueWithNameInData("id");
 
 		possiblyCreateNecessaryTextsMetadataAndPresentations();
@@ -203,26 +203,26 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 	}
 
 	private void extractDataDivider() {
-		DataGroup dataDividerGroup = extractDataDividerFromMainSpiderDataGroup();
+		DataGroup dataDividerGroup = extractDataDividerFromMainDataGroup();
 		dataDivider = dataDividerGroup.getFirstAtomicValueWithNameInData(LINKED_RECORD_ID);
 	}
 
-	private DataGroup extractDataDividerFromMainSpiderDataGroup() {
+	private DataGroup extractDataDividerFromMainDataGroup() {
 		DataGroup recordInfoGroup = topLevelDataGroup.getFirstGroupWithNameInData(RECORD_INFO);
 		return recordInfoGroup.getFirstGroupWithNameInData("dataDivider");
 	}
 
-	private List<DataElement> getRecordInfoAsMetadataChildReference(DataRecord spiderDataRecord) {
+	private List<DataElement> getRecordInfoAsMetadataChildReference(DataRecord dataRecord) {
 		List<DataElement> metadataChildReferences = new ArrayList<>();
-		DataGroup childReferences = getChildReferences(spiderDataRecord);
+		DataGroup childReferences = getChildReferences(dataRecord);
 		for (DataElement DataElement : childReferences.getChildren()) {
 			addChildIfRecordInfo(metadataChildReferences, DataElement);
 		}
 		return metadataChildReferences;
 	}
 
-	private DataGroup getChildReferences(DataRecord spiderDataRecord) {
-		DataGroup dataGroup = spiderDataRecord.getDataGroup();
+	private DataGroup getChildReferences(DataRecord dataRecord) {
+		DataGroup dataGroup = dataRecord.getDataGroup();
 		return dataGroup.getFirstGroupWithNameInData("childReferences");
 	}
 
@@ -244,11 +244,11 @@ public class RecordTypeCreator implements ExtendedFunctionality {
 		return linkedRecordId.startsWith(RECORD_INFO);
 	}
 
-	private void storeRecord(String recordTypeToCreate, DataGroup spiderDataGroupToStore) {
+	private void storeRecord(String recordTypeToCreate, DataGroup dataGroupToStore) {
 		SpiderRecordCreator spiderRecordCreatorOutput = SpiderInstanceProvider
 				.getSpiderRecordCreator();
 		spiderRecordCreatorOutput.createAndStoreRecord(authToken, recordTypeToCreate,
-				spiderDataGroupToStore);
+				dataGroupToStore);
 	}
 
 	private void createAutocompletePresentation(String presentationOf) {

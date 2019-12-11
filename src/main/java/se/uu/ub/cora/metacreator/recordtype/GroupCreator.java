@@ -15,20 +15,20 @@ public abstract class GroupCreator {
 	}
 
 	public DataGroup createGroup(String refRecordInfoId) {
-		topLevelDataGroup = createTopLevelSpiderDataGroup();
+		topLevelDataGroup = createTopLevelDataGroup();
 
-		createAndAddRecordInfoToSpiderDataGroup();
+		createAndAddRecordInfoToDataGroup();
 
 		addChildReferencesWithChildId(refRecordInfoId);
 		addAttributeType();
 		return topLevelDataGroup;
 	}
 
-	abstract DataGroup createTopLevelSpiderDataGroup();
+	abstract DataGroup createTopLevelDataGroup();
 
 	abstract void addAttributeType();
 
-	protected void createAndAddRecordInfoToSpiderDataGroup() {
+	protected void createAndAddRecordInfoToDataGroup() {
 		DataGroup recordInfo = DataGroupProvider.getDataGroupUsingNameInData("recordInfo");
 		recordInfo.addChild(DataAtomicProvider.getDataAtomicUsingNameInDataAndValue("id", id));
 

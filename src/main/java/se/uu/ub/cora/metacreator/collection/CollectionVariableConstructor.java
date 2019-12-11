@@ -12,17 +12,17 @@ public class CollectionVariableConstructor {
 	public DataGroup constructCollectionVarWithIdNameInDataDataDividerAndRefCollection(String id,
 			String nameInData, String dataDivider, String refCollection) {
 
-		return createSpiderDataGroup(id, nameInData, dataDivider, refCollection);
+		return createDataGroup(id, nameInData, dataDivider, refCollection);
 	}
 
-	private DataGroup createSpiderDataGroup(String id, String nameInData, String dataDivider,
+	private DataGroup createDataGroup(String id, String nameInData, String dataDivider,
 			String refCollection) {
-		createSpiderDataGroup();
+		createDataGroup();
 		addChildren(id, nameInData, dataDivider, refCollection);
 		return collectionVar;
 	}
 
-	private void createSpiderDataGroup() {
+	private void createDataGroup() {
 		collectionVar = DataGroupProvider.getDataGroupUsingNameInData("metadata");
 		collectionVar.addAttributeByIdWithValue("type", "collectionVariable");
 	}

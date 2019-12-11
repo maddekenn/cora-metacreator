@@ -65,10 +65,10 @@ public class CollectionVarFromItemCollectionCreator implements ExtendedFunctiona
 		return recordInfo.getFirstAtomicValueWithNameInData("id");
 	}
 
-	private void createRecord(String recordTypeToCreate, DataGroup spiderDataGroupToCreate) {
+	private void createRecord(String recordTypeToCreate, DataGroup dataGroupToCreate) {
 		SpiderRecordCreator spiderRecordCreatorOutput = SpiderInstanceProvider
 				.getSpiderRecordCreator();
 		spiderRecordCreatorOutput.createAndStoreRecord(authToken, recordTypeToCreate,
-				spiderDataGroupToCreate);
+				dataGroupToCreate);
 	}
 }

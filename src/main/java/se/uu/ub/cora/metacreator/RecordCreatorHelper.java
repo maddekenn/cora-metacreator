@@ -12,16 +12,16 @@ public class RecordCreatorHelper {
 	private DataGroup dataGroup;
 	private String implementingTextType;
 
-	public RecordCreatorHelper(String authToken, DataGroup spiderDataGroup,
+	public RecordCreatorHelper(String authToken, DataGroup dataGroup,
 			String implementingTextType) {
 		this.authToken = authToken;
-		this.dataGroup = spiderDataGroup;
+		this.dataGroup = dataGroup;
 		this.implementingTextType = implementingTextType;
 	}
 
-	public static RecordCreatorHelper withAuthTokenSpiderDataGroupAndImplementingTextType(
-			String authToken, DataGroup spiderDataGroup, String implementingTextType) {
-		return new RecordCreatorHelper(authToken, spiderDataGroup, implementingTextType);
+	public static RecordCreatorHelper withAuthTokenDataGroupAndImplementingTextType(
+			String authToken, DataGroup dataGroup, String implementingTextType) {
+		return new RecordCreatorHelper(authToken, dataGroup, implementingTextType);
 	}
 
 	public void createTextsIfMissing() {

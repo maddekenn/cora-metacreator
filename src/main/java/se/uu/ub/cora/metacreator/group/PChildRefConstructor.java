@@ -56,12 +56,12 @@ public abstract class PChildRefConstructor {
 	}
 
 	private DataGroup createRefUsingId(String id) {
-		DataGroup ref = createRefAsSpiderDataGroupWihAttribute();
+		DataGroup ref = createRefAsDataGroupWihAttribute();
 		addLinkedRecordTypeAndRecordIdToRef(id, ref);
 		return ref;
 	}
 
-	private DataGroup createRefAsSpiderDataGroupWihAttribute() {
+	private DataGroup createRefAsDataGroupWihAttribute() {
 		DataGroup ref = DataGroupProvider.getDataGroupUsingNameInData("ref");
 		ref.addAttributeByIdWithValue("type", "presentation");
 		return ref;

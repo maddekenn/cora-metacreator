@@ -36,9 +36,9 @@ public final class TextVarCompleter implements ExtendedFunctionality {
 	}
 
 	@Override
-	public void useExtendedFunctionality(String userId, DataGroup spiderDataGroup) {
+	public void useExtendedFunctionality(String userId, DataGroup dataGroup) {
 		MetadataCompleter completer = new MetadataCompleter();
-		completer.completeDataGroupWithLinkedTexts(spiderDataGroup, implementingTextType);
+		completer.completeDataGroupWithLinkedTexts(dataGroup, implementingTextType);
 	}
 
 	public String getImplementingTextType() {

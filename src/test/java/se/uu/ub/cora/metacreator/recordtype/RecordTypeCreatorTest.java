@@ -29,8 +29,8 @@ public class RecordTypeCreatorTest {
 		RecordTypeCreator recordTypeCreator = RecordTypeCreator
 				.forImplementingTextType("textSystemOne");
 
-		DataGroup recordType = DataCreator.createSpiderDataGroupForRecordTypeWithId("myRecordType");
-		DataCreator.addAllValuesToSpiderDataGroup(recordType, "myRecordType");
+		DataGroup recordType = DataCreator.createDataGroupForRecordTypeWithId("myRecordType");
+		DataCreator.addAllValuesToDataGroup(recordType, "myRecordType");
 
 		recordTypeCreator.useExtendedFunctionality(userId, recordType);
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 10);
@@ -149,8 +149,8 @@ public class RecordTypeCreatorTest {
 				.forImplementingTextType("textSystemOne");
 
 		DataGroup recordType = DataCreator
-				.createSpiderDataGroupForRecordTypeWithId("myRecordType2");
-		DataCreator.addAllValuesToSpiderDataGroup(recordType, "myRecordType2");
+				.createDataGroupForRecordTypeWithId("myRecordType2");
+		DataCreator.addAllValuesToDataGroup(recordType, "myRecordType2");
 
 		pGroupCreator.useExtendedFunctionality(userId, recordType);
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 0);
@@ -161,8 +161,8 @@ public class RecordTypeCreatorTest {
 		RecordTypeCreator recordTypeCreator = RecordTypeCreator
 				.forImplementingTextType("textSystemOne");
 
-		DataGroup recordType = DataCreator.createSpiderDataGroupForRecordTypeWithId("myRecordType");
-		DataCreator.addAllValuesToSpiderDataGroup(recordType, "myRecordType");
+		DataGroup recordType = DataCreator.createDataGroupForRecordTypeWithId("myRecordType");
+		DataCreator.addAllValuesToDataGroup(recordType, "myRecordType");
 
 		recordTypeCreator.useExtendedFunctionality(userId, recordType);
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 10);
@@ -179,8 +179,8 @@ public class RecordTypeCreatorTest {
 				.forImplementingTextType("textSystemOne");
 
 		DataGroup recordType = DataCreator
-				.createSpiderDataGroupForRecordTypeWithId("myRecordType3");
-		DataCreator.addAllValuesToSpiderDataGroup(recordType, "myRecordType3");
+				.createDataGroupForRecordTypeWithId("myRecordType3");
+		DataCreator.addAllValuesToDataGroup(recordType, "myRecordType3");
 
 		recordTypeCreator.useExtendedFunctionality(userId, recordType);
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 8);
@@ -244,8 +244,8 @@ public class RecordTypeCreatorTest {
 				.forImplementingTextType("textSystemOne");
 
 		DataGroup recordType = DataCreator
-				.createSpiderDataGroupForRecordTypeWithId("myRecordType4");
-		DataCreator.addAllValuesToSpiderDataGroup(recordType, "myRecordType4");
+				.createDataGroupForRecordTypeWithId("myRecordType4");
+		DataCreator.addAllValuesToDataGroup(recordType, "myRecordType4");
 
 		recordTypeCreator.useExtendedFunctionality(userId, recordType);
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 8);
@@ -273,10 +273,10 @@ public class RecordTypeCreatorTest {
 		RecordTypeCreator recordTypeCreator = RecordTypeCreator
 				.forImplementingTextType("textSystemOne");
 
-		DataGroup recordType = DataCreator.createSpiderDataGroupForRecordTypeWithId("myRecordType");
+		DataGroup recordType = DataCreator.createDataGroupForRecordTypeWithId("myRecordType");
 		recordType.removeFirstChildWithNameInData("userSuppliedId");
 		recordType.addChild(new DataAtomicSpy("userSuppliedId", "false"));
-		DataCreator.addAllValuesToSpiderDataGroup(recordType, "myRecordType");
+		DataCreator.addAllValuesToDataGroup(recordType, "myRecordType");
 
 		recordTypeCreator.useExtendedFunctionality(userId, recordType);
 		assertEquals(instanceFactory.spiderRecordCreators.size(), 10);

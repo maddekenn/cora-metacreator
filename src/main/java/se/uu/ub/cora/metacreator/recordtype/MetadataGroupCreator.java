@@ -34,7 +34,7 @@ public class MetadataGroupCreator extends GroupCreator {
 	}
 
 	@Override
-	protected DataGroup createTopLevelSpiderDataGroup() {
+	protected DataGroup createTopLevelDataGroup() {
 		return DataGroupProvider.getDataGroupUsingNameInData("metadata");
 	}
 

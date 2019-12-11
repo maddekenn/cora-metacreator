@@ -70,7 +70,7 @@ public class SearchGroupCreator extends GroupCreator {
 	}
 
 	@Override
-	DataGroup createTopLevelSpiderDataGroup() {
+	DataGroup createTopLevelDataGroup() {
 		return DataGroupProvider.getDataGroupUsingNameInData("search");
 	}
 

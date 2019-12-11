@@ -14,11 +14,11 @@ public final class DataCreatorHelper {
 	}
 
 	public static String extractDataDividerStringFromDataGroup(DataGroup topLevelGroup) {
-		DataGroup dataDividerGroup = extractDataDividerGroupFromSpiderDataGroup(topLevelGroup);
+		DataGroup dataDividerGroup = extractDataDividerGroupFromDataGroup(topLevelGroup);
 		return dataDividerGroup.getFirstAtomicValueWithNameInData("linkedRecordId");
 	}
 
-	private static DataGroup extractDataDividerGroupFromSpiderDataGroup(DataGroup topLevelGroup) {
+	private static DataGroup extractDataDividerGroupFromDataGroup(DataGroup topLevelGroup) {
 		DataGroup recordInfoGroup = topLevelGroup.getFirstGroupWithNameInData(RECORD_INFO);
 		return recordInfoGroup.getFirstGroupWithNameInData("dataDivider");
 	}

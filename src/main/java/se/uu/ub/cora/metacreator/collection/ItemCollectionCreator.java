@@ -28,16 +28,16 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 	}
 
 	@Override
-	public void useExtendedFunctionality(String authToken, DataGroup spiderDataGroup) {
+	public void useExtendedFunctionality(String authToken, DataGroup dataGroup) {
 		this.authToken = authToken;
-		this.dataGroup = spiderDataGroup;
+		this.dataGroup = dataGroup;
 
-		possiblyCreateItems(authToken, spiderDataGroup);
-		possiblyCreateTexts(authToken, spiderDataGroup);
+		possiblyCreateItems(authToken, dataGroup);
+		possiblyCreateTexts(authToken, dataGroup);
 	}
 
-	private void possiblyCreateItems(String authToken, DataGroup spiderDataGroup) {
-		DataGroup itemReferences = spiderDataGroup
+	private void possiblyCreateItems(String authToken, DataGroup dataGroup) {
+		DataGroup itemReferences = dataGroup
 				.getFirstGroupWithNameInData("collectionItemReferences");
 		for (DataElement child : itemReferences.getChildren()) {
 			DataGroup item = (DataGroup) child;
@@ -88,16 +88,16 @@ public class ItemCollectionCreator implements ExtendedFunctionality {
 				DataAtomicProvider.getDataAtomicUsingNameInDataAndValue("nameInData", nameInData));
 	}
 
-	private void createRecord(String recordTypeToCreate, DataGroup spiderDataGroupToCreate) {
+	private void createRecord(String recordTypeToCreate, DataGroup dataGroupToCreate) {
 		SpiderRecordCreator spiderRecordCreatorOutput = SpiderInstanceProvider
 				.getSpiderRecordCreator();
 		spiderRecordCreatorOutput.createAndStoreRecord(authToken, recordTypeToCreate,
-				spiderDataGroupToCreate);
+				dataGroupToCreate);
 	}
 
-	private void possiblyCreateTexts(String authToken, DataGroup spiderDataGroup) {
+	private void possiblyCreateTexts(String authToken, DataGroup dataGroup) {
 		RecordCreatorHelper recordCreatorHelper = RecordCreatorHelper
-				.withAuthTokenSpiderDataGroupAndImplementingTextType(authToken, spiderDataGroup,
+				.withAuthTokenDataGroupAndImplementingTextType(authToken, dataGroup,
 						implementingTextType);
 		recordCreatorHelper.createTextsIfMissing();
 	}

@@ -17,10 +17,10 @@ public class CollectionItemCompleter implements ExtendedFunctionality {
 	}
 
 	@Override
-	public void useExtendedFunctionality(String authToken, DataGroup spiderDataGroup) {
+	public void useExtendedFunctionality(String authToken, DataGroup dataGroup) {
 
 		MetadataCompleter metadataCompleter = new MetadataCompleter();
-		metadataCompleter.completeDataGroupWithLinkedTexts(spiderDataGroup, implementingTextType);
+		metadataCompleter.completeDataGroupWithLinkedTexts(dataGroup, implementingTextType);
 	}
 
 public String getImplementingTextType() {

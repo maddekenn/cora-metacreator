@@ -33,9 +33,9 @@ public class PNumVarFromNumberVarCreator implements ExtendedFunctionality {
 	private String dataDividerString;
 
 	@Override
-	public void useExtendedFunctionality(String authToken, DataGroup spiderDataGroup) {
+	public void useExtendedFunctionality(String authToken, DataGroup dataGroup) {
 		this.authToken = authToken;
-		extractIdAndDataDividerFromSpiderDataGroup(spiderDataGroup);
+		extractIdAndDataDividerFromDataGroup(dataGroup);
 
 		PNumVarConstructor pNumVarConstructor = PNumVarConstructor.withTextVarIdAndDataDivider(id,
 				dataDividerString);
@@ -63,17 +63,17 @@ public class PNumVarFromNumberVarCreator implements ExtendedFunctionality {
 		}
 	}
 
-	private void extractIdAndDataDividerFromSpiderDataGroup(DataGroup spiderDataGroup) {
-		DataGroup recordInfoGroup = spiderDataGroup.getFirstGroupWithNameInData("recordInfo");
-		id = extractIdFromSpiderDataGroup(recordInfoGroup);
-		dataDividerString = extractDataDividerFromSpiderDataGroup(recordInfoGroup);
+	private void extractIdAndDataDividerFromDataGroup(DataGroup dataGroup) {
+		DataGroup recordInfoGroup = dataGroup.getFirstGroupWithNameInData("recordInfo");
+		id = extractIdFromDataGroup(recordInfoGroup);
+		dataDividerString = extractDataDividerFromDataGroup(recordInfoGroup);
 	}
 
-	private String extractIdFromSpiderDataGroup(DataGroup recordInfoGroup) {
+	private String extractIdFromDataGroup(DataGroup recordInfoGroup) {
 		return recordInfoGroup.getFirstAtomicValueWithNameInData("id");
 	}
 
-	private String extractDataDividerFromSpiderDataGroup(DataGroup recordInfoGroup) {
+	private String extractDataDividerFromDataGroup(DataGroup recordInfoGroup) {
 		return recordInfoGroup.getFirstGroupWithNameInData("dataDivider").getFirstAtomicValueWithNameInData("linkedRecordId");
 	}
 

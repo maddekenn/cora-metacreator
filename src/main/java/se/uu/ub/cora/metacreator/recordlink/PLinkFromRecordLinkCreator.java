@@ -62,11 +62,11 @@ public class PLinkFromRecordLinkCreator implements ExtendedFunctionality {
 		return firstPartOfId + "PLink";
 	}
 
-	private void createRecord(String recordTypeToCreate, DataGroup spiderDataGroupToCreate) {
+	private void createRecord(String recordTypeToCreate, DataGroup dataGroupToCreate) {
 		SpiderRecordCreator spiderRecordCreatorOutput = SpiderInstanceProvider
 				.getSpiderRecordCreator();
 		spiderRecordCreatorOutput.createAndStoreRecord(authToken, recordTypeToCreate,
-				spiderDataGroupToCreate);
+				dataGroupToCreate);
 	}
 
 	private void possiblyCreateOutputPLink() {
