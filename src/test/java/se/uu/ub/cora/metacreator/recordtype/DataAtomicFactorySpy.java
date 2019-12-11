@@ -20,13 +20,16 @@ package se.uu.ub.cora.metacreator.recordtype;
 
 import se.uu.ub.cora.data.DataAtomic;
 import se.uu.ub.cora.data.DataAtomicFactory;
+import se.uu.ub.cora.metacreator.DataAtomicSpy;
 
 public class DataAtomicFactorySpy implements DataAtomicFactory {
 
+	public DataAtomicSpy factoredDataAtomic;
+
 	@Override
 	public DataAtomic factorUsingNameInDataAndValue(String nameInData, String value) {
-		// TODO Auto-generated method stub
-		return null;
+		factoredDataAtomic = new DataAtomicSpy(nameInData, value);
+		return factoredDataAtomic;
 	}
 
 	@Override

@@ -153,8 +153,23 @@ public class DataGroupSpy implements DataGroup {
 
 	@Override
 	public void removeFirstChildWithNameInData(String childNameInData) {
-		// TODO Auto-generated method stub
+		DataElement foundElement = tryToFindElementToRemove(childNameInData);
+		if (foundElement != null) {
+			getChildren().remove(foundElement);
+		}
+	}
 
+	private DataElement tryToFindElementToRemove(String childNameInData) {
+		for (DataElement dataElement : getChildren()) {
+			if (dataElementsNameInDataIs(dataElement, childNameInData)) {
+				return dataElement;
+			}
+		}
+		return null;
+	}
+
+	private boolean dataElementsNameInDataIs(DataElement dataElement, String childNameInData) {
+		return dataElement.getNameInData().equals(childNameInData);
 	}
 
 	@Override

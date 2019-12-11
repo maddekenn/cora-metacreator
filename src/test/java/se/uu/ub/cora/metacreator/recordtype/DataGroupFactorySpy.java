@@ -20,13 +20,16 @@ package se.uu.ub.cora.metacreator.recordtype;
 
 import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.data.DataGroupFactory;
+import se.uu.ub.cora.metacreator.DataGroupSpy;
 
 public class DataGroupFactorySpy implements DataGroupFactory {
 
+	public DataGroupSpy dataGroupSpy;
+
 	@Override
 	public DataGroup factorUsingNameInData(String nameInData) {
-		// TODO Auto-generated method stub
-		return null;
+		dataGroupSpy = new DataGroupSpy(nameInData);
+		return dataGroupSpy;
 	}
 
 	@Override
