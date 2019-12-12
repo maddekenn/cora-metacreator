@@ -18,8 +18,10 @@
  */
 package se.uu.ub.cora.metacreator;
 
+import java.util.List;
 import java.util.Set;
 
+import se.uu.ub.cora.data.Action;
 import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.data.DataRecord;
 
@@ -46,6 +48,18 @@ public class DataRecordSpy implements DataRecord {
 	public Set<String> getKeys() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<Action> getActions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addAction(Action action) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
