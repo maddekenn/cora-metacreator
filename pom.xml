@@ -38,9 +38,9 @@
 
 	<properties>
         <logger.version>2.0.0</logger.version>
-		<storage.version>3.2-SNAPSHOT</storage.version>
-		<search.version>3.2-SNAPSHOT</search.version>
-        <spider.version>3.2-SNAPSHOT</spider.version>
+		<storage.version>3.2.0</storage.version>
+		<search.version>3.2.0</search.version>
+        <spider.version>3.2.0</spider.version>
 	</properties>
 
 	<scm>
