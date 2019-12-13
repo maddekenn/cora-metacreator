@@ -5,9 +5,9 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
 public class CollectionVariableCompleterTest {
@@ -26,21 +26,24 @@ public class CollectionVariableCompleterTest {
 		CollectionVariableCompleter completer = CollectionVariableCompleter
 				.forTextLinkedRecordType("someLinkedRecordType");
 
-		SpiderDataGroup collectionVariable = DataCreator
+		DataGroup collectionVariable = DataCreator
 				.createCollectionVariableWithIdDataDividerAndNameInData("someCollectionVar",
 						"testSystem", "someType");
-		collectionVariable.removeChild("textId");
-		collectionVariable.removeChild("defTextId");
+		collectionVariable.removeFirstChildWithNameInData("textId");
+		collectionVariable.removeFirstChildWithNameInData("defTextId");
 
 		completer.useExtendedFunctionality(authToken, collectionVariable);
 
-		SpiderDataGroup textIdGroup = collectionVariable.extractGroup("textId");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "someCollectionVarText");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "someLinkedRecordType");
+		DataGroup textIdGroup = collectionVariable.getFirstGroupWithNameInData("textId");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"someCollectionVarText");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"),
+				"someLinkedRecordType");
 
-		SpiderDataGroup defTextIdGroup = collectionVariable.extractGroup("defTextId");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"),
+		DataGroup defTextIdGroup = collectionVariable.getFirstGroupWithNameInData("defTextId");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
 				"someCollectionVarDefText");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "someLinkedRecordType");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"),
+				"someLinkedRecordType");
 	}
 }

@@ -5,9 +5,9 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
 public class CollectionItemCompleterTest {
@@ -26,17 +26,17 @@ public class CollectionItemCompleterTest {
 		 CollectionItemCompleter completer = CollectionItemCompleter
 		 .forTextLinkedRecordType("textSystemOne");
 
-		SpiderDataGroup item = DataCreator
+		DataGroup item = DataCreator
 				.createCollectionItemGroupWithIdTextIdDefTextIdAndImplementingTextType("firstItem", "", "", "textSystemOne");
 		completer.useExtendedFunctionality(userId, item);
 
-		SpiderDataGroup textIdGroup = item.extractGroup("textId");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "firstItemText");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "textSystemOne");
+		DataGroup textIdGroup = item.getFirstGroupWithNameInData("textId");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"), "firstItemText");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"), "textSystemOne");
 
-		SpiderDataGroup defTextIdGroup = item.extractGroup("defTextId");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"), "firstItemDefText");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "textSystemOne");
+		DataGroup defTextIdGroup = item.getFirstGroupWithNameInData("defTextId");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"), "firstItemDefText");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"), "textSystemOne");
 
 
 	}
@@ -47,16 +47,16 @@ public class CollectionItemCompleterTest {
 		 .forTextLinkedRecordType("textSystemOne");
 
 
-		SpiderDataGroup item = DataCreator.createCollectionItemGroupWithIdTextIdDefTextIdAndImplementingTextType(
+		DataGroup item = DataCreator.createCollectionItemGroupWithIdTextIdDefTextIdAndImplementingTextType(
 				"firstItem", "someTextId", "someDefTextId","textSystemOne" );
 		completer.useExtendedFunctionality(userId, item);
 
-		SpiderDataGroup textIdGroup = item.extractGroup("textId");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "someTextId");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "textSystemOne");
+		DataGroup textIdGroup = item.getFirstGroupWithNameInData("textId");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"), "someTextId");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"), "textSystemOne");
 
-		SpiderDataGroup defTextIdGroup = item.extractGroup("defTextId");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"), "someDefTextId");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "textSystemOne");
+		DataGroup defTextIdGroup = item.getFirstGroupWithNameInData("defTextId");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"), "someDefTextId");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"), "textSystemOne");
 	}
 }

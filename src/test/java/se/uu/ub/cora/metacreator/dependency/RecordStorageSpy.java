@@ -3,6 +3,8 @@ package se.uu.ub.cora.metacreator.dependency;
 import java.util.Collection;
 
 import se.uu.ub.cora.data.DataGroup;
+import se.uu.ub.cora.metacreator.DataAtomicSpy;
+import se.uu.ub.cora.metacreator.DataGroupSpy;
 import se.uu.ub.cora.storage.RecordStorage;
 import se.uu.ub.cora.storage.StorageReadResult;
 

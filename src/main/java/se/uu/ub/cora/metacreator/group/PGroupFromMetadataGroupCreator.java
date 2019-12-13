@@ -15,13 +15,14 @@
  *
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
- */package se.uu.ub.cora.metacreator.group;
+ */
+package se.uu.ub.cora.metacreator.group;
 
 import java.util.List;
 
+import se.uu.ub.cora.data.DataElement;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.DataCreatorHelper;
-import se.uu.ub.cora.spider.data.SpiderDataElement;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 import se.uu.ub.cora.spider.record.DataException;
@@ -33,34 +34,36 @@ public class PGroupFromMetadataGroupCreator implements ExtendedFunctionality {
 	private String authToken;
 	private String metadataId;
 	private String dataDivider;
-	private List<SpiderDataElement> metadataChildReferences;
+	private List<DataElement> metadataChildReferences;
 	protected PGroupConstructor constructor;
 
 	@Override
-	public void useExtendedFunctionality(String authToken, SpiderDataGroup spiderDataGroup) {
+	public void useExtendedFunctionality(String authToken, DataGroup dataGroup) {
 		this.authToken = authToken;
-		if (pGroupsShouldBeCreated(spiderDataGroup)) {
-			tryToCreatePGroups(spiderDataGroup);
+		if (pGroupsShouldBeCreated(dataGroup)) {
+			tryToCreatePGroups(dataGroup);
 		}
 	}
 
-	private boolean pGroupsShouldBeCreated(SpiderDataGroup spiderDataGroup) {
-		return !spiderDataGroup.containsChildWithNameInData("excludePGroupCreation")
-				|| "false".equals(spiderDataGroup.extractAtomicValue("excludePGroupCreation"));
+	private boolean pGroupsShouldBeCreated(DataGroup dataGroup) {
+		return !dataGroup.containsChildWithNameInData("excludePGroupCreation") || "false"
+				.equals(dataGroup.getFirstAtomicValueWithNameInData("excludePGroupCreation"));
 	}
 
-	private void tryToCreatePGroups(SpiderDataGroup spiderDataGroup) {
-		setParametersForCreation(spiderDataGroup);
+	private void tryToCreatePGroups(DataGroup dataGroup) {
+		setParametersForCreation(dataGroup);
 		possiblyCreateInputGroup();
 		possiblyCreateOutputPGroup();
 	}
 
-	private void setParametersForCreation(SpiderDataGroup spiderDataGroup) {
+	private void setParametersForCreation(DataGroup dataGroup) {
 		PChildRefConstructorFactory constructorFactory = new PChildRefConstructorFactoryImp();
-		constructor = PGroupConstructor.usingAuthTokenAndPChildRefConstructorFactory(authToken, constructorFactory);
-		metadataId = DataCreatorHelper.extractIdFromDataGroup(spiderDataGroup);
-		dataDivider = DataCreatorHelper.extractDataDividerStringFromDataGroup(spiderDataGroup);
-		metadataChildReferences = spiderDataGroup.extractGroup("childReferences").getChildren();
+		constructor = PGroupConstructor.usingAuthTokenAndPChildRefConstructorFactory(authToken,
+				constructorFactory);
+		metadataId = DataCreatorHelper.extractIdFromDataGroup(dataGroup);
+		dataDivider = DataCreatorHelper.extractDataDividerStringFromDataGroup(dataGroup);
+		metadataChildReferences = dataGroup.getFirstGroupWithNameInData("childReferences")
+				.getChildren();
 	}
 
 	private void possiblyCreateInputGroup() {
@@ -95,7 +98,7 @@ public class PGroupFromMetadataGroupCreator implements ExtendedFunctionality {
 
 	private void constructAndCreatePGroupWithIdAndMode(String id, String mode) {
 		try {
-			SpiderDataGroup inputPGroup = constructor
+			DataGroup inputPGroup = constructor
 					.constructPGroupWithIdDataDividerPresentationOfChildrenAndMode(id, dataDivider,
 							metadataId, metadataChildReferences, mode);
 			createRecord("presentationGroup", inputPGroup);
@@ -104,11 +107,11 @@ public class PGroupFromMetadataGroupCreator implements ExtendedFunctionality {
 		}
 	}
 
-	private void createRecord(String recordTypeToCreate, SpiderDataGroup spiderDataGroupToCreate) {
+	private void createRecord(String recordTypeToCreate, DataGroup dataGroupToCreate) {
 		SpiderRecordCreator spiderRecordCreatorOutput = SpiderInstanceProvider
 				.getSpiderRecordCreator();
 		spiderRecordCreatorOutput.createAndStoreRecord(authToken, recordTypeToCreate,
-				spiderDataGroupToCreate);
+				dataGroupToCreate);
 	}
 
 	private String getIdForOutputPGroup() {

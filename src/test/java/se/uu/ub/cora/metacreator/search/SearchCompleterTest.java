@@ -6,56 +6,68 @@ import static org.testng.Assert.assertNotNull;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.data.DataAtomicFactory;
+import se.uu.ub.cora.data.DataAtomicProvider;
+import se.uu.ub.cora.data.DataGroup;
+import se.uu.ub.cora.data.DataGroupFactory;
+import se.uu.ub.cora.data.DataGroupProvider;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
+import se.uu.ub.cora.metacreator.recordtype.DataAtomicFactorySpy;
+import se.uu.ub.cora.metacreator.recordtype.DataGroupFactorySpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
 public class SearchCompleterTest {
-    private SpiderInstanceFactorySpy instanceFactory;
-    private String authToken;
+	private SpiderInstanceFactorySpy instanceFactory;
+	private String authToken;
+	private DataGroupFactory dataGroupFactory;
+	private DataAtomicFactory dataAtomicFactory;
 
-    @BeforeMethod
-    public void setUp() {
-        instanceFactory = new SpiderInstanceFactorySpy();
-        SpiderInstanceProvider.setSpiderInstanceFactory(instanceFactory);
-        authToken = "testUser";
-    }
+	@BeforeMethod
+	public void setUp() {
+		dataGroupFactory = new DataGroupFactorySpy();
+		DataGroupProvider.setDataGroupFactory(dataGroupFactory);
+		dataAtomicFactory = new DataAtomicFactorySpy();
+		DataAtomicProvider.setDataAtomicFactory(dataAtomicFactory);
+		instanceFactory = new SpiderInstanceFactorySpy();
+		SpiderInstanceProvider.setSpiderInstanceFactory(instanceFactory);
+		authToken = "testUser";
+	}
 
-    @Test
-    public void testSearchWithNoTexts() {
-        SearchCompleter completer = SearchCompleter.forTextLinkedRecordType("textSystemOne");
+	@Test
+	public void testSearchWithNoTexts() {
+		SearchCompleter completer = SearchCompleter.forTextLinkedRecordType("textSystemOne");
 
-        assertNotNull(completer);
-        SpiderDataGroup search = DataCreator
-                .createSearchWithId("someSearch");
-        completer.useExtendedFunctionality(authToken, search);
-        assertCorrectText(search, "textId", "someSearchText");
-        assertCorrectText(search, "defTextId", "someSearchDefText");
+		assertNotNull(completer);
+		DataGroup search = DataCreator.createSearchWithId("someSearch");
+		completer.useExtendedFunctionality(authToken, search);
+		assertCorrectText(search, "textId", "someSearchText");
+		assertCorrectText(search, "defTextId", "someSearchDefText");
 
-    }
+	}
 
-    private void assertCorrectText(SpiderDataGroup search, String groupId, String linkedRecordId) {
-        SpiderDataGroup textIdGroup = search.extractGroup(groupId);
-        assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), linkedRecordId);
-        assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "textSystemOne");
-    }
+	private void assertCorrectText(DataGroup search, String groupId, String linkedRecordId) {
+		DataGroup textIdGroup = search.getFirstGroupWithNameInData(groupId);
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				linkedRecordId);
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"),
+				"textSystemOne");
+	}
 
-    @Test
-    public void testSearchWithTexts() {
-        SearchCompleter completer = SearchCompleter.forTextLinkedRecordType("textSystemOne");
+	@Test
+	public void testSearchWithTexts() {
+		SearchCompleter completer = SearchCompleter.forTextLinkedRecordType("textSystemOne");
 
-        SpiderDataGroup search = DataCreator
-                .createSearchWithId("someSearch");
-        DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(search,
-                "textId", "textSystemOne", "anExistingText");
-        DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(search,
-                "defTextId", "textSystemOne", "anExistingDefText");
+		DataGroup search = DataCreator.createSearchWithId("someSearch");
+		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(search,
+				"textId", "textSystemOne", "anExistingText");
+		DataCreator.addRecordLinkWithNameInDataAndLinkedRecordTypeAndLinkedRecordId(search,
+				"defTextId", "textSystemOne", "anExistingDefText");
 
-        completer.useExtendedFunctionality(authToken, search);
-        assertCorrectText(search, "textId", "anExistingText");
-        assertCorrectText(search, "defTextId", "anExistingDefText");
+		completer.useExtendedFunctionality(authToken, search);
+		assertCorrectText(search, "textId", "anExistingText");
+		assertCorrectText(search, "defTextId", "anExistingDefText");
 
-    }
+	}
 
 }

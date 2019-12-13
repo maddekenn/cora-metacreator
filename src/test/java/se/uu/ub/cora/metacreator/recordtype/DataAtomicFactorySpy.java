@@ -16,47 +16,27 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.uu.ub.cora.metacreator.dependency;
+package se.uu.ub.cora.metacreator.recordtype;
 
 import se.uu.ub.cora.data.DataAtomic;
+import se.uu.ub.cora.data.DataAtomicFactory;
+import se.uu.ub.cora.metacreator.DataAtomicSpy;
 
-public class DataAtomicSpy implements DataAtomic {
+public class DataAtomicFactorySpy implements DataAtomicFactory {
 
-	public String nameInData;
-	public String value;
-	public String repeatId;
+	public DataAtomicSpy factoredDataAtomic;
 
-	public DataAtomicSpy(String nameInData, String value) {
-		this.nameInData = nameInData;
-		this.value = value;
-	}
-
-	public DataAtomicSpy(String nameInData, String value, String repeatId) {
-		this.nameInData = nameInData;
-		this.value = value;
-		this.repeatId = repeatId;
-
+	@Override
+	public DataAtomic factorUsingNameInDataAndValue(String nameInData, String value) {
+		factoredDataAtomic = new DataAtomicSpy(nameInData, value);
+		return factoredDataAtomic;
 	}
 
 	@Override
-	public String getRepeatId() {
-		return repeatId;
-	}
-
-	@Override
-	public String getNameInData() {
-		return nameInData;
-	}
-
-	@Override
-	public String getValue() {
-		return value;
-	}
-
-	@Override
-	public void setRepeatId(String repeatId) {
+	public DataAtomic factorUsingNameInDataAndValueAndRepeatId(String nameInData, String value,
+			String repeatId) {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 }

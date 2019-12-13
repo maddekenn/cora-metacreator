@@ -4,7 +4,7 @@ import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.Test;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 
 public class CollectionVariableConstructorTest {
 
@@ -12,11 +12,12 @@ public class CollectionVariableConstructorTest {
 	public void testConstructCollectionVar() {
 
 		CollectionVariableConstructor constructor = new CollectionVariableConstructor();
-		SpiderDataGroup collectionVar = constructor
+		DataGroup collectionVar = constructor
 				.constructCollectionVarWithIdNameInDataDataDividerAndRefCollection(
 						"someCollectionVar", "someNameInData", "testSystem", "someCollection");
 
-		assertEquals(collectionVar.extractAtomicValue("nameInData"), "someNameInData");
+		assertEquals(collectionVar.getFirstAtomicValueWithNameInData("nameInData"),
+				"someNameInData");
 
 		assertCorrectRefCollection(collectionVar);
 
@@ -24,19 +25,20 @@ public class CollectionVariableConstructorTest {
 
 	}
 
-	private void assertCorrectRecordInfo(SpiderDataGroup record) {
-		SpiderDataGroup recordInfo = record.extractGroup("recordInfo");
-		assertEquals(recordInfo.extractAtomicValue("id"), "someCollectionVar");
+	private void assertCorrectRecordInfo(DataGroup record) {
+		DataGroup recordInfo = record.getFirstGroupWithNameInData("recordInfo");
+		assertEquals(recordInfo.getFirstAtomicValueWithNameInData("id"), "someCollectionVar");
 
-		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "testSystem");
+		DataGroup dataDivider = recordInfo.getFirstGroupWithNameInData("dataDivider");
+		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordId"), "testSystem");
 	}
 
-	private void assertCorrectRefCollection(SpiderDataGroup record) {
-		SpiderDataGroup refCollection = record.extractGroup("refCollection");
-		assertEquals(refCollection.extractAtomicValue("linkedRecordType"),
+	private void assertCorrectRefCollection(DataGroup record) {
+		DataGroup refCollection = record.getFirstGroupWithNameInData("refCollection");
+		assertEquals(refCollection.getFirstAtomicValueWithNameInData("linkedRecordType"),
 				"metadataItemCollection");
-		assertEquals(refCollection.extractAtomicValue("linkedRecordId"), "someCollection");
+		assertEquals(refCollection.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"someCollection");
 	}
 
 }

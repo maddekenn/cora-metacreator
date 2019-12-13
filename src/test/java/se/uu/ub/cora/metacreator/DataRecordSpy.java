@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -16,26 +16,50 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
+package se.uu.ub.cora.metacreator;
 
-package se.uu.ub.cora.metacreator.dependency;
+import java.util.List;
+import java.util.Set;
 
+import se.uu.ub.cora.data.Action;
 import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.data.DataRecord;
-import se.uu.ub.cora.metacreator.DataRecordSpy;
-import se.uu.ub.cora.spider.record.SpiderRecordCreator;
 
-public class SpiderRecordCreatorSpy implements SpiderRecordCreator {
+public class DataRecordSpy implements DataRecord {
 
-	public String authToken;
-	public String type;
-	public DataGroup record;
+	public DataGroup dataGroup;
+
+	public DataRecordSpy(DataGroup dataGroup) {
+		this.dataGroup = dataGroup;
+	}
 
 	@Override
-	public DataRecord createAndStoreRecord(String userId, String type, DataGroup record) {
-		this.authToken = userId;
-		this.type = type;
-		this.record = record;
-		return new DataRecordSpy(record);
+	public DataGroup getDataGroup() {
+		return dataGroup;
+	}
+
+	@Override
+	public void addKey(String key) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Set<String> getKeys() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Action> getActions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addAction(Action action) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

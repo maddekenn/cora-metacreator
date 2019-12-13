@@ -1,7 +1,7 @@
 package se.uu.ub.cora.metacreator.collectionitem;
 
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.MetadataCompleter;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 
 public class CollectionItemCompleter implements ExtendedFunctionality {
@@ -17,10 +17,10 @@ public class CollectionItemCompleter implements ExtendedFunctionality {
 	}
 
 	@Override
-	public void useExtendedFunctionality(String authToken, SpiderDataGroup spiderDataGroup) {
+	public void useExtendedFunctionality(String authToken, DataGroup dataGroup) {
 
 		MetadataCompleter metadataCompleter = new MetadataCompleter();
-		metadataCompleter.completeSpiderDataGroupWithLinkedTexts(spiderDataGroup, implementingTextType);
+		metadataCompleter.completeDataGroupWithLinkedTexts(dataGroup, implementingTextType);
 	}
 
 public String getImplementingTextType() {

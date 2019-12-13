@@ -1,7 +1,7 @@
 package se.uu.ub.cora.metacreator.recordlink;
 
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.DataCreatorHelper;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 import se.uu.ub.cora.spider.record.SpiderRecordCreator;
@@ -16,7 +16,7 @@ public class PLinkFromRecordLinkCreator implements ExtendedFunctionality {
 	private String id;
 
 	@Override
-	public void useExtendedFunctionality(String authToken, SpiderDataGroup recordLinkToCreateFrom) {
+	public void useExtendedFunctionality(String authToken, DataGroup recordLinkToCreateFrom) {
 		this.authToken = authToken;
 
 		constructor = new PLinkConstructor();
@@ -26,7 +26,7 @@ public class PLinkFromRecordLinkCreator implements ExtendedFunctionality {
 		possiblyCreateOutputPLink();
 	}
 
-	private void setParametersForCreation(SpiderDataGroup recordLinkToCreateFrom) {
+	private void setParametersForCreation(DataGroup recordLinkToCreateFrom) {
 		id = DataCreatorHelper.extractIdFromDataGroup(recordLinkToCreateFrom);
 		presentationOf = DataCreatorHelper.extractIdFromDataGroup(recordLinkToCreateFrom);
 		dataDivider = DataCreatorHelper
@@ -52,7 +52,7 @@ public class PLinkFromRecordLinkCreator implements ExtendedFunctionality {
 	}
 
 	private void createPCollVarWithIdAndMode(String pCollVarId, String mode) {
-		SpiderDataGroup pCollVar = constructor.constructPLinkWithIdDataDividerPresentationOfAndMode(
+		DataGroup pCollVar = constructor.constructPLinkWithIdDataDividerPresentationOfAndMode(
 				pCollVarId, dataDivider, presentationOf, mode);
 		createRecord("presentationRecordLink", pCollVar);
 	}
@@ -62,11 +62,11 @@ public class PLinkFromRecordLinkCreator implements ExtendedFunctionality {
 		return firstPartOfId + "PLink";
 	}
 
-	private void createRecord(String recordTypeToCreate, SpiderDataGroup spiderDataGroupToCreate) {
+	private void createRecord(String recordTypeToCreate, DataGroup dataGroupToCreate) {
 		SpiderRecordCreator spiderRecordCreatorOutput = SpiderInstanceProvider
 				.getSpiderRecordCreator();
 		spiderRecordCreatorOutput.createAndStoreRecord(authToken, recordTypeToCreate,
-				spiderDataGroupToCreate);
+				dataGroupToCreate);
 	}
 
 	private void possiblyCreateOutputPLink() {

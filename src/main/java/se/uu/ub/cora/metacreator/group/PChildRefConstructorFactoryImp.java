@@ -18,13 +18,13 @@
  */
 package se.uu.ub.cora.metacreator.group;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.spider.record.DataException;
 
 public class PChildRefConstructorFactoryImp implements PChildRefConstructorFactory {
 
 	@Override
-	public PChildRefConstructor factor(SpiderDataGroup metadataChildReference, String mode) {
+	public PChildRefConstructor factor(DataGroup metadataChildReference, String mode) {
 		String metadataRefId = getMetadataRefId(metadataChildReference);
 		if (metadataChildIsTextVariable(metadataRefId)) {
 			return PVarChildRefConstructor
@@ -48,9 +48,9 @@ public class PChildRefConstructorFactoryImp implements PChildRefConstructorFacto
 		throw new DataException("Not possible to construct childReferenceId from metadataId");
 	}
 
-	private String getMetadataRefId(SpiderDataGroup metadataChildReference) {
-		SpiderDataGroup metadataRef = metadataChildReference.extractGroup("ref");
-		return metadataRef.extractAtomicValue("linkedRecordId");
+	private String getMetadataRefId(DataGroup metadataChildReference) {
+		DataGroup metadataRef = metadataChildReference.getFirstGroupWithNameInData("ref");
+		return metadataRef.getFirstAtomicValueWithNameInData("linkedRecordId");
 	}
 
 	private boolean metadataChildIsTextVariable(String metadataRefId) {

@@ -22,7 +22,7 @@ import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.Test;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 
 public class PresentationChildReferenceTest {
 	@Test
@@ -30,7 +30,7 @@ public class PresentationChildReferenceTest {
 		String type = "someRecordType";
 		String id = "someRecordId";
 		RecordIdentifier recordIdentifier = RecordIdentifier.usingTypeAndId(type, id);
-		SpiderDataGroup ref = SpiderDataGroup.withNameInData("ref");
+		DataGroup ref = new DataGroupSpy("ref");
 		PresentationChildReference childReference = PresentationChildReference
 				.usingRefGroupAndRecordIdentifier(ref, recordIdentifier);
 		assertEquals(childReference.recordIdentifier, recordIdentifier);

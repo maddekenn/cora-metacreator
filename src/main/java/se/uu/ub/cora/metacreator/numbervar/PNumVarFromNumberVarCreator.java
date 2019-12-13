@@ -18,7 +18,7 @@
  */
 package se.uu.ub.cora.metacreator.numbervar;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 import se.uu.ub.cora.spider.record.SpiderRecordCreator;
@@ -33,9 +33,9 @@ public class PNumVarFromNumberVarCreator implements ExtendedFunctionality {
 	private String dataDividerString;
 
 	@Override
-	public void useExtendedFunctionality(String authToken, SpiderDataGroup spiderDataGroup) {
+	public void useExtendedFunctionality(String authToken, DataGroup dataGroup) {
 		this.authToken = authToken;
-		extractIdAndDataDividerFromSpiderDataGroup(spiderDataGroup);
+		extractIdAndDataDividerFromDataGroup(dataGroup);
 
 		PNumVarConstructor pNumVarConstructor = PNumVarConstructor.withTextVarIdAndDataDivider(id,
 				dataDividerString);
@@ -46,35 +46,35 @@ public class PNumVarFromNumberVarCreator implements ExtendedFunctionality {
 
 	private void possiblyCreateOutputPNumVar(PNumVarConstructor pNumVarConstructor) {
 		if (pNumVarDoesNotExistInStorage(id, "OutputPNumVar")) {
-			SpiderDataGroup outputPNumVar = pNumVarConstructor.createOutputPNumVar();
+			DataGroup outputPNumVar = pNumVarConstructor.createOutputPNumVar();
 			createPNumVar(outputPNumVar);
 		}
 	}
 
-	private void createPNumVar(SpiderDataGroup inputPNumVar) {
+	private void createPNumVar(DataGroup inputPNumVar) {
 		SpiderRecordCreator spiderRecordCreator = SpiderInstanceProvider.getSpiderRecordCreator();
 		spiderRecordCreator.createAndStoreRecord(authToken, PRESENTATION_NUMBER_VAR, inputPNumVar);
 	}
 
 	private void possiblyCreateInputPNumVar(PNumVarConstructor pNumVarConstructor) {
 		if (pNumVarDoesNotExistInStorage(id, "PNumVar")) {
-			SpiderDataGroup inputPNumVar = pNumVarConstructor.createInputPNumVar();
+			DataGroup inputPNumVar = pNumVarConstructor.createInputPNumVar();
 			createPNumVar(inputPNumVar);
 		}
 	}
 
-	private void extractIdAndDataDividerFromSpiderDataGroup(SpiderDataGroup spiderDataGroup) {
-		SpiderDataGroup recordInfoGroup = spiderDataGroup.extractGroup("recordInfo");
-		id = extractIdFromSpiderDataGroup(recordInfoGroup);
-		dataDividerString = extractDataDividerFromSpiderDataGroup(recordInfoGroup);
+	private void extractIdAndDataDividerFromDataGroup(DataGroup dataGroup) {
+		DataGroup recordInfoGroup = dataGroup.getFirstGroupWithNameInData("recordInfo");
+		id = extractIdFromDataGroup(recordInfoGroup);
+		dataDividerString = extractDataDividerFromDataGroup(recordInfoGroup);
 	}
 
-	private String extractIdFromSpiderDataGroup(SpiderDataGroup recordInfoGroup) {
-		return recordInfoGroup.extractAtomicValue("id");
+	private String extractIdFromDataGroup(DataGroup recordInfoGroup) {
+		return recordInfoGroup.getFirstAtomicValueWithNameInData("id");
 	}
 
-	private String extractDataDividerFromSpiderDataGroup(SpiderDataGroup recordInfoGroup) {
-		return recordInfoGroup.extractGroup("dataDivider").extractAtomicValue("linkedRecordId");
+	private String extractDataDividerFromDataGroup(DataGroup recordInfoGroup) {
+		return recordInfoGroup.getFirstGroupWithNameInData("dataDivider").getFirstAtomicValueWithNameInData("linkedRecordId");
 	}
 
 	private boolean pNumVarDoesNotExistInStorage(String id, String suffix) {

@@ -1,6 +1,6 @@
 package se.uu.ub.cora.metacreator;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 
 public class TextCreator implements ExtendedFunctionality {
@@ -16,9 +16,9 @@ public class TextCreator implements ExtendedFunctionality {
 	}
 
 	@Override
-	public void useExtendedFunctionality(String authToken, SpiderDataGroup spiderDataGroup) {
+	public void useExtendedFunctionality(String authToken, DataGroup dataGroup) {
 		RecordCreatorHelper recordCreatorHelper = RecordCreatorHelper
-				.withAuthTokenSpiderDataGroupAndImplementingTextType(authToken, spiderDataGroup,
+				.withAuthTokenDataGroupAndImplementingTextType(authToken, dataGroup,
 						implementingTextType);
 		recordCreatorHelper.createTextsIfMissing();
 	}

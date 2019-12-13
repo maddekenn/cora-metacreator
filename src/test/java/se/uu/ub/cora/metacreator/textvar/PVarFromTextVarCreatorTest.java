@@ -24,10 +24,10 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.dependency.SpiderRecordCreatorSpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
 public class PVarFromTextVarCreatorTest {
@@ -45,7 +45,7 @@ public class PVarFromTextVarCreatorTest {
 	public void testNoExistingPVars() {
 		PVarFromTextVarCreator creator = new PVarFromTextVarCreator();
 
-		SpiderDataGroup textVarGroup = DataCreator.createTextVarGroupWithIdAndTextIdAndDefTextId(
+		DataGroup textVarGroup = DataCreator.createTextVarGroupWithIdAndTextIdAndDefTextId(
 				"textIdNoPVarsInStorageTextVar", "textIdNoPVarsInStorageTextVarText",
 				"textIdNoPVarsInStorageTextVarDefText");
 
@@ -62,9 +62,9 @@ public class PVarFromTextVarCreatorTest {
 				.get(createdPVarNo);
 		assertEquals(spiderRecordCreator1.authToken, userId);
 		assertEquals(spiderRecordCreator1.type, "presentationVar");
-		SpiderDataGroup createdTextRecord = spiderRecordCreator1.record;
-		SpiderDataGroup recordInfo = createdTextRecord.extractGroup("recordInfo");
-		String id = recordInfo.extractAtomicValue("id");
+		DataGroup createdTextRecord = spiderRecordCreator1.record;
+		DataGroup recordInfo = createdTextRecord.getFirstGroupWithNameInData("recordInfo");
+		String id = recordInfo.getFirstAtomicValueWithNameInData("id");
 		assertEquals(id, createdIdForPVar);
 	}
 
@@ -72,7 +72,7 @@ public class PVarFromTextVarCreatorTest {
 	public void testExistingInputPVar() {
 		PVarFromTextVarCreator creator = new PVarFromTextVarCreator();
 
-		SpiderDataGroup textVarGroup = DataCreator.createTextVarGroupWithIdAndTextIdAndDefTextId(
+		DataGroup textVarGroup = DataCreator.createTextVarGroupWithIdAndTextIdAndDefTextId(
 				"textIdInputPVarInStorageTextVar", "textIdInputPVarInStorageTextVarText",
 				"textIdInputPVarInStorageTextVarDefText");
 
@@ -86,7 +86,7 @@ public class PVarFromTextVarCreatorTest {
 	public void testExistingOutputPVar() {
 		PVarFromTextVarCreator creator = new PVarFromTextVarCreator();
 
-		SpiderDataGroup textVarGroup = DataCreator.createTextVarGroupWithIdAndTextIdAndDefTextId(
+		DataGroup textVarGroup = DataCreator.createTextVarGroupWithIdAndTextIdAndDefTextId(
 				"textIdOutputPVarInStorageTextVar", "textIdOutputPVarInStorageTextVarText",
 				"textIdOutputPVarInStorageTextVarDefText");
 

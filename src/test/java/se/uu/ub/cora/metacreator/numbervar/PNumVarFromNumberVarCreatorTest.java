@@ -24,10 +24,10 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.dependency.SpiderRecordCreatorSpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
 public class PNumVarFromNumberVarCreatorTest {
@@ -45,7 +45,7 @@ public class PNumVarFromNumberVarCreatorTest {
 	public void testNoExistingPNumVars() {
 		PNumVarFromNumberVarCreator creator = new PNumVarFromNumberVarCreator();
 
-		SpiderDataGroup numVarGroup = DataCreator.createNumberVarUsingIdNameInDataAndDataDivider(
+		DataGroup numVarGroup = DataCreator.createNumberVarUsingIdNameInDataAndDataDivider(
 				"numVarNoPNumVarsInStorageNumberVar", "someNumVar", "testSystem");
 
 		creator.useExtendedFunctionality(userId, numVarGroup);
@@ -61,9 +61,9 @@ public class PNumVarFromNumberVarCreatorTest {
 				.get(createdPNumVarNo);
 		assertEquals(spiderRecordCreator.authToken, userId);
 		assertEquals(spiderRecordCreator.type, "presentationNumberVar");
-		SpiderDataGroup createdRecord = spiderRecordCreator.record;
-		SpiderDataGroup recordInfo = createdRecord.extractGroup("recordInfo");
-		String id = recordInfo.extractAtomicValue("id");
+		DataGroup createdRecord = spiderRecordCreator.record;
+		DataGroup recordInfo = createdRecord.getFirstGroupWithNameInData("recordInfo");
+		String id = recordInfo.getFirstAtomicValueWithNameInData("id");
 		assertEquals(id, createdIdForPNumVar);
 	}
 
@@ -71,7 +71,7 @@ public class PNumVarFromNumberVarCreatorTest {
 	public void testExistingInputPNumVar() {
 		PNumVarFromNumberVarCreator creator = new PNumVarFromNumberVarCreator();
 
-		SpiderDataGroup numVarGroup = DataCreator.createNumberVarUsingIdNameInDataAndDataDivider(
+		DataGroup numVarGroup = DataCreator.createNumberVarUsingIdNameInDataAndDataDivider(
 				"numVarInputPNumVarInStorageNumberVar", "someNumVar", "testSystem");
 
 		creator.useExtendedFunctionality(userId, numVarGroup);
@@ -85,7 +85,7 @@ public class PNumVarFromNumberVarCreatorTest {
 	public void testExistingOutputPVar() {
 		PNumVarFromNumberVarCreator creator = new PNumVarFromNumberVarCreator();
 
-		SpiderDataGroup numVarGroup = DataCreator.createNumberVarUsingIdNameInDataAndDataDivider(
+		DataGroup numVarGroup = DataCreator.createNumberVarUsingIdNameInDataAndDataDivider(
 				"numVarOutputPNumVarInStorageNumberVar", "someNumVar", "testSystem");
 
 		creator.useExtendedFunctionality(userId, numVarGroup);

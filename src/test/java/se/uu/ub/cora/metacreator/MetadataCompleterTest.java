@@ -4,25 +4,24 @@ import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.Test;
 
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 
 public class MetadataCompleterTest {
 
 	@Test
 	public void testCompleteTextsNoTextIdsExist() {
 		MetadataCompleter metaCompleter = new MetadataCompleter();
-		SpiderDataGroup metadataGroup = createItemWithNoTexts();
-		metaCompleter.completeSpiderDataGroupWithTexts(metadataGroup);
+		DataGroup metadataGroup = createItemWithNoTexts();
+		metaCompleter.completeDataGroupWithTexts(metadataGroup);
 
-		assertEquals(metadataGroup.extractAtomicValue("textId"), "someIdText");
-		assertEquals(metadataGroup.extractAtomicValue("defTextId"), "someIdDefText");
+		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("textId"), "someIdText");
+		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("defTextId"), "someIdDefText");
 	}
 
-	private SpiderDataGroup createItemWithNoTexts() {
-		SpiderDataGroup metadataGroup = SpiderDataGroup.withNameInData("metadata");
-		SpiderDataGroup recordInfo = SpiderDataGroup.withNameInData("recordInfo");
-		recordInfo.addChild(SpiderDataAtomic.withNameInDataAndValue("id", "someId"));
+	private DataGroup createItemWithNoTexts() {
+		DataGroup metadataGroup = new DataGroupSpy("metadata");
+		DataGroup recordInfo = new DataGroupSpy("recordInfo");
+		recordInfo.addChild(new DataAtomicSpy("id", "someId"));
 		metadataGroup.addChild(recordInfo);
 		return metadataGroup;
 	}
@@ -30,83 +29,85 @@ public class MetadataCompleterTest {
 	@Test
 	public void testCompleteTextsTextIdExists() {
 		MetadataCompleter metaCompleter = new MetadataCompleter();
-		SpiderDataGroup metadataGroup = createItemWithNoTexts();
-		metadataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("textId", "someText"));
+		DataGroup metadataGroup = createItemWithNoTexts();
+		metadataGroup.addChild(new DataAtomicSpy("textId", "someText"));
 
-		metaCompleter.completeSpiderDataGroupWithTexts(metadataGroup);
+		metaCompleter.completeDataGroupWithTexts(metadataGroup);
 
-		assertEquals(metadataGroup.extractAtomicValue("textId"), "someText");
-		assertEquals(metadataGroup.extractAtomicValue("defTextId"), "someIdDefText");
+		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("textId"), "someText");
+		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("defTextId"), "someIdDefText");
 	}
 
 	@Test
 	public void testCompleteTextsDefTextIdExists() {
 		MetadataCompleter metaCompleter = new MetadataCompleter();
-		SpiderDataGroup metadataGroup = createItemWithNoTexts();
-		metadataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("defTextId", "someDefText"));
+		DataGroup metadataGroup = createItemWithNoTexts();
+		metadataGroup.addChild(new DataAtomicSpy("defTextId", "someDefText"));
 
-		metaCompleter.completeSpiderDataGroupWithTexts(metadataGroup);
+		metaCompleter.completeDataGroupWithTexts(metadataGroup);
 
-		assertEquals(metadataGroup.extractAtomicValue("textId"), "someIdText");
-		assertEquals(metadataGroup.extractAtomicValue("defTextId"), "someDefText");
+		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("textId"), "someIdText");
+		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("defTextId"), "someDefText");
 	}
 
 	@Test
 	public void testCompleteTextsTextIdAndDefTextIdExist() {
 		MetadataCompleter metaCompleter = new MetadataCompleter();
-		SpiderDataGroup metadataGroup = createItemWithNoTexts();
-		metadataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("textId", "someText"));
-		metadataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("defTextId", "someDefText"));
+		DataGroup metadataGroup = createItemWithNoTexts();
+		metadataGroup.addChild(new DataAtomicSpy("textId", "someText"));
+		metadataGroup.addChild(new DataAtomicSpy("defTextId", "someDefText"));
 
-		metaCompleter.completeSpiderDataGroupWithTexts(metadataGroup);
+		metaCompleter.completeDataGroupWithTexts(metadataGroup);
 
-		assertEquals(metadataGroup.extractAtomicValue("textId"), "someText");
-		assertEquals(metadataGroup.extractAtomicValue("defTextId"), "someDefText");
+		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("textId"), "someText");
+		assertEquals(metadataGroup.getFirstAtomicValueWithNameInData("defTextId"), "someDefText");
 	}
 
 	@Test
 	public void testCompleteLinkedTextsNoTextIdsExist() {
 		MetadataCompleter metaCompleter = new MetadataCompleter();
-		SpiderDataGroup metadataGroup = createItemWithNoTexts();
-		metaCompleter.completeSpiderDataGroupWithLinkedTexts(metadataGroup, "textSystemOne");
+		DataGroup metadataGroup = createItemWithNoTexts();
+		metaCompleter.completeDataGroupWithLinkedTexts(metadataGroup, "textSystemOne");
 
-		SpiderDataGroup textIdGroup = metadataGroup.extractGroup("textId");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "someIdText");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "textSystemOne");
-		SpiderDataGroup defTextIdGroup = metadataGroup.extractGroup("defTextId");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"), "someIdDefText");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "textSystemOne");
+		DataGroup textIdGroup = metadataGroup.getFirstGroupWithNameInData("textId");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"), "someIdText");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"),
+				"textSystemOne");
+		DataGroup defTextIdGroup = metadataGroup.getFirstGroupWithNameInData("defTextId");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"someIdDefText");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"),
+				"textSystemOne");
 	}
 
 	@Test
 	public void testCompleteLinkedTextsTextIdAndDefTextIdExist() {
 		MetadataCompleter metaCompleter = new MetadataCompleter();
-		SpiderDataGroup metadataGroup = createItemWithNoTexts();
+		DataGroup metadataGroup = createItemWithNoTexts();
 		addTexts(metadataGroup);
 
-		metaCompleter.completeSpiderDataGroupWithLinkedTexts(metadataGroup, "testOtherText");
+		metaCompleter.completeDataGroupWithLinkedTexts(metadataGroup, "testOtherText");
 
-		SpiderDataGroup textIdGroup = metadataGroup.extractGroup("textId");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordId"), "someExistingText");
-		assertEquals(textIdGroup.extractAtomicValue("linkedRecordType"), "testText");
-		SpiderDataGroup defTextIdGroup = metadataGroup.extractGroup("defTextId");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordId"), "someExistingDefText");
-		assertEquals(defTextIdGroup.extractAtomicValue("linkedRecordType"), "testText");
+		DataGroup textIdGroup = metadataGroup.getFirstGroupWithNameInData("textId");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"someExistingText");
+		assertEquals(textIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"), "testText");
+		DataGroup defTextIdGroup = metadataGroup.getFirstGroupWithNameInData("defTextId");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordId"),
+				"someExistingDefText");
+		assertEquals(defTextIdGroup.getFirstAtomicValueWithNameInData("linkedRecordType"),
+				"testText");
 	}
 
-	private void addTexts(SpiderDataGroup metadataGroup) {
-		SpiderDataGroup textIdGroup = SpiderDataGroup.withNameInData("textId");
-		textIdGroup
-				.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "testText"));
-		textIdGroup.addChild(
-				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", "someExistingText"));
+	private void addTexts(DataGroup metadataGroup) {
+		DataGroup textIdGroup = new DataGroupSpy("textId");
+		textIdGroup.addChild(new DataAtomicSpy("linkedRecordType", "testText"));
+		textIdGroup.addChild(new DataAtomicSpy("linkedRecordId", "someExistingText"));
 		metadataGroup.addChild(textIdGroup);
 
-		SpiderDataGroup defTextIdGroup = SpiderDataGroup.withNameInData("defTextId");
-		defTextIdGroup
-				.addChild(SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", "testText"));
-		defTextIdGroup.addChild(
-				SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", "someExistingDefText"));
+		DataGroup defTextIdGroup = new DataGroupSpy("defTextId");
+		defTextIdGroup.addChild(new DataAtomicSpy("linkedRecordType", "testText"));
+		defTextIdGroup.addChild(new DataAtomicSpy("linkedRecordId", "someExistingDefText"));
 		metadataGroup.addChild(defTextIdGroup);
 	}
 }

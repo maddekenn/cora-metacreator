@@ -5,10 +5,10 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.dependency.SpiderInstanceFactorySpy;
 import se.uu.ub.cora.metacreator.dependency.SpiderRecordCreatorSpy;
 import se.uu.ub.cora.metacreator.testdata.DataCreator;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 
 public class PLinkFromRecordLinkCreatorTest {
@@ -24,7 +24,7 @@ public class PLinkFromRecordLinkCreatorTest {
 
 	@Test
 	public void testPLinkDoesNotExist() {
-		SpiderDataGroup recordLink = DataCreator
+		DataGroup recordLink = DataCreator
 				.createRecordLinkWithIdDataDividerNameInDataAndLinkedRecordType("someRandomLink",
 						"testSystem", "someRandom", "someRecordType");
 
@@ -39,35 +39,35 @@ public class PLinkFromRecordLinkCreatorTest {
 	private void assertCorrectlyCreatedInputPLink() {
 		SpiderRecordCreatorSpy spiderRecordCreatorSpy = instanceFactory.spiderRecordCreators.get(0);
 		assertEquals(spiderRecordCreatorSpy.type, "presentationRecordLink");
-		SpiderDataGroup record = spiderRecordCreatorSpy.record;
+		DataGroup record = spiderRecordCreatorSpy.record;
 
 		assertEquals(record.getNameInData(), "presentation");
-		assertEquals(record.extractAtomicValue("mode"), "input");
+		assertEquals(record.getFirstAtomicValueWithNameInData("mode"), "input");
 
 		assertCorrectPresentationOf(record);
 		assertCorrectRecordInfo(record, "someRandomPLink");
 		assertEquals(record.getAttributes().get("type"), "pRecordLink");
 	}
 
-	private void assertCorrectPresentationOf(SpiderDataGroup record) {
-		SpiderDataGroup presentationOf = record.extractGroup("presentationOf");
-		assertEquals(presentationOf.extractAtomicValue("linkedRecordId"), "someRandomLink");
-		assertEquals(presentationOf.extractAtomicValue("linkedRecordType"), "metadataRecordLink");
+	private void assertCorrectPresentationOf(DataGroup record) {
+		DataGroup presentationOf = record.getFirstGroupWithNameInData("presentationOf");
+		assertEquals(presentationOf.getFirstAtomicValueWithNameInData("linkedRecordId"), "someRandomLink");
+		assertEquals(presentationOf.getFirstAtomicValueWithNameInData("linkedRecordType"), "metadataRecordLink");
 	}
 
-	private void assertCorrectRecordInfo(SpiderDataGroup record, String expextedId) {
-		SpiderDataGroup recordInfo = record.extractGroup("recordInfo");
-		assertEquals(recordInfo.extractAtomicValue("id"), expextedId);
-		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "testSystem");
+	private void assertCorrectRecordInfo(DataGroup record, String expextedId) {
+		DataGroup recordInfo = record.getFirstGroupWithNameInData("recordInfo");
+		assertEquals(recordInfo.getFirstAtomicValueWithNameInData("id"), expextedId);
+		DataGroup dataDivider = recordInfo.getFirstGroupWithNameInData("dataDivider");
+		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordId"), "testSystem");
 	}
 
 	private void assertCorrectlyCreatedOutputPCollVar() {
 		SpiderRecordCreatorSpy spiderRecordCreatorSpy = instanceFactory.spiderRecordCreators.get(1);
 		assertEquals(spiderRecordCreatorSpy.type, "presentationRecordLink");
-		SpiderDataGroup record = spiderRecordCreatorSpy.record;
+		DataGroup record = spiderRecordCreatorSpy.record;
 		assertEquals(record.getNameInData(), "presentation");
-		assertEquals(record.extractAtomicValue("mode"), "output");
+		assertEquals(record.getFirstAtomicValueWithNameInData("mode"), "output");
 
 		assertCorrectPresentationOf(record);
 		assertCorrectRecordInfo(record, "someRandomOutputPLink");
@@ -76,7 +76,7 @@ public class PLinkFromRecordLinkCreatorTest {
 
 	@Test
 	public void testPLinksAlreadyExist() {
-		SpiderDataGroup recordLink = DataCreator
+		DataGroup recordLink = DataCreator
 				.createRecordLinkWithIdDataDividerNameInDataAndLinkedRecordType("someExistingLink",
 						"testSystem", "someRandom", "someRecordType");
 
@@ -88,7 +88,7 @@ public class PLinkFromRecordLinkCreatorTest {
 
 	@Test
 	public void testPLinkWithLinkAsPartOfName() {
-		SpiderDataGroup recordLink = DataCreator
+		DataGroup recordLink = DataCreator
 				.createRecordLinkWithIdDataDividerNameInDataAndLinkedRecordType("someLinkNameLink",
 						"testSystem", "someLink", "someRecordType");
 
@@ -96,9 +96,9 @@ public class PLinkFromRecordLinkCreatorTest {
 		creator.useExtendedFunctionality(authToken, recordLink);
 
 		SpiderRecordCreatorSpy spiderRecordCreatorSpy = instanceFactory.spiderRecordCreators.get(0);
-		SpiderDataGroup record = spiderRecordCreatorSpy.record;
+		DataGroup record = spiderRecordCreatorSpy.record;
 
-		SpiderDataGroup recordInfo = record.extractGroup("recordInfo");
-		assertEquals(recordInfo.extractAtomicValue("id"), "someLinkNamePLink");
+		DataGroup recordInfo = record.getFirstGroupWithNameInData("recordInfo");
+		assertEquals(recordInfo.getFirstAtomicValueWithNameInData("id"), "someLinkNamePLink");
 	}
 }

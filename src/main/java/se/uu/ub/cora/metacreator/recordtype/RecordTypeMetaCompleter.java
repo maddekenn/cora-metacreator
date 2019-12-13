@@ -18,25 +18,26 @@
  */
 package se.uu.ub.cora.metacreator.recordtype;
 
-import se.uu.ub.cora.spider.data.SpiderDataAtomic;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataAtomicProvider;
+import se.uu.ub.cora.data.DataGroup;
+import se.uu.ub.cora.data.DataGroupProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 
 public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 
-	private SpiderDataGroup spiderDataGroup;
+	private DataGroup dataGroup;
 	private String id;
 
 	@Override
-	public void useExtendedFunctionality(String userId, SpiderDataGroup spiderDataGroup) {
-		this.spiderDataGroup = spiderDataGroup;
+	public void useExtendedFunctionality(String userId, DataGroup dataGroup) {
+		this.dataGroup = dataGroup;
 
 		addValuesToDataGroup();
 	}
 
 	private void addValuesToDataGroup() {
-		SpiderDataGroup recordInfoGroup = spiderDataGroup.extractGroup("recordInfo");
-		id = recordInfoGroup.extractAtomicValue("id");
+		DataGroup recordInfoGroup = dataGroup.getFirstGroupWithNameInData("recordInfo");
+		id = recordInfoGroup.getFirstAtomicValueWithNameInData("id");
 		addMissingMetadataIds();
 		addMissingPresentationIds();
 		addMissingTexts();
@@ -54,17 +55,17 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 	private void createAndAddLinkWithNameInDataRecordTypeAndRecordIdIfNotExisting(String nameInData,
 			String linkedRecordType, String linkedRecordId) {
 		if (childWithNameInDataIsMissing(nameInData)) {
-			SpiderDataGroup link = SpiderDataGroup.withNameInData(nameInData);
-			link.addChild(
-					SpiderDataAtomic.withNameInDataAndValue("linkedRecordType", linkedRecordType));
-			link.addChild(
-					SpiderDataAtomic.withNameInDataAndValue("linkedRecordId", linkedRecordId));
-			spiderDataGroup.addChild(link);
+			DataGroup link = DataGroupProvider.getDataGroupUsingNameInData(nameInData);
+			link.addChild(DataAtomicProvider
+					.getDataAtomicUsingNameInDataAndValue("linkedRecordType", linkedRecordType));
+			link.addChild(DataAtomicProvider.getDataAtomicUsingNameInDataAndValue("linkedRecordId",
+					linkedRecordId));
+			dataGroup.addChild(link);
 		}
 	}
 
 	private boolean childWithNameInDataIsMissing(String nameInData) {
-		return !spiderDataGroup.containsChildWithNameInData(nameInData);
+		return !dataGroup.containsChildWithNameInData(nameInData);
 	}
 
 	private void addMissingPresentationIds() {
@@ -94,11 +95,12 @@ public class RecordTypeMetaCompleter implements ExtendedFunctionality {
 
 	private void addPublicIfMissing() {
 		if (publicIsMissing()) {
-			spiderDataGroup.addChild(SpiderDataAtomic.withNameInDataAndValue("public", "false"));
+			dataGroup.addChild(
+					DataAtomicProvider.getDataAtomicUsingNameInDataAndValue("public", "false"));
 		}
 	}
 
 	private boolean publicIsMissing() {
-		return !spiderDataGroup.containsChildWithNameInData("public");
+		return !dataGroup.containsChildWithNameInData("public");
 	}
 }

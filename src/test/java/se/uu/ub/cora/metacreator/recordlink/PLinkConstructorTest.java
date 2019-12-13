@@ -4,35 +4,35 @@ import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.Test;
 
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
+import se.uu.ub.cora.data.DataGroup;
 
 public class PLinkConstructorTest {
 
 	@Test
 	public void testConstructPLink() {
 		PLinkConstructor constructor = new PLinkConstructor();
-		SpiderDataGroup pCollVar = constructor.constructPLinkWithIdDataDividerPresentationOfAndMode(
+		DataGroup pCollVar = constructor.constructPLinkWithIdDataDividerPresentationOfAndMode(
 				"somePLink", "testSystem", "someLink", "input");
 
 		assertCorrectRecordInfo(pCollVar);
 		assertCorrectPresentationOf(pCollVar);
 
 		assertEquals(pCollVar.getNameInData(), "presentation");
-		assertEquals(pCollVar.extractAtomicValue("mode"), "input");
+		assertEquals(pCollVar.getFirstAtomicValueWithNameInData("mode"), "input");
 		assertEquals(pCollVar.getAttributes().get("type"), "pRecordLink");
 
 	}
 
-	private void assertCorrectRecordInfo(SpiderDataGroup pCollVar) {
-		SpiderDataGroup recordInfo = pCollVar.extractGroup("recordInfo");
-		assertEquals(recordInfo.extractAtomicValue("id"), "somePLink");
-		SpiderDataGroup dataDivider = recordInfo.extractGroup("dataDivider");
-		assertEquals(dataDivider.extractAtomicValue("linkedRecordId"), "testSystem");
+	private void assertCorrectRecordInfo(DataGroup pCollVar) {
+		DataGroup recordInfo = pCollVar.getFirstGroupWithNameInData("recordInfo");
+		assertEquals(recordInfo.getFirstAtomicValueWithNameInData("id"), "somePLink");
+		DataGroup dataDivider = recordInfo.getFirstGroupWithNameInData("dataDivider");
+		assertEquals(dataDivider.getFirstAtomicValueWithNameInData("linkedRecordId"), "testSystem");
 	}
 
-	private void assertCorrectPresentationOf(SpiderDataGroup pCollVar) {
-		SpiderDataGroup presentationOf = pCollVar.extractGroup("presentationOf");
-		assertEquals(presentationOf.extractAtomicValue("linkedRecordType"), "metadataRecordLink");
-		assertEquals(presentationOf.extractAtomicValue("linkedRecordId"), "someLink");
+	private void assertCorrectPresentationOf(DataGroup pCollVar) {
+		DataGroup presentationOf = pCollVar.getFirstGroupWithNameInData("presentationOf");
+		assertEquals(presentationOf.getFirstAtomicValueWithNameInData("linkedRecordType"), "metadataRecordLink");
+		assertEquals(presentationOf.getFirstAtomicValueWithNameInData("linkedRecordId"), "someLink");
 	}
 }

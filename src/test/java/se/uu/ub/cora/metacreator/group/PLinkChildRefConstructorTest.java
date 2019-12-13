@@ -22,15 +22,15 @@ import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.Test;
 
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.PresentationChildReference;
 import se.uu.ub.cora.metacreator.RecordIdentifier;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 
 public class PLinkChildRefConstructorTest {
 
 	@Test
 	public void testConstructorForInput() {
-		SpiderDataGroup metadataChildRef = DataCreatorForPresentationsConstructor
+		DataGroup metadataChildRef = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierLink", "0");
 		PChildRefConstructor constructor = PLinkChildRefConstructor
 				.usingMetadataChildReferenceAndMode(metadataChildRef, "input");
@@ -43,9 +43,9 @@ public class PLinkChildRefConstructorTest {
 	}
 
 	private void assertCorrectRef(PresentationChildReference childRef, String linkedRecordId) {
-		SpiderDataGroup ref = childRef.ref;
-		assertEquals(ref.extractAtomicValue("linkedRecordType"), "presentationRecordLink");
-		assertEquals(ref.extractAtomicValue("linkedRecordId"), linkedRecordId);
+		DataGroup ref = childRef.ref;
+		assertEquals(ref.getFirstAtomicValueWithNameInData("linkedRecordType"), "presentationRecordLink");
+		assertEquals(ref.getFirstAtomicValueWithNameInData("linkedRecordId"), linkedRecordId);
 		assertEquals(ref.getAttributes().get("type"), "presentation");
 	}
 
@@ -58,7 +58,7 @@ public class PLinkChildRefConstructorTest {
 
 	@Test
 	public void testConstructorForOutput() {
-		SpiderDataGroup metadataChildRef = DataCreatorForPresentationsConstructor
+		DataGroup metadataChildRef = DataCreatorForPresentationsConstructor
 				.createMetadataChildRefWithIdAndRepeatId("identifierLink", "0");
 		PChildRefConstructor constructor = PLinkChildRefConstructor
 				.usingMetadataChildReferenceAndMode(metadataChildRef, "output");

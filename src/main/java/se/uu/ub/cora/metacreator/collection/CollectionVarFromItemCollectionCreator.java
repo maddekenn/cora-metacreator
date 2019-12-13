@@ -1,7 +1,7 @@
 package se.uu.ub.cora.metacreator.collection;
 
+import se.uu.ub.cora.data.DataGroup;
 import se.uu.ub.cora.metacreator.DataCreatorHelper;
-import se.uu.ub.cora.spider.data.SpiderDataGroup;
 import se.uu.ub.cora.spider.dependency.SpiderInstanceProvider;
 import se.uu.ub.cora.spider.extended.ExtendedFunctionality;
 import se.uu.ub.cora.spider.record.SpiderRecordCreator;
@@ -11,19 +11,19 @@ import se.uu.ub.cora.storage.RecordNotFoundException;
 public class CollectionVarFromItemCollectionCreator implements ExtendedFunctionality {
 
 	private String authToken;
-	private SpiderDataGroup itemCollectionToCreateFrom;
+	private DataGroup itemCollectionToCreateFrom;
 	private String itemCollectionId;
 	private String idForCollectionVariable;
 
 	@Override
 	public void useExtendedFunctionality(String authToken,
-			SpiderDataGroup itemCollectionToCreateFrom) {
+			DataGroup itemCollectionToCreateFrom) {
 		this.authToken = authToken;
 		this.itemCollectionToCreateFrom = itemCollectionToCreateFrom;
 		extractIds();
 
 		if (collectionVarDoesNotExist(idForCollectionVariable)) {
-			SpiderDataGroup collectionVar = extractDataAndConstructCollectionVariable(
+			DataGroup collectionVar = extractDataAndConstructCollectionVariable(
 					itemCollectionToCreateFrom);
 			createRecord("metadataCollectionVariable", collectionVar);
 		}
@@ -44,16 +44,16 @@ public class CollectionVarFromItemCollectionCreator implements ExtendedFunctiona
 		return false;
 	}
 
-	private SpiderDataGroup extractDataAndConstructCollectionVariable(
-			SpiderDataGroup itemCollectionToCreateFrom) {
+	private DataGroup extractDataAndConstructCollectionVariable(
+			DataGroup itemCollectionToCreateFrom) {
 
-		String nameInData = itemCollectionToCreateFrom.extractAtomicValue("nameInData");
+		String nameInData = itemCollectionToCreateFrom.getFirstAtomicValueWithNameInData("nameInData");
 		String dataDivider = DataCreatorHelper
 				.extractDataDividerStringFromDataGroup(itemCollectionToCreateFrom);
 		return constructCollectionVariable(idForCollectionVariable, nameInData, dataDivider);
 	}
 
-	private SpiderDataGroup constructCollectionVariable(String id, String nameInData,
+	private DataGroup constructCollectionVariable(String id, String nameInData,
 			String dataDivider) {
 		CollectionVariableConstructor constructor = new CollectionVariableConstructor();
 		return constructor.constructCollectionVarWithIdNameInDataDataDividerAndRefCollection(id,
@@ -61,14 +61,14 @@ public class CollectionVarFromItemCollectionCreator implements ExtendedFunctiona
 	}
 
 	private String extractIdFromItemCollection() {
-		SpiderDataGroup recordInfo = itemCollectionToCreateFrom.extractGroup("recordInfo");
-		return recordInfo.extractAtomicValue("id");
+		DataGroup recordInfo = itemCollectionToCreateFrom.getFirstGroupWithNameInData("recordInfo");
+		return recordInfo.getFirstAtomicValueWithNameInData("id");
 	}
 
-	private void createRecord(String recordTypeToCreate, SpiderDataGroup spiderDataGroupToCreate) {
+	private void createRecord(String recordTypeToCreate, DataGroup dataGroupToCreate) {
 		SpiderRecordCreator spiderRecordCreatorOutput = SpiderInstanceProvider
 				.getSpiderRecordCreator();
 		spiderRecordCreatorOutput.createAndStoreRecord(authToken, recordTypeToCreate,
-				spiderDataGroupToCreate);
+				dataGroupToCreate);
 	}
 }
